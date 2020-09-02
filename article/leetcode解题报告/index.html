@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          如云，那就做如云 - 宋正兵的博客 | zbsong Blog
+          leetcode解题本 - 宋正兵的博客 | zbsong Blog
         
     </title>
 
-    <link rel="canonical" href="zbsong.top/article/ruyun/">
+    <link rel="canonical" href="zbsong.top/article/leetcode解题报告/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -88,14 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Welcome" title="Welcome">Welcome</a>
+                              <a class="tag" href="/tags/#algorithm" title="algorithm">algorithm</a>
                             
                         </div>
-                        <h1>如云，那就做如云</h1>
-                        <!-- <h2 class="subheading">如云，是在胡伟煌博客的基础上汉化、简化、样式修改而来的Hexo主题。</h2> -->
+                        <h1>leetcode解题本</h1>
+                        <!-- <h2 class="subheading">记录了在leetcode刷题的答案</h2> -->
                         <span class="meta">
-                            张天宇 on
-                            2019-10-31
+                            宋正兵 on
+                            2020-08-30
                         </span>
                     </div>
                 
@@ -219,57 +219,42 @@
                 post-container">
 
 				
-					<!-- cloud music -->
-					<!-- 单曲嵌入， auto=1 可以控制自动播放与否，当值为 1 即打开网页就自动播放，值为 0 时需要访客手动点击播放 -->
-					<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=100% height=86
-							src="//music.163.com/outchain/player?type=2&id=167844&auto=1&height=66">
-					</iframe>
-				
-                <h2 id="如云-hexo-theme-ruyun">如云 / hexo-theme-ruyun</h2>
-<p>一个Hexo个人博客主题。</p>
-<p>基于<a href="http://www.huweihuang.com/" target="_blank" rel="noopener">胡伟煌</a>移植的<a href="https://github.com/Huxpro/huxpro.github.io" target="_blank" rel="noopener">黄玄Jekyll博客主题</a>修改而来。</p>
-<p>我对它进行了一些调整和新增，以便更适合我的口味。</p>
-<h3 id="修改">🎨 修改</h3>
-<ul>
-<li><strong>大道至简</strong>：删除多项不必要的功能插件。</li>
-<li><strong>口味</strong>：主页、文章样式的修改，更简洁直观。</li>
-<li><strong>每天皆不同</strong>：修改文章默认头图为每日必应壁纸，增加<a href="https://hitokoto.cn/api" target="_blank" rel="noopener">每日一句</a>、<a href="https://www.jinrishici.com" target="_blank" rel="noopener">一诗</a>等widget插件。</li>
-<li><strong>传承</strong>：主要内容的汉化。</li>
-<li><strong>早韭晚菘</strong>：增加网易云音乐作为背景音乐模块，为你的文章、页面配一个更应景的BGM。</li>
-<li><strong>一碗米粉</strong>：放置你自己的公众号二维码，也可以是赞赏码等任何你想的图片。</li>
-<li><strong>一步合法</strong>：一键填写备案网站ICP备案号、公安部备案号。</li>
-</ul>
-<h3 id="效果">🌈 效果</h3>
-<p>我的博客: <a href="https://ztygalaxy.github.io" target="_blank" rel="noopener">ztygalaxy</a>，部分插件未启用。</p>
-<h3 id="用法">🔨 用法</h3>
-<p>在<code>_config.yml</code>中配置个人信息。</p>
-<h4 id="1-替换repo信息">1. 替换Repo信息.</h4>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="string">你的Repo名称，如ztygalaxy.github.io</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br><span class="line"><span class="attr">  message:</span> <span class="string">Update</span> <span class="string">Content</span></span><br></pre></td></tr></table></figure>
-<h4 id="2-继续客制化">2. 继续客制化.</h4>
-<p>通过替换、修改<code>source/img/avatar/ironman.png</code>来配置头像。</p>
-<p>或者修改它的路径：</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sidebar:</span> <span class="literal">true</span>    <span class="comment"># 侧边栏开关.</span></span><br><span class="line"><span class="attr">sidebar-about-description:</span> <span class="string">"你的个人描述"</span></span><br><span class="line"><span class="attr">sidebar-avatar:</span> <span class="string">img/你的头像路径</span></span><br></pre></td></tr></table></figure>
-<p>在<code>widgets</code>下配置侧边栏的部件，使用<code>#</code>关闭。</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">widgets:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">featured-tags</span>		<span class="comment"># 标签</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">short-about</span>		<span class="comment"># 简介</span></span><br><span class="line"><span class="comment">#- recent-posts		# 最新文章</span></span><br><span class="line"><span class="comment">#- friends-blog		# 友链</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">archive</span>			<span class="comment"># 归档</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">category</span>			<span class="comment"># 分类</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">a-sentence</span>		<span class="comment"># 每日一句</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">a-poem</span>			<span class="comment"># 每日诗句</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">qrcode</span>			<span class="comment"># 二维码展示，/img/avatar/qrcode.png</span></span><br></pre></td></tr></table></figure>
-<p>如果你的网站需要放置备案信息，填写<code>icp</code>。</p>
-<p>钢铁侠的回到顶部，可在<code>css/image</code>中替换。</p>
-<p>其他样式和资源文件，可以在浏览器中检查元素到对应文件修改，例如<code>layout</code>文件夹下，它们的名字作用都很明了。</p>
-<h4 id="3-文章撰写与参数说明">3. 文章撰写与参数说明</h4>
-<p>你应该非常熟悉hexo文章的生成撰写，也可以在给出的样例文章基础上修改，参数说明如下。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 					# 文章名称</span><br><span class="line">subtitle:				# 子标题</span><br><span class="line">date:					# 创建日期</span><br><span class="line">catalog: true			# 是否使用目录</span><br><span class="line">header-img:				# 头图地址</span><br><span class="line">tags:					# 标签</span><br><span class="line">toc<span class="emphasis">_nav_</span>num: true		# 是否使用目录</span><br><span class="line">musicid: 				# 如果需要背景音乐，请填写其网易云id</span><br><span class="line">musicauto: 1			# 是否需要自动播放，默认为1</span><br><span class="line">top: 0					# 是否需要置顶</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h3 id="相关">👦 相关</h3>
-<p><a href="http://www.huweihuang.com/" target="_blank" rel="noopener">胡伟煌的博客</a>    <a href="http://huangxuan.me/" target="_blank" rel="noopener">黄玄的博客</a>    <a href="https://ztygalaxy.github.io" target="_blank" rel="noopener">张天宇的博客</a></p>
-<p>相关阅读：<a href="http://coderunthings.com/2017/08/20/howhexoworks/" target="_blank" rel="noopener">Hexo是怎么工作的</a></p>
+                <h1 id="1-二叉树专题">1、二叉树专题</h1>
+<h2 id="104-二叉树的最大深度">104. 二叉树的最大深度</h2>
+<h4 id="二叉树的最大深度"><a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener">二叉树的最大深度</a></h4>
+<blockquote>
+<p>给定一个二叉树，找出其最大深度。</p>
+</blockquote>
+<p><strong>思路1：递归。</strong> 已知左右子树的深度为 <code>l</code> 和 <code>r</code> ，那么该二叉树的最大深度为<br>
+$$<br>
+max(l,r) + 1<br>
+$$<br>
+而左子树和右子树的最大深度又可以以同样的方式进行计算。递归在访问到空节点时退出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.max(maxDepth(root.left), maxDepth(root.right)) + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>思路2：中序遍历。</strong> 需要作一点的改变是，得记录每一层节点的个数，只有在遍历完当前层次的节点过后，才能算作进入下一层。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> depth = <span class="number">0</span>;</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;TreeNode&gt;();</span><br><span class="line">        queue.add(root);</span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">int</span> size = queue.size();</span><br><span class="line">            <span class="keyword">while</span> (size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                TreeNode temp = queue.poll();</span><br><span class="line">                <span class="keyword">if</span> (temp.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(temp.left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (temp.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(temp.right);</span><br><span class="line">                &#125;</span><br><span class="line">                size--;</span><br><span class="line">            &#125;</span><br><span class="line">            depth++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> depth;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="110-平衡二叉树">110. 平衡二叉树</h2>
+<h4 id="平衡二叉树"><a href="https://leetcode-cn.com/problems/balanced-binary-tree/" target="_blank" rel="noopener">平衡二叉树</a></h4>
+<blockquote>
+<p>判断一棵二叉树是否是高度平衡的二叉树。</p>
+</blockquote>
+<p>高度平衡二叉树的定义：一个二叉树<em>每个节点</em> 的左右两个子树的高度差的绝对值不超过1。</p>
+<p><strong>自顶向下：</strong> 首先计算左右子树的高度，如果左右子树的高度差是否不超过 1，再分别递归地遍历左右子节点，并判断左子树和右子树是否平衡。这是一个自顶向下的递归的过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.abs(maxDepth(root.left) - maxDepth(root.right)) &lt; <span class="number">2</span> &amp;&amp; isBalanced(root.left) &amp;&amp; isBalanced(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.max(maxDepth(root.left), maxDepth(root.right)) + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>自底向上：</strong></p>
+<p>自顶向下对于同一个节点，函数 <code>maxDepth</code> 会被重复调用，会导致时间复杂度高。使用自底向上的做法，对每个节点只会调用函数 <code>maxDepth</code> 一次。</p>
+<p>对于当前遍历到的节点，先递归地判断其左右子树是否平衡，再判断以当前节点为根的子树是否平衡。如果一棵子树是平衡的，则返回其高度（高度一定是非负整数），否则返回 -1−1。如果存在一棵子树不平衡，则整个二叉树一定不平衡。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> maxDepth1(root) &gt;= <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxDepth1</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> leftHeight = maxDepth1(root.left);</span><br><span class="line">        <span class="keyword">int</span> rightHeight = maxDepth1(root.right);</span><br><span class="line">        <span class="keyword">if</span> (leftHeight == -<span class="number">1</span> || rightHeight == -<span class="number">1</span> || Math.abs(leftHeight - rightHeight) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> Math.max(leftHeight, rightHeight) + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
                 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/leetcode解题本/" data-toggle="tooltip" data-placement="top" title="leetcode解题本">&larr; 上一篇</a>
-                        </li>
                     
+                        <li class="next">
+                            <a href="/article/leetcode解题本/" data-toggle="tooltip" data-placement="top" title="leetcode解题本">下一篇 &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -304,7 +289,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如云-hexo-theme-ruyun"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5982;&#x4E91; / hexo-theme-ruyun</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#修改"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x1F3A8; &#x4FEE;&#x6539;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#效果"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x1F308; &#x6548;&#x679C;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#用法"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x1F528; &#x7528;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-替换repo信息"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">1. &#x66FF;&#x6362;Repo&#x4FE1;&#x606F;.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-继续客制化"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">2. &#x7EE7;&#x7EED;&#x5BA2;&#x5236;&#x5316;.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-文章撰写与参数说明"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">3. &#x6587;&#x7AE0;&#x64B0;&#x5199;&#x4E0E;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x1F466; &#x76F8;&#x5173;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-二叉树专题"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1&#x3001;&#x4E8C;&#x53C9;&#x6811;&#x4E13;&#x9898;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#104-二叉树的最大深度"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">104. &#x4E8C;&#x53C9;&#x6811;&#x7684;&#x6700;&#x5927;&#x6DF1;&#x5EA6;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#二叉树的最大深度"><span class="toc-nav-number">1.1.0.1.</span> <span class="toc-nav-text"><a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener">&#x4E8C;&#x53C9;&#x6811;&#x7684;&#x6700;&#x5927;&#x6DF1;&#x5EA6;</a></span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#110-平衡二叉树"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">110. &#x5E73;&#x8861;&#x4E8C;&#x53C9;&#x6811;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#平衡二叉树"><span class="toc-nav-number">1.2.0.1.</span> <span class="toc-nav-text"><a href="https://leetcode-cn.com/problems/balanced-binary-tree/" target="_blank" rel="noopener">&#x5E73;&#x8861;&#x4E8C;&#x53C9;&#x6811;</a></span></a></li></ol></li></ol></li></ol></li></ol>
         
         </div>
       </aside>
@@ -324,7 +309,7 @@
                     <h5><a href="/tags/">标签</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Welcome" title="Welcome">Welcome</a>
+                          <a class="tag" href="/tags/#algorithm" title="algorithm">algorithm</a>
                         
                     </div>
                 </section>
