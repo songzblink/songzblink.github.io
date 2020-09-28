@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          如云，那就做如云 - 宋正兵的博客 | zbsong Blog
+          批量给图片添加水印 - 宋正兵的博客 | zbsong Blog
         
     </title>
 
-    <link rel="canonical" href="zbsong.top/article/ruyun/">
+    <link rel="canonical" href="zbsong.top/article/批量给图片添加水印/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -88,14 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Welcome" title="Welcome">Welcome</a>
+                              <a class="tag" href="/tags/#java项目" title="java项目">java项目</a>
                             
                         </div>
-                        <h1>如云，那就做如云</h1>
-                        <!-- <h2 class="subheading">如云，是在胡伟煌博客的基础上汉化、简化、样式修改而来的Hexo主题。</h2> -->
+                        <h1>批量给图片添加水印</h1>
+                        <!-- <h2 class="subheading">兴趣使然去实现</h2> -->
                         <span class="meta">
-                            张天宇 on
-                            2019-10-31
+                            宋正兵 on
+                            2020-08-30
                         </span>
                     </div>
                 
@@ -219,57 +219,39 @@
                 post-container">
 
 				
-					<!-- cloud music -->
-					<!-- 单曲嵌入， auto=1 可以控制自动播放与否，当值为 1 即打开网页就自动播放，值为 0 时需要访客手动点击播放 -->
-					<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=100% height=86
-							src="//music.163.com/outchain/player?type=2&id=167844&auto=1&height=66">
-					</iframe>
-				
-                <h2 id="如云-hexo-theme-ruyun">如云 / hexo-theme-ruyun</h2>
-<p>一个Hexo个人博客主题。</p>
-<p>基于<a href="http://www.huweihuang.com/" target="_blank" rel="noopener">胡伟煌</a>移植的<a href="https://github.com/Huxpro/huxpro.github.io" target="_blank" rel="noopener">黄玄Jekyll博客主题</a>修改而来。</p>
-<p>我对它进行了一些调整和新增，以便更适合我的口味。</p>
-<h3 id="修改">🎨 修改</h3>
+                <h1 id="java-如何给图片添加水印">Java 如何给图片添加水印</h1>
+<p>想要在 java 程序中绘图，一定绕不开 <code>Graphics</code> 类，这里用它的子类 <code>Graphics2D</code> 类，java 绘图的基本操作流程如下：</p>
 <ul>
-<li><strong>大道至简</strong>：删除多项不必要的功能插件。</li>
-<li><strong>口味</strong>：主页、文章样式的修改，更简洁直观。</li>
-<li><strong>每天皆不同</strong>：修改文章默认头图为每日必应壁纸，增加<a href="https://hitokoto.cn/api" target="_blank" rel="noopener">每日一句</a>、<a href="https://www.jinrishici.com" target="_blank" rel="noopener">一诗</a>等widget插件。</li>
-<li><strong>传承</strong>：主要内容的汉化。</li>
-<li><strong>早韭晚菘</strong>：增加网易云音乐作为背景音乐模块，为你的文章、页面配一个更应景的BGM。</li>
-<li><strong>一碗米粉</strong>：放置你自己的公众号二维码，也可以是赞赏码等任何你想的图片。</li>
-<li><strong>一步合法</strong>：一键填写备案网站ICP备案号、公安部备案号。</li>
+<li>使用 <code>ImageIO</code> 类的 <code>read()</code> 方法将需要被添加水印的图片加载；</li>
+<li>创建一个 <code>BufferedImage</code> 实例 ，在其构造函数里指定长，宽，高，类型为 <code>BufferedImage.TYPE_INT_RGB</code> ，即创建一个指定分辨率的空图片 <code>bimage</code>；</li>
+<li>调用 <code>BufferedImage</code> 对象的 <code>createGraphics()</code> 方法，得到 <code>Graphics2D</code> 实例；</li>
+<li>使用 <code>Graphics2D</code> 实例进行绘图，所以绘图操作的坐标基于创建此 <code>Graphics2D</code> 实例的 <code>BufferedImage</code> 实例。示例中在图片上画了一串字符串；</li>
+<li>调用 <code>Graphics2D</code> 对象的 <code>dispose()</code> 方法，进行绘图处理，使绘图效果应用到 <code>BufferedImage</code> 对象；</li>
+<li>使用 <code>ImageIO</code> 类的 <code>write()</code> 方法将 <code>BufferedImage</code> 对象转换到文件或二进制流。</li>
 </ul>
-<h3 id="效果">🌈 效果</h3>
-<p>我的博客: <a href="https://ztygalaxy.github.io" target="_blank" rel="noopener">ztygalaxy</a>，部分插件未启用。</p>
-<h3 id="用法">🔨 用法</h3>
-<p>在<code>_config.yml</code>中配置个人信息。</p>
-<h4 id="1-替换repo信息">1. 替换Repo信息.</h4>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="string">你的Repo名称，如ztygalaxy.github.io</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br><span class="line"><span class="attr">  message:</span> <span class="string">Update</span> <span class="string">Content</span></span><br></pre></td></tr></table></figure>
-<h4 id="2-继续客制化">2. 继续客制化.</h4>
-<p>通过替换、修改<code>source/img/avatar/ironman.png</code>来配置头像。</p>
-<p>或者修改它的路径：</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sidebar:</span> <span class="literal">true</span>    <span class="comment"># 侧边栏开关.</span></span><br><span class="line"><span class="attr">sidebar-about-description:</span> <span class="string">"你的个人描述"</span></span><br><span class="line"><span class="attr">sidebar-avatar:</span> <span class="string">img/你的头像路径</span></span><br></pre></td></tr></table></figure>
-<p>在<code>widgets</code>下配置侧边栏的部件，使用<code>#</code>关闭。</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">widgets:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">featured-tags</span>		<span class="comment"># 标签</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">short-about</span>		<span class="comment"># 简介</span></span><br><span class="line"><span class="comment">#- recent-posts		# 最新文章</span></span><br><span class="line"><span class="comment">#- friends-blog		# 友链</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">archive</span>			<span class="comment"># 归档</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">category</span>			<span class="comment"># 分类</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">a-sentence</span>		<span class="comment"># 每日一句</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">a-poem</span>			<span class="comment"># 每日诗句</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">qrcode</span>			<span class="comment"># 二维码展示，/img/avatar/qrcode.png</span></span><br></pre></td></tr></table></figure>
-<p>如果你的网站需要放置备案信息，填写<code>icp</code>。</p>
-<p>钢铁侠的回到顶部，可在<code>css/image</code>中替换。</p>
-<p>其他样式和资源文件，可以在浏览器中检查元素到对应文件修改，例如<code>layout</code>文件夹下，它们的名字作用都很明了。</p>
-<h4 id="3-文章撰写与参数说明">3. 文章撰写与参数说明</h4>
-<p>你应该非常熟悉hexo文章的生成撰写，也可以在给出的样例文章基础上修改，参数说明如下。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 					# 文章名称</span><br><span class="line">subtitle:				# 子标题</span><br><span class="line">date:					# 创建日期</span><br><span class="line">catalog: true			# 是否使用目录</span><br><span class="line">header-img:				# 头图地址</span><br><span class="line">tags:					# 标签</span><br><span class="line">toc<span class="emphasis">_nav_</span>num: true		# 是否使用目录</span><br><span class="line">musicid: 				# 如果需要背景音乐，请填写其网易云id</span><br><span class="line">musicauto: 1			# 是否需要自动播放，默认为1</span><br><span class="line">top: 0					# 是否需要置顶</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h3 id="相关">👦 相关</h3>
-<p><a href="http://www.huweihuang.com/" target="_blank" rel="noopener">胡伟煌的博客</a>    <a href="http://huangxuan.me/" target="_blank" rel="noopener">黄玄的博客</a>    <a href="https://ztygalaxy.github.io" target="_blank" rel="noopener">张天宇的博客</a></p>
-<p>相关阅读：<a href="http://coderunthings.com/2017/08/20/howhexoworks/" target="_blank" rel="noopener">Hexo是怎么工作的</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加载图片</span></span><br><span class="line">Image image = ImageIO.read(<span class="keyword">new</span> File(<span class="string">"images/test.png"</span>));</span><br><span class="line"><span class="keyword">int</span> width = <span class="number">200</span>, height = <span class="number">250</span>;</span><br><span class="line"><span class="comment">// 创建图片对象</span></span><br><span class="line">BufferedImage bimage = <span class="keyword">new</span> BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);</span><br><span class="line"><span class="comment">// 基于图片对象打开绘图</span></span><br><span class="line">Graphics2D graphics = image.createGraphics();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绘图逻辑 START （基于业务逻辑进行绘图处理）……</span></span><br><span class="line"><span class="comment">// 绘制一串字符串</span></span><br><span class="line">Font font = <span class="keyword">new</span> Font(<span class="string">"宋体"</span>,Font.BOLD, <span class="number">10</span>);</span><br><span class="line">g.setFont(font);</span><br><span class="line">g.setColor(Color.RED);</span><br><span class="line"><span class="comment">// 绘制当前可用的指定图像。在该图形上下文的坐标空间中，图像的左上角位于（x，y）。</span></span><br><span class="line">g.drawImage(image, <span class="number">0</span>, <span class="number">0</span>, <span class="keyword">null</span>);</span><br><span class="line">g.drawString(<span class="string">"水印测试"</span>, <span class="number">0</span>, font.getSize());</span><br><span class="line"><span class="comment">// 绘图逻辑 END</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理绘图，输出</span></span><br><span class="line">graphics.dispose();</span><br><span class="line"><span class="comment">// 将绘制好的图片写入到图片</span></span><br><span class="line"><span class="comment">// ImageIO.write(image, "png", new File("abc.png"));</span></span><br><span class="line"><span class="comment">// 得到图片的格式后缀</span></span><br><span class="line">String formatName = file.getName().split(<span class="string">"\\."</span>)[<span class="number">1</span>];</span><br><span class="line">ImageIO.write(bimage, formatName, <span class="keyword">new</span> File(<span class="string">"abc.png"</span>));</span><br></pre></td></tr></table></figure>
+<h1 id="批量给图片添加水印">批量给图片添加水印</h1>
+<p>如果想要批量的给图片添加水印，想到的办法是将待处理图片都存放到同一目录下，这里指定为 <code>images/</code> ，通过调用 <code>File</code> 对象的 <code>listFiles()</code> 方法获得目录下所有文件的相对路径（注意它包括目录下的子目录，所以需要判断当前操作对象是不是文件），再对每个 <code>File</code> 对象进行绘图处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加载目录路径</span></span><br><span class="line">String path = <span class="string">"images/"</span>;</span><br><span class="line">File[] files = <span class="keyword">new</span> File(path).listFiles();</span><br><span class="line"><span class="keyword">for</span> (File file : files) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!file.isDirectory()) &#123;</span><br><span class="line">        <span class="comment">// 添加水印操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="利用配置文件添加水印">利用配置文件添加水印</h1>
+<p>java 读取配置文件的方法有<a href="https://www.cnblogs.com/sebastian-tyd/p/7895182.html" target="_blank" rel="noopener">好几种</a>，这里选择的是通过读取 <code>.preperties</code> 文件来进行配置。</p>
+<p>观察上面的代码，我们能抽取出来部分配置信息并写入 <code>watermark.properties</code> 文件中，让 java 程序自动读取，而使用者只需要进行这部分信息的配置，并且把待添加水印的图片存放到指定路径即可。 <code>watermark.properties</code> 文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 待添加水印图片的路径</span><br><span class="line">basePath=images/</span><br><span class="line"># 文字水印的内容</span><br><span class="line">context=测试水印</span><br><span class="line"># 文字水印的字体</span><br><span class="line">fontName=宋体</span><br><span class="line"># 文字水印字体的样式</span><br><span class="line"># PLAIN 1  BOLD 2   ITALIC 3 </span><br><span class="line">fontStyle=1</span><br><span class="line"># 文字水印字体的大小</span><br><span class="line">fontsize=20</span><br><span class="line"># 文字水印字体的颜色</span><br><span class="line">color=white</span><br><span class="line"># 文字水印字体的位置，上中下，每层左中右三个点位</span><br><span class="line"># 1~9</span><br><span class="line">location=8</span><br></pre></td></tr></table></figure>
+<p>创建输入缓冲流 <code>InputStream</code> 类， <code>filePath</code> 是配置文件 <code>watermark.properties</code> 的相对路径。然后利用 <code>properties</code> 类来读取配置文件中的属性，利用方法 <code>getProperty(String key)</code> 可以得到文件内的属性配置。</p>
+<blockquote>
+<p>这里我并没有理解通过输入缓冲流进行读取配置文件为啥这么写，如果有知道的同学欢迎发邮件指教</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过输入缓冲流进行读取配置文件</span></span><br><span class="line">InputStream InputStream = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(filePath)));</span><br><span class="line"><span class="comment">// 加载配置</span></span><br><span class="line">Properties p = <span class="keyword">new</span> Properties();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    p.load(bf);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e1) &#123;</span><br><span class="line">    e1.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
                 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/leetcode解题本/" data-toggle="tooltip" data-placement="top" title="leetcode解题本">&larr; 上一篇</a>
-                        </li>
                     
+                        <li class="next">
+                            <a href="/article/leetcode解题报告/" data-toggle="tooltip" data-placement="top" title="leetcode解题报告">下一篇 &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -304,7 +286,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如云-hexo-theme-ruyun"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5982;&#x4E91; / hexo-theme-ruyun</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#修改"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x1F3A8; &#x4FEE;&#x6539;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#效果"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x1F308; &#x6548;&#x679C;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#用法"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x1F528; &#x7528;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-替换repo信息"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">1. &#x66FF;&#x6362;Repo&#x4FE1;&#x606F;.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-继续客制化"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">2. &#x7EE7;&#x7EED;&#x5BA2;&#x5236;&#x5316;.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-文章撰写与参数说明"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">3. &#x6587;&#x7AE0;&#x64B0;&#x5199;&#x4E0E;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x1F466; &#x76F8;&#x5173;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#java-如何给图片添加水印"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Java &#x5982;&#x4F55;&#x7ED9;&#x56FE;&#x7247;&#x6DFB;&#x52A0;&#x6C34;&#x5370;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#批量给图片添加水印"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x6279;&#x91CF;&#x7ED9;&#x56FE;&#x7247;&#x6DFB;&#x52A0;&#x6C34;&#x5370;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#利用配置文件添加水印"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x5229;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6DFB;&#x52A0;&#x6C34;&#x5370;</span></a></li></ol>
         
         </div>
       </aside>
@@ -324,7 +306,7 @@
                     <h5><a href="/tags/">标签</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Welcome" title="Welcome">Welcome</a>
+                          <a class="tag" href="/tags/#java项目" title="java项目">java项目</a>
                         
                     </div>
                 </section>
