@@ -150,6 +150,12 @@
                     
                         
                         <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
                             <a href="/archive/">归档</a>
                         </li>
                         
@@ -157,12 +163,6 @@
                         
                         <li>
                             <a href="/tags/">标签</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
-                            <a href="/about/">关于</a>
                         </li>
                         
                     
@@ -464,7 +464,7 @@ $$<br>
 </blockquote>
 <p>首先判断链表是否有环，如果有环再寻找入环的第一个节点。</p>
 <p>假设使用快慢指针判断是否有环，那么当有环的情况下，快慢指针重合的地方一定是在环内部（节点 <strong>B</strong>）。假设慢指针一共移动了 <strong>a + b</strong> 次，其中 <strong>a</strong> 是从 <code>head</code> 移动到入环的第一个节点 <strong>A</strong> 的步数， <strong>b</strong> 是从入环的第一个节点 <strong>A</strong> 移动到快慢指针重合的节点 <strong>B</strong> 的步数。快指针移动的步数是慢指针的两倍，所以慢指针再移动 <strong>a + b</strong> 次又能够回到节点 <strong>B</strong>。如果慢指针只移动 <strong>a</strong> 次就能回到入环的第一个节点 <strong>A</strong>，但是对于 <strong>a</strong> 的值是未知的。于是定义一个<code>entranceNode</code> 指针，让它和慢指针同步走，移动 <strong>a</strong> 次，它们相遇的地方必然是入环的第一个节点 <strong>A</strong>。</p>
-<p><img src="image-20201014104356146.png" alt=""></p>
+<p><img src="https://i.loli.net/2020/10/14/DmliFowkvJhMOVn.png" alt="142 图"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">detectCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 查看是否有环</span></span><br><span class="line">        ListNode slow = head;</span><br><span class="line">        ListNode fast = head;</span><br><span class="line">        <span class="keyword">boolean</span> hasCycle = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">while</span> (fast.next != <span class="keyword">null</span> &amp;&amp; fast.next.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">                hasCycle = <span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (hasCycle) &#123;</span><br><span class="line">            <span class="comment">// 找到环的入口</span></span><br><span class="line">            ListNode entranceNode = head;</span><br><span class="line">            <span class="keyword">while</span> (entranceNode != slow) &#123;</span><br><span class="line">                entranceNode = entranceNode.next;</span><br><span class="line">                slow = slow.next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> entranceNode;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                 
                 <hr>
@@ -472,12 +472,12 @@ $$<br>
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/leetcode解题本/" data-toggle="tooltip" data-placement="top" title="leetcode解题本">&larr; 上一篇</a>
+                            <a href="/article/批量给图片添加水印/" data-toggle="tooltip" data-placement="top" title="批量给图片添加水印">&larr; 上一篇</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/ruyun/" data-toggle="tooltip" data-placement="top" title="如云，那就做如云">下一篇 &rarr;</a>
+                            <a href="/article/leetcode解题本/" data-toggle="tooltip" data-placement="top" title="leetcode解题本">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
