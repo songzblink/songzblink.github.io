@@ -2,22 +2,22 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
+        <loc>zbsong.top/tags/java%E9%A1%B9%E7%9B%AE/</loc>
+        <lastmod>2020-09-28T06:55:31.212Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>zbsong.top/tags/Welcome/</loc>
-        <lastmod>2020-08-29T12:34:40.323Z</lastmod>
+        <lastmod>2020-09-29T02:40:05.263Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>zbsong.top/tags/algorithm/</loc>
-        <lastmod>2020-09-13T02:45:05.311Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>zbsong.top/tags/java%E9%A1%B9%E7%9B%AE/</loc>
-        <lastmod>2020-09-28T06:55:31.212Z</lastmod>
+        <lastmod>2020-10-14T02:59:05.377Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
