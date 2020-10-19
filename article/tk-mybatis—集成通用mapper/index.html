@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          tk.mybatis的使用 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/tk-mybatis—集成通用mapper/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#使用指南" title="使用指南">使用指南</a>
+                            
+                        </div>
+                        <h1>tk.mybatis的使用</h1>
+                        <!-- <h2 class="subheading">集成通用mapper</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2020-10-19
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <h1 id="tkmybatis集成通用mapper">tk.mybatis—集成通用mapper</h1>
+<p>参考：</p>
+<p><a href="https://www.jianshu.com/p/336c71c68a52" target="_blank" rel="noopener">https://www.jianshu.com/p/336c71c68a52</a></p>
+<p><a href="https://www.cnblogs.com/alimayun/p/12572350.html" target="_blank" rel="noopener">https://www.cnblogs.com/alimayun/p/12572350.html</a></p>
+<p><a href="https://www.cnblogs.com/zkm1992/p/10939730.html#autoid-4-0-0" target="_blank" rel="noopener">https://www.cnblogs.com/zkm1992/p/10939730.html#autoid-4-0-0</a></p>
+<h2 id="引入依赖">引入依赖</h2>
+<p>使用版本取决于 Spring Boot 的版本，因为存在兼容性问题，版本需要提前确认好。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>tk.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="增加-mapper-组件扫描配置">增加 mapper 组件扫描配置</h2>
+<p><img src="D:%5CMyBlog%5Csongzblink.github.io%5Csource_posts%5Ctk.mybatis%E2%80%94%E9%9B%86%E6%88%90%E9%80%9A%E7%94%A8mapper.assets%5C4Vj9gcp23QyvqDO.png" alt="image-20201019160633064"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.spring.annotation.MapperScan;</span><br><span class="line"><span class="meta">@MapperScan</span>(<span class="string">"com.songzb.demomall.mapper"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="创建-dao-层的-base-接口">创建 dao 层的 base 接口</h2>
+<p><strong>注意：base 接口一定不要被 Mapper 组件扫描配置给扫描到！</strong></p>
+<p>创建 BaseMapper<t> 继承 3 个 <code>tk.mybatis.mapper</code> 下的接口：</t></p>
+<ol>
+<li>Mapper<t></t></li>
+<li>IdsMapper<t></t></li>
+<li>InsertListMapper<t></t></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseMapper</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">T</span>&gt;, <span class="title">IdsMapper</span>&lt;<span class="title">T</span>&gt;, <span class="title">InsertListMapper</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当用的数据库是 mysql，也可以继承如下的几个接口：</p>
+<ol>
+<li>Mapper<t></t></li>
+<li>MysqlMapper<t></t></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseMapper</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">T</span>&gt;, <span class="title">MySqlMapper</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="创建-dao-层查询接口">创建 dao 层查询接口</h2>
+<p>创建 dao 层查询接口PmsBrandMapper，继承 dao 层的 base 接口 BaseMapper，泛型为数据库表对应的映射类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Create By songzb on 2020/10/16</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PmsBrandMapper</span> <span class="keyword">extends</span> <span class="title">BaseMapper</span>&lt;<span class="title">PmsBrand</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>也可以简单的进行实现，比如直接继承 Mapper<t> 接口</t></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PmsBrandMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">PmsBrand</span>&gt; </span>&#123;</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="service-调用-dao-层进行查询">service 调用 dao 层进行查询</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PmsBrandServiceImpl</span> <span class="keyword">implements</span> <span class="title">PmsBrandService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> PmsBrandMapper pmsBrandMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;PmsBrand&gt; <span class="title">listAllBrand</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> pmsBrandMapper.selectAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">creatBrand</span><span class="params">(PmsBrand pmsBrand)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> pmsBrandMapper.insertSelective(pmsBrand);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updateBrand</span><span class="params">(Long id, PmsBrand pmsBrand)</span> </span>&#123;</span><br><span class="line">        pmsBrand.setId(id);</span><br><span class="line">        <span class="keyword">return</span> pmsBrandMapper.updateByPrimaryKeySelective(pmsBrand);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">deleteBrand</span><span class="params">(Long id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> pmsBrandMapper.deleteByPrimaryKey(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;PmsBrand&gt; <span class="title">listBrand</span><span class="params">(<span class="keyword">int</span> pageNum, <span class="keyword">int</span> pageSize)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// select * from pms_brand limit (pageNum-1)*pageSize, pageSize</span></span><br><span class="line">        PageHelper.startPage(pageNum, pageSize);</span><br><span class="line">        <span class="keyword">return</span> pmsBrandMapper.selectAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PmsBrand <span class="title">getBrand</span><span class="params">(Long id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> pmsBrandMapper.selectByPrimaryKey(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实体类">实体类</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"pms_brand"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PmsBrand</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 设置主键</span></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="comment">// 主键回填，当写入没有指定 id 时，数据库自增生成一个 id，然后回填到这里</span></span><br><span class="line">    <span class="meta">@KeySql</span>(useGeneratedKeys = <span class="keyword">true</span>)</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String firstLetter;</span><br><span class="line">    <span class="keyword">private</span> Integer sort;</span><br><span class="line">    <span class="keyword">private</span> Integer factoryStatus;</span><br><span class="line">    <span class="keyword">private</span> Integer showStatus;</span><br><span class="line">    <span class="keyword">private</span> Integer productCount;</span><br><span class="line">    <span class="keyword">private</span> Integer productCommentCount;</span><br><span class="line">    <span class="keyword">private</span> String logo;</span><br><span class="line">    <span class="keyword">private</span> String bigPic;</span><br><span class="line">    <span class="keyword">private</span> String brandStory;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="注意事项">注意事项</h2>
+<blockquote>
+<p>1.表名默认使用类名,驼峰转下划线(只对大写字母进行处理)，如 TestUser 默认对应的表名为 test_user，</p>
+<p>2.表名可以使用 @Table(name = “tableName”) 进行指定，对不符合第一条默认规则的可以通过这种方式指定表名。</p>
+<p>3.字段默认和 @Column一样，都会作为表字段，表字段默认为 Java 对象的Field名字驼峰转下划线形式。</p>
+<p>4.可以使用 @Column(name = “fieldName”) 指定不符合第 3 条规则的字段名</p>
+<p>5.使用 @Transient 注解可以忽略字段，添加该注解的字段不会作为表字段使用。如果你的实体类中包含了不是数据库表中的字段，你需要给这个字段加上 @Transient 注解，这样通用 Mapper 在处理单表操作时就不会将标注的属性当成表字段处理！</p>
+<p>6.建议一定是有一个 @Id 注解作为主键的字段，可以有多个 @Id 注解的字段作为联合主键。</p>
+<p>7.默认情况下，实体类中如果不存在包含 @Id 注解的字段，所有的字段都会作为主键字段进行使用(这种效率极低)。</p>
+<p>8.实体类可以继承使用，可以参考测试代码中的 tk.mybatis.mapper.model.UserLogin2 类。</p>
+<p>9.由于基本类型，如 int 作为实体类字段时会有默认值 0 ，而且无法消除，所以实体类中建议不要使用基本类型。</p>
+<p>10.@NameStyle 注解，用来配置对象名/字段和表名/字段之间的转换方式，该注解优先于全局配置 style，可选值：<br>
+normal：使用实体类名/属性名作为表名/字段名<br>
+camelhump：这是默认值，驼峰转换为下划线形式<br>
+uppercase：转换为大写<br>
+lowercase：转换为小写</p>
+</blockquote>
+<h2 id="基础接口">基础接口</h2>
+<p>假设现在有实体类 TestUser：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestUser</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String id;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> String username;</span><br><span class="line">	<span class="keyword">private</span> String password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="insert">Insert</h3>
+<h4 id="1insertmapper">1.InsertMapper<t></t></h4>
+<p>接口：InsertMapper<t></t></p>
+<p>方法：int insert(T record);</p>
+<p>说明：保存一个实体，null 的属性也会保存，不会使用数据库默认值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">insertTestUser</span><span class="params">(TestUser testUser)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> testUserMapper.insert(testUser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：数据库表中新增一个 testUser</p>
+<h4 id="2insertselectivemapper">2.InsertSelectiveMapper<t></t></h4>
+<p>接口：InsertSelectiveMapper<t></t></p>
+<p>方法：int insertSelectiveMapper(T record);</p>
+<p>说明：保存一个实体，null 的属性不会保存，会使用数据库默认值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">insertTestUser</span><span class="params">(TestUser testUser)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> testUserMapper.insert(testUser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：略</p>
+<h3 id="update">Update</h3>
+<h4 id="1updatebyprimarykeymapper">1.UpdateByPrimaryKeyMapper<t></t></h4>
+<p>接口：UpdateByPrimaryKeyMapper<t></t></p>
+<p>方法：int updateByPrimaryKey(T record);</p>
+<p>说明：根据主键更新实体全部字段，null 值会被更新</p>
+<p>结果：会把没有属性的值变成空</p>
+<h4 id="2updatebyprimarykeyselectivemapper">2.UpdateByPrimaryKeySelectiveMapper<t></t></h4>
+<p>接口：UpdateByPrimaryKeySelectiveMapper<t></t></p>
+<p>方法：int updateByPrimaryKeySelective(T record);</p>
+<p>说明：根据主键更新，属性不为 null 的值</p>
+<p>结果：会把没有属性的值变成默认值</p>
+<h3 id="delete">Delete</h3>
+<h4 id="1deletemapper">1.DeleteMapper<t></t></h4>
+<p>接口：DeleteMapper<t></t></p>
+<p>方法：int delete(T record);</p>
+<p>说明：根据实体属性作为条件进行删除，查询条件使用等号</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">deleteTestUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TestUser testUser=<span class="keyword">new</span> TestUser();</span><br><span class="line">    <span class="comment">//根据属性删除会把所有密码是123456的数据删除</span></span><br><span class="line">    testUser.setPassword(<span class="string">"123456"</span>);</span><br><span class="line">    <span class="keyword">return</span> testUserMapper.delete(testUser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：略</p>
+<h4 id="2deletebyprimarykeymapper">2.DeleteByPrimaryKeyMapper<t></t></h4>
+<p>接口：DeleteByPrimaryKeyMapper<t></t></p>
+<p>方法：int deleteByPrimaryKey(T record);</p>
+<p>说明：根据主键字段进行删除，方法参数必须包含完整的主键属性</p>
+<p>结果：略</p>
+<h3 id="select">Select</h3>
+<h4 id="1selectmapper">1.SelectMapper<t></t></h4>
+<p>接口：SelectMapper<t></t></p>
+<p>方法：List<t> select(T record);</t></p>
+<p>说明：根据实体中的属性值进行查询，查询条件使用等号</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;TestUser&gt; <span class="title">selectTestUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TestUser testUser=<span class="keyword">new</span> TestUser();</span><br><span class="line">    testUser.setPassword(<span class="string">"123456"</span>);</span><br><span class="line">    testUser.setUsername(<span class="string">"lisi"</span>);</span><br><span class="line">    <span class="keyword">return</span> testUserMapper.select(testUser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：略</p>
+<h4 id="2selectbyprimarykeymapper">2.SelectByPrimaryKeyMapper<t></t></h4>
+<p>接口：SelectByPrimaryKeyMapper<t></t></p>
+<p>方法：T selectByPrimaryKey(Object key);</p>
+<p>说明：根据主键字段进行查询，方法参数必须包含完整的主键属性，查询条件使用等号</p>
+<p>结果：根据主键查询，略</p>
+<h4 id="3selectallmapper">3.SelectAllMapper<t></t></h4>
+<p>接口：SelectAllMapper<t></t></p>
+<p>方法：List<t> selectAll();</t></p>
+<p>说明：查询全部结果，select(null) 方法能达到同样的效果</p>
+<p>结果：查询所有，略</p>
+<h4 id="4selectonemapper">4.SelectOneMapper<t></t></h4>
+<p>接口：SelectOneMapper<t></t></p>
+<p>方法：T selectOne(T record);</p>
+<p>说明：根据实体中的属性进行查询，只能有一个返回值，有多个结果是抛出异常，查询条件使用等号</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TestUser <span class="title">selectOneTestUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TestUser testUser=<span class="keyword">new</span> TestUser();</span><br><span class="line">    testUser.setUsername(<span class="string">"wangwu"</span>);</span><br><span class="line">    <span class="comment">//结果只能返回一条数据否则会抛出异常</span></span><br><span class="line">    <span class="keyword">return</span> testUserMapper.selectOne(testUser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：查询出 username 为 “wangwu” 的数据</p>
+<h4 id="5selectcountmapper">5.SelectCountMapper<t></t></h4>
+<p>接口：SelectCountMapper<t></t></p>
+<p>方法：int selectCount(T record);</p>
+<p>说明：根据实体中的属性查询总数，查询条件使用等号</p>
+<p>结果：返回查询个数，略</p>
+<h2 id="example-方法">Example 方法</h2>
+<h3 id="select-方法">Select 方法</h3>
+<h4 id="1selectcountmapper">1.SelectCountMapper<t></t></h4>
+<p>接口：SelectByExampleMapper<t></t></p>
+<p>方法：List<t> selectByExample(Object example);</t></p>
+<p>说明：根据 Example 条件进行查询，这个查询支持通过 Example 类指定查询列，通过 selectProperties 方法指定查询列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;TestUser&gt; <span class="title">selectExample</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Example example = <span class="keyword">new</span> Example(TestUser.class);</span><br><span class="line">    <span class="comment">//排序方法setOrderByClause("字段名 ASC")DESC降序</span></span><br><span class="line">    example.setOrderByClause(<span class="string">"name ASC"</span>);</span><br><span class="line">    example.createCriteria()</span><br><span class="line">        <span class="comment">//添加xxx字段等于value条件</span></span><br><span class="line">        .andEqualTo(<span class="string">"password"</span>,<span class="string">"123456"</span>)</span><br><span class="line">        <span class="comment">//模糊查询xxx字段like value条件</span></span><br><span class="line">        .andLike(<span class="string">"name"</span>,<span class="string">"%四%"</span>)</span><br><span class="line">        <span class="comment">//可以自由拼接SQL</span></span><br><span class="line">        <span class="comment">//.andCondition("ID = '5f7139ef295d42a3b964c082e0dd838f' ")</span></span><br><span class="line">        <span class="comment">//或者可以这么写</span></span><br><span class="line">        .andCondition(<span class="string">"ID ="</span>,<span class="string">"5f7139ef295d42a3b964c082e0dd838f"</span>)</span><br><span class="line">        ;</span><br><span class="line">    <span class="keyword">return</span> testUserMapper.selectByExample(example);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>实例解析:</strong></p>
+<blockquote>
+<p>mybatis 的逆向工程中会生成实例及实例对应的 example，example 用于添加条件，相当 where 后面的部分<br>
+Example example = new Example();<br>
+Criteria criteria = example.createCriteria();</p>
+</blockquote>
+<h4 id="方法表">方法表</h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>example.setOrderByClause(“字段名 ASC”)</td>
+<td>添加升序排列条件，DESC为降序</td>
+</tr>
+<tr>
+<td>example.setDistinct(false)</td>
+<td>去除重复，boolean型，true为选择不重复的记录。</td>
+</tr>
+<tr>
+<td>criteria.andIsNull(“字段”)</td>
+<td>添加字段xxx为null的条件</td>
+</tr>
+<tr>
+<td>criteria.andIsNotNull(“字段”)</td>
+<td>添加字段xxx不为null的条件</td>
+</tr>
+<tr>
+<td>criteria.andEqualTo(“字段”,value)</td>
+<td>添加xxx字段等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andNotEqualTo(“字段”,value)</td>
+<td>添加xxx字段不等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andGreaterThan(“字段”,value)</td>
+<td>添加xxx字段大于value条件</td>
+</tr>
+<tr>
+<td>criteria.andGreaterThanOrEqualTo(“字段”,value)</td>
+<td>添加xxx字段大于等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andLessThan(“字段”,value)</td>
+<td>添加xxx字段小于value条件</td>
+</tr>
+<tr>
+<td>criteria.andLessThanOrEqualTo(“字段”,value)</td>
+<td>添加xxx字段小于等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andIn(“字段”,List&lt;?&gt;)</td>
+<td>添加xxx字段值在List&lt;?&gt;条件</td>
+</tr>
+<tr>
+<td>criteria.andNotIn(“字段”,List&lt;?&gt;)</td>
+<td>添加xxx字段值不在List&lt;?&gt;条件</td>
+</tr>
+<tr>
+<td>criteria.andLike(“字段”,“%”+value+”%”)</td>
+<td>添加xxx字段值为value的模糊查询条件</td>
+</tr>
+<tr>
+<td>criteria.andNotLike(“字段”,“%”+value+”%”)</td>
+<td>添加xxx字段值不为value的模糊查询条件</td>
+</tr>
+<tr>
+<td>criteria.andBetween(value1,value2)</td>
+<td>添加xxx字段值在value1和value2之间条件</td>
+</tr>
+<tr>
+<td>criteria.andNotBetween(value1,value2)</td>
+<td>添加xxx字段值不在value1和value2之间条件</td>
+</tr>
+<tr>
+<td>criteria.andCondition(“SQL”)</td>
+<td>可以写字符串拼接SQL</td>
+</tr>
+<tr>
+<td>criteria.andCondition(“字段 =”,value)</td>
+<td>前面可以写SQL后面可以写值</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2selectcountbyexamplemapper">2.SelectCountByExampleMapper<t></t></h4>
+<p>接口：SelectCountByExampleMapper<t></t></p>
+<p>方法：int selectCountByExample(Object example);</p>
+<p>说明：根据Example条件进行查询总数</p>
+<h3 id="update方法">Update方法</h3>
+<h4 id="1updatebyexamplemapper">1.UpdateByExampleMapper<t></t></h4>
+<p>接口：UpdateByExampleMapper<t></t></p>
+<p>方法：int updateByExample(T record,  Object example);</p>
+<p>说明：根据Example条件更新实体record包含的全部属性，null值会被更新</p>
+<h4 id="2updatebyexampleselectivemapper">2.UpdateByExampleSelectiveMapper<t></t></h4>
+<p>接口：UpdateByExampleSelectiveMapper<t></t></p>
+<p>方法：int updateByExampleSelective(T record,  Object example);</p>
+<p>说明：根据Example条件更新实体record包含的不是null的属性值</p>
+<h3 id="delete方法">Delete方法</h3>
+<h4 id="1deletebyexamplemapper">1.DeleteByExampleMapper<t></t></h4>
+<p>接口：DeleteByExampleMapper<t></t></p>
+<p>方法：int deleteByExample(Object example);</p>
+<p>说明：根据Example条件删除数据</p>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/leetcode解题报告/" data-toggle="tooltip" data-placement="top" title="leetcode解题报告">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#tkmybatis集成通用mapper"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">tk.mybatis&#x2014;&#x96C6;&#x6210;&#x901A;&#x7528;mapper</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#引入依赖"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x5F15;&#x5165;&#x4F9D;&#x8D56;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#增加-mapper-组件扫描配置"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x589E;&#x52A0; mapper &#x7EC4;&#x4EF6;&#x626B;&#x63CF;&#x914D;&#x7F6E;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#创建-dao-层的-base-接口"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x521B;&#x5EFA; dao &#x5C42;&#x7684; base &#x63A5;&#x53E3;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#创建-dao-层查询接口"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x521B;&#x5EFA; dao &#x5C42;&#x67E5;&#x8BE2;&#x63A5;&#x53E3;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#service-调用-dao-层进行查询"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">service &#x8C03;&#x7528; dao &#x5C42;&#x8FDB;&#x884C;&#x67E5;&#x8BE2;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#实体类"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">&#x5B9E;&#x4F53;&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#注意事项"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">&#x6CE8;&#x610F;&#x4E8B;&#x9879;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#基础接口"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text">&#x57FA;&#x7840;&#x63A5;&#x53E3;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#insert"><span class="toc-nav-number">1.8.1.</span> <span class="toc-nav-text">Insert</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1insertmapper"><span class="toc-nav-number">1.8.1.1.</span> <span class="toc-nav-text">1.InsertMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2insertselectivemapper"><span class="toc-nav-number">1.8.1.2.</span> <span class="toc-nav-text">2.InsertSelectiveMapper<t></t></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#update"><span class="toc-nav-number">1.8.2.</span> <span class="toc-nav-text">Update</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1updatebyprimarykeymapper"><span class="toc-nav-number">1.8.2.1.</span> <span class="toc-nav-text">1.UpdateByPrimaryKeyMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2updatebyprimarykeyselectivemapper"><span class="toc-nav-number">1.8.2.2.</span> <span class="toc-nav-text">2.UpdateByPrimaryKeySelectiveMapper<t></t></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#delete"><span class="toc-nav-number">1.8.3.</span> <span class="toc-nav-text">Delete</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1deletemapper"><span class="toc-nav-number">1.8.3.1.</span> <span class="toc-nav-text">1.DeleteMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2deletebyprimarykeymapper"><span class="toc-nav-number">1.8.3.2.</span> <span class="toc-nav-text">2.DeleteByPrimaryKeyMapper<t></t></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#select"><span class="toc-nav-number">1.8.4.</span> <span class="toc-nav-text">Select</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1selectmapper"><span class="toc-nav-number">1.8.4.1.</span> <span class="toc-nav-text">1.SelectMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2selectbyprimarykeymapper"><span class="toc-nav-number">1.8.4.2.</span> <span class="toc-nav-text">2.SelectByPrimaryKeyMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3selectallmapper"><span class="toc-nav-number">1.8.4.3.</span> <span class="toc-nav-text">3.SelectAllMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#4selectonemapper"><span class="toc-nav-number">1.8.4.4.</span> <span class="toc-nav-text">4.SelectOneMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#5selectcountmapper"><span class="toc-nav-number">1.8.4.5.</span> <span class="toc-nav-text">5.SelectCountMapper<t></t></span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#example-方法"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text">Example &#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#select-方法"><span class="toc-nav-number">1.9.1.</span> <span class="toc-nav-text">Select &#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1selectcountmapper"><span class="toc-nav-number">1.9.1.1.</span> <span class="toc-nav-text">1.SelectCountMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#方法表"><span class="toc-nav-number">1.9.1.2.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x8868;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2selectcountbyexamplemapper"><span class="toc-nav-number">1.9.1.3.</span> <span class="toc-nav-text">2.SelectCountByExampleMapper<t></t></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#update方法"><span class="toc-nav-number">1.9.2.</span> <span class="toc-nav-text">Update&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1updatebyexamplemapper"><span class="toc-nav-number">1.9.2.1.</span> <span class="toc-nav-text">1.UpdateByExampleMapper<t></t></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2updatebyexampleselectivemapper"><span class="toc-nav-number">1.9.2.2.</span> <span class="toc-nav-text">2.UpdateByExampleSelectiveMapper<t></t></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#delete方法"><span class="toc-nav-number">1.9.3.</span> <span class="toc-nav-text">Delete&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1deletebyexamplemapper"><span class="toc-nav-number">1.9.3.1.</span> <span class="toc-nav-text">1.DeleteByExampleMapper<t></t></span></a></li></ol></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#使用指南" title="使用指南">使用指南</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2020 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
