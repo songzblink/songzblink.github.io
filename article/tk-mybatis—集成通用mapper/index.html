@@ -150,7 +150,7 @@
                     
                         
                         <li>
-                            <a href="/about/">关于</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -162,7 +162,7 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/about/">关于</a>
                         </li>
                         
                     
@@ -228,7 +228,7 @@
 <p>使用版本取决于 Spring Boot 的版本，因为存在兼容性问题，版本需要提前确认好。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>tk.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="增加-mapper-组件扫描配置">增加 mapper 组件扫描配置</h2>
-<p><img src="D:%5CMyBlog%5Csongzblink.github.io%5Csource_posts%5Ctk.mybatis%E2%80%94%E9%9B%86%E6%88%90%E9%80%9A%E7%94%A8mapper.assets%5C4Vj9gcp23QyvqDO.png" alt="image-20201019160633064"></p>
+<p><img src="https://i.loli.net/2020/10/19/vy7abT3cgtJYwf4.png" alt="image-20201019160633064"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.spring.annotation.MapperScan;</span><br><span class="line"><span class="meta">@MapperScan</span>(<span class="string">"com.songzb.demomall.mapper"</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="创建-dao-层的-base-接口">创建 dao 层的 base 接口</h2>
 <p><strong>注意：base 接口一定不要被 Mapper 组件扫描配置给扫描到！</strong></p>
@@ -459,6 +459,10 @@ Criteria criteria = example.createCriteria();</p>
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Swagger-UI实现在线API文档/" data-toggle="tooltip" data-placement="top" title="Swagger-UI实现在线API文档">&larr; 上一篇</a>
+                        </li>
                     
                     
                         <li class="next">
