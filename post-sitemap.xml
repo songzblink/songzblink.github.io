@@ -7,16 +7,32 @@
     </url>
 
     <url>
-        <loc>zbsong.top/article/Swagger-UI%E5%AE%9E%E7%8E%B0%E5%9C%A8%E7%BA%BFAPI%E6%96%87%E6%A1%A3/</loc>
-        <lastmod>2020-10-19T13:00:49.192Z</lastmod>
+        <loc>zbsong.top/article/tk-mybatis%E2%80%94%E9%9B%86%E6%88%90%E9%80%9A%E7%94%A8mapper/</loc>
+        <lastmod>2020-10-22T02:53:09.192Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>zbsong.top/article/tk-mybatis%E2%80%94%E9%9B%86%E6%88%90%E9%80%9A%E7%94%A8mapper/</loc>
-        <lastmod>2020-10-19T12:49:20.654Z</lastmod>
+        <loc>zbsong.top/article/Swagger-UI%E5%AE%9E%E7%8E%B0%E5%9C%A8%E7%BA%BFAPI%E6%96%87%E6%A1%A3/</loc>
+        <lastmod>2020-10-22T02:53:01.446Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>zbsong.top/article/Redis%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98%E5%8A%9F%E8%83%BD/</loc>
+        <lastmod>2020-10-22T02:52:58.093Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>zbsong.top/article/Python%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6/</loc>
+        <lastmod>2020-10-22T02:52:45.064Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

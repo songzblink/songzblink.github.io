@@ -148,13 +148,13 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/about/">关于</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/about/">关于</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -204,9 +204,9 @@
             <!-- 标签云 -->
             <div id='tag_cloud' class="tags">
                 
-                    <a href="#使用指南" title="使用指南" rel="2">使用指南</a>
-                
                     <a href="#Welcome" title="Welcome" rel="1">Welcome</a>
+                
+                    <a href="#note" title="note" rel="4">note</a>
                 
                     <a href="#algorithm" title="algorithm" rel="2">algorithm</a>
                 
@@ -218,9 +218,73 @@
 
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="使用指南">
-                    <span class="tag-text">使用指南</span>
+                <span class="fa fa-tag listing-seperator" id="Welcome">
+                    <span class="tag-text">Welcome</span>
                 </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/ruyun/">
+                        <h2 class="post-title">
+                            如云，那就做如云
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                如云，是在胡伟煌博客的基础上汉化、简化、样式修改而来的Hexo主题。
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="note">
+                    <span class="tag-text">note</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/Python批量处理文件/">
+                        <h2 class="post-title">
+                            Python批量处理文件
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                对一个目录下的文件进行批量化的操作
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/Redis实现缓存功能/">
+                        <h2 class="post-title">
+                            Redis实现缓存功能
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Redis的安装使用以及常用操作
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
                 
                   <!-- <li class="listing-item">
                   <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -263,32 +327,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Welcome">
-                    <span class="tag-text">Welcome</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/ruyun/">
-                        <h2 class="post-title">
-                            如云，那就做如云
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                如云，是在胡伟煌博客的基础上汉化、简化、样式修改而来的Hexo主题。
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="algorithm">
                     <span class="tag-text">algorithm</span>
                 </span>
@@ -298,9 +336,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/leetcode解题本/">
+                     <a href="/article/leetcode解题报告/">
                         <h2 class="post-title">
-                            leetcode解题本
+                            leetcode解题报告
                         </h2>
                         
                             <h3 class="post-subtitle">
@@ -317,9 +355,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/leetcode解题报告/">
+                     <a href="/article/leetcode解题本/">
                         <h2 class="post-title">
-                            leetcode解题报告
+                            leetcode解题本
                         </h2>
                         
                             <h3 class="post-subtitle">
