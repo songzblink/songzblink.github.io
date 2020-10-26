@@ -150,12 +150,6 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
                             <a href="/about/">关于</a>
                         </li>
                         
@@ -163,6 +157,12 @@
                         
                         <li>
                             <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -261,7 +261,7 @@
 <h3 id="redistemplate中定义了5种数据结构操作">RedisTemplate中定义了5种数据结构操作</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redisTemplate.opsForValue(); <span class="comment">// 操作字符串</span></span><br><span class="line">redisTemplate.opsForHash();	 <span class="comment">// 操作hash</span></span><br><span class="line">redisTemplate.opsForList();	 <span class="comment">// 操作list</span></span><br><span class="line">redisTemplate.opsForSet();	 <span class="comment">// 操作set</span></span><br><span class="line">redisTemplate.opsForzSet();	 <span class="comment">// 操作有序set</span></span><br></pre></td></tr></table></figure>
 <h3 id="stringredistemplate常用操作">StringRedisTemplate常用操作</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">stringRedisTemplate.opsForValue().set(&quot;test&quot;, &quot;100&quot;, 60*10, TimeUnit.SECONDS); // 向Redis里存入数据和设置缓存时间</span><br><span class="line">stringRedisTemplate.boundValueOps(&quot;test&quot;).increment(-1); // val做-1操作</span><br><span class="line">stringRedisTemplate.opsForValue().get(&quot;test&quot;); // 根据key获取缓存中的val</span><br><span class="line">stringRedisTemplate.boundValueOps(&quot;test&quot;).increment(1); // val +1</span><br><span class="line">stringRedisTemplate.getExpire(&quot;test&quot;); // 根据key获取过期时间</span><br><span class="line">stringRedisTemplate.getExpire(&quot;test&quot;, TimeUnit.SECONDS); // 根据key获取过期时间并换算成指定单位</span><br><span class="line">stringRedisTemplate.delete(&quot;test&quot;); // 根据key删除缓存</span><br><span class="line">stringRedisTemplate.hashKey(&quot;123&quot;); // 检查key是否存在，返回boolean值</span><br><span class="line">stringRedisTemplate.opsForSet().add(&quot;read_123&quot;, &quot;1&quot;,&quot;2&quot;,&quot;3&quot;); // 向指定key中存放set集合</span><br><span class="line">stringRedisTemplate.expire(&quot;read_123&quot;, 1000, TimeUnit.MILLISECCONDS); // 设置过期时间</span><br><span class="line">stringRedisTemplate.opsForSet().isMember(&quot;read_123&quot;, &quot;1&quot;); // 根据key查看集合中是否存在指定数据</span><br><span class="line">stringRedisTemplate.opsForSet().members(&quot;read_123&quot;); // 根据key获取set集合</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">stringRedisTemplate.opsForValue().set(<span class="string">"test"</span>, <span class="string">"100"</span>, <span class="number">60</span>*<span class="number">10</span>, TimeUnit.SECONDS); <span class="comment">// 向Redis里存入数据和设置缓存时间</span></span><br><span class="line">stringRedisTemplate.boundValueOps(<span class="string">"test"</span>).increment(-<span class="number">1</span>); <span class="comment">// val做-1操作</span></span><br><span class="line">stringRedisTemplate.opsForValue().get(<span class="string">"test"</span>); <span class="comment">// 根据key获取缓存中的val</span></span><br><span class="line">stringRedisTemplate.boundValueOps(<span class="string">"test"</span>).increment(<span class="number">1</span>); <span class="comment">// val +1</span></span><br><span class="line">stringRedisTemplate.getExpire(<span class="string">"test"</span>); <span class="comment">// 根据key获取过期时间</span></span><br><span class="line">stringRedisTemplate.getExpire(<span class="string">"test"</span>, TimeUnit.SECONDS); <span class="comment">// 根据key获取过期时间并换算成指定单位</span></span><br><span class="line">stringRedisTemplate.delete(<span class="string">"test"</span>); <span class="comment">// 根据key删除缓存</span></span><br><span class="line">stringRedisTemplate.hashKey(<span class="string">"123"</span>); <span class="comment">// 检查key是否存在，返回boolean值</span></span><br><span class="line">stringRedisTemplate.opsForSet().add(<span class="string">"read_123"</span>, <span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>); <span class="comment">// 向指定key中存放set集合</span></span><br><span class="line">stringRedisTemplate.expire(<span class="string">"read_123"</span>, <span class="number">1000</span>, TimeUnit.MILLISECCONDS); <span class="comment">// 设置过期时间</span></span><br><span class="line">stringRedisTemplate.opsForSet().isMember(<span class="string">"read_123"</span>, <span class="string">"1"</span>); <span class="comment">// 根据key查看集合中是否存在指定数据</span></span><br><span class="line">stringRedisTemplate.opsForSet().members(<span class="string">"read_123"</span>); <span class="comment">// 根据key获取set集合</span></span><br></pre></td></tr></table></figure>
 <h3 id="stringredistemplate的使用">StringRedisTemplate的使用</h3>
 <p>SpringBoot中使用注解@AutoWired即可</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">public</span> StringRedisTemplate stringRedisTemplate;</span><br></pre></td></tr></table></figure>
