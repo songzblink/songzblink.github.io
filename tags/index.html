@@ -142,13 +142,13 @@
                     
                         
                         <li>
-                            <a href="/about/">关于</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/about/">关于</a>
                         </li>
                         
                     
@@ -204,18 +204,44 @@
             <!-- 标签云 -->
             <div id='tag_cloud' class="tags">
                 
-                    <a href="#note" title="note" rel="5">note</a>
-                
                     <a href="#Welcome" title="Welcome" rel="1">Welcome</a>
                 
-                    <a href="#algorithm" title="algorithm" rel="2">algorithm</a>
+                    <a href="#note" title="note" rel="5">note</a>
                 
                     <a href="#java项目" title="java项目" rel="1">java项目</a>
+                
+                    <a href="#algorithm" title="algorithm" rel="2">algorithm</a>
                 
             </div>
 
             <!-- 标签列表 -->
 
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Welcome">
+                    <span class="tag-text">Welcome</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/ruyun/">
+                        <h2 class="post-title">
+                            如云，那就做如云
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                如云，是在胡伟煌博客的基础上汉化、简化、样式修改而来的Hexo主题。
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
             
             <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="note">
@@ -320,8 +346,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Welcome">
-                    <span class="tag-text">Welcome</span>
+                <span class="fa fa-tag listing-seperator" id="java项目">
+                    <span class="tag-text">java项目</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -329,13 +355,13 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/ruyun/">
+                     <a href="/article/批量给图片添加水印/">
                         <h2 class="post-title">
-                            如云，那就做如云
+                            批量给图片添加水印
                         </h2>
                         
                             <h3 class="post-subtitle">
-                                如云，是在胡伟煌博客的基础上汉化、简化、样式修改而来的Hexo主题。
+                                兴趣使然去实现
                             </h3>
                         
                     </a>
@@ -381,32 +407,6 @@
                         
                             <h3 class="post-subtitle">
                                 记录了在leetcode刷题的答案
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="java项目">
-                    <span class="tag-text">java项目</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/批量给图片添加水印/">
-                        <h2 class="post-title">
-                            批量给图片添加水印
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                兴趣使然去实现
                             </h3>
                         
                     </a>
