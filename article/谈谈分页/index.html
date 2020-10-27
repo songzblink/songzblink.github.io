@@ -95,7 +95,7 @@
                         <!-- <h2 class="subheading">分页功能的实现以及pagehelper的使用</h2> -->
                         <span class="meta">
                             宋正兵 on
-                            2020-09-28
+                            2020-10-27
                         </span>
                     </div>
                 
@@ -150,6 +150,12 @@
                     
                         
                         <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
                             <a href="/about/">关于</a>
                         </li>
                         
@@ -157,12 +163,6 @@
                         
                         <li>
                             <a href="/tags/">标签</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
-                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -237,6 +237,7 @@
 <p>查询完成后，将查询得到的List数据封装到CommonPage实例中返回，这样就能够实现分页查询。</p>
 <h2 id="分页插件pagehelper">分页插件—pagehelper</h2>
 <h3 id="引入依赖">引入依赖</h3>
+<p>整合到SpringBoot中</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h3 id="调用方法">调用方法</h3>
 <p>使用PageHelper的静态方法startPage ：<br>
@@ -265,13 +266,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/leetcode解题报告/" data-toggle="tooltip" data-placement="top" title="leetcode解题报告">&larr; 上一篇</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/article/批量给图片添加水印/" data-toggle="tooltip" data-placement="top" title="批量给图片添加水印">下一篇 &rarr;</a>
+                            <a href="/article/通用返回对象/" data-toggle="tooltip" data-placement="top" title="通用返回对象">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
