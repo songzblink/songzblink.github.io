@@ -150,12 +150,6 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
                             <a href="/about/">关于</a>
                         </li>
                         
@@ -163,6 +157,12 @@
                         
                         <li>
                             <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -232,6 +232,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tk.mybatis.spring.annotation.MapperScan;</span><br><span class="line"><span class="meta">@MapperScan</span>(<span class="string">"com.songzb.demomall.mapper"</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="创建-dao-层的-base-接口">创建 dao 层的 base 接口</h2>
 <p><strong>注意：base 接口一定不要被 Mapper 组件扫描配置给扫描到！</strong></p>
+<blockquote>
+<p>这里实际有问题，没能解决。所以无需创建base接口，直接继承Mapper<t>使用即可。</t></p>
+</blockquote>
 <p>创建 BaseMapper<t> 继承 3 个 <code>tk.mybatis.mapper</code> 下的接口：</t></p>
 <ol>
 <li>Mapper<t></t></li>
