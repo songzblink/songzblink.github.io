@@ -220,6 +220,9 @@
 
 				
                 <p>天下苦python久已……开个玩笑，不论是在数据挖掘还是在实验代码编写的过程中，但凡涉及到使用pandas操作 <code>.csv</code> 文件我都得屁颠儿屁颠儿地面向互联网编程。查了用用了查，脑子不好使于是想着开一篇文章记录下来吧。</p>
+<blockquote>
+<p>PS：更为详细的内容请查阅pandas的<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html" target="_blank" rel="noopener">文档</a></p>
+</blockquote>
 <h2 id="dataframe的创建">DataFrame的创建</h2>
 <h3 id="创建空的dataframe">创建空的DataFrame</h3>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame()</span><br></pre></td></tr></table></figure>
@@ -287,7 +290,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/通用返回对象/" data-toggle="tooltip" data-placement="top" title="通用返回对象">&larr; 上一篇</a>
+                            <a href="/article/谈谈分页/" data-toggle="tooltip" data-placement="top" title="谈谈分页">&larr; 上一篇</a>
                         </li>
                     
                     
@@ -555,6 +558,24 @@
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

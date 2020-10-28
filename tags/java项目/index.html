@@ -235,11 +235,11 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <li >
-                    10-27
+                    10-28
                     <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/通用返回对象/" style="color: #0085a1">
+                    <a href="/article/jdk学习之路—parseInt方法/" style="color: #0085a1">
                         <span>
-                            通用返回对象
+                            Integer的parseInt()方法
                         </span>
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -255,6 +255,21 @@
                     <a href="/article/谈谈分页/" style="color: #0085a1">
                         <span>
                             谈谈分页
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    10-27
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/article/通用返回对象/" style="color: #0085a1">
+                        <span>
+                            通用返回对象
                         </span>
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -456,11 +471,15 @@
     <div class="tags">
         
             
+            <a href="/tags/#note" title="note" rel="5">note</a>
+            
+        
+            
             <a href="/tags/#Welcome" title="Welcome" rel="1">Welcome</a>
             
         
             
-            <a href="/tags/#note" title="note" rel="5">note</a>
+            <a href="/tags/#jdk学习之路" title="jdk学习之路" rel="1">jdk学习之路</a>
             
         
             
@@ -526,11 +545,15 @@
     <ul>
       
         <li>
-          <a href="/article/谈谈分页/">谈谈分页</a>
+          <a href="/article/jdk学习之路—parseInt方法/">Integer的parseInt()方法</a>
         </li>
       
         <li>
           <a href="/article/通用返回对象/">通用返回对象</a>
+        </li>
+      
+        <li>
+          <a href="/article/谈谈分页/">谈谈分页</a>
         </li>
       
         <li>
@@ -539,10 +562,6 @@
       
         <li>
           <a href="/article/Python批量处理文件/">Python批量处理文件</a>
-        </li>
-      
-        <li>
-          <a href="/article/Redis实现缓存功能/">Redis实现缓存功能</a>
         </li>
       
     </ul>
@@ -569,7 +588,7 @@
         
     <h5>归档</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li></ul>
     </div>
 
         <hr>
@@ -746,6 +765,24 @@ songzblink@163.com
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>
