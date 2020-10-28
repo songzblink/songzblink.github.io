@@ -156,13 +156,13 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -225,8 +225,8 @@
 <li>String s：需要解析的字符串，允许携带正负号 <code>'+'</code> 、<code>'-'</code></li>
 <li>int radix：字符串中包含数字是 <code>radix进制</code> 的</li>
 </ul>
-<p>**返回值：**int 类型的十进制整数</p>
-<p><strong>比如：</strong><code>Integer.parseInt(&quot;1010&quot;,2)</code></p>
+<p><strong>返回值：</strong> int 类型的十进制整数</p>
+<p><strong>比如：</strong> <code>Integer.parseInt(&quot;1010&quot;,2)</code></p>
 <p>意思就是：输出2进制数1010在十进制下的数.</p>
 <p>更直白地说： <code>parseInt(String s,int radix)</code>就是求 <code>radix</code> 进制数 <code>s</code> 的十进制数是多少。</p>
 <p>平时用到 <code>Integer.parseInt(&quot;123&quot;)</code> 其实默认是调用了<code>int i =Integer.parseInt(&quot;123&quot;，10)</code> 。</p>
@@ -241,6 +241,8 @@
 </blockquote>
 <h3 id="采用负累积的计算方法目的是避免接近最大值可能发生的意外">采用负累积的计算方法目的是避免接近最大值可能发生的意外</h3>
 <p>Integer 类型大小为 $-2^{31} , 2^{31}-1$，当字符串为正数的时候，负累积只要不小于 $-2^{31}-1$ 就在允许范围内，当字符串为负数时，负累积只要不小于 $-2^{31}$ 就在允许范围内。</p>
+<h2 id="学到了什么">学到了什么？</h2>
+<p>往后遇到需要从字符串中解析出数字的业务场景可以直接利用 <code>Integer.parseInt(String s, int radix)</code> 方法；如果是在做算法题时，可以借鉴判断第一个字符是否为正负号和采用负累积进行计算的方法。</p>
 
                 
                 <hr>
@@ -249,7 +251,7 @@
                     
                     
                         <li class="next">
-                            <a href="/article/通用返回对象/" data-toggle="tooltip" data-placement="top" title="通用返回对象">下一篇 &rarr;</a>
+                            <a href="/article/谈谈分页/" data-toggle="tooltip" data-placement="top" title="谈谈分页">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -285,7 +287,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#integerparseintstring-s-int-radix-解析"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Integer.parseInt(String s, int radix) &#x89E3;&#x6790;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#判断一个字符是否为正负号"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x5224;&#x65AD;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x662F;&#x5426;&#x4E3A;&#x6B63;&#x8D1F;&#x53F7;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#采用负累积的计算方法目的是避免接近最大值可能发生的意外"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x91C7;&#x7528;&#x8D1F;&#x7D2F;&#x79EF;&#x7684;&#x8BA1;&#x7B97;&#x65B9;&#x6CD5;&#x76EE;&#x7684;&#x662F;&#x907F;&#x514D;&#x63A5;&#x8FD1;&#x6700;&#x5927;&#x503C;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x7684;&#x610F;&#x5916;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#integerparseintstring-s-int-radix-解析"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Integer.parseInt(String s, int radix) &#x89E3;&#x6790;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#判断一个字符是否为正负号"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x5224;&#x65AD;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x662F;&#x5426;&#x4E3A;&#x6B63;&#x8D1F;&#x53F7;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#采用负累积的计算方法目的是避免接近最大值可能发生的意外"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x91C7;&#x7528;&#x8D1F;&#x7D2F;&#x79EF;&#x7684;&#x8BA1;&#x7B97;&#x65B9;&#x6CD5;&#x76EE;&#x7684;&#x662F;&#x907F;&#x514D;&#x63A5;&#x8FD1;&#x6700;&#x5927;&#x503C;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x7684;&#x610F;&#x5916;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#学到了什么"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5B66;&#x5230;&#x4E86;&#x4EC0;&#x4E48;&#xFF1F;</span></a></li></ol>
         
         </div>
       </aside>
