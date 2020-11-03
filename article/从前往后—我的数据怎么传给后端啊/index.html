@@ -227,7 +227,7 @@
 <li>Content-Type：HTTP请求提交的内容类型。一般只有post提交时才需要设置该属性</li>
 <li>Body：存储POST的参数和参数数据</li>
 </ul>
-<p><img src="https://i.loli.net/2020/11/03/hROKJZmDvEtSzdY.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2020/11/03/QGYHF83kTVIB9Lz.png" alt="image-20201103152503887"></p>
 <p>根据HTTP的请求方法对应的数据传输能力，把HTTP请求分为Url类请求和Body请求：</p>
 <ul>
 <li>Url类请求：包括但不限于GET、HEAD、OPTIONS、TRACE等请求方法；</li>
@@ -245,7 +245,7 @@
 <p>例如当Content-Type是 <code>application/octet-stream</code> 时，客户端可以通过body发送Binary数据，例如文件或者任何能转成流的数据；</p>
 <p>例如当Content-Type是 <code>multipart/form-data</code> 时，客户端可以通过body发送一个表单。</p>
 <blockquote>
-<p>注：表单室友格式的，不像json和xml格式，json和xml的格式是字符串排版格式，而表单的格式里面既有字符串又有换行和Binary。</p>
+<p>注：表单是有格式的，不像json和xml格式，json和xml的格式是字符串排版格式，而表单的格式里面既有字符串又有换行和Binary。</p>
 </blockquote>
 <h2 id="前端http请求实例">前端HTTP请求实例</h2>
 <p>在这里仅针对Url类请求发送数据和Body类请求通过body发送数据做演示。后端在得到前端传递的数据后会再每个参数后面添加请求类型的名称，再返回给客户端。</p>
