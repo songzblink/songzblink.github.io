@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          批量给图片添加水印 - 宋正兵的博客 | zbsong Blog
+          Integer的缓存机制 - 宋正兵的博客 | zbsong Blog
         
     </title>
 
-    <link rel="canonical" href="zbsong.top/article/批量给图片添加水印/">
+    <link rel="canonical" href="zbsong.top/article/jdk学习之路—Integer的缓存机制/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -88,14 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#java项目" title="java项目">java项目</a>
+                              <a class="tag" href="/tags/#jdk学习之路" title="jdk学习之路">jdk学习之路</a>
                             
                         </div>
-                        <h1>批量给图片添加水印</h1>
-                        <!-- <h2 class="subheading">兴趣使然去实现</h2> -->
+                        <h1>Integer的缓存机制</h1>
+                        <!-- <h2 class="subheading">缓存机制以及equals()和==的区别</h2> -->
                         <span class="meta">
                             宋正兵 on
-                            2020-09-28
+                            2020-10-28
                         </span>
                     </div>
                 
@@ -219,27 +219,36 @@
                 post-container">
 
 				
-                <h1 id="java-如何给图片添加水印"><a href="#Java-如何给图片添加水印" class="headerlink" title="Java 如何给图片添加水印"></a>Java 如何给图片添加水印</h1><p><a href="https://github.com/songzblink/Auto-Watermark" target="_blank" rel="noopener">需要源码点这里</a></p>
-<p>想要在 java 程序中绘图，一定绕不开 <code>Graphics</code> 类，这里用它的子类 <code>Graphics2D</code> 类，java 绘图的基本操作流程如下：</p>
-<ul>
-<li>使用 <code>ImageIO</code> 类的 <code>read()</code> 方法将需要被添加水印的图片加载；</li>
-<li>创建一个 <code>BufferedImage</code> 实例 ，在其构造函数里指定长，宽，高，类型为 <code>BufferedImage.TYPE_INT_RGB</code> ，即创建一个指定分辨率的空图片 <code>bimage</code>；</li>
-<li>调用 <code>BufferedImage</code> 对象的 <code>createGraphics()</code> 方法，得到 <code>Graphics2D</code> 实例；</li>
-<li>使用 <code>Graphics2D</code> 实例进行绘图，所以绘图操作的坐标基于创建此 <code>Graphics2D</code> 实例的 <code>BufferedImage</code> 实例。示例中在图片上画了一串字符串；</li>
-<li>调用 <code>Graphics2D</code> 对象的 <code>dispose()</code> 方法，进行绘图处理，使绘图效果应用到 <code>BufferedImage</code> 对象；</li>
-<li>使用 <code>ImageIO</code> 类的 <code>write()</code> 方法将 <code>BufferedImage</code> 对象转换到文件或二进制流。</li>
+                <p>在之前我们先了解一个小知识。</p>
+<h2 id="equals-和-的区别"><a href="#equals-和-的区别" class="headerlink" title="equals() 和 == 的区别"></a>equals() 和 == 的区别</h2><ul>
+<li>功能方面：<ul>
+<li>“==”是判断两个变量或者实例是不是指向同一个内存空间</li>
+<li>“equals”是判断两个变量或实例所指向的内存空间的值是不是相同</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加载图片</span></span><br><span class="line">Image image = ImageIO.read(<span class="keyword">new</span> File(<span class="string">"images/test.png"</span>));</span><br><span class="line"><span class="keyword">int</span> width = <span class="number">200</span>, height = <span class="number">250</span>;</span><br><span class="line"><span class="comment">// 创建图片对象</span></span><br><span class="line">BufferedImage bimage = <span class="keyword">new</span> BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);</span><br><span class="line"><span class="comment">// 基于图片对象打开绘图</span></span><br><span class="line">Graphics2D graphics = image.createGraphics();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绘图逻辑 START （基于业务逻辑进行绘图处理）……</span></span><br><span class="line"><span class="comment">// 绘制一串字符串</span></span><br><span class="line">Font font = <span class="keyword">new</span> Font(<span class="string">"宋体"</span>,Font.BOLD, <span class="number">10</span>);</span><br><span class="line">g.setFont(font);</span><br><span class="line">g.setColor(Color.RED);</span><br><span class="line"><span class="comment">// 绘制当前可用的指定图像。在该图形上下文的坐标空间中，图像的左上角位于（x，y）。</span></span><br><span class="line">g.drawImage(image, <span class="number">0</span>, <span class="number">0</span>, <span class="keyword">null</span>);</span><br><span class="line">g.drawString(<span class="string">"水印测试"</span>, <span class="number">0</span>, font.getSize());</span><br><span class="line"><span class="comment">// 绘图逻辑 END</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理绘图，输出</span></span><br><span class="line">graphics.dispose();</span><br><span class="line"><span class="comment">// 将绘制好的图片写入到图片</span></span><br><span class="line"><span class="comment">// ImageIO.write(image, "png", new File("abc.png"));</span></span><br><span class="line"><span class="comment">// 得到图片的格式后缀</span></span><br><span class="line">String formatName = file.getName().split(<span class="string">"\\."</span>)[<span class="number">1</span>];</span><br><span class="line">ImageIO.write(bimage, formatName, <span class="keyword">new</span> File(<span class="string">"abc.png"</span>));</span><br></pre></td></tr></table></figure>
-<h1 id="批量给图片添加水印"><a href="#批量给图片添加水印" class="headerlink" title="批量给图片添加水印"></a>批量给图片添加水印</h1><p>如果想要批量的给图片添加水印，想到的办法是将待处理图片都存放到同一目录下，这里指定为 <code>images/</code> ，通过调用 <code>File</code> 对象的 <code>listFiles()</code> 方法获得目录下所有文件的相对路径（注意它包括目录下的子目录，所以需要判断当前操作对象是不是文件），再对每个 <code>File</code> 对象进行绘图处理。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加载目录路径</span></span><br><span class="line">String path = <span class="string">"images/"</span>;</span><br><span class="line">File[] files = <span class="keyword">new</span> File(path).listFiles();</span><br><span class="line"><span class="keyword">for</span> (File file : files) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!file.isDirectory()) &#123;</span><br><span class="line">        <span class="comment">// 添加水印操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="利用配置文件添加水印"><a href="#利用配置文件添加水印" class="headerlink" title="利用配置文件添加水印"></a>利用配置文件添加水印</h1><p>java 读取配置文件的方法有<a href="https://www.cnblogs.com/sebastian-tyd/p/7895182.html" target="_blank" rel="noopener">好几种</a>，这里选择的是通过读取 <code>.preperties</code> 文件来进行配置。</p>
-<p>观察上面的代码，我们能抽取出来部分配置信息并写入 <code>watermark.properties</code> 文件中，让 java 程序自动读取，而使用者只需要进行这部分信息的配置，并且把待添加水印的图片存放到指定路径即可。 <code>watermark.properties</code> 文件如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 待添加水印图片的路径</span><br><span class="line">basePath=images/</span><br><span class="line"># 文字水印的内容</span><br><span class="line">context=测试水印</span><br><span class="line"># 文字水印的字体</span><br><span class="line">fontName=宋体</span><br><span class="line"># 文字水印字体的样式</span><br><span class="line"># PLAIN 1  BOLD 2   ITALIC 3 </span><br><span class="line">fontStyle=1</span><br><span class="line"># 文字水印字体的大小</span><br><span class="line">fontsize=20</span><br><span class="line"># 文字水印字体的颜色</span><br><span class="line">color=white</span><br><span class="line"># 文字水印字体的位置，上中下，每层左中右三个点位</span><br><span class="line"># 1~9</span><br><span class="line">location=8</span><br></pre></td></tr></table></figure>
-<p>创建输入缓冲流 <code>InputStream</code> 类， <code>filePath</code> 是配置文件 <code>watermark.properties</code> 的相对路径。然后利用 <code>properties</code> 类来读取配置文件中的属性，利用方法 <code>getProperty(String key)</code> 可以得到文件内的属性配置。</p>
-<blockquote>
-<p>这里我并没有理解通过输入缓冲流进行读取配置文件为啥这么写，如果有知道的同学欢迎发邮件指教</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过输入缓冲流进行读取配置文件</span></span><br><span class="line">InputStream InputStream = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(filePath)));</span><br><span class="line"><span class="comment">// 加载配置</span></span><br><span class="line">Properties p = <span class="keyword">new</span> Properties();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    p.load(bf);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e1) &#123;</span><br><span class="line">    e1.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>定义方面：<ul>
+<li>“==”在Java中是一个运算符</li>
+<li>“equals”在Java中是一个方法</li>
+</ul>
+</li>
+</ul>
+<p>然后我们再来观察一个有意思的现象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">127</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">127</span>;</span><br><span class="line">System.out.println(a == b); <span class="comment">// true</span></span><br><span class="line">a = <span class="number">128</span>;</span><br><span class="line">b = <span class="number">128</span>;</span><br><span class="line">System.out.println(a == b);	<span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">Integer c = <span class="number">127</span>;</span><br><span class="line">Integer d = <span class="number">127</span>;</span><br><span class="line">System.out.println(c == d);	<span class="comment">// true</span></span><br><span class="line">c = <span class="number">128</span>;</span><br><span class="line">d = <span class="number">128</span>;</span><br><span class="line">System.out.println(c == d); <span class="comment">// false</span></span><br><span class="line">System.out.println(c.equals(d)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>前面都很好理解，但是往下一看，Integer的128为什么不等于128了呢？通过阅读源码得知，Integer类内部通过静态内部类，提供了一个缓存池，范围在-128~127之间，如果超过这个范围的Integer值都是new出来的对象，比较的话肯定会出错！</p>
+<h2 id="integer的缓存机制"><a href="#Integer的缓存机制" class="headerlink" title="Integer的缓存机制"></a>Integer的缓存机制</h2><p>Integer缓存是一个有助于节省内存、提高性能的特性。</p>
+<p>Integer的缓存机制：Integer对小数据（-128~127），在JVM初始化的时候，数据在-128~127之间的数字便被缓存到了本地内存中，如果初始化这个范围的数字，会直接从内存中取出，不需要新建一个对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 装箱</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 在缓存范围内</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">        <span class="comment">// 从缓存中取出来</span></span><br><span class="line">        <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerCache</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 缓存数组的大小为 high - low + 1</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> low = -<span class="number">128</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> high;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Integer[] cache;</span><br><span class="line">    <span class="keyword">static</span> Integer[] archivedCache;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="comment">// high value may be configured by property</span></span><br><span class="line">        <span class="keyword">int</span> h = <span class="number">127</span>;</span><br><span class="line">        String integerCacheHighPropValue =</span><br><span class="line">            VM.getSavedProperty(<span class="string">"java.lang.Integer.IntegerCache.high"</span>);</span><br><span class="line">        <span class="keyword">if</span> (integerCacheHighPropValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                h = Math.max(parseInt(integerCacheHighPropValue), <span class="number">127</span>);</span><br><span class="line">                <span class="comment">// Maximum array size is Integer.MAX_VALUE</span></span><br><span class="line">                h = Math.min(h, Integer.MAX_VALUE - (-low) -<span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span>( NumberFormatException nfe) &#123;</span><br><span class="line">                <span class="comment">// If the property cannot be parsed into an int, ignore it.</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        high = h;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Load IntegerCache.archivedCache from archive, if possible</span></span><br><span class="line">        VM.initializeFromArchive(IntegerCache.class);</span><br><span class="line">        <span class="keyword">int</span> size = (high - low) + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Use the archived cache if it exists and is large enough</span></span><br><span class="line">        <span class="keyword">if</span> (archivedCache == <span class="keyword">null</span> || size &gt; archivedCache.length) &#123;</span><br><span class="line">            Integer[] c = <span class="keyword">new</span> Integer[size];</span><br><span class="line">            <span class="keyword">int</span> j = low;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; c.length; i++) &#123;</span><br><span class="line">                c[i] = <span class="keyword">new</span> Integer(j++);</span><br><span class="line">            &#125;</span><br><span class="line">            archivedCache = c;</span><br><span class="line">        &#125;</span><br><span class="line">        cache = archivedCache;</span><br><span class="line">        <span class="comment">// range [-128, 127] must be interned (JLS7 5.1.7)</span></span><br><span class="line">        <span class="keyword">assert</span> IntegerCache.high &gt;= <span class="number">127</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">IntegerCache</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过源码我们能看到，最大值映射到java.lang.Integer.IntegerCache.high，可以使用JVM的启动参数设置最大值，修改缓存的大小。</p>
+<p>之所以选择-128到127这个范围，是因为这个范围的整数值是使用最广泛的。</p>
+<h2 id="其他对象的缓存"><a href="#其他对象的缓存" class="headerlink" title="其他对象的缓存"></a>其他对象的缓存</h2><p>这种缓存机制不仅适用于Integer对象，针对所有整数类型的类都有类似的缓存机制。</p>
+<ul>
+<li>Byte类：ByteCache，固定范围-128~127</li>
+<li>Short类：ShortCache，固定范围-128~127</li>
+<li>Long类：LongCache，固定范围-128~127</li>
+<li>Character类：CharacterCache，固定范围0~127</li>
+</ul>
+<p>也就是说除了Integer类可以通过参数改变范围，其他的都不行。</p>
 
                 
                 <hr>
@@ -247,12 +256,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/leetcode解题报告/" data-toggle="tooltip" data-placement="top" title="leetcode解题报告">&larr; 上一篇</a>
+                            <a href="/article/从前往后—我的数据怎么传给后端啊/" data-toggle="tooltip" data-placement="top" title="从前往后—我的数据怎么传给后端啊">&larr; 上一篇</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/leetcode解题本/" data-toggle="tooltip" data-placement="top" title="leetcode解题本">下一篇 &rarr;</a>
+                            <a href="/article/jdk学习之路—parseInt方法/" data-toggle="tooltip" data-placement="top" title="Integer的parseInt()方法">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -288,7 +297,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#java-如何给图片添加水印"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#Java-&#x5982;&#x4F55;&#x7ED9;&#x56FE;&#x7247;&#x6DFB;&#x52A0;&#x6C34;&#x5370;" class="headerlink" title="Java &#x5982;&#x4F55;&#x7ED9;&#x56FE;&#x7247;&#x6DFB;&#x52A0;&#x6C34;&#x5370;"></a>Java &#x5982;&#x4F55;&#x7ED9;&#x56FE;&#x7247;&#x6DFB;&#x52A0;&#x6C34;&#x5370;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#批量给图片添加水印"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x6279;&#x91CF;&#x7ED9;&#x56FE;&#x7247;&#x6DFB;&#x52A0;&#x6C34;&#x5370;" class="headerlink" title="&#x6279;&#x91CF;&#x7ED9;&#x56FE;&#x7247;&#x6DFB;&#x52A0;&#x6C34;&#x5370;"></a>&#x6279;&#x91CF;&#x7ED9;&#x56FE;&#x7247;&#x6DFB;&#x52A0;&#x6C34;&#x5370;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#利用配置文件添加水印"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#&#x5229;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6DFB;&#x52A0;&#x6C34;&#x5370;" class="headerlink" title="&#x5229;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6DFB;&#x52A0;&#x6C34;&#x5370;"></a>&#x5229;&#x7528;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6DFB;&#x52A0;&#x6C34;&#x5370;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#equals-和-的区别"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#equals-&#x548C;-&#x7684;&#x533A;&#x522B;" class="headerlink" title="equals() &#x548C; == &#x7684;&#x533A;&#x522B;"></a>equals() &#x548C; == &#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#integer的缓存机制"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#Integer&#x7684;&#x7F13;&#x5B58;&#x673A;&#x5236;" class="headerlink" title="Integer&#x7684;&#x7F13;&#x5B58;&#x673A;&#x5236;"></a>Integer&#x7684;&#x7F13;&#x5B58;&#x673A;&#x5236;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#其他对象的缓存"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#&#x5176;&#x4ED6;&#x5BF9;&#x8C61;&#x7684;&#x7F13;&#x5B58;" class="headerlink" title="&#x5176;&#x4ED6;&#x5BF9;&#x8C61;&#x7684;&#x7F13;&#x5B58;"></a>&#x5176;&#x4ED6;&#x5BF9;&#x8C61;&#x7684;&#x7F13;&#x5B58;</span></a></li></ol>
         
         </div>
       </aside>
@@ -308,7 +317,7 @@
                     <h5><a href="/tags/">标签</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#java项目" title="java项目">java项目</a>
+                          <a class="tag" href="/tags/#jdk学习之路" title="jdk学习之路">jdk学习之路</a>
                         
                     </div>
                 </section>
