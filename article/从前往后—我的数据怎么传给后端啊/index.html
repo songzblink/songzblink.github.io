@@ -150,12 +150,6 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
                             <a href="/about/">关于</a>
                         </li>
                         
@@ -163,6 +157,12 @@
                         
                         <li>
                             <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -281,6 +281,9 @@
 <p>我们以前端HTTP请求的Body类请求实例为例，url为 <code>http://localhost:8080/login</code>，body内容为 <code>{&quot;username&quot;:&quot;root&quot;,&quot;password&quot;:&quot;123456&quot;}</code>。</p>
 <p>由于传递的参数是JSON格式，所以Controller中的业务方法的POJO参数必须添加注解 <code>@RequestBody</code>，才能正常接收数据。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"login"</span>)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">postLogin</span><span class="params">(@RequestBody User user)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"post"</span>);</span><br><span class="line">    System.out.println(user.toString());</span><br><span class="line">    user.setUsername(user.getUsername()+<span class="string">"--post"</span>);</span><br><span class="line">    user.setPassword(user.getPassword()+<span class="string">"--post"</span>);</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果User类中不仅忧username和password属性，也可以用来接收body中的username和password参数</p>
+</blockquote>
 <h2 id="总结">总结</h2>
 <p>前后端数据通信的时候先确定请求的方式。如果是Url类请求，直接将参数拼接到url的query字段是很方便的；如果是Body类请求，则还要确认需要传输的内容：</p>
 <p>如果只是普通的数据，比如可以明文的数据，那么没有必要将其封装到body中进行传输，直接将其以 <code>key1=value1&amp;key2=value2</code> 的格式提交给后台是很方便的；</p>
@@ -334,7 +337,7 @@
                     
                     
                         <li class="next">
-                            <a href="/article/jdk学习之路—Integer的缓存机制/" data-toggle="tooltip" data-placement="top" title="Integer的缓存机制">下一篇 &rarr;</a>
+                            <a href="/article/jdk学习之路—parseInt方法/" data-toggle="tooltip" data-placement="top" title="Integer的parseInt()方法">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -597,6 +600,24 @@
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>
