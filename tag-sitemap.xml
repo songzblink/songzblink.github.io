@@ -16,13 +16,6 @@
     </url>
 
     <url>
-        <loc>zbsong.top/tags/algorithm/</loc>
-        <lastmod>2020-11-11T06:25:44.704Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>zbsong.top/tags/note/</loc>
         <lastmod>2020-11-12T11:02:53.156Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -30,8 +23,15 @@
     </url>
 
     <url>
+        <loc>zbsong.top/tags/algorithm/</loc>
+        <lastmod>2020-11-20T13:31:12.586Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>zbsong.top/tags/jdk%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/</loc>
-        <lastmod>2020-11-16T11:32:46.279Z</lastmod>
+        <lastmod>2020-11-22T07:37:53.159Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
