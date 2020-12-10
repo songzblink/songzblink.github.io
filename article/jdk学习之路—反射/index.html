@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          关于 - 宋正兵的博客 | zbsong Blog
+          浅谈反射 - 宋正兵的博客 | zbsong Blog
         
     </title>
 
-    <link rel="canonical" href="zbsong.top/about/">
+    <link rel="canonical" href="zbsong.top/article/jdk学习之路—反射/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,8 +71,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/archives-widget.jpg')
-            /*page*/
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
         
     }
     
@@ -85,10 +85,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>关于</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">关于我自己，也关于你</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#jdk学习之路" title="jdk学习之路">jdk学习之路</a>
+                            
+                        </div>
+                        <h1>浅谈反射</h1>
+                        <!-- <h2 class="subheading">谈谈反射机制以及所涉及到的一些知识点</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2020-12-09
+                        </span>
                     </div>
                 
 
@@ -197,226 +205,180 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
 				
-                <style type="text/css">
-    header.intro-header{
-        background-position: right; 
-    }
-</style>
-<!-- Chinese Version -->
-<div class="zh post-container">
-	
-    
-	
-</div>
+                <p>获取一个类的实例化对象的三种方式：</p>
+<ul>
+<li>getClass()</li>
+<li>类.class</li>
+<li>Class.forName</li>
+</ul>
+<p>通过反射实例化对象</p>
+<p>反射与工厂设计模式</p>
+<p>反射与单例设计模式</p>
+<p>反射获取类的基本信息</p>
+<p>Class类</p>
+<p>Class类获取类信息的操作</p>
+<p>反射与简单Java类对象属性的自动设置</p>
+<p>ClassLoader类加载器</p>
+<p>反射与Annotation</p>
 
-
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/leetcode解题报告/" data-toggle="tooltip" data-placement="top" title="leetcode解题报告">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
 
                 <br>
 
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
                 <!-- require APlayer -->
                 
             </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
 
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
     
-        <!-- Featured Tags -->
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="nav">none</ol>
+        
+        </div>
+      </aside>
+    
 
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">文章分类</a></h5>
-    <div class="tags">
-        
-            
-            <a href="/tags/#note" title="note" rel="6">note</a>
-            
-        
-            
-            <a href="/tags/#Welcome" title="Welcome" rel="1">Welcome</a>
-            
-        
-            
-            <a href="/tags/#jdk学习之路" title="jdk学习之路" rel="5">jdk学习之路</a>
-            
-        
-            
-            <a href="/tags/#algorithm" title="algorithm" rel="2">algorithm</a>
-            
-        
-            
-            <a href="/tags/#java项目" title="java项目" rel="3">java项目</a>
-            
-        
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#jdk学习之路" title="jdk学习之路">jdk学习之路</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">关于我</a></h5>
-    <div class="short-about">
 
-        
-            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
-        
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        
-            <p>喜欢六梨的梨</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
-
-            
-			
-			
-
-            
-
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/songzblink">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-
-        <hr>
-    
-        
-  <h5>最近更新</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/jdk学习之路—反射/">浅谈反射</a>
-        </li>
-      
-        <li>
-          <a href="/article/leetcode解题报告/">leetcode解题报告</a>
-        </li>
-      
-        <li>
-          <a href="/article/jdk学习之路—Exception/">Exception异常类及其处理</a>
-        </li>
-      
-        <li>
-          <a href="/article/jdk学习之路—重写equals时必须重写hashCode方法/">重写equals时必须重写hashCode方法</a>
-        </li>
-      
-        <li>
-          <a href="/article/从前往后—我的数据怎么传给后端啊/">从前往后—我的数据怎么传给后端啊</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
-    
-        <!-- Friends Blog -->
-
-<h5 display="none">朋友们</h5>
-<ul class="list-inline">
-
-    
-        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
-    
-        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
-    
-        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
-    
-</ul>
-
-        <hr>
-    
-        
-    <h5>归档</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-
-        <hr>
-    
-        <!-- Categories -->
-
-        <hr>
-    
-        <!-- 每日一句 -->
-<h5 display="none">一句</h5>
-<ul class="list-inline">
-	<div id="hitokoto">:D 获取中...</div>
-	<script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
-	<!--End-->
-	<script>
-	  fetch('https://v1.hitokoto.cn')
-		.then(function (res){
-		  return res.json();
-		})
-		.then(function (data) {
-		  var hitokoto = document.getElementById('hitokoto');
-		  hitokoto.innerText = data.hitokoto; 
-		})
-		.catch(function (err) {
-		  console.error(err);
-		})
-	</script>
-</ul>
-        <hr>
-    
-        <!-- 今日诗词 -->
-<h5 display="none">一诗</h5>
-<ul class="list-inline">
-	<span id="jinrishici-sentence">:D 获取中...</span>
-	<script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-</ul>
-        <hr>
-    
-        <!-- 二维码 -->
-<h5 display="none">我的联系方式</h5>
-songzblink@163.com
-<img id="avatar_pic" src="/img/avatar/qrcode.png" width="100%" />
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
 
 
     <!-- Footer -->

@@ -8,7 +8,15 @@
 
     <url>
         <loc>zbsong.top/article/leetcode%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</loc>
-        <lastmod>2020-12-09T11:50:16.376Z</lastmod>
+        <lastmod>2020-12-10T13:27:53.621Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>zbsong.top/article/jdk%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%E2%80%94%E5%8F%8D%E5%B0%84/</loc>
+        <lastmod>2020-12-09T13:19:33.731Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
