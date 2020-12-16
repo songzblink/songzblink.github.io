@@ -150,12 +150,6 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
                             <a href="/about/">关于</a>
                         </li>
                         
@@ -163,6 +157,12 @@
                         
                         <li>
                             <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -219,8 +219,7 @@
                 post-container">
 
 				
-                <p><a href="https://www.jianshu.com/p/9be58ee20dee" target="_blank" rel="noopener">https://www.jianshu.com/p/9be58ee20dee</a></p>
-<h2 id="定义">定义</h2>
+                <h2 id="定义">定义</h2>
 <p>Java 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意方法和属性；这种动态获取信息以及动态调用对象方法的功能称为 Java 语言的反射机制。</p>
 <h2 id="获取一个类的实例化对象的三种方式">获取一个类的实例化对象的三种方式</h2>
 <p>（1）Object 类支持的 getClass() 方法：<code>public final Class&lt;?&gt;getClass()</code></p>
@@ -238,7 +237,7 @@
 <p>在 JDK 1.9 之后，newInstance() 被替代了：<code>clazz.getDeclaredConstructor().newInstance()</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaAPIDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		Class&lt;?&gt; cls = Class.forName(<span class="string">"cn.my.vo.Person"</span>);</span><br><span class="line">		Object obj = cls.getDeclaredConstructor().newInstance();</span><br><span class="line">		System.out.println(obj); <span class="comment">// 输出对象调用toString()方法</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="反射获取类的基本信息">反射获取类的基本信息</h2>
-<p>利用 Class类 可以获取类之中的基本信息，参考<a href="">反射机制的相关类</a>。</p>
+<p>利用 Class类 可以获取类之中的基本信息，参考<a href="https://zbsong.top/article/jdk%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%E2%80%94%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6%E7%9A%84%E7%9B%B8%E5%85%B3%E7%B1%BB/">反射机制的相关类</a>。</p>
 <h2 id="应用反射与简单java类对象属性的自动设置">应用：反射与简单Java类对象属性的自动设置</h2>
 <p>在传统的对象实例化并设置数据的操作过程之中，设置数据的部分是最麻烦的，如果类里面提供有大量的属性，那么对程序的赋值来说会出现一堆的setter()方法，会带来大量的重复操作。</p>
 <p>反射机制可以根据其自身的特点（Object类直接操作属性或方法）实现相同功能类的重复操作的抽象处理。</p>
