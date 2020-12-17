@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          关于 - 宋正兵的博客 | zbsong Blog
+          Java中的移位运算符：&lt;&lt;,&gt;&gt;,&gt;&gt;&gt;  - 宋正兵的博客 | zbsong Blog
         
     </title>
 
-    <link rel="canonical" href="zbsong.top/about/">
+    <link rel="canonical" href="zbsong.top/article/Java中的移位运算符/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,8 +71,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/archives-widget.jpg')
-            /*page*/
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
         
     }
     
@@ -85,10 +85,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>关于</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">关于我自己，也关于你</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#note" title="note">note</a>
+                            
+                        </div>
+                        <h1>Java中的移位运算符：&lt;&lt;,&gt;&gt;,&gt;&gt;&gt; </h1>
+                        <!-- <h2 class="subheading">&lt;&lt;,&gt;&gt;,&gt;&gt;&gt;的总结</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2020-12-17
+                        </span>
                     </div>
                 
 
@@ -197,195 +205,221 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
 				
-                <style type="text/css">
-    header.intro-header{
-        background-position: right; 
-    }
-</style>
-<!-- Chinese Version -->
-<div class="zh post-container">
-	
-    
-	
-</div>
+                <p>java 有三种移位运算符：</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;&lt;</td>
+<td>左移运算符，不分正负数，低位补 0</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>右移运算符，该数为正，则高位补 0，若为负数，则高位补 1</td>
+</tr>
+<tr>
+<td>&gt;&gt;&gt;</td>
+<td>无符号右移运算符，忽略符号位，空位都用 0 来补齐</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ltlt-左移运算符">&lt;&lt; 左移运算符</h2>
+<p>表示左移移，不分正负数，低位补 0，假设数据类型默认为 8 位。</p>
+<p>正数：<strong>n = 20 &lt;&lt; 2</strong></p>
+<p>20 的二进制补码：<code>0001 0100</code></p>
+<p>补码向左移动两位：<code>0101 0000</code></p>
+<p>结果：<strong>n = 80</strong>；</p>
+<p>负数：<strong>n = -20 &lt;&lt; 2</strong></p>
+<p>-20 的二进制补码：<code>1110 1100</code></p>
+<p>补码向左移动两位：<code>1011 0000</code></p>
+<p>结果：<strong>n = -80</strong></p>
+<blockquote>
+<p>正数的原码、反码、补码相同，负数的补码为反码最低位 +1。</p>
+</blockquote>
+<h2 id="gtgt右移运算符">&gt;&gt;右移运算符</h2>
+<p>表示右移，如果该数为正，则高位补 0，若为负数，则高位补 1，假设数据类型默认为 8 位。</p>
+<p>正数：<strong>n = 20 &gt;&gt; 2</strong></p>
+<p>20 的二进制补码：<code>0001 0100</code></p>
+<p>补码向右移动两位：<code>0000 0101</code></p>
+<p>结果：<strong>n = 5</strong>；</p>
+<p>负数：<strong>n = -20 &gt;&gt; 2</strong></p>
+<p>-20 的二进制补码：<code>1110 1100</code></p>
+<p>补码向右移动两位：<code>1111 1011</code></p>
+<p>结果：<strong>n = -5</strong></p>
+<h2 id="gtgtgt无符号右移运算符">&gt;&gt;&gt;无符号右移运算符</h2>
+<p>表示无符号右移，也叫逻辑右移，即若该数为正，则高位补 0，而若该数为负数，则右移后高位同样补 0，假设数据类型默认为 8 位。</p>
+<p>正数：<strong>n = 20 &gt;&gt;&gt; 2</strong></p>
+<p>20 的二进制补码：<code>0001 0100</code></p>
+<p>补码向右移动两位：<code>0000 0101</code></p>
+<p>结果：<strong>n = 5</strong>，同 <strong>n &gt;&gt; 2</strong> 结果相同；</p>
+<p>负数：<strong>n = -20 &gt;&gt;&gt; 2</strong></p>
+<p>-20 的二进制补码：<code>1110 1100</code></p>
+<p>补码向右移动两位：<code>0011 1011</code></p>
+<p>结果：<strong>n = 59</strong></p>
 
-
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/卡诺图与“只出现一次的数字”问题/" data-toggle="tooltip" data-placement="top" title="卡诺图与“只出现一次的数字”问题">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
 
                 <br>
 
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
                 <!-- require APlayer -->
                 
             </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
 
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
     
-        <!-- Featured Tags -->
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ltlt-左移运算符"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&lt;&lt; &#x5DE6;&#x79FB;&#x8FD0;&#x7B97;&#x7B26;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#gtgt右移运算符"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&gt;&gt;&#x53F3;&#x79FB;&#x8FD0;&#x7B97;&#x7B26;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#gtgtgt无符号右移运算符"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&gt;&gt;&gt;&#x65E0;&#x7B26;&#x53F7;&#x53F3;&#x79FB;&#x8FD0;&#x7B97;&#x7B26;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
 
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">文章分类</a></h5>
-    <div class="tags">
-        
-            
-            <a href="/tags/#Welcome" title="Welcome" rel="1">Welcome</a>
-            
-        
-            
-            <a href="/tags/#note" title="note" rel="7">note</a>
-            
-        
-            
-            <a href="/tags/#jdk学习之路" title="jdk学习之路" rel="6">jdk学习之路</a>
-            
-        
-            
-            <a href="/tags/#algorithm" title="algorithm" rel="2">algorithm</a>
-            
-        
-            
-            <a href="/tags/#java项目" title="java项目" rel="3">java项目</a>
-            
-        
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#note" title="note">note</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">关于我</a></h5>
-    <div class="short-about">
 
-        
-            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
-        
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        
-            <p>喜欢六梨的梨</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
-
-            
-			
-			
-
-            
-
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/songzblink">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
-
-        <hr>
-    
-        
-  <h5>最近更新</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/Java中的移位运算符/">Java中的移位运算符：&lt;&lt;,&gt;&gt;,&gt;&gt;&gt; </a>
-        </li>
-      
-        <li>
-          <a href="/article/卡诺图与“只出现一次的数字”问题/">卡诺图与“只出现一次的数字”问题</a>
-        </li>
-      
-        <li>
-          <a href="/article/jdk学习之路—反射/">浅谈反射</a>
-        </li>
-      
-        <li>
-          <a href="/article/jdk学习之路—反射机制的相关类/">反射机制的相关类【转载】</a>
-        </li>
-      
-        <li>
-          <a href="/article/jdk学习之路—Exception/">Exception异常类及其处理</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
-    
-        <!-- Friends Blog -->
-
-<h5 display="none">朋友们</h5>
-<ul class="list-inline">
-
-    
-        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
-    
-        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
-    
-        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
-    
-</ul>
-
-        <hr>
-    
-        
-    <h5>归档</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-
-        <hr>
-    
-        <!-- Categories -->
-
-        <hr>
-    
-        <!-- 二维码 -->
-<h5 display="none">我的联系方式</h5>
-songzblink@163.com
-<img id="avatar_pic" src="/img/avatar/qrcode.png" width="100%" />
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
 
 
     <!-- Footer -->
