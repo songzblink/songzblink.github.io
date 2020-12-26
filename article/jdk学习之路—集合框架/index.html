@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          集合框架理解 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/jdk学习之路—集合框架/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#jdk学习之路" title="jdk学习之路">jdk学习之路</a>
+                            
+                        </div>
+                        <h1>集合框架理解</h1>
+                        <!-- <h2 class="subheading">一个集合源码解析系列的阅读笔记</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2020-12-22
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <p>阅读博客<a href="https://blog.csdn.net/u011240877/category_6447444.html" target="_blank" rel="noopener">Java 集合框架原理分析</a>的笔记记录。</p>
+<p>Java 提供的集合都在 java.utils 包下，它们的关系如下面这张类图所示：<img src="https://img-blog.csdn.net/20161008225645176" alt="img"></p>
+<h1 id="iterator迭代器"><a href="#Iterator迭代器" class="headerlink" title="Iterator迭代器"></a>Iterator迭代器</h1><p>Iterator 是一个集合上的迭代器，用于对集合进行遍历、迭代。它因为有更短的方法名字，允许调用者在遍历过程中语法正确地删除元素而替代掉了 Enumeration 类。</p>
+<p>注意这里的 【语法正确】，事实上在使用 Iterator 对容器进行迭代的时候，如果修改容器可能会报 <em>ConcurrentModificationException</em> 的错误。官方称这种情况下的迭代器是 fail-fast 迭代器。</p>
+<blockquote>
+<p>fail-fast：<em>fail-fast</em> 机制是java集合(Collection)中的一种错误机制。当多个线程对同一个集合的内容进行操作时，就可能会产生<em>fail-fast</em>事件。</p>
+</blockquote>
+<h2 id="concurrentmodificationexception-出现的原因fail-fast"><a href="#ConcurrentModificationException-出现的原因（fail-fast）" class="headerlink" title="ConcurrentModificationException 出现的原因（fail-fast）"></a>ConcurrentModificationException 出现的原因（fail-fast）</h2><p>以 ArrayList 为例，在调用迭代器的 remove 方法时，程序抛出 ConcurrentModificationException 异常，也就是成为了 fail-fast：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ArrayList&lt;String&gt; list=<span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">    list.add(<span class="string">"111"</span>);</span><br><span class="line">    list.add(<span class="string">"222"</span>);</span><br><span class="line">    list.add(<span class="string">"333"</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span>(Iterator&lt;String&gt; iterator=list.iterator();iterator.hasNext();)&#123;</span><br><span class="line">        String ele=iterator.next();</span><br><span class="line">        <span class="keyword">if</span>(ele.equals(<span class="string">"111"</span>)) </span><br><span class="line">            list.remove(<span class="string">"222"</span>);  <span class="comment">// 抛出 ConcurrentModificationException 异常</span></span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到在调用迭代器遍历时，如果使用 Collection 的 remove 方法删除会造成 ConcurrentModificationException 异常。具体可以阅读这篇<a href="https://blog.csdn.net/Jiangshan11/article/details/83038857" target="_blank" rel="noopener">文章</a>。</p>
+<p>如何解决呢？单线程的时候删除元素的时候使用迭代器的 remove 方法就可以实现正常的删除了，多线程的时候使用并发集合类。</p>
+<h2 id="api"><a href="#API" class="headerlink" title="API"></a>API</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean hasNext()</td>
+<td>如果此列表迭代器在向前遍历列表时有更多元素，则返回true</td>
+</tr>
+<tr>
+<td>E next()</td>
+<td>返回列表中的下一个元素并前进光标位置</td>
+</tr>
+<tr>
+<td>void remove()</td>
+<td>从列表中删除next()返回的最新元素</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="listiterator双向迭代器"><a href="#ListIterator双向迭代器" class="headerlink" title="ListIterator双向迭代器"></a>ListIterator双向迭代器</h1><p>ListIterator 的功能：</p>
+<ul>
+<li>允许我们向前、向后两个方向遍历 List；</li>
+<li>可以在遍历时修改 List 的元素；</li>
+<li>遍历时获取迭代器当前游标所在的位置。</li>
+</ul>
+<blockquote>
+<p>迭代器没有当前所在元素一说，它只有一个游标（cursor）的概念，游标总是在元素之间。即长度为 N 的集合会有 N+1 个游标的位置。</p>
+</blockquote>
+<p><img src="https://pic.tyzhang.top/images/2020/12/22/image.png" alt="image.png"></p>
+<h2 id="listiterator的获取"><a href="#ListIterator的获取" class="headerlink" title="ListIterator的获取"></a>ListIterator的获取</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ListIterator<e> listIterator()</e></td>
+<td>返回此 list 中的 ListIterator 迭代器</td>
+</tr>
+<tr>
+<td>ListIterator<e> listIterator(int index)</e></td>
+<td>返回此 list 中的 ListIterator 迭代器，起始位置为 index</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="api"><a href="#API-1" class="headerlink" title="API"></a>API</h2><p>ListIterator 继承自Iterator 接口，在 Iterator 的基础上增加了 6 个方法：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean hasPrevious()</td>
+<td>判断游标前面是否有元素</td>
+</tr>
+<tr>
+<td>E previois()</td>
+<td>返回游标前面的元素，同时游标前移一位。游标前没有元素就报 java.util.NoSuchElementException 的错，所以使用前最好判断一下</td>
+</tr>
+<tr>
+<td>int nextIndex()</td>
+<td>返回游标后边元素的索引位置，初始为 0 ；遍历 N 个元素结束时为 N</td>
+</tr>
+<tr>
+<td>void add()</td>
+<td>返回列表中的上一个元素并向后移动光标位置</td>
+</tr>
+<tr>
+<td>void set()</td>
+<td>从列表中删除next()或previous()返回的最新元素；注意，当没有迭代，也就是没有调用 next() 或者 previous() 直接调用 set 时会报 java.lang.IllegalStateException 错</td>
+</tr>
+<tr>
+<td>void remove()</td>
+<td>删除迭代器最后一次操作的元素，注意事项和 set 一样。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="collection集合"><a href="#Collection集合" class="headerlink" title="Collection集合"></a>Collection集合</h1><h2 id="集合的概念"><a href="#集合的概念" class="headerlink" title="集合的概念"></a>集合的概念</h2><p>集合，或者叫做容器，是一个包含多个元素的对象。</p>
+<p>集合可以对数据进行存储，检索，操作。</p>
+<h2 id="集合框架"><a href="#集合框架" class="headerlink" title="集合框架"></a>集合框架</h2><p>集合框架是一个代表、操作集合的统一架构。所有的集合框架都包含一下几点：</p>
+<ul>
+<li><strong>接口</strong>：表示集合的抽象数据类型。接口允许我们操作集合时不必关注具体实现，从而达到“多态”。在面向对象变成语言中，接口通常用来形成规范。</li>
+<li><strong>实现类</strong>：集合接口的具体实现，是重用性很高的数据结构。</li>
+<li><strong>算法</strong>：用来根据需要对实体类中的对象进行计算，比如查找、排序。</li>
+</ul>
+<h2 id="java集合框架主要结构图"><a href="#Java集合框架主要结构图" class="headerlink" title="Java集合框架主要结构图"></a>Java集合框架主要结构图</h2><p><img src="https://img-blog.csdn.net/20161008225645176" alt="Java集合框架主要结构图"></p>
+<p>Java 的集合主要分为 Collection 和 Map 两类。</p>
+<h2 id="15个核心api"><a href="#15个核心API" class="headerlink" title="15个核心API"></a>15个核心API</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int size()</td>
+<td>获取元素个数</td>
+</tr>
+<tr>
+<td>boolean isEmpty()</td>
+<td>是否个数为 0</td>
+</tr>
+<tr>
+<td>boolean contains(Object e)</td>
+<td>是否包含指定元素</td>
+</tr>
+<tr>
+<td>boolean add(E e)</td>
+<td>添加元素，成功时返回 true</td>
+</tr>
+<tr>
+<td>boolean remove(Object e)</td>
+<td>删除元素，成功时返回 true</td>
+</tr>
+<tr>
+<td>Iterator<e> iterator()</e></td>
+<td>获取迭代器</td>
+</tr>
+<tr>
+<td>boolean containsAll(Collection&lt;?&gt; c)</td>
+<td>是否包含指定集合 c 的全部元素</td>
+</tr>
+<tr>
+<td>boolean addAll(Collection&lt;? extends E&gt; c)</td>
+<td>添加集合 c 中的所有元素到本集合中，如果集合有改变就返回 true</td>
+</tr>
+<tr>
+<td>boolean removeAll(Collection&lt;?&gt; c)</td>
+<td>删除本集合中和集合 c 中一致的元素，如果集合有改变就返回 true</td>
+</tr>
+<tr>
+<td>boolean retainAll(Collection&lt;?&gt; c)</td>
+<td>保留本集合和集合 c 中共有的元素，如果集合有改变就返回 true</td>
+</tr>
+<tr>
+<td>void clear()</td>
+<td>删除所有元素</td>
+</tr>
+<tr>
+<td>Object[] toArray()</td>
+<td>返回一个包含集合中所有元素的数组</td>
+</tr>
+<tr>
+<td><t> T[] toArray(T[] a)</t></td>
+<td>返回一个包含集合中所有元素的数组，运行时根据集合元素的类型指定数组的类型</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>JDK 8 以后，Collection 接口还提供了从集合获取连续流或者并行流：</p>
+<ul>
+<li><code>Stream&lt;E&gt; stream()</code></li>
+<li><code>Stream&lt;E&gt; parallelStream()</code></li>
+</ul>
+<p>点击这里了解流【待补充】</p>
+<h2 id="遍历collection的方法"><a href="#遍历Collection的方法" class="headerlink" title="遍历Collection的方法"></a>遍历Collection的方法</h2><h3 id="1-for-each语法"><a href="#1、for-each语法" class="headerlink" title="1、for-each语法"></a>1、for-each语法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Person&gt; persons = <span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line"><span class="keyword">for</span> (Person person : persons) &#123; </span><br><span class="line">    System.out.println(person.name);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-iterator迭代器"><a href="#2、Iterator迭代器" class="headerlink" title="2、Iterator迭代器"></a>2、Iterator迭代器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Person&gt; persons = <span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line">Iterator iterator = persons.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123; </span><br><span class="line">    System.out.println(iterator.next());  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="list接口"><a href="#List-接口" class="headerlink" title="List\接口"></a>List\<e>接口</e></h1><p>List  是一个在元素有序的（保存的顺序就是存储的顺序），可以重复的，可以为 null 的集合（有时也称为“序列”）。</p>
+<p>Java 集合框架中最常用的几种 List 实现类是 ArrayList、LinkedList 和 Vector。在各种 List 中，最好的做法是以 ArrayList 作为默认选择。当插入、删除频繁时，使用 LinkedList。Vector 总是比 ArrayList 慢，所以要尽量避免使用它。</p>
+<h2 id="list接口扩展的方法"><a href="#List接口扩展的方法" class="headerlink" title="List接口扩展的方法"></a>List接口扩展的方法</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E get(int index)</td>
+<td>获取指定索引上的数据</td>
+</tr>
+<tr>
+<td>E set(int index, E element)</td>
+<td>修改指定索引数据</td>
+</tr>
+<tr>
+<td>ListIterator<e> listIterator()</e></td>
+<td>返回 ListIterator 接口对象</td>
+</tr>
+<tr>
+<td>static <e> List<e> of(E …e)</e></e></td>
+<td>返回包含 n 个元素的不可修改列表，n 不超过10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>List、Set 和 Map 如果想要根据两个对象的内容而不是地址比较是否相等时，需要重写 <code>equals()</code> 和 <code>hashCode()</code> 方法。<code>remove()</code>、<code>contains()</code>、<code>indexOf()</code> 等等方法都需要依赖它们。</strong></p>
+<h1 id="abstractcollection抽象类"><a href="#AbstractCollection抽象类" class="headerlink" title="AbstractCollection抽象类"></a>AbstractCollection抽象类</h1><p>AbstractCollection 抽象类是 Java 集合框架中 Collection 接口的一个直接实现类，Collection 下的大多数子类都继承 AbstractCollection抽象类，比如 List 的实现类、Set 的实现类。</p>
+<h2 id="抽象方法"><a href="#抽象方法" class="headerlink" title="抽象方法"></a>抽象方法</h2><ul>
+<li><code>public abstract Iterator&lt;E&gt; iterator();</code></li>
+<li><code>public abstract int size();</code></li>
+</ul>
+<p>子类必须以自己的方式去实现这两个方法。除此外 AbstractCollection 中默认<strong>不支持添加单个元素</strong>，如果直接调用 <code>add()</code> 方法，会报错：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现的方法"><a href="#实现的方法" class="headerlink" title="实现的方法"></a>实现的方法</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean addAll(Collection&lt;? extends E&gt; c)</td>
+<td>添加集合 c 中的所有元素到本集合中，如果集合有改变就返回 true</td>
+</tr>
+<tr>
+<td>void clear()</td>
+<td>删除所有元素</td>
+</tr>
+<tr>
+<td>boolean contains(Object o)</td>
+<td>是否包含指定元素</td>
+</tr>
+<tr>
+<td>boolean containsAll(Collection&lt;?&gt; c)</td>
+<td>是否包含指定集合 c 的全部元素</td>
+</tr>
+<tr>
+<td>boolean isEmpty()</td>
+<td>是否为空</td>
+</tr>
+<tr>
+<td>boolean remove(Object o)</td>
+<td>删除某个元素</td>
+</tr>
+<tr>
+<td>removeAll(Collection&lt;?&gt; collection)</td>
+<td>删除指定集合中包含在本集合的元素</td>
+</tr>
+<tr>
+<td>boolean retainAll(Collection&lt;?&gt; collection)</td>
+<td>保留共有的，删除指定集合中不共有的</td>
+</tr>
+<tr>
+<td>Object[] toArray()</td>
+<td>转换成数组</td>
+</tr>
+<tr>
+<td><t> T[] toArray(T[] contents)</t></td>
+<td>转换成数组</td>
+</tr>
+<tr>
+<td>String toString()</td>
+<td>把内容转换成一个 String 进行展示</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>我们之所以可以使用 System.out.println() 直接输出集合的全部内容，而不用挨个遍历输出，全都是 AbstractCollection 的功劳。</strong></p>
+<h1 id="abstractlist抽象类"><a href="#AbstractList抽象类" class="headerlink" title="AbstractList抽象类"></a>AbstractList抽象类</h1>
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/leetcode解题报告/" data-toggle="tooltip" data-placement="top" title="leetcode解题报告">&larr; 上一篇</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Java中的移位运算符/" data-toggle="tooltip" data-placement="top" title="Java中的移位运算符：<<,>>,>>> ">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#iterator迭代器"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#Iterator&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="Iterator&#x8FED;&#x4EE3;&#x5668;"></a>Iterator&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#concurrentmodificationexception-出现的原因fail-fast"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#ConcurrentModificationException-&#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;" class="headerlink" title="ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;"></a>ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#API" class="headerlink" title="API"></a>API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#listiterator双向迭代器"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;"></a>ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#listiterator的获取"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#ListIterator&#x7684;&#x83B7;&#x53D6;" class="headerlink" title="ListIterator&#x7684;&#x83B7;&#x53D6;"></a>ListIterator&#x7684;&#x83B7;&#x53D6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#API-1" class="headerlink" title="API"></a>API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#collection集合"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#Collection&#x96C6;&#x5408;" class="headerlink" title="Collection&#x96C6;&#x5408;"></a>Collection&#x96C6;&#x5408;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合的概念"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;" class="headerlink" title="&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;"></a>&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合框架"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x6846;&#x67B6;" class="headerlink" title="&#x96C6;&#x5408;&#x6846;&#x67B6;"></a>&#x96C6;&#x5408;&#x6846;&#x67B6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#java集合框架主要结构图"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><a href="#Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;" class="headerlink" title="Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;"></a>Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#15个核心api"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text"><a href="#15&#x4E2A;&#x6838;&#x5FC3;API" class="headerlink" title="15&#x4E2A;&#x6838;&#x5FC3;API"></a>15&#x4E2A;&#x6838;&#x5FC3;API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#遍历collection的方法"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;"></a>&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-for-each语法"><span class="toc-nav-number">3.5.1.</span> <span class="toc-nav-text"><a href="#1&#x3001;for-each&#x8BED;&#x6CD5;" class="headerlink" title="1&#x3001;for-each&#x8BED;&#x6CD5;"></a>1&#x3001;for-each&#x8BED;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-iterator迭代器"><span class="toc-nav-number">3.5.2.</span> <span class="toc-nav-text"><a href="#2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;"></a>2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#list接口"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#List-&#x63A5;&#x53E3;" class="headerlink" title="List\&#x63A5;&#x53E3;"></a>List\<e>&#x63A5;&#x53E3;</e></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#list接口扩展的方法"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text"><a href="#List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;"></a>List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#abstractcollection抽象类"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#AbstractCollection&#x62BD;&#x8C61;&#x7C7B;" class="headerlink" title="AbstractCollection&#x62BD;&#x8C61;&#x7C7B;"></a>AbstractCollection&#x62BD;&#x8C61;&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#抽象方法"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text"><a href="#&#x62BD;&#x8C61;&#x65B9;&#x6CD5;" class="headerlink" title="&#x62BD;&#x8C61;&#x65B9;&#x6CD5;"></a>&#x62BD;&#x8C61;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#实现的方法"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text"><a href="#&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;"></a>&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#abstractlist抽象类"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><a href="#AbstractList&#x62BD;&#x8C61;&#x7C7B;" class="headerlink" title="AbstractList&#x62BD;&#x8C61;&#x7C7B;"></a>AbstractList&#x62BD;&#x8C61;&#x7C7B;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#jdk学习之路" title="jdk学习之路">jdk学习之路</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2020 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>
