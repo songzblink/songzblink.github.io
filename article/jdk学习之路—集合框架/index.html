@@ -95,7 +95,7 @@
                         <!-- <h2 class="subheading">一个集合源码解析系列的阅读笔记</h2> -->
                         <span class="meta">
                             宋正兵 on
-                            2020-12-22
+                            2020-12-28
                         </span>
                     </div>
                 
@@ -150,13 +150,13 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/about/">关于</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/about/">关于</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -219,7 +219,7 @@
                 post-container">
 
 				
-                <p>阅读博客<a href="https://blog.csdn.net/u011240877/category_6447444.html" target="_blank" rel="noopener">Java 集合框架原理分析</a>的笔记记录。</p>
+                <p>阅读博客<a href="https://blog.csdn.net/u011240877/category_6447444.html" target="_blank" rel="noopener">Java 集合框架原理分析</a>的笔记记录，挑了一些觉得重要的内容。</p>
 <p>Java 提供的集合都在 java.utils 包下，它们的关系如下面这张类图所示：<img src="https://img-blog.csdn.net/20161008225645176" alt="img"></p>
 <h1 id="iterator迭代器"><a href="#Iterator迭代器" class="headerlink" title="Iterator迭代器"></a>Iterator迭代器</h1><p>Iterator 是一个集合上的迭代器，用于对集合进行遍历、迭代。它因为有更短的方法名字，允许调用者在遍历过程中语法正确地删除元素而替代掉了 Enumeration 类。</p>
 <p>注意这里的 【语法正确】，事实上在使用 Iterator 对容器进行迭代的时候，如果修改容器可能会报 <em>ConcurrentModificationException</em> 的错误。官方称这种情况下的迭代器是 fail-fast 迭代器。</p>
@@ -435,82 +435,112 @@
 </div>
 <p><strong>List、Set 和 Map 如果想要根据两个对象的内容而不是地址比较是否相等时，需要重写 <code>equals()</code> 和 <code>hashCode()</code> 方法。<code>remove()</code>、<code>contains()</code>、<code>indexOf()</code> 等等方法都需要依赖它们。</strong></p>
 <h1 id="abstractcollection抽象类"><a href="#AbstractCollection抽象类" class="headerlink" title="AbstractCollection抽象类"></a>AbstractCollection抽象类</h1><p>AbstractCollection 抽象类是 Java 集合框架中 Collection 接口的一个直接实现类，Collection 下的大多数子类都继承 AbstractCollection抽象类，比如 List 的实现类、Set 的实现类。</p>
-<h2 id="抽象方法"><a href="#抽象方法" class="headerlink" title="抽象方法"></a>抽象方法</h2><ul>
-<li><code>public abstract Iterator&lt;E&gt; iterator();</code></li>
-<li><code>public abstract int size();</code></li>
+<p><strong>我们之所以可以使用 System.out.println() 直接输出集合的全部内容，而不用挨个遍历输出，全都是 AbstractCollection 中 toString() 方法的功劳。</strong></p>
+<h1 id="arraylist类"><a href="#ArrayList类" class="headerlink" title="ArrayList类"></a>ArrayList类</h1><p>ArrayList 是 Java 集合框架中 List 接口的一个实现类。它可以说是我们使用最多的 List 集合，它有以下特点：</p>
+<ul>
+<li>容量不固定</li>
+<li>有序（元素输出顺序与输入顺序一致）</li>
+<li>元素可以为 <code>null</code></li>
+<li>效率高<ul>
+<li>size()、isEmpty()、get()、set()、iterator()、listIterator() 方法的时间复杂度都是 O(1)</li>
+<li>其他所有操作的时间复杂度几乎都是 O(n)</li>
 </ul>
-<p>子类必须以自己的方式去实现这两个方法。除此外 AbstractCollection 中默认<strong>不支持添加单个元素</strong>，如果直接调用 <code>add()</code> 方法，会报错：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="实现的方法"><a href="#实现的方法" class="headerlink" title="实现的方法"></a>实现的方法</h2><div class="table-container">
+</li>
+<li>占用空间更小：对比 LinkedList，不用占用额外空间维护链表结构</li>
+</ul>
+<p>ArrayList 继承自 RandomAccess，RandomAccess 是一个空的接口，用来标记某个类是否支持 <strong>随机访问</strong> （相比较于“按顺序访问”）。</p>
+<h2 id="arraylist的成员变量"><a href="#ArrayList的成员变量" class="headerlink" title="ArrayList的成员变量"></a>ArrayList的成员变量</h2><h3 id="1-底层数据结构数组"><a href="#1、底层数据结构：数组" class="headerlink" title="1、底层数据结构：数组"></a>1、底层数据结构：数组</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Object[] elementData;</span><br></pre></td></tr></table></figure>
+<p>由于数组类型为 Object，所以允许添加 <code>null</code>。初始时该数组赋值为 <code>DEFAULTCAPACITY_EMPTY_ELEMENTDATA</code>。</p>
+<blockquote>
+<p>transient 说明这个数组无法序列化。</p>
+</blockquote>
+<h3 id="2-默认的空数组"><a href="#2、默认的空数组" class="headerlink" title="2、默认的空数组"></a><span id="emptyArray">2、默认的空数组</span></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>默认的空数组是 <code>DEFAULTCAPACITY_EMPTY_ELEMENTDATA</code>，它与 <code>EMPTY_ELEMENTDATA</code> 都是空数组，区别在于<strong>第一个元素被添加进数组时如何进行扩容</strong> ：</p>
+<ul>
+<li>如果初始的空数组是 <code>DEFAULTCAPACITY_EMPTY_ELEMENTDATA</code> 的话，第一个元素被添加进来后，数组 <code>elementData</code> 扩容到数组初始容量 <code>DEFAULT_CAPACITY = 10</code>。</li>
+<li>如果初始的空数组是 <code>EMPTY_ELEMENTDATA</code> 的话，第一个元素被添加进来后，数组 <code>elementData</code> 扩容到容量为 <code>size(此时size = 0) + 1 = 1</code>。</li>
+</ul>
+<blockquote>
+<p>可以观察 add() 方法来理解上面的话。</p>
+</blockquote>
+<h3 id="3-数组的初始容量为10"><a href="#3、数组的初始容量为10" class="headerlink" title="3、数组的初始容量为10"></a>3、数组的初始容量为10</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="4-数组中当前元素个数"><a href="#4、数组中当前元素个数" class="headerlink" title="4、数组中当前元素个数"></a>4、数组中当前元素个数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size;</span><br></pre></td></tr></table></figure>
+<h3 id="5-数组最大容量"><a href="#5、数组最大容量" class="headerlink" title="5、数组最大容量"></a>5、数组最大容量</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="arraylist的关键方法"><a href="#ArrayList的关键方法" class="headerlink" title="ArrayList的关键方法"></a>ArrayList的关键方法</h2><h3 id="1-构造函数"><a href="#1、构造函数" class="headerlink" title="1、构造函数"></a>1、构造函数</h3><p>默认的无参构造，初始为空数组：</p>
+<p>创建一个空 list，初始容量大小为 10。（创建完为空时 size 为0，当第一个元素被添加后容量大小为 10）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有参构造，根据指定容量， 创建对象数组：</p>
+<p>当指定容量为 0 时，将用 <code>EMPTY_ELEMENTDATA</code> 来表示空数组，和无参构造的区别在于：第一个新元素加入后，数组进行扩容的方法不同。<code>EMPTY_ELEMENTDATA</code> 加入第一个新元素时数组容量加 1，具体参考 <a href="#emptyArray">AraayList的成员变量-&gt;2、默认的空数组</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (initialCapacity == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Capacity: "</span>+</span><br><span class="line">                                           initialCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有参构造，直接创建和指定集合一样内容的 ArrayList：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    elementData = c.toArray();</span><br><span class="line">    <span class="keyword">if</span> ((size = elementData.length) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)</span></span><br><span class="line">        <span class="keyword">if</span> (elementData.getClass() != Object[].class)</span><br><span class="line">            elementData = Arrays.copyOf(elementData, size, Object[].class);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// replace with empty array.</span></span><br><span class="line">        <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-添加元素"><a href="#2、添加元素" class="headerlink" title="2、添加元素"></a>2、添加元素</h3><p>每次添加前会对数组的容量进行调整</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    elementData[size++] = e;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-对数组容量进行调整"><a href="#3、对数组容量进行调整" class="headerlink" title="3、对数组容量进行调整"></a>3、对数组容量进行调整</h3><p>可以主动调用 ensureCapacity() 方法来增加 list 的容量，避免每次元素满了时每次添加都需要等待扩容的的消耗。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</span><br><span class="line">        <span class="comment">// 如果当前数组不是空数组 DEFAULTCAPACITY_EMPTY_ELEMENTDATA，那么当前最小容量为 0</span></span><br><span class="line">        ? <span class="number">0</span></span><br><span class="line">        <span class="comment">// 如果是空数组 DEFAULTCAPACITY_EMPTY_ELEMENTDATA，那么当前最小容量为默认容量 10</span></span><br><span class="line">        : DEFAULT_CAPACITY;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (minCapacity &gt; minExpand) &#123;</span><br><span class="line">        <span class="comment">// 所需的最小容量大于当前最小容量，需要扩容</span></span><br><span class="line">        ensureExplicitCapacity(minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">        minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ensureExplicitCapacity(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    modCount++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</span><br><span class="line">        grow(minCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-扩容"><a href="#4、扩容" class="headerlink" title="4、扩容"></a>4、扩容</h3><p>默认每次扩容容量为旧容量的1.5倍。（如果是空 list，在第一个元素被添加进来后容量大小为默认容量大小 10）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="comment">// 新的容量 = 旧的容量 + 旧的容量 / 2 = 1.5 * 旧的容量</span></span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 所需的最小容量大于旧容量的 1.5 倍</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 新容量大于了最大容量</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">    <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">        Integer.MAX_VALUE :</span><br><span class="line">        MAX_ARRAY_SIZE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="queue接口队列"><a href="#Queue接口，队列" class="headerlink" title="Queue接口，队列"></a>Queue接口，队列</h1><p>Java 集合中的 Queue 继承自 Collection 接口，Deque、LinkedList、PriorityQueue、BlockingQueue 等类都实现了它。</p>
+<p>Queue 用来存放等待处理元素的集合，这种场景一般用于缓冲、并发访问。</p>
+<h2 id="额外添加的api"><a href="#额外添加的API" class="headerlink" title="额外添加的API"></a>额外添加的API</h2><div class="table-container">
 <table>
 <thead>
 <tr>
-<th>方法</th>
+<th>操作</th>
+<th>抛出异常</th>
+<th>返回特殊值</th>
 <th>用途</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>boolean addAll(Collection&lt;? extends E&gt; c)</td>
-<td>添加集合 c 中的所有元素到本集合中，如果集合有改变就返回 true</td>
+<td>插入</td>
+<td>boolean add(e)</td>
+<td>boolean offer(e)</td>
+<td>在尾部添加（建议实现类禁止添加 null 元素，只有 LinkedList 类没有遵守）</td>
 </tr>
 <tr>
-<td>void clear()</td>
-<td>删除所有元素</td>
+<td>删除</td>
+<td>E remove()</td>
+<td>E poll()</td>
+<td>删除并返回头部</td>
 </tr>
 <tr>
-<td>boolean contains(Object o)</td>
-<td>是否包含指定元素</td>
-</tr>
-<tr>
-<td>boolean containsAll(Collection&lt;?&gt; c)</td>
-<td>是否包含指定集合 c 的全部元素</td>
-</tr>
-<tr>
-<td>boolean isEmpty()</td>
-<td>是否为空</td>
-</tr>
-<tr>
-<td>boolean remove(Object o)</td>
-<td>删除某个元素</td>
-</tr>
-<tr>
-<td>removeAll(Collection&lt;?&gt; collection)</td>
-<td>删除指定集合中包含在本集合的元素</td>
-</tr>
-<tr>
-<td>boolean retainAll(Collection&lt;?&gt; collection)</td>
-<td>保留共有的，删除指定集合中不共有的</td>
-</tr>
-<tr>
-<td>Object[] toArray()</td>
-<td>转换成数组</td>
-</tr>
-<tr>
-<td><t> T[] toArray(T[] contents)</t></td>
-<td>转换成数组</td>
-</tr>
-<tr>
-<td>String toString()</td>
-<td>把内容转换成一个 String 进行展示</td>
+<td>检查</td>
+<td>E element()</td>
+<td>E peek()</td>
+<td>获取但不删除</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p><strong>我们之所以可以使用 System.out.println() 直接输出集合的全部内容，而不用挨个遍历输出，全都是 AbstractCollection 的功劳。</strong></p>
-<h1 id="abstractlist抽象类"><a href="#AbstractList抽象类" class="headerlink" title="AbstractList抽象类"></a>AbstractList抽象类</h1>
+<h2 id="为什么建议禁止添加-null-元素"><a href="#为什么建议禁止添加-null-元素" class="headerlink" title="为什么建议禁止添加 null 元素"></a>为什么建议禁止添加 null 元素</h2><p>一般情况下 Queue 的实现类都不允许添加 <code>null</code> 元素，因为 poll()、peek() 方法在异常的时候会返回 <code>null</code>，如果你添加了 <code>null</code> 元素，当获取时不好分辨究竟是否正确返回。</p>
+<h1 id="deque接口双端队列"><a href="#Deque接口，双端队列" class="headerlink" title="Deque接口，双端队列"></a>Deque接口，双端队列</h1><p>Deque 接口继承自 Queue接口，直接实现了它的类有 LinkedList、ArayDeque、ConcurrentLinkedDeque 等。Deque 支持容量受限的双端队列，也支持大小不固定的。一般双端队列大小不确定。</p>
+<p><img src="https://img-blog.csdn.net/20161019193301571" alt="这里写图片描述"></p>
+<p>Deque 当队列用：</p>
+<p><img src="https://img-blog.csdn.net/20161019194500774" alt="这里写图片描述"></p>
+<p>Deque 当栈用：</p>
+<p><img src="https://img-blog.csdn.net/20161019232902599" alt="这里写图片描述"></p>
+<h2 id="deque-的实现类"><a href="#Deque-的实现类" class="headerlink" title="Deque 的实现类"></a>Deque 的实现类</h2><ul>
+<li>一般场景<ul>
+<li>LinkedList 大小可变的<strong>链表</strong>双端队列，允许元素为 <code>null</code></li>
+<li>ArrayDeque 大小可变的<strong>数组</strong>双端队列，不允许元素为 <code>null</code></li>
+</ul>
+</li>
+<li>并发场景<ul>
+<li>LinkedBlockingDeque 如果队列为空时，获取操作将会阻塞，直到有元素添加</li>
+</ul>
+</li>
+</ul>
+
                 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/leetcode解题报告/" data-toggle="tooltip" data-placement="top" title="leetcode解题报告">&larr; 上一篇</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/article/Java中的移位运算符/" data-toggle="tooltip" data-placement="top" title="Java中的移位运算符：<<,>>,>>> ">下一篇 &rarr;</a>
+                            <a href="/article/leetcode解题报告/" data-toggle="tooltip" data-placement="top" title="leetcode解题报告">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -546,7 +576,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#iterator迭代器"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#Iterator&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="Iterator&#x8FED;&#x4EE3;&#x5668;"></a>Iterator&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#concurrentmodificationexception-出现的原因fail-fast"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#ConcurrentModificationException-&#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;" class="headerlink" title="ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;"></a>ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#API" class="headerlink" title="API"></a>API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#listiterator双向迭代器"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;"></a>ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#listiterator的获取"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#ListIterator&#x7684;&#x83B7;&#x53D6;" class="headerlink" title="ListIterator&#x7684;&#x83B7;&#x53D6;"></a>ListIterator&#x7684;&#x83B7;&#x53D6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#API-1" class="headerlink" title="API"></a>API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#collection集合"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#Collection&#x96C6;&#x5408;" class="headerlink" title="Collection&#x96C6;&#x5408;"></a>Collection&#x96C6;&#x5408;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合的概念"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;" class="headerlink" title="&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;"></a>&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合框架"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x6846;&#x67B6;" class="headerlink" title="&#x96C6;&#x5408;&#x6846;&#x67B6;"></a>&#x96C6;&#x5408;&#x6846;&#x67B6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#java集合框架主要结构图"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><a href="#Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;" class="headerlink" title="Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;"></a>Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#15个核心api"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text"><a href="#15&#x4E2A;&#x6838;&#x5FC3;API" class="headerlink" title="15&#x4E2A;&#x6838;&#x5FC3;API"></a>15&#x4E2A;&#x6838;&#x5FC3;API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#遍历collection的方法"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;"></a>&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-for-each语法"><span class="toc-nav-number">3.5.1.</span> <span class="toc-nav-text"><a href="#1&#x3001;for-each&#x8BED;&#x6CD5;" class="headerlink" title="1&#x3001;for-each&#x8BED;&#x6CD5;"></a>1&#x3001;for-each&#x8BED;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-iterator迭代器"><span class="toc-nav-number">3.5.2.</span> <span class="toc-nav-text"><a href="#2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;"></a>2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#list接口"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#List-&#x63A5;&#x53E3;" class="headerlink" title="List\&#x63A5;&#x53E3;"></a>List\<e>&#x63A5;&#x53E3;</e></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#list接口扩展的方法"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text"><a href="#List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;"></a>List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#abstractcollection抽象类"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#AbstractCollection&#x62BD;&#x8C61;&#x7C7B;" class="headerlink" title="AbstractCollection&#x62BD;&#x8C61;&#x7C7B;"></a>AbstractCollection&#x62BD;&#x8C61;&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#抽象方法"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text"><a href="#&#x62BD;&#x8C61;&#x65B9;&#x6CD5;" class="headerlink" title="&#x62BD;&#x8C61;&#x65B9;&#x6CD5;"></a>&#x62BD;&#x8C61;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#实现的方法"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text"><a href="#&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;"></a>&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#abstractlist抽象类"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><a href="#AbstractList&#x62BD;&#x8C61;&#x7C7B;" class="headerlink" title="AbstractList&#x62BD;&#x8C61;&#x7C7B;"></a>AbstractList&#x62BD;&#x8C61;&#x7C7B;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#iterator迭代器"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#Iterator&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="Iterator&#x8FED;&#x4EE3;&#x5668;"></a>Iterator&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#concurrentmodificationexception-出现的原因fail-fast"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#ConcurrentModificationException-&#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;" class="headerlink" title="ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;"></a>ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#API" class="headerlink" title="API"></a>API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#listiterator双向迭代器"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;"></a>ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#listiterator的获取"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#ListIterator&#x7684;&#x83B7;&#x53D6;" class="headerlink" title="ListIterator&#x7684;&#x83B7;&#x53D6;"></a>ListIterator&#x7684;&#x83B7;&#x53D6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#API-1" class="headerlink" title="API"></a>API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#collection集合"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#Collection&#x96C6;&#x5408;" class="headerlink" title="Collection&#x96C6;&#x5408;"></a>Collection&#x96C6;&#x5408;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合的概念"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;" class="headerlink" title="&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;"></a>&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合框架"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x6846;&#x67B6;" class="headerlink" title="&#x96C6;&#x5408;&#x6846;&#x67B6;"></a>&#x96C6;&#x5408;&#x6846;&#x67B6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#java集合框架主要结构图"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><a href="#Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;" class="headerlink" title="Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;"></a>Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#15个核心api"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text"><a href="#15&#x4E2A;&#x6838;&#x5FC3;API" class="headerlink" title="15&#x4E2A;&#x6838;&#x5FC3;API"></a>15&#x4E2A;&#x6838;&#x5FC3;API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#遍历collection的方法"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;"></a>&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-for-each语法"><span class="toc-nav-number">3.5.1.</span> <span class="toc-nav-text"><a href="#1&#x3001;for-each&#x8BED;&#x6CD5;" class="headerlink" title="1&#x3001;for-each&#x8BED;&#x6CD5;"></a>1&#x3001;for-each&#x8BED;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-iterator迭代器"><span class="toc-nav-number">3.5.2.</span> <span class="toc-nav-text"><a href="#2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;"></a>2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#list接口"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#List-&#x63A5;&#x53E3;" class="headerlink" title="List\&#x63A5;&#x53E3;"></a>List\<e>&#x63A5;&#x53E3;</e></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#list接口扩展的方法"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text"><a href="#List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;"></a>List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#abstractcollection抽象类"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#AbstractCollection&#x62BD;&#x8C61;&#x7C7B;" class="headerlink" title="AbstractCollection&#x62BD;&#x8C61;&#x7C7B;"></a>AbstractCollection&#x62BD;&#x8C61;&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#arraylist类"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><a href="#ArrayList&#x7C7B;" class="headerlink" title="ArrayList&#x7C7B;"></a>ArrayList&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#arraylist的成员变量"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text"><a href="#ArrayList&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;" class="headerlink" title="ArrayList&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;"></a>ArrayList&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-底层数据结构数组"><span class="toc-nav-number">6.1.1.</span> <span class="toc-nav-text"><a href="#1&#x3001;&#x5E95;&#x5C42;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;&#x6570;&#x7EC4;" class="headerlink" title="1&#x3001;&#x5E95;&#x5C42;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;&#x6570;&#x7EC4;"></a>1&#x3001;&#x5E95;&#x5C42;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;&#x6570;&#x7EC4;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-默认的空数组"><span class="toc-nav-number">6.1.2.</span> <span class="toc-nav-text"><a href="#2&#x3001;&#x9ED8;&#x8BA4;&#x7684;&#x7A7A;&#x6570;&#x7EC4;" class="headerlink" title="2&#x3001;&#x9ED8;&#x8BA4;&#x7684;&#x7A7A;&#x6570;&#x7EC4;"></a><span id="emptyArray">2&#x3001;&#x9ED8;&#x8BA4;&#x7684;&#x7A7A;&#x6570;&#x7EC4;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-数组的初始容量为10"><span class="toc-nav-number">6.1.3.</span> <span class="toc-nav-text"><a href="#3&#x3001;&#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x4E3A;10" class="headerlink" title="3&#x3001;&#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x4E3A;10"></a>3&#x3001;&#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x4E3A;10</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-数组中当前元素个数"><span class="toc-nav-number">6.1.4.</span> <span class="toc-nav-text"><a href="#4&#x3001;&#x6570;&#x7EC4;&#x4E2D;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x4E2A;&#x6570;" class="headerlink" title="4&#x3001;&#x6570;&#x7EC4;&#x4E2D;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x4E2A;&#x6570;"></a>4&#x3001;&#x6570;&#x7EC4;&#x4E2D;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x4E2A;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-数组最大容量"><span class="toc-nav-number">6.1.5.</span> <span class="toc-nav-text"><a href="#5&#x3001;&#x6570;&#x7EC4;&#x6700;&#x5927;&#x5BB9;&#x91CF;" class="headerlink" title="5&#x3001;&#x6570;&#x7EC4;&#x6700;&#x5927;&#x5BB9;&#x91CF;"></a>5&#x3001;&#x6570;&#x7EC4;&#x6700;&#x5927;&#x5BB9;&#x91CF;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#arraylist的关键方法"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text"><a href="#ArrayList&#x7684;&#x5173;&#x952E;&#x65B9;&#x6CD5;" class="headerlink" title="ArrayList&#x7684;&#x5173;&#x952E;&#x65B9;&#x6CD5;"></a>ArrayList&#x7684;&#x5173;&#x952E;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-构造函数"><span class="toc-nav-number">6.2.1.</span> <span class="toc-nav-text"><a href="#1&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;" class="headerlink" title="1&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;"></a>1&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-添加元素"><span class="toc-nav-number">6.2.2.</span> <span class="toc-nav-text"><a href="#2&#x3001;&#x6DFB;&#x52A0;&#x5143;&#x7D20;" class="headerlink" title="2&#x3001;&#x6DFB;&#x52A0;&#x5143;&#x7D20;"></a>2&#x3001;&#x6DFB;&#x52A0;&#x5143;&#x7D20;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-对数组容量进行调整"><span class="toc-nav-number">6.2.3.</span> <span class="toc-nav-text"><a href="#3&#x3001;&#x5BF9;&#x6570;&#x7EC4;&#x5BB9;&#x91CF;&#x8FDB;&#x884C;&#x8C03;&#x6574;" class="headerlink" title="3&#x3001;&#x5BF9;&#x6570;&#x7EC4;&#x5BB9;&#x91CF;&#x8FDB;&#x884C;&#x8C03;&#x6574;"></a>3&#x3001;&#x5BF9;&#x6570;&#x7EC4;&#x5BB9;&#x91CF;&#x8FDB;&#x884C;&#x8C03;&#x6574;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-扩容"><span class="toc-nav-number">6.2.4.</span> <span class="toc-nav-text"><a href="#4&#x3001;&#x6269;&#x5BB9;" class="headerlink" title="4&#x3001;&#x6269;&#x5BB9;"></a>4&#x3001;&#x6269;&#x5BB9;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#queue接口队列"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><a href="#Queue&#x63A5;&#x53E3;&#xFF0C;&#x961F;&#x5217;" class="headerlink" title="Queue&#x63A5;&#x53E3;&#xFF0C;&#x961F;&#x5217;"></a>Queue&#x63A5;&#x53E3;&#xFF0C;&#x961F;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#额外添加的api"><span class="toc-nav-number">7.1.</span> <span class="toc-nav-text"><a href="#&#x989D;&#x5916;&#x6DFB;&#x52A0;&#x7684;API" class="headerlink" title="&#x989D;&#x5916;&#x6DFB;&#x52A0;&#x7684;API"></a>&#x989D;&#x5916;&#x6DFB;&#x52A0;&#x7684;API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#为什么建议禁止添加-null-元素"><span class="toc-nav-number">7.2.</span> <span class="toc-nav-text"><a href="#&#x4E3A;&#x4EC0;&#x4E48;&#x5EFA;&#x8BAE;&#x7981;&#x6B62;&#x6DFB;&#x52A0;-null-&#x5143;&#x7D20;" class="headerlink" title="&#x4E3A;&#x4EC0;&#x4E48;&#x5EFA;&#x8BAE;&#x7981;&#x6B62;&#x6DFB;&#x52A0; null &#x5143;&#x7D20;"></a>&#x4E3A;&#x4EC0;&#x4E48;&#x5EFA;&#x8BAE;&#x7981;&#x6B62;&#x6DFB;&#x52A0; null &#x5143;&#x7D20;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#deque接口双端队列"><span class="toc-nav-number">8.</span> <span class="toc-nav-text"><a href="#Deque&#x63A5;&#x53E3;&#xFF0C;&#x53CC;&#x7AEF;&#x961F;&#x5217;" class="headerlink" title="Deque&#x63A5;&#x53E3;&#xFF0C;&#x53CC;&#x7AEF;&#x961F;&#x5217;"></a>Deque&#x63A5;&#x53E3;&#xFF0C;&#x53CC;&#x7AEF;&#x961F;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#deque-的实现类"><span class="toc-nav-number">8.1.</span> <span class="toc-nav-text"><a href="#Deque-&#x7684;&#x5B9E;&#x73B0;&#x7C7B;" class="headerlink" title="Deque &#x7684;&#x5B9E;&#x73B0;&#x7C7B;"></a>Deque &#x7684;&#x5B9E;&#x73B0;&#x7C7B;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -773,24 +803,6 @@
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!--
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
--->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>
