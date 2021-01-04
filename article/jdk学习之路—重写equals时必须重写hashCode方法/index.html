@@ -226,7 +226,8 @@
 <p>- 你来找茬的吧。</p>
 </blockquote>
 <p>尴尬的一段对话，学JavaSE的时候记住了重写equals方法的时候还必须要重写hashCode方法，但是却一直不知道为什么，现在补上补上。</p>
-<h2 id="比较的时候equals就行了为什么还需要hashcode"><a href="#比较的时候equals就行了，为什么还需要hashCode？" class="headerlink" title="比较的时候equals就行了，为什么还需要hashCode？"></a>比较的时候equals就行了，为什么还需要hashCode？</h2><p>首先equals与hashcode间的关系是这样的：</p>
+<h2 id="比较的时候equals就行了为什么还需要hashcode">比较的时候equals就行了，为什么还需要hashCode？</h2>
+<p>首先equals与hashcode间的关系是这样的：</p>
 <ol>
 <li>如果两个对象相同（即用equals比较返回true），那么它们的hashCode值一定要相同；</li>
 <li>如果两个对象的hashCode相同，它们并不一定相同(即用equals比较返回false)  。</li>
@@ -238,9 +239,10 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    Integer age;</span><br><span class="line">    String gender;</span><br><span class="line">    <span class="keyword">float</span> weight;</span><br><span class="line">    String address;</span><br><span class="line">    String email;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>每次比较都需要比较Person类中的各个属性，这无疑会让插入的操作效率十分低下。</p>
 <p>而重写hashCode方法，根据Person实例中的属性特征利用特定的算法计算出hash值，并将其存放到hash值所指向的地址，而后面定义进来的数据只需要看自己对应的hash值地址上是否有值，如果有值说明可能是重复的元素，需要再调用equals方法进行比较；如果没有值则直接插入，这样就极大的减少了equals方法的调用次数，插入操作执行的效率大大提升。</p>
-<p><strong>示例：</strong>重写equals方法和hashCode方法（皆是IDEA自动生成）</p>
+<p>**示例：**重写equals方法和hashCode方法（皆是IDEA自动生成）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    Integer age;</span><br><span class="line">    String gender;</span><br><span class="line">	</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == o) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span> || getClass() != o.getClass()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Person person = (Person) o;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!name.equals(person.name)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!age.equals(person.age)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> gender.equals(person.gender);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = name.hashCode();</span><br><span class="line">        result = <span class="number">31</span> * result + age.hashCode();</span><br><span class="line">        result = <span class="number">31</span> * result + gender.hashCode();</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="object类中的equals和hashcode方法"><a href="#Object类中的equals和hashCode方法" class="headerlink" title="Object类中的equals和hashCode方法"></a>Object类中的equals和hashCode方法</h2><p>Object.equals()方法，比较的是对象在内存中的地址。</p>
+<h2 id="object类中的equals和hashcode方法">Object类中的equals和hashCode方法</h2>
+<p>Object.equals()方法，比较的是对象在内存中的地址。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Object.hashCode()方法，返回的是对象在内存中的地址。（别问，问就是自己run一下）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
@@ -301,7 +303,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#比较的时候equals就行了为什么还需要hashcode"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x6BD4;&#x8F83;&#x7684;&#x65F6;&#x5019;equals&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8FD8;&#x9700;&#x8981;hashCode&#xFF1F;" class="headerlink" title="&#x6BD4;&#x8F83;&#x7684;&#x65F6;&#x5019;equals&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8FD8;&#x9700;&#x8981;hashCode&#xFF1F;"></a>&#x6BD4;&#x8F83;&#x7684;&#x65F6;&#x5019;equals&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8FD8;&#x9700;&#x8981;hashCode&#xFF1F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#object类中的equals和hashcode方法"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#Object&#x7C7B;&#x4E2D;&#x7684;equals&#x548C;hashCode&#x65B9;&#x6CD5;" class="headerlink" title="Object&#x7C7B;&#x4E2D;&#x7684;equals&#x548C;hashCode&#x65B9;&#x6CD5;"></a>Object&#x7C7B;&#x4E2D;&#x7684;equals&#x548C;hashCode&#x65B9;&#x6CD5;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#比较的时候equals就行了为什么还需要hashcode"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x6BD4;&#x8F83;&#x7684;&#x65F6;&#x5019;equals&#x5C31;&#x884C;&#x4E86;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8FD8;&#x9700;&#x8981;hashCode&#xFF1F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#object类中的equals和hashcode方法"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Object&#x7C7B;&#x4E2D;&#x7684;equals&#x548C;hashCode&#x65B9;&#x6CD5;</span></a></li></ol>
         
         </div>
       </aside>
@@ -434,7 +436,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; 宋正兵 2020 
+                    Copyright &copy; 宋正兵 2021 
                     <br>
                     Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
                     re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
@@ -528,6 +530,24 @@
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

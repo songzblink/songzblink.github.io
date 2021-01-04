@@ -220,17 +220,19 @@
 
 				
                 <p>阅读博客<a href="https://blog.csdn.net/u011240877/category_6447444.html" target="_blank" rel="noopener">Java 集合框架原理分析</a>的笔记记录，挑了一些觉得重要的内容。</p>
-<p>Java 提供的集合都在 java.utils 包下，它们的关系如下面这张类图所示：<img src="https://img-blog.csdn.net/20161008225645176" alt="img"></p>
-<h1 id="iterator迭代器"><a href="#Iterator迭代器" class="headerlink" title="Iterator迭代器"></a>Iterator迭代器</h1><p>Iterator 是一个集合上的迭代器，用于对集合进行遍历、迭代。它因为有更短的方法名字，允许调用者在遍历过程中语法正确地删除元素而替代掉了 Enumeration 类。</p>
+<p>Java 提供的集合都在 java.utils 包下，它们的关系如下面这张类图所示：<img src="https://pic.tyzhang.top/images/2020/12/30/image.png" alt="image.png"></p>
+<h1 id="iterator迭代器">Iterator迭代器</h1>
+<p>Iterator 是一个集合上的迭代器，用于对集合进行遍历、迭代。它因为有更短的方法名字，允许调用者在遍历过程中语法正确地删除元素而替代掉了 Enumeration 类。</p>
 <p>注意这里的 【语法正确】，事实上在使用 Iterator 对容器进行迭代的时候，如果修改容器可能会报 <em>ConcurrentModificationException</em> 的错误。官方称这种情况下的迭代器是 fail-fast 迭代器。</p>
 <blockquote>
 <p>fail-fast：<em>fail-fast</em> 机制是java集合(Collection)中的一种错误机制。当多个线程对同一个集合的内容进行操作时，就可能会产生<em>fail-fast</em>事件。</p>
 </blockquote>
-<h2 id="concurrentmodificationexception-出现的原因fail-fast"><a href="#ConcurrentModificationException-出现的原因（fail-fast）" class="headerlink" title="ConcurrentModificationException 出现的原因（fail-fast）"></a>ConcurrentModificationException 出现的原因（fail-fast）</h2><p>以 ArrayList 为例，在调用迭代器的 remove 方法时，程序抛出 ConcurrentModificationException 异常，也就是成为了 fail-fast：</p>
+<h2 id="concurrentmodificationexception-出现的原因fail-fast">ConcurrentModificationException 出现的原因（fail-fast）</h2>
+<p>以 ArrayList 为例，在调用迭代器的 remove 方法时，程序抛出 ConcurrentModificationException 异常，也就是成为了 fail-fast：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ArrayList&lt;String&gt; list=<span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">    list.add(<span class="string">"111"</span>);</span><br><span class="line">    list.add(<span class="string">"222"</span>);</span><br><span class="line">    list.add(<span class="string">"333"</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span>(Iterator&lt;String&gt; iterator=list.iterator();iterator.hasNext();)&#123;</span><br><span class="line">        String ele=iterator.next();</span><br><span class="line">        <span class="keyword">if</span>(ele.equals(<span class="string">"111"</span>)) </span><br><span class="line">            list.remove(<span class="string">"222"</span>);  <span class="comment">// 抛出 ConcurrentModificationException 异常</span></span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到在调用迭代器遍历时，如果使用 Collection 的 remove 方法删除会造成 ConcurrentModificationException 异常。具体可以阅读这篇<a href="https://blog.csdn.net/Jiangshan11/article/details/83038857" target="_blank" rel="noopener">文章</a>。</p>
 <p>如何解决呢？单线程的时候删除元素的时候使用迭代器的 remove 方法就可以实现正常的删除了，多线程的时候使用并发集合类。</p>
-<h2 id="api"><a href="#API" class="headerlink" title="API"></a>API</h2><div class="table-container">
+<h2 id="api">API</h2>
 <table>
 <thead>
 <tr>
@@ -253,8 +255,8 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h1 id="listiterator双向迭代器"><a href="#ListIterator双向迭代器" class="headerlink" title="ListIterator双向迭代器"></a>ListIterator双向迭代器</h1><p>ListIterator 的功能：</p>
+<h1 id="listiterator双向迭代器">ListIterator双向迭代器</h1>
+<p>ListIterator 的功能：</p>
 <ul>
 <li>允许我们向前、向后两个方向遍历 List；</li>
 <li>可以在遍历时修改 List 的元素；</li>
@@ -264,7 +266,7 @@
 <p>迭代器没有当前所在元素一说，它只有一个游标（cursor）的概念，游标总是在元素之间。即长度为 N 的集合会有 N+1 个游标的位置。</p>
 </blockquote>
 <p><img src="https://pic.tyzhang.top/images/2020/12/22/image.png" alt="image.png"></p>
-<h2 id="listiterator的获取"><a href="#ListIterator的获取" class="headerlink" title="ListIterator的获取"></a>ListIterator的获取</h2><div class="table-container">
+<h2 id="listiterator的获取">ListIterator的获取</h2>
 <table>
 <thead>
 <tr>
@@ -283,9 +285,8 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="api"><a href="#API-1" class="headerlink" title="API"></a>API</h2><p>ListIterator 继承自Iterator 接口，在 Iterator 的基础上增加了 6 个方法：</p>
-<div class="table-container">
+<h2 id="api">API</h2>
+<p>ListIterator 继承自Iterator 接口，在 Iterator 的基础上增加了 6 个方法：</p>
 <table>
 <thead>
 <tr>
@@ -320,18 +321,21 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h1 id="collection集合"><a href="#Collection集合" class="headerlink" title="Collection集合"></a>Collection集合</h1><h2 id="集合的概念"><a href="#集合的概念" class="headerlink" title="集合的概念"></a>集合的概念</h2><p>集合，或者叫做容器，是一个包含多个元素的对象。</p>
+<h1 id="collection集合">Collection集合</h1>
+<h2 id="集合的概念">集合的概念</h2>
+<p>集合，或者叫做容器，是一个包含多个元素的对象。</p>
 <p>集合可以对数据进行存储，检索，操作。</p>
-<h2 id="集合框架"><a href="#集合框架" class="headerlink" title="集合框架"></a>集合框架</h2><p>集合框架是一个代表、操作集合的统一架构。所有的集合框架都包含一下几点：</p>
+<h2 id="集合框架">集合框架</h2>
+<p>集合框架是一个代表、操作集合的统一架构。所有的集合框架都包含一下几点：</p>
 <ul>
 <li><strong>接口</strong>：表示集合的抽象数据类型。接口允许我们操作集合时不必关注具体实现，从而达到“多态”。在面向对象变成语言中，接口通常用来形成规范。</li>
 <li><strong>实现类</strong>：集合接口的具体实现，是重用性很高的数据结构。</li>
 <li><strong>算法</strong>：用来根据需要对实体类中的对象进行计算，比如查找、排序。</li>
 </ul>
-<h2 id="java集合框架主要结构图"><a href="#Java集合框架主要结构图" class="headerlink" title="Java集合框架主要结构图"></a>Java集合框架主要结构图</h2><p><img src="https://img-blog.csdn.net/20161008225645176" alt="Java集合框架主要结构图"></p>
+<h2 id="java集合框架主要结构图">Java集合框架主要结构图</h2>
+<p><img src="https://pic.tyzhang.top/images/2020/12/30/image.png" alt="image.png"></p>
 <p>Java 的集合主要分为 Collection 和 Map 两类。</p>
-<h2 id="15个核心api"><a href="#15个核心API" class="headerlink" title="15个核心API"></a>15个核心API</h2><div class="table-container">
+<h2 id="15个核心api">15个核心API</h2>
 <table>
 <thead>
 <tr>
@@ -394,18 +398,21 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>JDK 8 以后，Collection 接口还提供了从集合获取连续流或者并行流：</p>
 <ul>
 <li><code>Stream&lt;E&gt; stream()</code></li>
 <li><code>Stream&lt;E&gt; parallelStream()</code></li>
 </ul>
 <p>点击这里了解流【待补充】</p>
-<h2 id="遍历collection的方法"><a href="#遍历Collection的方法" class="headerlink" title="遍历Collection的方法"></a>遍历Collection的方法</h2><h3 id="1-for-each语法"><a href="#1、for-each语法" class="headerlink" title="1、for-each语法"></a>1、for-each语法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Person&gt; persons = <span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line"><span class="keyword">for</span> (Person person : persons) &#123; </span><br><span class="line">    System.out.println(person.name);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-iterator迭代器"><a href="#2、Iterator迭代器" class="headerlink" title="2、Iterator迭代器"></a>2、Iterator迭代器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Person&gt; persons = <span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line">Iterator iterator = persons.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123; </span><br><span class="line">    System.out.println(iterator.next());  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="list接口"><a href="#List-接口" class="headerlink" title="List\接口"></a>List\<e>接口</e></h1><p>List  是一个在元素有序的（保存的顺序就是存储的顺序），可以重复的，可以为 null 的集合（有时也称为“序列”）。</p>
+<h2 id="遍历collection的方法">遍历Collection的方法</h2>
+<h3 id="1-for-each语法">1、for-each语法</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Person&gt; persons = <span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line"><span class="keyword">for</span> (Person person : persons) &#123; </span><br><span class="line">    System.out.println(person.name);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-iterator迭代器">2、Iterator迭代器</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Person&gt; persons = <span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line">Iterator iterator = persons.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123; </span><br><span class="line">    System.out.println(iterator.next());  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="listltegt接口">List&lt;E&gt;接口</h1>
+<p>List  是一个在元素有序的（保存的顺序就是存储的顺序），可以重复的，可以为 null 的集合（有时也称为“序列”）。</p>
 <p>Java 集合框架中最常用的几种 List 实现类是 ArrayList、LinkedList 和 Vector。在各种 List 中，最好的做法是以 ArrayList 作为默认选择。当插入、删除频繁时，使用 LinkedList。Vector 总是比 ArrayList 慢，所以要尽量避免使用它。</p>
-<h2 id="list接口扩展的方法"><a href="#List接口扩展的方法" class="headerlink" title="List接口扩展的方法"></a>List接口扩展的方法</h2><div class="table-container">
+<h2 id="list接口扩展的方法">List接口扩展的方法</h2>
 <table>
 <thead>
 <tr>
@@ -432,16 +439,21 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p><strong>List、Set 和 Map 如果想要根据两个对象的内容而不是地址比较是否相等时，需要重写 <code>equals()</code> 和 <code>hashCode()</code> 方法。<code>remove()</code>、<code>contains()</code>、<code>indexOf()</code> 等等方法都需要依赖它们。</strong></p>
-<h1 id="abstractcollection抽象类"><a href="#AbstractCollection抽象类" class="headerlink" title="AbstractCollection抽象类"></a>AbstractCollection抽象类</h1><p>AbstractCollection 抽象类是 Java 集合框架中 Collection 接口的一个直接实现类，Collection 下的大多数子类都继承 AbstractCollection抽象类，比如 List 的实现类、Set 的实现类。</p>
+<h1 id="abstractcollection抽象类">AbstractCollection抽象类</h1>
+<p>AbstractCollection 抽象类是 Java 集合框架中 Collection 接口的一个直接实现类，Collection 下的大多数子类都继承 AbstractCollection抽象类，比如 List 的实现类、Set 的实现类。</p>
 <p><strong>我们之所以可以使用 System.out.println() 直接输出集合的全部内容，而不用挨个遍历输出，全都是 AbstractCollection 中 toString() 方法的功劳。</strong></p>
-<h1 id="arraylist类"><a href="#ArrayList类" class="headerlink" title="ArrayList类"></a>ArrayList类</h1><p>ArrayList 是 Java 集合框架中 List 接口的一个实现类。它可以说是我们使用最多的 List 集合，它有以下特点：</p>
+<h1 id="arraylist类">ArrayList类</h1>
+<blockquote>
+<p>以数组实现的，遍历时很快，但插入、删除时都需要移动后面的元素，效率略差些。</p>
+</blockquote>
+<p>ArrayList 是 Java 集合框架中 List 接口的一个实现类。它可以说是我们使用最多的 List 集合，它有以下特点：</p>
 <ul>
 <li>容量不固定</li>
 <li>有序（元素输出顺序与输入顺序一致）</li>
 <li>元素可以为 <code>null</code></li>
-<li>效率高<ul>
+<li>效率高
+<ul>
 <li>size()、isEmpty()、get()、set()、iterator()、listIterator() 方法的时间复杂度都是 O(1)</li>
 <li>其他所有操作的时间复杂度几乎都是 O(n)</li>
 </ul>
@@ -449,12 +461,15 @@
 <li>占用空间更小：对比 LinkedList，不用占用额外空间维护链表结构</li>
 </ul>
 <p>ArrayList 继承自 RandomAccess，RandomAccess 是一个空的接口，用来标记某个类是否支持 <strong>随机访问</strong> （相比较于“按顺序访问”）。</p>
-<h2 id="arraylist的成员变量"><a href="#ArrayList的成员变量" class="headerlink" title="ArrayList的成员变量"></a>ArrayList的成员变量</h2><h3 id="1-底层数据结构数组"><a href="#1、底层数据结构：数组" class="headerlink" title="1、底层数据结构：数组"></a>1、底层数据结构：数组</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Object[] elementData;</span><br></pre></td></tr></table></figure>
+<h2 id="arraylist的成员变量">ArrayList的成员变量</h2>
+<h3 id="1-底层数据结构数组">1、底层数据结构：数组</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Object[] elementData;</span><br></pre></td></tr></table></figure>
 <p>由于数组类型为 Object，所以允许添加 <code>null</code>。初始时该数组赋值为 <code>DEFAULTCAPACITY_EMPTY_ELEMENTDATA</code>。</p>
 <blockquote>
 <p>transient 说明这个数组无法序列化。</p>
 </blockquote>
-<h3 id="2-默认的空数组"><a href="#2、默认的空数组" class="headerlink" title="2、默认的空数组"></a><span id="emptyArray">2、默认的空数组</span></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="2-默认的空数组"><span id="emptyArray">2、默认的空数组</span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br></pre></td></tr></table></figure>
 <p>默认的空数组是 <code>DEFAULTCAPACITY_EMPTY_ELEMENTDATA</code>，它与 <code>EMPTY_ELEMENTDATA</code> 都是空数组，区别在于<strong>第一个元素被添加进数组时如何进行扩容</strong> ：</p>
 <ul>
 <li>如果初始的空数组是 <code>DEFAULTCAPACITY_EMPTY_ELEMENTDATA</code> 的话，第一个元素被添加进来后，数组 <code>elementData</code> 扩容到数组初始容量 <code>DEFAULT_CAPACITY = 10</code>。</li>
@@ -463,10 +478,15 @@
 <blockquote>
 <p>可以观察 add() 方法来理解上面的话。</p>
 </blockquote>
-<h3 id="3-数组的初始容量为10"><a href="#3、数组的初始容量为10" class="headerlink" title="3、数组的初始容量为10"></a>3、数组的初始容量为10</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="4-数组中当前元素个数"><a href="#4、数组中当前元素个数" class="headerlink" title="4、数组中当前元素个数"></a>4、数组中当前元素个数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size;</span><br></pre></td></tr></table></figure>
-<h3 id="5-数组最大容量"><a href="#5、数组最大容量" class="headerlink" title="5、数组最大容量"></a>5、数组最大容量</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="arraylist的关键方法"><a href="#ArrayList的关键方法" class="headerlink" title="ArrayList的关键方法"></a>ArrayList的关键方法</h2><h3 id="1-构造函数"><a href="#1、构造函数" class="headerlink" title="1、构造函数"></a>1、构造函数</h3><p>默认的无参构造，初始为空数组：</p>
+<h3 id="3-数组的初始容量为10">3、数组的初始容量为10</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="4-数组中当前元素个数">4、数组中当前元素个数</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size;</span><br></pre></td></tr></table></figure>
+<h3 id="5-数组最大容量">5、数组最大容量</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="arraylist的关键方法">ArrayList的关键方法</h2>
+<h3 id="1-构造函数">1、构造函数</h3>
+<p>默认的无参构造，初始为空数组：</p>
 <p>创建一个空 list，初始容量大小为 10。（创建完为空时 size 为0，当第一个元素被添加后容量大小为 10）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>有参构造，根据指定容量， 创建对象数组：</p>
@@ -474,15 +494,19 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (initialCapacity == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Capacity: "</span>+</span><br><span class="line">                                           initialCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>有参构造，直接创建和指定集合一样内容的 ArrayList：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    elementData = c.toArray();</span><br><span class="line">    <span class="keyword">if</span> ((size = elementData.length) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)</span></span><br><span class="line">        <span class="keyword">if</span> (elementData.getClass() != Object[].class)</span><br><span class="line">            elementData = Arrays.copyOf(elementData, size, Object[].class);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// replace with empty array.</span></span><br><span class="line">        <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-添加元素"><a href="#2、添加元素" class="headerlink" title="2、添加元素"></a>2、添加元素</h3><p>每次添加前会对数组的容量进行调整</p>
+<h3 id="2-添加元素">2、添加元素</h3>
+<p>每次添加前会对数组的容量进行调整</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    elementData[size++] = e;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-对数组容量进行调整"><a href="#3、对数组容量进行调整" class="headerlink" title="3、对数组容量进行调整"></a>3、对数组容量进行调整</h3><p>可以主动调用 ensureCapacity() 方法来增加 list 的容量，避免每次元素满了时每次添加都需要等待扩容的的消耗。</p>
+<h3 id="3-对数组容量进行调整">3、对数组容量进行调整</h3>
+<p>可以主动调用 ensureCapacity() 方法来增加 list 的容量，避免每次元素满了时每次添加都需要等待扩容的的消耗。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</span><br><span class="line">        <span class="comment">// 如果当前数组不是空数组 DEFAULTCAPACITY_EMPTY_ELEMENTDATA，那么当前最小容量为 0</span></span><br><span class="line">        ? <span class="number">0</span></span><br><span class="line">        <span class="comment">// 如果是空数组 DEFAULTCAPACITY_EMPTY_ELEMENTDATA，那么当前最小容量为默认容量 10</span></span><br><span class="line">        : DEFAULT_CAPACITY;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (minCapacity &gt; minExpand) &#123;</span><br><span class="line">        <span class="comment">// 所需的最小容量大于当前最小容量，需要扩容</span></span><br><span class="line">        ensureExplicitCapacity(minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">        minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ensureExplicitCapacity(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    modCount++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</span><br><span class="line">        grow(minCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="4-扩容"><a href="#4、扩容" class="headerlink" title="4、扩容"></a>4、扩容</h3><p>默认每次扩容容量为旧容量的1.5倍。（如果是空 list，在第一个元素被添加进来后容量大小为默认容量大小 10）</p>
+<h3 id="4-扩容">4、扩容</h3>
+<p>默认每次扩容容量为旧容量的1.5倍。（如果是空 list，在第一个元素被添加进来后容量大小为默认容量大小 10）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="comment">// 新的容量 = 旧的容量 + 旧的容量 / 2 = 1.5 * 旧的容量</span></span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 所需的最小容量大于旧容量的 1.5 倍</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 新容量大于了最大容量</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">    <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">        Integer.MAX_VALUE :</span><br><span class="line">        MAX_ARRAY_SIZE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="queue接口队列"><a href="#Queue接口，队列" class="headerlink" title="Queue接口，队列"></a>Queue接口，队列</h1><p>Java 集合中的 Queue 继承自 Collection 接口，Deque、LinkedList、PriorityQueue、BlockingQueue 等类都实现了它。</p>
+<h1 id="queue接口队列">Queue接口，队列</h1>
+<p>Java 集合中的 Queue 继承自 Collection 接口，Deque、LinkedList、PriorityQueue、BlockingQueue 等类都实现了它。</p>
 <p>Queue 用来存放等待处理元素的集合，这种场景一般用于缓冲、并发访问。</p>
-<h2 id="额外添加的api"><a href="#额外添加的API" class="headerlink" title="额外添加的API"></a>额外添加的API</h2><div class="table-container">
+<h2 id="额外添加的api">额外添加的API</h2>
 <table>
 <thead>
 <tr>
@@ -513,26 +537,436 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="为什么建议禁止添加-null-元素"><a href="#为什么建议禁止添加-null-元素" class="headerlink" title="为什么建议禁止添加 null 元素"></a>为什么建议禁止添加 null 元素</h2><p>一般情况下 Queue 的实现类都不允许添加 <code>null</code> 元素，因为 poll()、peek() 方法在异常的时候会返回 <code>null</code>，如果你添加了 <code>null</code> 元素，当获取时不好分辨究竟是否正确返回。</p>
-<h1 id="deque接口双端队列"><a href="#Deque接口，双端队列" class="headerlink" title="Deque接口，双端队列"></a>Deque接口，双端队列</h1><p>Deque 接口继承自 Queue接口，直接实现了它的类有 LinkedList、ArayDeque、ConcurrentLinkedDeque 等。Deque 支持容量受限的双端队列，也支持大小不固定的。一般双端队列大小不确定。</p>
-<p><img src="https://img-blog.csdn.net/20161019193301571" alt="这里写图片描述"></p>
+<h2 id="为什么建议禁止添加-null-元素">为什么建议禁止添加 null 元素</h2>
+<p>一般情况下 Queue 的实现类都不允许添加 <code>null</code> 元素，因为 poll()、peek() 方法在异常的时候会返回 <code>null</code>，如果你添加了 <code>null</code> 元素，当获取时不好分辨究竟是否正确返回。</p>
+<h1 id="deque接口双端队列">Deque接口，双端队列</h1>
+<p>Deque 接口继承自 Queue接口，直接实现了它的类有 LinkedList、ArayDeque、ConcurrentLinkedDeque 等。Deque 支持容量受限的双端队列，也支持大小不固定的。一般双端队列大小不确定。</p>
+<p><img src="https://pic.tyzhang.top/images/2020/12/30/20161019193301571.png" alt="20161019193301571.png"></p>
 <p>Deque 当队列用：</p>
-<p><img src="https://img-blog.csdn.net/20161019194500774" alt="这里写图片描述"></p>
+<p><img src="https://pic.tyzhang.top/images/2020/12/30/20161019194500774.png" alt="20161019194500774.png"></p>
 <p>Deque 当栈用：</p>
 <p><img src="https://img-blog.csdn.net/20161019232902599" alt="这里写图片描述"></p>
-<h2 id="deque-的实现类"><a href="#Deque-的实现类" class="headerlink" title="Deque 的实现类"></a>Deque 的实现类</h2><ul>
-<li>一般场景<ul>
+<h2 id="deque-的实现类">Deque 的实现类</h2>
+<ul>
+<li>一般场景
+<ul>
 <li>LinkedList 大小可变的<strong>链表</strong>双端队列，允许元素为 <code>null</code></li>
 <li>ArrayDeque 大小可变的<strong>数组</strong>双端队列，不允许元素为 <code>null</code></li>
 </ul>
 </li>
-<li>并发场景<ul>
+<li>并发场景
+<ul>
 <li>LinkedBlockingDeque 如果队列为空时，获取操作将会阻塞，直到有元素添加</li>
 </ul>
 </li>
 </ul>
-
+<h1 id="linkedlist类">LinkedList类</h1>
+<p>LinkedList 继承自 AbstractSequentialList 接口，同时还实现了 Deque、Queue 接口。</p>
+<blockquote>
+<p>以链表实现的，插入、删除时只需要改变前后两个节点指针指向即可。</p>
+</blockquote>
+<h2 id="linkedlist双向链表实现">LinkedList双向链表实现</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">transient</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Pointer to first node.</span></span><br><span class="line"><span class="comment">     * Invariant: (first == null &amp;&amp; last == null) ||</span></span><br><span class="line"><span class="comment">     *            (first.prev == null &amp;&amp; first.item != null)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">transient</span> Node&lt;E&gt; first;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Pointer to last node.</span></span><br><span class="line"><span class="comment">     * Invariant: (first == null &amp;&amp; last == null) ||</span></span><br><span class="line"><span class="comment">     *            (last.next == null &amp;&amp; last.item != null)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">transient</span> Node&lt;E&gt; last;</span><br></pre></td></tr></table></figure>
+<p>LinkedList 的成员变量只有三个：</p>
+<ul>
+<li>size：容量</li>
+<li>first：头节点</li>
+<li>last：尾节点</li>
+</ul>
+<p>Node 类是一个双向节点：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    E item;</span><br><span class="line">    Node&lt;E&gt; next;</span><br><span class="line">    Node&lt;E&gt; prev;</span><br><span class="line"></span><br><span class="line">    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</span><br><span class="line">        <span class="keyword">this</span>.item = element;</span><br><span class="line">        <span class="keyword">this</span>.next = next;</span><br><span class="line">        <span class="keyword">this</span>.prev = prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="linkedlist的方法">LinkedList的方法</h2>
+<h3 id="1-关键的几个内部方法">1、关键的几个内部方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void linkFirst(E e)</td>
+<td>插入到头部</td>
+</tr>
+<tr>
+<td>void linkLast(E e)</td>
+<td>插入到尾部</td>
+</tr>
+<tr>
+<td>void linkBefore(E e, Node<e> succ)</e></td>
+<td>在指定节点 succ 前插入一个元素，假设 succ 不为 null</td>
+</tr>
+<tr>
+<td>E unlinkFirst(Node<e> f)</e></td>
+<td>删除头节点并返回该节点上的数据，假设不为 null</td>
+</tr>
+<tr>
+<td>E unlinkLast(Node<e> l)</e></td>
+<td>删除尾部节点并返回该节点上的数据，假设不为 null</td>
+</tr>
+<tr>
+<td>E unlink(Node<e> x)</e></td>
+<td>删除某个指定节点</td>
+</tr>
+<tr>
+<td>Node<e> node(int index)</e></td>
+<td>获取指定位置的节点</td>
+</tr>
+</tbody>
+</table>
+<p><strong>头部添加删除</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 插入到头部</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">linkFirst</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 记录头节点</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; f = first;</span><br><span class="line">    <span class="comment">// 新建一个节点，尾部指向之前的头节点 first</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(<span class="keyword">null</span>, e, f);</span><br><span class="line">    <span class="comment">// first 指向新的节点</span></span><br><span class="line">    first = newNode;</span><br><span class="line">	<span class="keyword">if</span> (f == <span class="keyword">null</span>)</span><br><span class="line">        <span class="comment">// 如果新建的是空链表，新建的节点也是最后一个节点</span></span><br><span class="line">        last = newNode;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="comment">// 原来的第一个节点的头部指向新建的节点</span></span><br><span class="line">        f.prev = newNode;</span><br><span class="line">    size++;</span><br><span class="line">    modCount++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除头节点并返回该节点上的数据，假设不为 null</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">unlinkFirst</span><span class="params">(Node&lt;E&gt; f)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert f == first &amp;&amp; f != null;</span></span><br><span class="line">    <span class="keyword">final</span> E element = f.item;</span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; next = f.next;</span><br><span class="line">    f.item = <span class="keyword">null</span>;</span><br><span class="line">    f.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">    first = next;</span><br><span class="line">    <span class="keyword">if</span> (next == <span class="keyword">null</span>)</span><br><span class="line">        last = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        next.prev = <span class="keyword">null</span>;</span><br><span class="line">    size--;</span><br><span class="line">    modCount++;</span><br><span class="line">    <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>尾部添加删除</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 插入到尾部</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 记录尾节点</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; l = last;</span><br><span class="line">    <span class="comment">// 新建一个节点，头部指向之前的尾节点 last</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(l, e, <span class="keyword">null</span>);</span><br><span class="line">    <span class="comment">// last 指向新的节点</span></span><br><span class="line">    last = newNode;</span><br><span class="line">    <span class="keyword">if</span> (l == <span class="keyword">null</span>)</span><br><span class="line">        <span class="comment">// 如果之前是空链表，新节点也是第一个节点</span></span><br><span class="line">        first = newNode;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="comment">// 原来的尾节点尾部指向新的尾节点</span></span><br><span class="line">        l.next = newNode;</span><br><span class="line">    size++;</span><br><span class="line">    modCount++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除尾部节点并返回，假设不会 null</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">unlinkLast</span><span class="params">(Node&lt;E&gt; l)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert l == last &amp;&amp; l != null;</span></span><br><span class="line">    <span class="keyword">final</span> E element = l.item;</span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; prev = l.prev;</span><br><span class="line">    l.item = <span class="keyword">null</span>;</span><br><span class="line">    l.prev = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">    last = prev;</span><br><span class="line">    <span class="keyword">if</span> (prev == <span class="keyword">null</span>)</span><br><span class="line">        first = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        prev.next = <span class="keyword">null</span>;</span><br><span class="line">    size--;</span><br><span class="line">    modCount++;</span><br><span class="line">    <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>获取指定节点</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取指定位置的节点</span></span><br><span class="line"><span class="function">Node&lt;E&gt; <span class="title">node</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert isElementIndex(index);</span></span><br><span class="line">	<span class="comment">// 二分，如果小于 size 的一半，从头开始遍历</span></span><br><span class="line">    <span class="keyword">if</span> (index &lt; (size &gt;&gt; <span class="number">1</span>)) &#123;</span><br><span class="line">        Node&lt;E&gt; x = first;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++)</span><br><span class="line">            x = x.next;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Node&lt;E&gt; x = last;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = size - <span class="number">1</span>; i &gt; index; i--)</span><br><span class="line">            x = x.prev;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>指定节点的添加删除</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在指定节点（不为 null）前插入一个元素</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkBefore</span><span class="params">(E e, Node&lt;E&gt; succ)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert succ != null;</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; pred = succ.prev;</span><br><span class="line">    <span class="comment">// 新建一个尾节点，头部指向 succ 前面的节点，尾部指向 succ 节点</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(pred, e, succ);</span><br><span class="line">    <span class="comment">// 让 succ 的头部指向新节点</span></span><br><span class="line">    succ.prev = newNode;</span><br><span class="line">    <span class="keyword">if</span> (pred == <span class="keyword">null</span>)</span><br><span class="line">        first = newNode;</span><br><span class="line">    <span class="keyword">else</span>	</span><br><span class="line">        pred.next = newNode;</span><br><span class="line">    size++;</span><br><span class="line">    modCount++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除某个指定节点</span></span><br><span class="line"><span class="function">E <span class="title">unlink</span><span class="params">(Node&lt;E&gt; x)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert x != null;</span></span><br><span class="line">    <span class="keyword">final</span> E element = x.item;</span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; next = x.next;</span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; prev = x.prev;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (prev == <span class="keyword">null</span>) &#123;</span><br><span class="line">        first = next;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        prev.next = next;</span><br><span class="line">        x.prev = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (next == <span class="keyword">null</span>) &#123;</span><br><span class="line">        last = prev;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        next.prev = prev;</span><br><span class="line">        x.next = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    x.item = <span class="keyword">null</span>;</span><br><span class="line">    size--;</span><br><span class="line">    modCount++;</span><br><span class="line">    <span class="keyword">return</span> element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-常用的-api">2、常用的 API</h3>
+<h4 id="添加方法">添加方法</h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean add(E e)</td>
+<td>在尾部添加元素</td>
+</tr>
+<tr>
+<td>void add(int index, E e)</td>
+<td>在指定位置添加元素</td>
+</tr>
+<tr>
+<td>boolean addAll(Collection&lt;? extends E&gt; c)</td>
+<td>添加一个集合的元素</td>
+</tr>
+<tr>
+<td>boolean addAll(int index, Collection&lt;? extends E&gt; c)</td>
+<td>从指定的位置，添加一个集合的元素</td>
+</tr>
+<tr>
+<td>void addFirst(E e)</td>
+<td>在头部添加元素</td>
+</tr>
+<tr>
+<td>void addLast(E e)</td>
+<td>在尾部添加元素</td>
+</tr>
+</tbody>
+</table>
+<h4 id="删除方法">删除方法</h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E remove()</td>
+<td>删除头部节点</td>
+</tr>
+<tr>
+<td>E remove(int index)</td>
+<td>删除指定位置节点</td>
+</tr>
+<tr>
+<td>boolean remove(Object o)</td>
+<td>删除包含指定元素的节点（遍历）</td>
+</tr>
+<tr>
+<td>E removeFirst()</td>
+<td>删除头部节点</td>
+</tr>
+<tr>
+<td>E removeLset()</td>
+<td>删除尾部节点</td>
+</tr>
+<tr>
+<td>boolean removeFirstOccurrence(Object o)</td>
+<td>删除首次出现的指定元素（从头节点开始遍历）</td>
+</tr>
+<tr>
+<td>boolean removeLastOccurrence(Object o)</td>
+<td>删除最后一次出现的指定元素（从尾部节点开始遍历）</td>
+</tr>
+<tr>
+<td>void clear</td>
+<td>清除全部元素</td>
+</tr>
+</tbody>
+</table>
+<h4 id="修改方法">修改方法</h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E set(int index, E e)</td>
+<td>修改指定位置的元素</td>
+</tr>
+</tbody>
+</table>
+<h4 id="查询方法">查询方法</h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int indexOf(Object o)</td>
+<td>获取指定元素第一次出现的位置</td>
+</tr>
+<tr>
+<td>int lastIndexOf(Object o)</td>
+<td>获取指定元素最后一次出现的位置（倒着遍历）</td>
+</tr>
+<tr>
+<td>boolean contains(Object o)</td>
+<td>是否包含指定元素</td>
+</tr>
+<tr>
+<td>E get(int index)</td>
+<td>获取指定位置的元素</td>
+</tr>
+<tr>
+<td>E getFirst()</td>
+<td>获取第一个元素</td>
+</tr>
+<tr>
+<td>E poll()</td>
+<td>获取第一个元素，同时删除它</td>
+</tr>
+<tr>
+<td>E peek()</td>
+<td>获取第一个元素</td>
+</tr>
+<tr>
+<td>E peekFirst()</td>
+<td>获取第一个元素</td>
+</tr>
+<tr>
+<td>E getLast()</td>
+<td>获取最后一个元素</td>
+</tr>
+<tr>
+<td>E peekLast()</td>
+<td>获取最后一个元素</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="arraylist和linkedlist的比较">ArrayList和LinkedList的比较</h1>
+<p>ArrayList：</p>
+<ul>
+<li>基于数组，在数组中搜索和读取数据是很快的。因此 ArrayList 获取数据的时间复杂度是O(1);</li>
+<li>但是添加、删除时该元素后面的所有元素都要移动，所以添加/删除数据效率不高；</li>
+<li>另外其实还是有容量的，每次达到阈值需要扩容，这个操作比较影响效率。</li>
+</ul>
+<p>LinkedList：</p>
+<ul>
+<li>基于双端链表，添加/删除元素只会影响周围的两个节点，开销很低；</li>
+<li>只能顺序遍历，无法按照索引获得元素，因此查询效率不高；</li>
+<li>没有固定容量，不需要扩容；</li>
+<li>需要更多的内存，LinkedList 每个节点中需要多存储前后节点的信息，占用空间更多些。</li>
+</ul>
+<h1 id="vector类">Vector类</h1>
+<p>Vector 类被认为是线程安全的 ArrayList，和 ArrayList 一样也是继承自 AbstractList。它是 Stack 的父类。</p>
+<h2 id="成员变量">成员变量</h2>
+<p><strong>1、底层也是个数组</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Object[] elementData;</span><br></pre></td></tr></table></figure>
+<p>2、<strong>数组元素个数</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">int</span> elementCount;</span><br></pre></td></tr></table></figure>
+<p>3、<strong>扩容时增长数量</strong></p>
+<p>允许用户自己设置，如果这个值为 0 或者负数，扩容时会扩大 2 倍，而不是 1.5 倍。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">int</span> capacityIncrement;</span><br></pre></td></tr></table></figure>
+<h2 id="vector特点">Vector特点</h2>
+<ul>
+<li>底层由一个可以增长的数组组成</li>
+<li>Vector 通过 capacity 和 capacityIncrement 来尽量少的占用空间</li>
+<li>扩容时默认扩大两倍</li>
+<li>最好在插入大量元素前增加 vector 的容量，以减少重新申请内存的次数</li>
+<li>同步类，每个方法前都有同步锁 synchronized</li>
+</ul>
+<h1 id="vector和arraylist的比较">Vector和ArrayList的比较</h1>
+<p>共同点：</p>
+<ul>
+<li>都是基于数组的</li>
+<li>都支持随机访问</li>
+<li>默认容量都是 10</li>
+<li>都有扩容机制</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>Vector（JDK 1.0） 早于 ArrayList （JDK 1.2）出现</li>
+<li>Vector 比 ArrayList 多一种迭代器 Enumeration（该迭代器不是 fail-fast 的）</li>
+<li>Vector 是线程安全的，ArrayList 不是</li>
+<li>Vector 默认扩容 2 倍，ArrayList 是 1.5 倍</li>
+</ul>
+<h1 id="stack栈">Stack栈</h1>
+<p>Stack 集成自 Vector，是由数组实现的栈。</p>
+<h2 id="stack的方法">Stack的方法</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stack()</td>
+<td>构建一个空栈</td>
+</tr>
+<tr>
+<td>E push(E item)</td>
+<td>入栈，调用的是 Vector.addElemnt()</td>
+</tr>
+<tr>
+<td>synchronized E peek()</td>
+<td>获取顶端元素，但不删除，调用的是 Vector.elementAt()</td>
+</tr>
+<tr>
+<td>synchronized E pop()</td>
+<td>出栈，调用 Vector.removeElementAt() 删除顶端元素</td>
+</tr>
+<tr>
+<td>synchronized int search(Object o)</td>
+<td>查找元素是否在栈中，返回栈顶到该元素出现的位置的距离</td>
+</tr>
+<tr>
+<td>boolean empty()</td>
+<td>栈是否为空</td>
+</tr>
+</tbody>
+</table>
+<h1 id="map接口">Map接口</h1>
+<p>Map 接口是和 Collection 接口同一等级的集合根接口，它表示一个键值对（key-value）的映射。</p>
+<p>Map 中元素的顺序取决于迭代器迭代时的顺序，有的实现类保证了元素输入输出时的顺序（TreeMap），有的实现类则是无序的（HashMap）。</p>
+<h2 id="视图">视图</h2>
+<p>Map 接口提供了三个角度来分析 Map：</p>
+<ul>
+<li>KeySet——Set</li>
+<li>Values——Collection</li>
+<li>Entry——Set</li>
+</ul>
+<h3 id="keyset">KeySet</h3>
+<p>KeySet 是一个 Map 中键（Key）的集合，以 Set 的形式保存，不允许重复，因此键存储的对象需要重写 equals() 和 hashCode() 方法。</p>
+<p>可以通过 Map.keySet() 方法获得。</p>
+<h3 id="values">Values</h3>
+<p>Values 是一个 Mao 中值（value）的集合，以 Collection 的形式保存，因此可以重复。</p>
+<p>通过 Map.values() 方法获得。</p>
+<h3 id="entry">Entry</h3>
+<p>Entry 是 Map 接口中的静态内部接口，表示一个键值对的映射。</p>
+<p><strong>Entry的方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K getKey()</td>
+<td>获取这组映射中的键 key</td>
+</tr>
+<tr>
+<td>V getValue()</td>
+<td>获取这组映射中的值 value</td>
+</tr>
+<tr>
+<td>V setValue()</td>
+<td>修改这组映射中的值</td>
+</tr>
+<tr>
+<td>int hashCode()</td>
+<td>返回这个 Entry 的哈希值</td>
+</tr>
+<tr>
+<td>boolean equals()</td>
+<td>对比 key-value 是否相等</td>
+</tr>
+</tbody>
+</table>
+<p>通过 Map.entrySet() 方法获得的是一组 Entry 集合，保存在 Set 中，所以 Map 中的 Entry 也不能重复。</p>
+<h2 id="map的三种遍历方式">Map的三种遍历方式</h2>
+<p>根据 Map 提供的三种视图，可以由三种遍历方式。</p>
+<h3 id="1-使用-keyset-遍历">1、使用 KeySet 遍历</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Set set = map.keySet();</span><br><span class="line"><span class="keyword">for</span> (Object key : set) &#123;</span><br><span class="line">    System.out.println(map.get(key));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-使用-values-遍历">2、使用 Values 遍历</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Collection values = map.values();</span><br><span class="line">Iterator iterator = values.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">    System.out.println(<span class="string">"value"</span> + iterator.next());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-使用-entry-遍历">3、使用 Entry 遍历</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Set entrySet = map.entrySet();</span><br><span class="line"><span class="keyword">for</span> (Object o : entrySet) &#123;</span><br><span class="line">    Map.Entry entry = (Map.Entry) o;</span><br><span class="line">    System.out.println(entry); <span class="comment">// key = value</span></span><br><span class="line">    System.out.println(entry.getKey() + <span class="string">"/"</span> + entry.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="map的实现类">Map的实现类</h2>
+<p><img src="https://pic.tyzhang.top/images/2021/01/04/image.png" alt="image.png"></p>
+<p>Map 的实现类主要有 4 种：</p>
+<ul>
+<li>Hashtable：古老，线程安全</li>
+<li>HashMap：速度很快，但没有顺序</li>
+<li>TreeMap：有序的，效率比 HashMap 慢</li>
+<li>LinkedHashMap：结合 HashMap 和 TreeMap 的优点，有序的同时效率也不错，仅比 HashMap 慢一点。</li>
+</ul>
+<blockquote>
+<p>可以使用 Map 作为  Map 的值，但禁止使用 Map 作为 Map 的键。因为复杂的 Map 中 equals() 和 hashCode() 方法比较难定义。</p>
+</blockquote>
+<h1 id="hashmap">HashMap</h1>
+<p>HashMap 是一个采用哈希表实现的键值对集合，底层实现是数组 + 链表。</p>
+<h2 id="hashmap的特点">HashMap的特点：</h2>
+<ul>
+<li>底层实现是链表数组，JDK 8 之后加了红黑树</li>
+<li>实现了 Map 的全部方法</li>
+<li>key 用 Set 存放，所以想做到 key 不允许重复，key 对应的类需要重写  equals() 和 hashCode() 方法</li>
+<li>允许空键和空值（但空键只有一个，且放在第一位）</li>
+<li>元素是无序的，而且顺序会不定时改变</li>
+<li>插入、获取的时间复杂度基本是 O(1)（有个前提是有适当的哈希函数，让元素分布在均匀的位置）</li>
+<li>遍历整个 Map 需要的时间与桶（数组）的长度成正比（因此初始化时 HashMap 的容量不宜太大）</li>
+<li>两个关键因子：初始容量、加载因子</li>
+</ul>
+<h2 id="hashmap的成员变量">HashMap的成员变量</h2>
+<p>1、默认初始容量：16，必须是 2 的整数次方</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br></pre></td></tr></table></figure>
+<p>2、默认的加载因子的大小：0.75（该大小是结合时间和空间效率考虑得到的）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br></pre></td></tr></table></figure>
+<p>3、最大容量：$2^{30}$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXIMUM_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">30</span>;</span><br></pre></td></tr></table></figure>
+<p>4、当前 HashMap 修改的次数，这个变量用来保证 fail-fast 机制</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> modCount;</span><br></pre></td></tr></table></figure>
+<p>5、阈值、下次需要扩容时的值，等于 容量 * 加载因子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> threshold;</span><br></pre></td></tr></table></figure>
+<p>6、树形阈值：JDK 1.8 新增的，当容量超过 8 之后，使用树而不是链表来作为桶，必须大于 2</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TREEIFY_THRESHOLD = <span class="number">8</span>;</span><br></pre></td></tr></table></figure>
+<p>7、非树形阈值：JDK 1.8 新增的，扩容时如果发现桶中长度小于 6 ，则会由树重写退化为链表</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> UNTREEIFY_THRESHOLD = <span class="number">6</span>;</span><br></pre></td></tr></table></figure>
+<p>8、树形最小容量：当 HashMap 的容量大于该值时，才允许树形化链表（即将链表转换成红黑树），否则若桶内元素太多时则直接进行扩容。（为了避免进行扩容、树形化选择的冲突，这个值不能小于 4 * TREEIFY_THRESHOLD）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MIN_TREEIFY_CAPACITY = <span class="number">64</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当桶中的数量小于 TREEIFY_THRESHOLD 时不会转换成树形结构存储；如果桶中的数量大于 TREEIFY_THRESHOLD，但 capacity 小于 MIN_TREEIFY_CAPACITY 则依然使用单链表结构进行存储，此时会对 HashMap 进行扩容；如果 capacity 大于了 MIN_TREEIFY_CAPACITY 则会进行树化。</p>
+</blockquote>
+<p>9、缓存的键值对集合（另外两个视图：KeySet 和 Values 在 AbstractMap 中声明的）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet;</span><br></pre></td></tr></table></figure>
+<p>10、哈希表中的链表数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br></pre></td></tr></table></figure>
+<p>11、键值对的数量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size;</span><br></pre></td></tr></table></figure>
+<p>12、哈希表的加载因子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">float</span> loadFactor;</span><br></pre></td></tr></table></figure>
                 
                 <hr>
                 <!-- Pager -->
@@ -576,7 +1010,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#iterator迭代器"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#Iterator&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="Iterator&#x8FED;&#x4EE3;&#x5668;"></a>Iterator&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#concurrentmodificationexception-出现的原因fail-fast"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#ConcurrentModificationException-&#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;" class="headerlink" title="ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;"></a>ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#API" class="headerlink" title="API"></a>API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#listiterator双向迭代器"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;"></a>ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#listiterator的获取"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#ListIterator&#x7684;&#x83B7;&#x53D6;" class="headerlink" title="ListIterator&#x7684;&#x83B7;&#x53D6;"></a>ListIterator&#x7684;&#x83B7;&#x53D6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#API-1" class="headerlink" title="API"></a>API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#collection集合"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#Collection&#x96C6;&#x5408;" class="headerlink" title="Collection&#x96C6;&#x5408;"></a>Collection&#x96C6;&#x5408;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合的概念"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;" class="headerlink" title="&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;"></a>&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合框架"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x6846;&#x67B6;" class="headerlink" title="&#x96C6;&#x5408;&#x6846;&#x67B6;"></a>&#x96C6;&#x5408;&#x6846;&#x67B6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#java集合框架主要结构图"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><a href="#Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;" class="headerlink" title="Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;"></a>Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#15个核心api"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text"><a href="#15&#x4E2A;&#x6838;&#x5FC3;API" class="headerlink" title="15&#x4E2A;&#x6838;&#x5FC3;API"></a>15&#x4E2A;&#x6838;&#x5FC3;API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#遍历collection的方法"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;"></a>&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-for-each语法"><span class="toc-nav-number">3.5.1.</span> <span class="toc-nav-text"><a href="#1&#x3001;for-each&#x8BED;&#x6CD5;" class="headerlink" title="1&#x3001;for-each&#x8BED;&#x6CD5;"></a>1&#x3001;for-each&#x8BED;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-iterator迭代器"><span class="toc-nav-number">3.5.2.</span> <span class="toc-nav-text"><a href="#2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;" class="headerlink" title="2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;"></a>2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#list接口"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#List-&#x63A5;&#x53E3;" class="headerlink" title="List\&#x63A5;&#x53E3;"></a>List\<e>&#x63A5;&#x53E3;</e></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#list接口扩展的方法"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text"><a href="#List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;"></a>List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#abstractcollection抽象类"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#AbstractCollection&#x62BD;&#x8C61;&#x7C7B;" class="headerlink" title="AbstractCollection&#x62BD;&#x8C61;&#x7C7B;"></a>AbstractCollection&#x62BD;&#x8C61;&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#arraylist类"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><a href="#ArrayList&#x7C7B;" class="headerlink" title="ArrayList&#x7C7B;"></a>ArrayList&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#arraylist的成员变量"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text"><a href="#ArrayList&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;" class="headerlink" title="ArrayList&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;"></a>ArrayList&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-底层数据结构数组"><span class="toc-nav-number">6.1.1.</span> <span class="toc-nav-text"><a href="#1&#x3001;&#x5E95;&#x5C42;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;&#x6570;&#x7EC4;" class="headerlink" title="1&#x3001;&#x5E95;&#x5C42;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;&#x6570;&#x7EC4;"></a>1&#x3001;&#x5E95;&#x5C42;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;&#x6570;&#x7EC4;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-默认的空数组"><span class="toc-nav-number">6.1.2.</span> <span class="toc-nav-text"><a href="#2&#x3001;&#x9ED8;&#x8BA4;&#x7684;&#x7A7A;&#x6570;&#x7EC4;" class="headerlink" title="2&#x3001;&#x9ED8;&#x8BA4;&#x7684;&#x7A7A;&#x6570;&#x7EC4;"></a><span id="emptyArray">2&#x3001;&#x9ED8;&#x8BA4;&#x7684;&#x7A7A;&#x6570;&#x7EC4;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-数组的初始容量为10"><span class="toc-nav-number">6.1.3.</span> <span class="toc-nav-text"><a href="#3&#x3001;&#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x4E3A;10" class="headerlink" title="3&#x3001;&#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x4E3A;10"></a>3&#x3001;&#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x4E3A;10</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-数组中当前元素个数"><span class="toc-nav-number">6.1.4.</span> <span class="toc-nav-text"><a href="#4&#x3001;&#x6570;&#x7EC4;&#x4E2D;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x4E2A;&#x6570;" class="headerlink" title="4&#x3001;&#x6570;&#x7EC4;&#x4E2D;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x4E2A;&#x6570;"></a>4&#x3001;&#x6570;&#x7EC4;&#x4E2D;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x4E2A;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-数组最大容量"><span class="toc-nav-number">6.1.5.</span> <span class="toc-nav-text"><a href="#5&#x3001;&#x6570;&#x7EC4;&#x6700;&#x5927;&#x5BB9;&#x91CF;" class="headerlink" title="5&#x3001;&#x6570;&#x7EC4;&#x6700;&#x5927;&#x5BB9;&#x91CF;"></a>5&#x3001;&#x6570;&#x7EC4;&#x6700;&#x5927;&#x5BB9;&#x91CF;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#arraylist的关键方法"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text"><a href="#ArrayList&#x7684;&#x5173;&#x952E;&#x65B9;&#x6CD5;" class="headerlink" title="ArrayList&#x7684;&#x5173;&#x952E;&#x65B9;&#x6CD5;"></a>ArrayList&#x7684;&#x5173;&#x952E;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-构造函数"><span class="toc-nav-number">6.2.1.</span> <span class="toc-nav-text"><a href="#1&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;" class="headerlink" title="1&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;"></a>1&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-添加元素"><span class="toc-nav-number">6.2.2.</span> <span class="toc-nav-text"><a href="#2&#x3001;&#x6DFB;&#x52A0;&#x5143;&#x7D20;" class="headerlink" title="2&#x3001;&#x6DFB;&#x52A0;&#x5143;&#x7D20;"></a>2&#x3001;&#x6DFB;&#x52A0;&#x5143;&#x7D20;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-对数组容量进行调整"><span class="toc-nav-number">6.2.3.</span> <span class="toc-nav-text"><a href="#3&#x3001;&#x5BF9;&#x6570;&#x7EC4;&#x5BB9;&#x91CF;&#x8FDB;&#x884C;&#x8C03;&#x6574;" class="headerlink" title="3&#x3001;&#x5BF9;&#x6570;&#x7EC4;&#x5BB9;&#x91CF;&#x8FDB;&#x884C;&#x8C03;&#x6574;"></a>3&#x3001;&#x5BF9;&#x6570;&#x7EC4;&#x5BB9;&#x91CF;&#x8FDB;&#x884C;&#x8C03;&#x6574;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-扩容"><span class="toc-nav-number">6.2.4.</span> <span class="toc-nav-text"><a href="#4&#x3001;&#x6269;&#x5BB9;" class="headerlink" title="4&#x3001;&#x6269;&#x5BB9;"></a>4&#x3001;&#x6269;&#x5BB9;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#queue接口队列"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><a href="#Queue&#x63A5;&#x53E3;&#xFF0C;&#x961F;&#x5217;" class="headerlink" title="Queue&#x63A5;&#x53E3;&#xFF0C;&#x961F;&#x5217;"></a>Queue&#x63A5;&#x53E3;&#xFF0C;&#x961F;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#额外添加的api"><span class="toc-nav-number">7.1.</span> <span class="toc-nav-text"><a href="#&#x989D;&#x5916;&#x6DFB;&#x52A0;&#x7684;API" class="headerlink" title="&#x989D;&#x5916;&#x6DFB;&#x52A0;&#x7684;API"></a>&#x989D;&#x5916;&#x6DFB;&#x52A0;&#x7684;API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#为什么建议禁止添加-null-元素"><span class="toc-nav-number">7.2.</span> <span class="toc-nav-text"><a href="#&#x4E3A;&#x4EC0;&#x4E48;&#x5EFA;&#x8BAE;&#x7981;&#x6B62;&#x6DFB;&#x52A0;-null-&#x5143;&#x7D20;" class="headerlink" title="&#x4E3A;&#x4EC0;&#x4E48;&#x5EFA;&#x8BAE;&#x7981;&#x6B62;&#x6DFB;&#x52A0; null &#x5143;&#x7D20;"></a>&#x4E3A;&#x4EC0;&#x4E48;&#x5EFA;&#x8BAE;&#x7981;&#x6B62;&#x6DFB;&#x52A0; null &#x5143;&#x7D20;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#deque接口双端队列"><span class="toc-nav-number">8.</span> <span class="toc-nav-text"><a href="#Deque&#x63A5;&#x53E3;&#xFF0C;&#x53CC;&#x7AEF;&#x961F;&#x5217;" class="headerlink" title="Deque&#x63A5;&#x53E3;&#xFF0C;&#x53CC;&#x7AEF;&#x961F;&#x5217;"></a>Deque&#x63A5;&#x53E3;&#xFF0C;&#x53CC;&#x7AEF;&#x961F;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#deque-的实现类"><span class="toc-nav-number">8.1.</span> <span class="toc-nav-text"><a href="#Deque-&#x7684;&#x5B9E;&#x73B0;&#x7C7B;" class="headerlink" title="Deque &#x7684;&#x5B9E;&#x73B0;&#x7C7B;"></a>Deque &#x7684;&#x5B9E;&#x73B0;&#x7C7B;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#iterator迭代器"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Iterator&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#concurrentmodificationexception-出现的原因fail-fast"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">ConcurrentModificationException &#x51FA;&#x73B0;&#x7684;&#x539F;&#x56E0;&#xFF08;fail-fast&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#listiterator双向迭代器"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">ListIterator&#x53CC;&#x5411;&#x8FED;&#x4EE3;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#listiterator的获取"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">ListIterator&#x7684;&#x83B7;&#x53D6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#api"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#collection集合"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Collection&#x96C6;&#x5408;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合的概念"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">&#x96C6;&#x5408;&#x7684;&#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合框架"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">&#x96C6;&#x5408;&#x6846;&#x67B6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#java集合框架主要结构图"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Java&#x96C6;&#x5408;&#x6846;&#x67B6;&#x4E3B;&#x8981;&#x7ED3;&#x6784;&#x56FE;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#15个核心api"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">15&#x4E2A;&#x6838;&#x5FC3;API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#遍历collection的方法"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text">&#x904D;&#x5386;Collection&#x7684;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-for-each语法"><span class="toc-nav-number">3.5.1.</span> <span class="toc-nav-text">1&#x3001;for-each&#x8BED;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-iterator迭代器"><span class="toc-nav-number">3.5.2.</span> <span class="toc-nav-text">2&#x3001;Iterator&#x8FED;&#x4EE3;&#x5668;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#listltegt接口"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">List&lt;E&gt;&#x63A5;&#x53E3;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#list接口扩展的方法"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">List&#x63A5;&#x53E3;&#x6269;&#x5C55;&#x7684;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#abstractcollection抽象类"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">AbstractCollection&#x62BD;&#x8C61;&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#arraylist类"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">ArrayList&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#arraylist的成员变量"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">ArrayList&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-底层数据结构数组"><span class="toc-nav-number">6.1.1.</span> <span class="toc-nav-text">1&#x3001;&#x5E95;&#x5C42;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF1A;&#x6570;&#x7EC4;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-默认的空数组"><span class="toc-nav-number">6.1.2.</span> <span class="toc-nav-text"><span id="emptyArray">2&#x3001;&#x9ED8;&#x8BA4;&#x7684;&#x7A7A;&#x6570;&#x7EC4;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-数组的初始容量为10"><span class="toc-nav-number">6.1.3.</span> <span class="toc-nav-text">3&#x3001;&#x6570;&#x7EC4;&#x7684;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x4E3A;10</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-数组中当前元素个数"><span class="toc-nav-number">6.1.4.</span> <span class="toc-nav-text">4&#x3001;&#x6570;&#x7EC4;&#x4E2D;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x4E2A;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-数组最大容量"><span class="toc-nav-number">6.1.5.</span> <span class="toc-nav-text">5&#x3001;&#x6570;&#x7EC4;&#x6700;&#x5927;&#x5BB9;&#x91CF;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#arraylist的关键方法"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text">ArrayList&#x7684;&#x5173;&#x952E;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-构造函数"><span class="toc-nav-number">6.2.1.</span> <span class="toc-nav-text">1&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-添加元素"><span class="toc-nav-number">6.2.2.</span> <span class="toc-nav-text">2&#x3001;&#x6DFB;&#x52A0;&#x5143;&#x7D20;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-对数组容量进行调整"><span class="toc-nav-number">6.2.3.</span> <span class="toc-nav-text">3&#x3001;&#x5BF9;&#x6570;&#x7EC4;&#x5BB9;&#x91CF;&#x8FDB;&#x884C;&#x8C03;&#x6574;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-扩容"><span class="toc-nav-number">6.2.4.</span> <span class="toc-nav-text">4&#x3001;&#x6269;&#x5BB9;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#queue接口队列"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Queue&#x63A5;&#x53E3;&#xFF0C;&#x961F;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#额外添加的api"><span class="toc-nav-number">7.1.</span> <span class="toc-nav-text">&#x989D;&#x5916;&#x6DFB;&#x52A0;&#x7684;API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#为什么建议禁止添加-null-元素"><span class="toc-nav-number">7.2.</span> <span class="toc-nav-text">&#x4E3A;&#x4EC0;&#x4E48;&#x5EFA;&#x8BAE;&#x7981;&#x6B62;&#x6DFB;&#x52A0; null &#x5143;&#x7D20;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#deque接口双端队列"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">Deque&#x63A5;&#x53E3;&#xFF0C;&#x53CC;&#x7AEF;&#x961F;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#deque-的实现类"><span class="toc-nav-number">8.1.</span> <span class="toc-nav-text">Deque &#x7684;&#x5B9E;&#x73B0;&#x7C7B;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#linkedlist类"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">LinkedList&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#linkedlist双向链表实现"><span class="toc-nav-number">9.1.</span> <span class="toc-nav-text">LinkedList&#x53CC;&#x5411;&#x94FE;&#x8868;&#x5B9E;&#x73B0;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#linkedlist的方法"><span class="toc-nav-number">9.2.</span> <span class="toc-nav-text">LinkedList&#x7684;&#x65B9;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-关键的几个内部方法"><span class="toc-nav-number">9.2.1.</span> <span class="toc-nav-text">1&#x3001;&#x5173;&#x952E;&#x7684;&#x51E0;&#x4E2A;&#x5185;&#x90E8;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-常用的-api"><span class="toc-nav-number">9.2.2.</span> <span class="toc-nav-text">2&#x3001;&#x5E38;&#x7528;&#x7684; API</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#添加方法"><span class="toc-nav-number">9.2.2.1.</span> <span class="toc-nav-text">&#x6DFB;&#x52A0;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#删除方法"><span class="toc-nav-number">9.2.2.2.</span> <span class="toc-nav-text">&#x5220;&#x9664;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#修改方法"><span class="toc-nav-number">9.2.2.3.</span> <span class="toc-nav-text">&#x4FEE;&#x6539;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#查询方法"><span class="toc-nav-number">9.2.2.4.</span> <span class="toc-nav-text">&#x67E5;&#x8BE2;&#x65B9;&#x6CD5;</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#arraylist和linkedlist的比较"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">ArrayList&#x548C;LinkedList&#x7684;&#x6BD4;&#x8F83;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#vector类"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">Vector&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#成员变量"><span class="toc-nav-number">11.1.</span> <span class="toc-nav-text">&#x6210;&#x5458;&#x53D8;&#x91CF;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#vector特点"><span class="toc-nav-number">11.2.</span> <span class="toc-nav-text">Vector&#x7279;&#x70B9;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#vector和arraylist的比较"><span class="toc-nav-number">12.</span> <span class="toc-nav-text">Vector&#x548C;ArrayList&#x7684;&#x6BD4;&#x8F83;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#stack栈"><span class="toc-nav-number">13.</span> <span class="toc-nav-text">Stack&#x6808;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#stack的方法"><span class="toc-nav-number">13.1.</span> <span class="toc-nav-text">Stack&#x7684;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#map接口"><span class="toc-nav-number">14.</span> <span class="toc-nav-text">Map&#x63A5;&#x53E3;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#视图"><span class="toc-nav-number">14.1.</span> <span class="toc-nav-text">&#x89C6;&#x56FE;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#keyset"><span class="toc-nav-number">14.1.1.</span> <span class="toc-nav-text">KeySet</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#values"><span class="toc-nav-number">14.1.2.</span> <span class="toc-nav-text">Values</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#entry"><span class="toc-nav-number">14.1.3.</span> <span class="toc-nav-text">Entry</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#map的三种遍历方式"><span class="toc-nav-number">14.2.</span> <span class="toc-nav-text">Map&#x7684;&#x4E09;&#x79CD;&#x904D;&#x5386;&#x65B9;&#x5F0F;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-使用-keyset-遍历"><span class="toc-nav-number">14.2.1.</span> <span class="toc-nav-text">1&#x3001;&#x4F7F;&#x7528; KeySet &#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-使用-values-遍历"><span class="toc-nav-number">14.2.2.</span> <span class="toc-nav-text">2&#x3001;&#x4F7F;&#x7528; Values &#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-使用-entry-遍历"><span class="toc-nav-number">14.2.3.</span> <span class="toc-nav-text">3&#x3001;&#x4F7F;&#x7528; Entry &#x904D;&#x5386;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#map的实现类"><span class="toc-nav-number">14.3.</span> <span class="toc-nav-text">Map&#x7684;&#x5B9E;&#x73B0;&#x7C7B;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#hashmap"><span class="toc-nav-number">15.</span> <span class="toc-nav-text">HashMap</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#hashmap的特点"><span class="toc-nav-number">15.1.</span> <span class="toc-nav-text">HashMap&#x7684;&#x7279;&#x70B9;&#xFF1A;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#hashmap的成员变量"><span class="toc-nav-number">15.2.</span> <span class="toc-nav-text">HashMap&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -709,7 +1143,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; 宋正兵 2020 
+                    Copyright &copy; 宋正兵 2021 
                     <br>
                     Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
                     re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
@@ -803,6 +1237,24 @@
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>
