@@ -2,6 +2,7 @@
 <html lang="en">
 
 <!-- Head tag -->
+<!-- 博客名字 + canonical + css引入 -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,10 +15,12 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
+		<!-- 网站设置：SEOTitle 博客名 -->
           宋正兵的博客 | zbsong Blog
         
     </title>
 
+	<!-- 规范网址 canonical，方便搜索引擎收录-->
     <link rel="canonical" href="zbsong.top/archives/2020/archives/2/">
 
     <!-- Bootstrap Core CSS -->
@@ -66,9 +69,11 @@
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+	<!-- 网站的标题 + 背景图片 -->
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
+    <!-- 给 intro-header 类元素设置 css 属性（背景图片） -->
     header.intro-header{
         
             background-image: url('/img/header_img/archives-widget.jpg')
@@ -85,9 +90,12 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
+					<!-- 网站的标题 -->
                     <div class="site-heading">
+						<!-- 网站的标题 -->
                         <h1>宋正兵的博客</h1>
                         <!--<hr class="small">-->
+						<!-- 网站的 subtitle -->
                         <span class="subheading">以前我觉得每天都一样，现在我觉得每天都有新的期待</span>
                     </div>
                 
@@ -99,11 +107,12 @@
     </div>
 </header>
 
-	
+	<!-- 导航链接 -->
     <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
+		<!-- 左上角的 名字 -->
         <div class="navbar-header page-scroll">
             <button type="button" class="navbar-toggle">
                 <span class="sr-only">Toggle navigation</span>
@@ -142,6 +151,12 @@
                     
                         
                         <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
                             <a href="/archive/">归档</a>
                         </li>
                         
@@ -149,12 +164,6 @@
                         
                         <li>
                             <a href="/about/">关于</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
-                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -171,6 +180,7 @@
     // Use customize navbar with high-quality material design animation
     // in high-perf jank-free CSS3 implementation
     var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
     var $toggle = document.querySelector('.navbar-toggle');
     var $navbar = document.querySelector('#huxblog_navbar');
     var $collapse = document.querySelector('.navbar-collapse');
@@ -396,21 +406,6 @@
                  <li >
                     10-28
                     <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/jdk学习之路—parseInt方法/" style="color: #0085a1">
-                        <span>
-                            Integer的parseInt()方法
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    10-28
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                     <a href="/article/jdk学习之路—Integer的缓存机制/" style="color: #0085a1">
                         <span>
                             Integer的缓存机制
@@ -424,11 +419,11 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <li >
-                    10-27
+                    10-28
                     <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/谈谈分页/" style="color: #0085a1">
+                    <a href="/article/jdk学习之路—parseInt方法/" style="color: #0085a1">
                         <span>
-                            谈谈分页
+                            Integer的parseInt()方法
                         </span>
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -444,6 +439,21 @@
                     <a href="/article/通用返回对象/" style="color: #0085a1">
                         <span>
                             通用返回对象
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    10-27
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/article/谈谈分页/" style="color: #0085a1">
+                        <span>
+                            谈谈分页
                         </span>
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -627,11 +637,11 @@
             
         
             
-            <a href="/tags/#algorithm" title="algorithm" rel="2">algorithm</a>
+            <a href="/tags/#java项目" title="java项目" rel="3">java项目</a>
             
         
             
-            <a href="/tags/#java项目" title="java项目" rel="3">java项目</a>
+            <a href="/tags/#algorithm" title="algorithm" rel="2">algorithm</a>
             
         
     </div>
@@ -878,24 +888,6 @@ songzblink@163.com
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!--
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
--->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

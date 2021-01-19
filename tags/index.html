@@ -2,6 +2,7 @@
 <html lang="en">
 
 <!-- Head tag -->
+<!-- 博客名字 + canonical + css引入 -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +19,7 @@
         
     </title>
 
+	<!-- 规范网址 canonical，方便搜索引擎收录-->
     <link rel="canonical" href="zbsong.top/tags/">
 
     <!-- Bootstrap Core CSS -->
@@ -66,9 +68,11 @@
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+	<!-- 网站的标题 + 背景图片 -->
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
+    <!-- 给 intro-header 类元素设置 css 属性（背景图片） -->
     header.intro-header{
         
             background-image: url('/img/header_img/tag.png')
@@ -85,9 +89,12 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
+					<!-- 网站的标题 -->
                     <div class="site-heading">
+						<!-- 网站的标题 -->
                         <h1>标签</h1>
                         <!--<hr class="small">-->
+						<!-- 网站的 subtitle -->
                         <span class="subheading">快速找到你感兴趣的标签</span>
                     </div>
                 
@@ -99,11 +106,12 @@
     </div>
 </header>
 
-	
+	<!-- 导航链接 -->
     <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
+		<!-- 左上角的 名字 -->
         <div class="navbar-header page-scroll">
             <button type="button" class="navbar-toggle">
                 <span class="sr-only">Toggle navigation</span>
@@ -142,6 +150,12 @@
                     
                         
                         <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
                             <a href="/archive/">归档</a>
                         </li>
                         
@@ -149,12 +163,6 @@
                         
                         <li>
                             <a href="/about/">关于</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
-                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -171,6 +179,7 @@
     // Use customize navbar with high-quality material design animation
     // in high-perf jank-free CSS3 implementation
     var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
     var $toggle = document.querySelector('.navbar-toggle');
     var $navbar = document.querySelector('#huxblog_navbar');
     var $collapse = document.querySelector('.navbar-collapse');
@@ -210,9 +219,9 @@
                 
                     <a href="#jdk学习之路" title="jdk学习之路" rel="7">jdk学习之路</a>
                 
-                    <a href="#algorithm" title="algorithm" rel="2">algorithm</a>
-                
                     <a href="#java项目" title="java项目" rel="3">java项目</a>
+                
+                    <a href="#algorithm" title="algorithm" rel="2">algorithm</a>
                 
             </div>
 
@@ -249,25 +258,6 @@
                 <span class="fa fa-tag listing-seperator" id="note">
                     <span class="tag-text">note</span>
                 </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/DataFrame的使用/">
-                        <h2 class="post-title">
-                            DataFrame的使用
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                一份使用笔记
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
                 
                   <!-- <li class="listing-item">
                   <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -312,13 +302,13 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/Redis实现缓存功能/">
+                     <a href="/article/Swagger-UI实现在线API文档/">
                         <h2 class="post-title">
-                            Redis实现缓存功能
+                            Swagger-UI实现在线API文档
                         </h2>
                         
                             <h3 class="post-subtitle">
-                                Redis的安装使用以及常用操作
+                                在线的API文档
                             </h3>
                         
                     </a>
@@ -331,13 +321,13 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/Swagger-UI实现在线API文档/">
+                     <a href="/article/Redis实现缓存功能/">
                         <h2 class="post-title">
-                            Swagger-UI实现在线API文档
+                            Redis实现缓存功能
                         </h2>
                         
                             <h3 class="post-subtitle">
-                                在线的API文档
+                                Redis的安装使用以及常用操作
                             </h3>
                         
                     </a>
@@ -369,13 +359,13 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/tk-mybatis—集成通用mapper/">
+                     <a href="/article/阅读记录/">
                         <h2 class="post-title">
-                            tk.mybatis的使用
+                            阅读记录
                         </h2>
                         
                             <h3 class="post-subtitle">
-                                集成通用mapper
+                                记录一些看过的比较好的博客
                             </h3>
                         
                     </a>
@@ -388,13 +378,32 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/阅读记录/">
+                     <a href="/article/DataFrame的使用/">
                         <h2 class="post-title">
-                            阅读记录
+                            DataFrame的使用
                         </h2>
                         
                             <h3 class="post-subtitle">
-                                记录一些看过的比较好的博客
+                                一份使用笔记
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/tk-mybatis—集成通用mapper/">
+                        <h2 class="post-title">
+                            tk.mybatis的使用
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                集成通用mapper
                             </h3>
                         
                     </a>
@@ -414,44 +423,6 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/jdk学习之路—Exception/">
-                        <h2 class="post-title">
-                            Exception异常类及其处理
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                谈谈Exception异常类，当然包含RuntimeException
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/jdk学习之路—Integer的缓存机制/">
-                        <h2 class="post-title">
-                            Integer的缓存机制
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                缓存机制以及equals()和==的区别
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
                      <a href="/article/jdk学习之路—parseInt方法/">
                         <h2 class="post-title">
                             Integer的parseInt()方法
@@ -459,25 +430,6 @@
                         
                             <h3 class="post-subtitle">
                                 谈谈parseInt()方法
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/jdk学习之路—重写equals时必须重写hashCode方法/">
-                        <h2 class="post-title">
-                            重写equals时必须重写hashCode方法
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                equals和hashCode方法的联系
                             </h3>
                         
                     </a>
@@ -528,6 +480,63 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/article/jdk学习之路—Integer的缓存机制/">
+                        <h2 class="post-title">
+                            Integer的缓存机制
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                缓存机制以及equals()和==的区别
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/jdk学习之路—Exception/">
+                        <h2 class="post-title">
+                            Exception异常类及其处理
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                谈谈Exception异常类，当然包含RuntimeException
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/jdk学习之路—重写equals时必须重写hashCode方法/">
+                        <h2 class="post-title">
+                            重写equals时必须重写hashCode方法
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                equals和hashCode方法的联系
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/article/jdk学习之路—集合框架/">
                         <h2 class="post-title">
                             集合框架理解
@@ -535,6 +544,70 @@
                         
                             <h3 class="post-subtitle">
                                 一个集合源码解析系列的阅读笔记
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="java项目">
+                    <span class="tag-text">java项目</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/批量给图片添加水印/">
+                        <h2 class="post-title">
+                            批量给图片添加水印
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                兴趣使然去实现
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/谈谈分页/">
+                        <h2 class="post-title">
+                            谈谈分页
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                分页功能的实现以及pagehelper的使用
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/通用返回对象/">
+                        <h2 class="post-title">
+                            通用返回对象
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                用于controller返回的通用对象，包含状态码、信息以及数据
                             </h3>
                         
                     </a>
@@ -580,70 +653,6 @@
                         
                             <h3 class="post-subtitle">
                                 记录了在leetcode刷题的答案
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="java项目">
-                    <span class="tag-text">java项目</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/批量给图片添加水印/">
-                        <h2 class="post-title">
-                            批量给图片添加水印
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                兴趣使然去实现
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/通用返回对象/">
-                        <h2 class="post-title">
-                            通用返回对象
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                用于controller返回的通用对象，包含状态码、信息以及数据
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/谈谈分页/">
-                        <h2 class="post-title">
-                            谈谈分页
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                分页功能的实现以及pagehelper的使用
                             </h3>
                         
                     </a>
@@ -784,24 +793,6 @@
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!--
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
--->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

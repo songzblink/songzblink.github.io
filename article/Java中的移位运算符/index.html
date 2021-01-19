@@ -2,6 +2,7 @@
 <html lang="en">
 
 <!-- Head tag -->
+<!-- 博客名字 + canonical + css引入 -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +19,7 @@
         
     </title>
 
+	<!-- 规范网址 canonical，方便搜索引擎收录-->
     <link rel="canonical" href="zbsong.top/article/Java中的移位运算符/">
 
     <!-- Bootstrap Core CSS -->
@@ -66,9 +68,11 @@
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+	<!-- 网站的标题 + 背景图片 -->
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
+    <!-- 给 intro-header 类元素设置 css 属性（背景图片） -->
     header.intro-header{
         
             background-image: url('https://api.dujin.org/bing/1920.php')
@@ -107,11 +111,12 @@
     </div>
 </header>
 
-	
+	<!-- 导航链接 -->
     <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
+		<!-- 左上角的 名字 -->
         <div class="navbar-header page-scroll">
             <button type="button" class="navbar-toggle">
                 <span class="sr-only">Toggle navigation</span>
@@ -150,6 +155,12 @@
                     
                         
                         <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
                             <a href="/archive/">归档</a>
                         </li>
                         
@@ -157,12 +168,6 @@
                         
                         <li>
                             <a href="/about/">关于</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
-                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -179,6 +184,7 @@
     // Use customize navbar with high-quality material design animation
     // in high-perf jank-free CSS3 implementation
     var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
     var $toggle = document.querySelector('.navbar-toggle');
     var $navbar = document.querySelector('#huxblog_navbar');
     var $collapse = document.querySelector('.navbar-collapse');
@@ -550,24 +556,6 @@
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!--
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
--->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>
