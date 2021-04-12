@@ -15,7 +15,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          JVM—内存结构、垃圾回收 - 宋正兵的博客 | zbsong Blog
+          JVM—内存结构、垃圾回收、类加载与字节码技术 - 宋正兵的博客 | zbsong Blog
         
     </title>
 
@@ -93,7 +93,7 @@
                               <a class="tag" href="/tags/#java" title="java">java</a>
                             
                         </div>
-                        <h1>JVM—内存结构、垃圾回收</h1>
+                        <h1>JVM—内存结构、垃圾回收、类加载与字节码技术</h1>
                         <!-- <h2 class="subheading">JVM的内存结构、垃圾回收</h2> -->
                         <span class="meta">
                             宋正兵 on
@@ -152,13 +152,13 @@
                     
                         
                         <li>
-                            <a href="/about/">关于</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/about/">关于</a>
                         </li>
                         
                     
@@ -742,6 +742,260 @@
 </tr>
 </tbody>
 </table>
+<h1 id="类加载与字节码技术">类加载与字节码技术</h1>
+<p><img src="https://pic.tyzhang.top/images/2021/04/10/image.png" alt="image.png"></p>
+<h2 id="类文件结构">类文件结构</h2>
+<p>根据 JVM 规范的规定，Class 文件格式采用一种类似于 C 语言结构体的伪结构来存储数据，这种数据只有两种数据类型：无符号数和表。</p>
+<p>无符号数属于基本的数据类型，以 <code>u1</code>、<code>u2</code>、<code>u4</code>、<code>u8</code> 来分别代表 1 个字节、2 个字节、4 个字节和 8 个字节的无符号数。无符号数可以用来描述数字、索引引用、数量值或者按照 UTF-8 编码构造字符串值。</p>
+<p>表是由多个无符号数或者其他表作为数据项构成的复合数据类型。所有表都习惯性地以 <code>_info</code> 结尾。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ClassFile &#123;</span><br><span class="line">    u4             magic;<span class="comment">// 魔数</span></span><br><span class="line">    u2             minor_version;<span class="comment">// 次版本号</span></span><br><span class="line">    u2             major_version;<span class="comment">// 主版本号</span></span><br><span class="line">    u2             constant_pool_count;<span class="comment">// 常量池容量计数值</span></span><br><span class="line">    cp_info        constant_pool[constant_pool_count-<span class="number">1</span>];<span class="comment">// 常量池</span></span><br><span class="line">    u2             access_flags;<span class="comment">// 访问标志</span></span><br><span class="line">    u2             this_class;<span class="comment">// 类索引</span></span><br><span class="line">    u2             super_class;<span class="comment">// 父类索引</span></span><br><span class="line">    u2             interfaces_count;<span class="comment">// 接口索引计数值</span></span><br><span class="line">    u2             interfaces[interfaces_count];<span class="comment">// 接口索引集合</span></span><br><span class="line">    u2             fields_count;<span class="comment">// 字段表计数值</span></span><br><span class="line">    field_info     fields[fields_count];<span class="comment">// 字段表集合</span></span><br><span class="line">    u2             methods_count;<span class="comment">// 方法表计数值</span></span><br><span class="line">    method_info    methods[methods_count];<span class="comment">// 方法表集合</span></span><br><span class="line">    u2             attributes_count;<span class="comment">// 属性表计数值</span></span><br><span class="line">    attribute_info attributes[attributes_count];<span class="comment">// 属性表集合</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们以下面的 Java 程序为例来分析 Class 文件的结构</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> top.zbsong.clazz;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClass</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> m;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">inc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> m + <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将上面的代码使用 JDK 8 以上编译输出 Class 文件为基础来进行分析。</p>
+<p>命令：<code>javac .\TestClass.java</code></p>
+<p>得到文件 <code>TestClass.class</code>，在 sublime 中打开内容如下：（注意，正常情况下偏移地址应该是8位，这里只标记出来4位是为了页面能够容下信息）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">offset  0 1  2 3  4 5  6 7  8 9  A B  C D  E F</span><br><span class="line">0000    cafe babe 0000 0038 0013 0a00 0400 0f09</span><br><span class="line">0010    0003 0010 0700 1107 0012 0100 016d 0100</span><br><span class="line">0020    0149 0100 063c 696e 6974 3e01 0003 2829</span><br><span class="line">0030    5601 0004 436f 6465 0100 0f4c 696e 654e</span><br><span class="line">0040    756d 6265 7254 6162 6c65 0100 0369 6e63</span><br><span class="line">0050    0100 0328 2949 0100 0a53 6f75 7263 6546</span><br><span class="line">0060    696c 6501 000e 5465 7374 436c 6173 732e</span><br><span class="line">0070    6a61 7661 0c00 0700 080c 0005 0006 0100</span><br><span class="line">0080    1a74 6f70 2f7a 6273 6f6e 672f 636c 617a</span><br><span class="line">0090    7a2f 5465 7374 436c 6173 7301 0010 6a61</span><br><span class="line">00A0    7661 2f6c 616e 672f 4f62 6a65 6374 0021</span><br><span class="line">00B0    0003 0004 0000 0001 0002 0005 0006 0000</span><br><span class="line">00C0    0002 0001 0007 0008 0001 0009 0000 001d</span><br><span class="line">00D0    0001 0001 0000 0005 2ab7 0001 b100 0000</span><br><span class="line">00E0    0100 0a00 0000 0600 0100 0000 0200 0100</span><br><span class="line">00F0    0b00 0c00 0100 0900 0000 1f00 0200 0100</span><br><span class="line">0100    0000 072a b400 0204 60ac 0000 0001 000a</span><br><span class="line">0110    0000 0006 0001 0000 0005 0001 000d 0000</span><br><span class="line">0120    0002 000e</span><br></pre></td></tr></table></figure>
+<h3 id="1-魔数magic">1. 魔数magic</h3>
+<p>每个 Class 文件的头 4 个字节称为魔数（Magic NUmber），它的唯一作用是确定这个文件是否为一个能够被虚拟机接受的 Class 文件。</p>
+<p>Java 文件的魔数的值为：<code>0xCAFEBABE</code>，观察 TestClass.class 文件中的头 4 个字节</p>
+<p><span style="color:red">cafe babe</span> 0000 0038 0013 0a00 0400 0f09</p>
+<p>能够印证我们的观点。</p>
+<h3 id="2-class文件的版本">2. Class文件的版本</h3>
+<p>紧接着魔数的 4 个字节存储的是 Class 文件的版本号：第 5  和第 6 个字节为次版本号（Minor Version），第 7 和第 8 个字节是主版本号（Major Version）。</p>
+<p>观察 TestClass.class 文件的第 5 ~ 8 个字节</p>
+<p>cafe babe <span style="color:red">0000 0038 </span> 0013 0a00 0400 0f09</p>
+<p>我电脑安装的是 JDK 12，所以主版本号是 <code>0x0038</code>（十六进制，转换十进制为 56），如果是 JDK 8 的话，主版本号应该是 0x0034（十六进制，转换十进制为 52）。</p>
+<p>具体对应关系可以上网搜索。</p>
+<h3 id="3-常量池">3. 常量池</h3>
+<p>紧接着主次版本号之后的是常量池入口。常量池可以理解为 Class 文件之中的资源仓库，它是 Class 文件结构中与其他项目关联最多的数据类型，也是占用 Class 文件空间最大的数据项目之一，同时它还是在 Class 文件中第一个出现的表类型数据项目。</p>
+<p>常量池包含两个部分：</p>
+<ol>
+<li>常量池容量计数值（constant_pool_count），u2 类型</li>
+<li>常量池（constant_pool），cp_info 表类型</li>
+</ol>
+<p>常量池容量计数从 1 开始计数， 把第 0 项常量空出来的目的是：满足后面某些指向常量池的索引值的数据在特定情况下需要表达“不引用任何一个常量池项目”的含义。</p>
+<p>观察 TestClass.class 文件的常量池容量（偏移地址：0x0000 0008）</p>
+<p>cafe babe 0000 0038  <span style="color:red">0013</span>  0a00 0400 0f09</p>
+<p>0x0013（十六进制，转换十进制为 19）这代表常量池中有 19 项常量，索引值范围为 1~19。</p>
+<p>常量池中主要存放两大类常量：</p>
+<ul>
+<li>
+<p>字面量（Literal）</p>
+<p>接近于 Java 语言层面的常量概念，如文本字符串、声明为 final 的常量值等。</p>
+</li>
+<li>
+<p>符号引用（Symbolic References）</p>
+<p>属于编译原理方面的概念，包括下面三类常量：</p>
+<ul>
+<li>类和接口的全限定名（Fully Qualified Name）</li>
+<li>字段的名称和描述符（Descriptor）</li>
+<li>方法的名称和描述符</li>
+</ul>
+</li>
+</ul>
+<p>常量池中的每一项常量都是一个表，表都有一个共同的特点，就是表开始的第一位是一个 u1 类型的标志位（tag，取值见表 6-3 中标志列），代表当前这个常量属于哪种常量类型。下面列举一些常量类型所代表的的具体含义，且这些常量类型各自均有自己的结构。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/04/10/image9f9cfba27ab6f4b8.png" alt="image9f9cfba27ab6f4b8.png"></p>
+<p><strong>第一项常量</strong></p>
+<p>回头观察 TestClass.class 文件常量池中的第一项常量（偏移地址是 0x0000 000A）为 <code>0x0a</code></p>
+<p>cafe babe 0000 0038  0013 <span style="color:red">0a</span>00 0400 0f09</p>
+<p>查表 6-3 发现这个常量属于 <code>CONSTANT_Methodref_info</code> 类型，此类型的常量代表类中方法的符号引用，于是我上互联网进行搜索这个类型的结构</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标志</th>
+<th>数量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u1</td>
+<td>tag</td>
+<td>1</td>
+<td>值为10</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>class_index</td>
+<td>1</td>
+<td>指向声明方法的类描述符 CONSTANT_Class_info 的索引项</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>name_and_type_index</td>
+<td>1</td>
+<td>指向名称及类型描述符 CONSTANT_NameAndType_info 的索引项</td>
+</tr>
+</tbody>
+</table>
+<p>tag 是标志位，代表当前这个常量属于哪种常量类型。</p>
+<p>class_index 是一个索引值，常量池在该索引处的项必须是 <code>CONSTANT_Class_info</code> 结构，表示一个类或接口，当前字段或方法是这个类或接口的成员。此处必须是类。</p>
+<p>name_and_type_index 是一个索引值，常量池在该索引处的项必须是 <code>CONSTANT_NameAndType_info</code> 结构，它表示当前字段或方法的名字和描述符。此处必须是方法描述符。</p>
+<p>观察 TestClass.class 文件，该常量的所有数据项为：</p>
+<p>cafe babe 0000 0038  0013 <span style="color:red">0a</span><span style="color:yellowgreen">00 04</span><span style="color:blue">00 0f</span>09</p>
+<p>tag（偏移地址 0x0000 000A)为 <code>0x0a</code> 代表个常量属于 <code>CONSTANT_Methodref_info</code> 类型，class_index（偏移地址 0x0000 000B）为 <code>0x0004</code>，即指向了常量池中的第 4 项常量，name_and_type_index（偏移地址 0x0000 000D）为 <code>0x000f</code>，即指向了常量池中的第 15 项常量。</p>
+<p>篇幅受限，我们就不挨个去分析第 4 项常量和第 15 项常量，直接通过命令 <code>javap -verbose .\TestClass.class</code> 输出常量表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">javap -verbose  .\TestClass.class                                                                               Classfile /D:/TestClass.class</span><br><span class="line">  Last modified 2021年4月10日; size 292 bytes</span><br><span class="line">  MD5 checksum a4ca6bd139db017b6f2861fa6decc304</span><br><span class="line">  Compiled from &quot;TestClass.java&quot;</span><br><span class="line">public class top.zbsong.clazz.TestClass</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 56</span><br><span class="line">  flags: (0x0021) ACC_PUBLIC, ACC_SUPER</span><br><span class="line">  this_class: #3                          // top/zbsong/clazz/TestClass</span><br><span class="line">  super_class: #4                         // java/lang/Object</span><br><span class="line">  interfaces: 0, fields: 1, methods: 2, attributes: 1</span><br><span class="line">Constant pool:</span><br><span class="line">   #1 = Methodref          #4.#15         // java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">   #2 = Fieldref           #3.#16         // top/zbsong/clazz/TestClass.m:I</span><br><span class="line">   #3 = Class              #17            // top/zbsong/clazz/TestClass</span><br><span class="line">   #4 = Class              #18            // java/lang/Object</span><br><span class="line">   #5 = Utf8               m</span><br><span class="line">   #6 = Utf8               I</span><br><span class="line">   #7 = Utf8               &lt;init&gt;</span><br><span class="line">   #8 = Utf8               ()V</span><br><span class="line">   #9 = Utf8               Code</span><br><span class="line">  #10 = Utf8               LineNumberTable</span><br><span class="line">  #11 = Utf8               inc</span><br><span class="line">  #12 = Utf8               ()I</span><br><span class="line">  #13 = Utf8               SourceFile</span><br><span class="line">  #14 = Utf8               TestClass.java</span><br><span class="line">  #15 = NameAndType        #7:#8          // &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">  #16 = NameAndType        #5:#6          // m:I</span><br><span class="line">  #17 = Utf8               top/zbsong/clazz/TestClass</span><br><span class="line">  #18 = Utf8               java/lang/Object</span><br><span class="line">&#123;</span><br><span class="line">  public top.zbsong.clazz.TestClass();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: (0x0001) ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=1, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 2: 0</span><br><span class="line"></span><br><span class="line">  public int inc();</span><br><span class="line">    descriptor: ()I</span><br><span class="line">    flags: (0x0001) ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: getfield      #2                  // Field m:I</span><br><span class="line">         4: iconst_1</span><br><span class="line">         5: iadd</span><br><span class="line">         6: ireturn</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 5: 0</span><br><span class="line">&#125;</span><br><span class="line">SourceFile: &quot;TestClass.java&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>第4项常量</strong></p>
+<p>可以看到第 4 项常量是一项 <code>CONSTANT_Class_info</code>  类型，其结构关系如下，</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标志</th>
+<th>数量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u1</td>
+<td>tag</td>
+<td>1</td>
+<td>值为7</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>name_index</td>
+<td>1</td>
+<td>指向全限定名常量项的引用</td>
+</tr>
+</tbody>
+</table>
+<p>name_index 是一个索引值，它指向常量池中一个 <code>CONSTANT_Utf8_info</code> 类型常量，此常量代表了类（或者接口）的全限<br>
+定名，通过常量表可以知道它的 name_index 指向第 18 个常量，该常量确实是一个 <code>CONSTANT_Utf8_info</code> 类型常量，。</p>
+<p><code>CONSTANT_Utf8_info</code> 类型常量的结构如下：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标志</th>
+<th>数量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u1</td>
+<td>tag</td>
+<td>1</td>
+<td>值为1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>length</td>
+<td>1</td>
+<td>UTF-8 编码的字符串长度是多少字节</td>
+</tr>
+<tr>
+<td>u1</td>
+<td>bytes</td>
+<td>length</td>
+<td>长度为 length 的 UTF-8 编码的字符串</td>
+</tr>
+</tbody>
+</table>
+<p>顺带一提，由于 Class 文件中方法、字段等都需要引用 <code>CONSTANT_Utf8_info</code> 型常量来描述名称，所以 <code>CONSTANT_Utf8_info</code> 型常量的最大长度也就是 Java 中方法、字段名的最大长度。而这里的最大长度就是 length 的最大值，即 u2 类型能表达的最大值 65535。所以 Java 程序中如果定义了超过 64KB 英文字符的变量或方法名，将会无法编译。</p>
+<p>于是我们就解析出来第 4 项常量所代表的含义是这个成员方法的所属类是 <code>java/lang/Object</code>。</p>
+<p><strong>第15项常量</strong></p>
+<p>第 15 项常量是一项 <code>CONSTANT_NameAndType_info</code> 类型的项目，其结构关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标志</th>
+<th>数量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u1</td>
+<td>tag</td>
+<td>1</td>
+<td>值为12</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>index</td>
+<td>1</td>
+<td>指向该字段或方法名称常量项的引用</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>index</td>
+<td>1</td>
+<td>指向该字段或方法描述符常量项的引用</td>
+</tr>
+</tbody>
+</table>
+<p>通过变量表我们知道第 15 项常量又指向第 7 项和第 8 项常量，分别表示方法的名称以及方法的描述符 <code>&quot;&lt;init&gt;&quot;:()V</code>。该内容具体的含义后边再进行分析。</p>
+<p>于是我们就可以知道，第 1 项常量存放了一个方法，该方法属于 <code>java/lang/Object</code> 类，该方法的名称以及描述符是 <code>&quot;&lt;init&gt;&quot;:()V</code>。</p>
+<p>后面的常量就不一一赘述了，有兴趣可以自己挨个分析。</p>
+<h3 id="4-访问标志">4. 访问标志</h3>
+<p>在常量池结束之后，紧接着的两个字节代表访问标志（access_flags），这个标志用于识别一些类或者接口层次的访问信息，包括：这个 Class 是类还是接口；是否定义为 public 类型；是否定义为 abstract 类型；如果是类的话，是否被声明为 final 等。具体的标志位以及标志的含义见表 6-7。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/04/10/image26377ac48f855564.png" alt="image26377ac48f855564.png"></p>
+<p>access_flags 中一共有 16 个标志位可以使用，当前只定义了其中 8 个，没有使用到的标志位要求一律为 0。</p>
+<p>由于 TestClass 是一个普通 Java 类，不是接口、枚举或者注解，被 public 关键字修饰但没有被声明为 final 和 abstract。因此它只有 ACC_PUBLIC、ACC_SUPER 标志应当为真，所以它的 access_flags 的值应该为 <code>0x0001 | 0x0020 = 0x0021</code>。观察 TestClass.class 文件，access_flags 标志（偏移地址 0x0000 00AE）的确为 <code>0x0021</code>。</p>
+<p>7661 2f6c 616e 672f 4f62 6a65 6374 <span style="color:red">0021</span></p>
+<h3 id="5-类索引-父类索引与接口索引集合">5. 类索引、父类索引与接口索引集合</h3>
+<p>类索引（this_class）和父类索引（super_class）都是一个u2类型的数据，而接口索引集合（interfaces）是一组 u2 类型的数据的集合，Class 文件中由这三项数据来确定这个类的继承关系。</p>
+<p><strong>类索引用</strong>  于确定这个类的全限定名。</p>
+<p><strong>父类索引</strong> 用于确定这个类的父类的全限定名。由于 Java 语言不允许多重继承，所以父类索引只有一个，除了 <code>java.lang.Object</code> 之外，所有的 Java 类都有父类，因此除了 <code>java.lang.Object</code> 外，所有 Java 类的父类索引都不为 0。</p>
+<p>类索引、父类索引和接口索引集合都按顺序排列在访问标志之后。</p>
+<p>类索引和父类索引用两个 u2 类型的索引值表示，它们各自指向一个类型为 <code>CONSTANT_Class_info</code> 的类描述符常量，通过 <code>CONSTANT_Class_info</code> 类型的常量中的索引值可以找到定义在 <code>CONSTANT_Utf8_info</code> 类型的常量中的全限定名字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 类索引查找全限定名的过程</span><br><span class="line">this_class:&#123;value:3&#125;</span><br><span class="line">--&gt; </span><br><span class="line">#3 CONSTANT_Class_info:&#123;index:17&#125;</span><br><span class="line">--&gt; </span><br><span class="line">#17 CONSTANT_Utf8_info:&#123;length:26,bytes:top/zbsong/clazz/TestClass&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>接口索引集合</strong> 用来描述这个类实现了哪些接口，这些被实现的接口将按 implements 语句（如果这个类本身是一个接口，则应当是 extends 语句）后的接口顺序从左到右排列在接口索引集合中。</p>
+<p>从偏移地址  0x0000 00B0 开始的 3 个 u2 类型的值分别为 0x0003、0x0004、0x0000，也就是类索引为 3，父类索引为 4，接口索引集合大小为 0，查询前面代码中 javap 命令计算出来的常量池，找出对应的类和父类的常量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#3 = Class              #17            // top/zbsong/clazz/TestClass</span><br><span class="line">#4 = Class              #18            // java/lang/Object</span><br><span class="line">#17 = Utf8               top/zbsong/clazz/TestClass</span><br><span class="line">#18 = Utf8               java/lang/Object</span><br></pre></td></tr></table></figure>
+<h3 id="6-字段表集合">6. 字段表集合</h3>
+<p>字段表（field_info）用于描述接口或者类中声明的变量。</p>
+<p>描述符的作用是用来描述字段的数据类型、方法的参数列表（包括数量、类型以及顺序）和返回值。根据描述符规则，基本数据类型（byte、char、double、float、int、long、short、boolean）以及代表无返回值的 void 类型都用一个大写字符来表示，而对象类型则用字符 L 加对象的全限定名来表示。</p>
+<p>对于数组类型，每一维度将使用一个前置的“[”字符来描述，如一个定义为“java.lang.String[][]”类型的二维数组，将被记录为：“[[Ljava/lang/String；”，一个整型数组“int[]”将被记录为“[I”。</p>
+<p>用描述符来描述方法时，按照先参数列表，后返回值的顺序描述，参数列表按照参数的严格顺序放在一组小括号“()”之内。如方法 void inc() 的描述符为“()V”，方法 java.lang.String toString() 的描述符为“()Ljava/lang/String;”，方法 int indexOf(char[]source,int sourceOffset,int sourceCount,char[]target,int targetOffset,int targetCount,int fromIndex) 的描述符为“([CII[CIII)I”。</p>
+<p>字段表集合中不会列出从超类或者父接口中继承而来的字段，但有可能列出原本 Java 代码之中不存在的字段，譬如在内部类中为了保持对外部类的访问性，会自动添加指向外部类实例的字段。</p>
+<h3 id="7-方法表集合">7. 方法表集合</h3>
+<p>Class 文件存储格式中对方法的描述与对字段的描述几乎采用了完全一致的方式。</p>
+<p>方法里的 Java 代码，经过编译器编译成字节码指令后，存放在方法属性表集合中一个名为“Code”的属性里面，</p>
+<p>与字段表集合相对应的，如果父类方法在子类中没有被重写（Override），方法表集合中就不会出现来自父类的方法信息。但同样的，有可能会出现由编译器自动添加的方法，最典型的便是类构造器“＜clinit＞”方法和实例构造器“＜init＞”方法。</p>
+<h3 id="8-属性表集合">8. 属性表集合</h3>
+<p>属性表（attribute_info），在Class文件、字段表、方法表都可以携带自己的属性表集合，以用于描述某些场景专有的信息。</p>
+<p>对于每个属性，它的名称需要从常量池中引用一个 <code>CONSTANT_Utf8_info</code> 类型的常量来表示，而属性值的结构则是完全自定义的，只需要通过一个 u4 的长度属性去说明属性值所占用的位数即可。</p>
+<p>属性表结构</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u2</td>
+<td>attribute_name_index</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u4</td>
+<td>attribute_length</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u1</td>
+<td>info</td>
+<td>attribute_length</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Code属性</strong></p>
+<p>Java 程序方法体中的代码经过 Javac 编译器处理后，最终变为字节码指令存储在 Code 属性内。</p>
+<p>用 javap 命令计算字节码指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">javap -verbose  .\TestClass.class  </span><br><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">  public top.zbsong.clazz.TestClass();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: (0x0001) ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=1, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 2: 0</span><br><span class="line"></span><br><span class="line">  public int inc();</span><br><span class="line">    descriptor: ()I</span><br><span class="line">    flags: (0x0001) ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: getfield      #2                  // Field m:I</span><br><span class="line">         4: iconst_1</span><br><span class="line">         5: iadd</span><br><span class="line">         6: ireturn</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 5: 0</span><br><span class="line">&#125;</span><br><span class="line">SourceFile: &quot;TestClass.java&quot;</span><br></pre></td></tr></table></figure>
+<p>看描述符 <code>()V</code> 虽然方法是无参的，但是 <code>args_size=1</code>，这是因为在任何实例方法里面，都可以通过 <code>this</code>关键字访问到此方法所属的对象。。这个访问机制对 Java 程序的编写很重要，而它的实现却非常简单，仅仅是通过 Javac 编译器编译的时候把对 this 关键字的访问转变为对一个普通方法参数的访问，然后在虚拟机调用实例方法时自动传入此参数而已。因此在实例方法的局部变量表中至少会存在一个指向当前对象实例的局部变量，局部变量表中也会预留出第一个 Slot 位来存放对象实例的引用，方法参数值从 1 开始计算。</p>
+<p>但是把方法声明为 static，那 <code>args_size</code> 的值就会等于 0 而不是 1了。</p>
+<h2 id="字节码指令">字节码指令</h2>
 
                 
                 <hr>
@@ -786,7 +1040,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#内存结构"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5185;&#x5B58;&#x7ED3;&#x6784;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#程序计数器"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟机栈"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x865A;&#x62DF;&#x673A;&#x6808;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#线程安全"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">&#x7EBF;&#x7A0B;&#x5B89;&#x5168;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#栈内存溢出"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">&#x6808;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#线程运行诊断"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">&#x7EBF;&#x7A0B;&#x8FD0;&#x884C;&#x8BCA;&#x65AD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#本地方法栈"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6808;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#heap堆"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Heap&#x5806;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#堆内存溢出"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">&#x5806;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#堆内存诊断"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text">&#x5806;&#x5185;&#x5B58;&#x8BCA;&#x65AD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#方法区"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x533A;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#方法区内存溢出"><span class="toc-nav-number">1.5.1.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x533A;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#场景"><span class="toc-nav-number">1.5.2.</span> <span class="toc-nav-text">&#x573A;&#x666F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#运行时常量池"><span class="toc-nav-number">1.5.3.</span> <span class="toc-nav-text">&#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#stringtable"><span class="toc-nav-number">1.5.4.</span> <span class="toc-nav-text">StringTable</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#特性"><span class="toc-nav-number">1.5.4.1.</span> <span class="toc-nav-text">&#x7279;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#存放位置"><span class="toc-nav-number">1.5.4.2.</span> <span class="toc-nav-text">&#x5B58;&#x653E;&#x4F4D;&#x7F6E;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#垃圾回收"><span class="toc-nav-number">1.5.4.3.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#性能调优"><span class="toc-nav-number">1.5.5.</span> <span class="toc-nav-text">&#x6027;&#x80FD;&#x8C03;&#x4F18;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#垃圾回收"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如何判断对象可以回收"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x5982;&#x4F55;&#x5224;&#x65AD;&#x5BF9;&#x8C61;&#x53EF;&#x4EE5;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#引用计数法"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text">&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#可达性分析算法"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text">&#x53EF;&#x8FBE;&#x6027;&#x5206;&#x6790;&#x7B97;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#四种引用"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x56DB;&#x79CD;&#x5F15;&#x7528;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#强引用"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">&#x5F3A;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#软引用"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">&#x8F6F;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#弱引用"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">&#x5F31;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#虚引用"><span class="toc-nav-number">2.2.4.</span> <span class="toc-nav-text">&#x865A;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#终结器引用了解"><span class="toc-nav-number">2.2.5.</span> <span class="toc-nav-text">&#x7EC8;&#x7ED3;&#x5668;&#x5F15;&#x7528;&#xFF08;&#x4E86;&#x89E3;&#xFF09;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收算法"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x7B97;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#标记清除"><span class="toc-nav-number">2.3.1.</span> <span class="toc-nav-text">&#x6807;&#x8BB0;&#x6E05;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#复制"><span class="toc-nav-number">2.3.2.</span> <span class="toc-nav-text">&#x590D;&#x5236;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#标记整理"><span class="toc-nav-number">2.3.3.</span> <span class="toc-nav-text">&#x6807;&#x8BB0;&#x6574;&#x7406;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分代垃圾回收"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">&#x5206;&#x4EE3;&#x5783;&#x573E;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#新生代"><span class="toc-nav-number">2.4.0.1.</span> <span class="toc-nav-text">&#x65B0;&#x751F;&#x4EE3;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#相关vm参数"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">&#x76F8;&#x5173;VM&#x53C2;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#理解gc日志"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">&#x7406;&#x89E3;GC&#x65E5;&#x5FD7;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收器"><span class="toc-nav-number">2.7.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#串行serialgc"><span class="toc-nav-number">2.7.1.</span> <span class="toc-nav-text">&#x4E32;&#x884C;SerialGC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#吞吐量优先parallelgc"><span class="toc-nav-number">2.7.2.</span> <span class="toc-nav-text">&#x541E;&#x5410;&#x91CF;&#x4F18;&#x5148;ParallelGC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#响应时间优先-cms"><span class="toc-nav-number">2.7.3.</span> <span class="toc-nav-text">&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x4F18;&#x5148; CMS</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#g1"><span class="toc-nav-number">2.7.4.</span> <span class="toc-nav-text">G1</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#内存分配与回收策略"><span class="toc-nav-number">2.8.</span> <span class="toc-nav-text">&#x5185;&#x5B58;&#x5206;&#x914D;&#x4E0E;&#x56DE;&#x6536;&#x7B56;&#x7565;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#对象优先在伊甸园区分配"><span class="toc-nav-number">2.8.1.</span> <span class="toc-nav-text">&#x5BF9;&#x8C61;&#x4F18;&#x5148;&#x5728;&#x4F0A;&#x7538;&#x56ED;&#x533A;&#x5206;&#x914D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#大对象直接进入老年代"><span class="toc-nav-number">2.8.2.</span> <span class="toc-nav-text">&#x5927;&#x5BF9;&#x8C61;&#x76F4;&#x63A5;&#x8FDB;&#x5165;&#x8001;&#x5E74;&#x4EE3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#长期存活的对象将进入老年代"><span class="toc-nav-number">2.8.3.</span> <span class="toc-nav-text">&#x957F;&#x671F;&#x5B58;&#x6D3B;&#x7684;&#x5BF9;&#x8C61;&#x5C06;&#x8FDB;&#x5165;&#x8001;&#x5E74;&#x4EE3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#动态对象年龄判定"><span class="toc-nav-number">2.8.4.</span> <span class="toc-nav-text">&#x52A8;&#x6001;&#x5BF9;&#x8C61;&#x5E74;&#x9F84;&#x5224;&#x5B9A;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#空间分配担保"><span class="toc-nav-number">2.8.5.</span> <span class="toc-nav-text">&#x7A7A;&#x95F4;&#x5206;&#x914D;&#x62C5;&#x4FDD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收调优"><span class="toc-nav-number">2.9.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x8C03;&#x4F18;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#调优领域"><span class="toc-nav-number">2.9.1.</span> <span class="toc-nav-text">&#x8C03;&#x4F18;&#x9886;&#x57DF;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#确定目标"><span class="toc-nav-number">2.9.2.</span> <span class="toc-nav-text">&#x786E;&#x5B9A;&#x76EE;&#x6807;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#最快的gc是不发生gc"><span class="toc-nav-number">2.9.3.</span> <span class="toc-nav-text">&#x6700;&#x5FEB;&#x7684;GC&#x662F;&#x4E0D;&#x53D1;&#x751F;GC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#新生代调优"><span class="toc-nav-number">2.9.4.</span> <span class="toc-nav-text">&#x65B0;&#x751F;&#x4EE3;&#x8C03;&#x4F18;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#老年代调优"><span class="toc-nav-number">2.9.5.</span> <span class="toc-nav-text">&#x8001;&#x5E74;&#x4EE3;&#x8C03;&#x4F18;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#案例"><span class="toc-nav-number">2.9.6.</span> <span class="toc-nav-text">&#x6848;&#x4F8B;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#虚拟机性能监控与故障处理工具"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x865A;&#x62DF;&#x673A;&#x6027;&#x80FD;&#x76D1;&#x63A7;&#x4E0E;&#x6545;&#x969C;&#x5904;&#x7406;&#x5DE5;&#x5177;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#内存结构"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5185;&#x5B58;&#x7ED3;&#x6784;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#程序计数器"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟机栈"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x865A;&#x62DF;&#x673A;&#x6808;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#线程安全"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">&#x7EBF;&#x7A0B;&#x5B89;&#x5168;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#栈内存溢出"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">&#x6808;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#线程运行诊断"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">&#x7EBF;&#x7A0B;&#x8FD0;&#x884C;&#x8BCA;&#x65AD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#本地方法栈"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6808;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#heap堆"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Heap&#x5806;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#堆内存溢出"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">&#x5806;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#堆内存诊断"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text">&#x5806;&#x5185;&#x5B58;&#x8BCA;&#x65AD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#方法区"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x533A;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#方法区内存溢出"><span class="toc-nav-number">1.5.1.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x533A;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#场景"><span class="toc-nav-number">1.5.2.</span> <span class="toc-nav-text">&#x573A;&#x666F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#运行时常量池"><span class="toc-nav-number">1.5.3.</span> <span class="toc-nav-text">&#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#stringtable"><span class="toc-nav-number">1.5.4.</span> <span class="toc-nav-text">StringTable</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#特性"><span class="toc-nav-number">1.5.4.1.</span> <span class="toc-nav-text">&#x7279;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#存放位置"><span class="toc-nav-number">1.5.4.2.</span> <span class="toc-nav-text">&#x5B58;&#x653E;&#x4F4D;&#x7F6E;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#垃圾回收"><span class="toc-nav-number">1.5.4.3.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#性能调优"><span class="toc-nav-number">1.5.5.</span> <span class="toc-nav-text">&#x6027;&#x80FD;&#x8C03;&#x4F18;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#垃圾回收"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如何判断对象可以回收"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x5982;&#x4F55;&#x5224;&#x65AD;&#x5BF9;&#x8C61;&#x53EF;&#x4EE5;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#引用计数法"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text">&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#可达性分析算法"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text">&#x53EF;&#x8FBE;&#x6027;&#x5206;&#x6790;&#x7B97;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#四种引用"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x56DB;&#x79CD;&#x5F15;&#x7528;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#强引用"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">&#x5F3A;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#软引用"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">&#x8F6F;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#弱引用"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">&#x5F31;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#虚引用"><span class="toc-nav-number">2.2.4.</span> <span class="toc-nav-text">&#x865A;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#终结器引用了解"><span class="toc-nav-number">2.2.5.</span> <span class="toc-nav-text">&#x7EC8;&#x7ED3;&#x5668;&#x5F15;&#x7528;&#xFF08;&#x4E86;&#x89E3;&#xFF09;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收算法"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x7B97;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#标记清除"><span class="toc-nav-number">2.3.1.</span> <span class="toc-nav-text">&#x6807;&#x8BB0;&#x6E05;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#复制"><span class="toc-nav-number">2.3.2.</span> <span class="toc-nav-text">&#x590D;&#x5236;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#标记整理"><span class="toc-nav-number">2.3.3.</span> <span class="toc-nav-text">&#x6807;&#x8BB0;&#x6574;&#x7406;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分代垃圾回收"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">&#x5206;&#x4EE3;&#x5783;&#x573E;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#新生代"><span class="toc-nav-number">2.4.0.1.</span> <span class="toc-nav-text">&#x65B0;&#x751F;&#x4EE3;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#相关vm参数"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">&#x76F8;&#x5173;VM&#x53C2;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#理解gc日志"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">&#x7406;&#x89E3;GC&#x65E5;&#x5FD7;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收器"><span class="toc-nav-number">2.7.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#串行serialgc"><span class="toc-nav-number">2.7.1.</span> <span class="toc-nav-text">&#x4E32;&#x884C;SerialGC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#吞吐量优先parallelgc"><span class="toc-nav-number">2.7.2.</span> <span class="toc-nav-text">&#x541E;&#x5410;&#x91CF;&#x4F18;&#x5148;ParallelGC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#响应时间优先-cms"><span class="toc-nav-number">2.7.3.</span> <span class="toc-nav-text">&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x4F18;&#x5148; CMS</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#g1"><span class="toc-nav-number">2.7.4.</span> <span class="toc-nav-text">G1</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#内存分配与回收策略"><span class="toc-nav-number">2.8.</span> <span class="toc-nav-text">&#x5185;&#x5B58;&#x5206;&#x914D;&#x4E0E;&#x56DE;&#x6536;&#x7B56;&#x7565;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#对象优先在伊甸园区分配"><span class="toc-nav-number">2.8.1.</span> <span class="toc-nav-text">&#x5BF9;&#x8C61;&#x4F18;&#x5148;&#x5728;&#x4F0A;&#x7538;&#x56ED;&#x533A;&#x5206;&#x914D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#大对象直接进入老年代"><span class="toc-nav-number">2.8.2.</span> <span class="toc-nav-text">&#x5927;&#x5BF9;&#x8C61;&#x76F4;&#x63A5;&#x8FDB;&#x5165;&#x8001;&#x5E74;&#x4EE3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#长期存活的对象将进入老年代"><span class="toc-nav-number">2.8.3.</span> <span class="toc-nav-text">&#x957F;&#x671F;&#x5B58;&#x6D3B;&#x7684;&#x5BF9;&#x8C61;&#x5C06;&#x8FDB;&#x5165;&#x8001;&#x5E74;&#x4EE3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#动态对象年龄判定"><span class="toc-nav-number">2.8.4.</span> <span class="toc-nav-text">&#x52A8;&#x6001;&#x5BF9;&#x8C61;&#x5E74;&#x9F84;&#x5224;&#x5B9A;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#空间分配担保"><span class="toc-nav-number">2.8.5.</span> <span class="toc-nav-text">&#x7A7A;&#x95F4;&#x5206;&#x914D;&#x62C5;&#x4FDD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收调优"><span class="toc-nav-number">2.9.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x8C03;&#x4F18;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#调优领域"><span class="toc-nav-number">2.9.1.</span> <span class="toc-nav-text">&#x8C03;&#x4F18;&#x9886;&#x57DF;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#确定目标"><span class="toc-nav-number">2.9.2.</span> <span class="toc-nav-text">&#x786E;&#x5B9A;&#x76EE;&#x6807;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#最快的gc是不发生gc"><span class="toc-nav-number">2.9.3.</span> <span class="toc-nav-text">&#x6700;&#x5FEB;&#x7684;GC&#x662F;&#x4E0D;&#x53D1;&#x751F;GC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#新生代调优"><span class="toc-nav-number">2.9.4.</span> <span class="toc-nav-text">&#x65B0;&#x751F;&#x4EE3;&#x8C03;&#x4F18;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#老年代调优"><span class="toc-nav-number">2.9.5.</span> <span class="toc-nav-text">&#x8001;&#x5E74;&#x4EE3;&#x8C03;&#x4F18;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#案例"><span class="toc-nav-number">2.9.6.</span> <span class="toc-nav-text">&#x6848;&#x4F8B;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#虚拟机性能监控与故障处理工具"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x865A;&#x62DF;&#x673A;&#x6027;&#x80FD;&#x76D1;&#x63A7;&#x4E0E;&#x6545;&#x969C;&#x5904;&#x7406;&#x5DE5;&#x5177;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#类加载与字节码技术"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x7C7B;&#x52A0;&#x8F7D;&#x4E0E;&#x5B57;&#x8282;&#x7801;&#x6280;&#x672F;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#类文件结构"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">&#x7C7B;&#x6587;&#x4EF6;&#x7ED3;&#x6784;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-魔数magic"><span class="toc-nav-number">4.1.1.</span> <span class="toc-nav-text">1. &#x9B54;&#x6570;magic</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-class文件的版本"><span class="toc-nav-number">4.1.2.</span> <span class="toc-nav-text">2. Class&#x6587;&#x4EF6;&#x7684;&#x7248;&#x672C;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-常量池"><span class="toc-nav-number">4.1.3.</span> <span class="toc-nav-text">3. &#x5E38;&#x91CF;&#x6C60;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-访问标志"><span class="toc-nav-number">4.1.4.</span> <span class="toc-nav-text">4. &#x8BBF;&#x95EE;&#x6807;&#x5FD7;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-类索引-父类索引与接口索引集合"><span class="toc-nav-number">4.1.5.</span> <span class="toc-nav-text">5. &#x7C7B;&#x7D22;&#x5F15;&#x3001;&#x7236;&#x7C7B;&#x7D22;&#x5F15;&#x4E0E;&#x63A5;&#x53E3;&#x7D22;&#x5F15;&#x96C6;&#x5408;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-字段表集合"><span class="toc-nav-number">4.1.6.</span> <span class="toc-nav-text">6. &#x5B57;&#x6BB5;&#x8868;&#x96C6;&#x5408;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-方法表集合"><span class="toc-nav-number">4.1.7.</span> <span class="toc-nav-text">7. &#x65B9;&#x6CD5;&#x8868;&#x96C6;&#x5408;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-属性表集合"><span class="toc-nav-number">4.1.8.</span> <span class="toc-nav-text">8. &#x5C5E;&#x6027;&#x8868;&#x96C6;&#x5408;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字节码指令"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">&#x5B57;&#x8282;&#x7801;&#x6307;&#x4EE4;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
