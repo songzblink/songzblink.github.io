@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<!-- 博客名字 + canonical + css引入 -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          JVM—内存结构、垃圾回收 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/JVM/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- 网站的标题 + 背景图片 -->
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#java" title="java">java</a>
+                            
+                        </div>
+                        <h1>JVM—内存结构、垃圾回收</h1>
+                        <!-- <h2 class="subheading">JVM的内存结构、垃圾回收</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2021-04-01
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	<!-- 导航链接 -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <h1 id="内存结构">内存结构</h1>
+<p><img src="https://pic.tyzhang.top/images/2021/04/04/image88db7519d63eb6fe.png" alt="image88db7519d63eb6fe.png"></p>
+<h2 id="程序计数器">程序计数器</h2>
+<p>Program Counter Register</p>
+<ul>
+<li>作用：存放下一条指令所在单元的地址的地方，物理上使用寄存器来实现的</li>
+<li>特点：
+<ul>
+<li>线程私有</li>
+<li>唯一一个不会存在内存溢出的区域</li>
+</ul>
+</li>
+</ul>
+<h2 id="虚拟机栈">虚拟机栈</h2>
+<p>Java Virtual Machine Stacks</p>
+<ul>
+<li>每个线程运行时所需要的内存，称为虚拟机栈</li>
+<li>每个栈由多个栈帧（Frame）组成，对应着每次方法调用时所占用的内存</li>
+<li>每个线程只能由一个活动栈帧，对应着当前正在执行的那个方法</li>
+</ul>
+<p>栈内存不需要进行垃圾回收。</p>
+<p>栈内存划的大，方便更多次的方法调用，划的过大，会让线程数变少，因为物理内存是一定的。</p>
+<p>方法内局部变量是线程私有的，不需要考虑线程安全，如果是公有的，需要考虑线程安全。</p>
+<h3 id="线程安全">线程安全</h3>
+<p>判断一个变量是不是线程安全的，不仅要看他是不是方法内的局部变量，还要看他是否逃离了方法的作用范围，如method3。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 多线程同时执行此方法</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> m1&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i&lt;<span class="number">5000</span>; i++)&#123;</span><br><span class="line">        x++;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 线程1方法调用该方法，新建一个栈帧，每个线程私有int x作为局部变量，与其他线程不相互影响。</span></span><br><span class="line"><span class="comment">* 如果修改为static int x，线程1和线程2都要读取x自增后再写回，不加安全保护会产生线程安全问题。</span></span><br><span class="line"><span class="comment">**/</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1_1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        sb.append(<span class="number">4</span>);</span><br><span class="line">        sb.append(<span class="number">5</span>);</span><br><span class="line">        sb.append(<span class="number">6</span>);</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="comment">// 与主线程共享sb</span></span><br><span class="line">            method2(sb);</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 同上，线程安全</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        sb.append(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 非线程安全，因为作为方法参数传递进来，因此可能会有其他线程访问，对其他线程共享，如main。需要使用StringBuffer。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">method2</span><span class="params">(StringBuilder s)</span> </span>&#123;</span><br><span class="line">        s.append(<span class="number">1</span>);</span><br><span class="line">        s.append(<span class="number">2</span>);</span><br><span class="line">        s.append(<span class="number">3</span>);</span><br><span class="line">        System.out.println(s.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> StringBuilder <span class="title">m3</span><span class="params">()</span></span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        sb.append(<span class="number">1</span>);</span><br><span class="line">        sb.append(<span class="number">2</span>);</span><br><span class="line">        sb.append(<span class="number">3</span>);</span><br><span class="line">        <span class="comment">// 其他线程可能拿到这个对象的引用，并发的修改。</span></span><br><span class="line">        <span class="keyword">return</span> sb;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="栈内存溢出">栈内存溢出</h3>
+<ul>
+<li>栈帧过多导致栈内存溢出</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo_2</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> count;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            method1();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.out.println(count);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        count ++;</span><br><span class="line">        method1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// java.lang.StackOverflowError</span></span><br></pre></td></tr></table></figure>
+<p>​	使用 <code>-Xss256k</code> 设置栈内存大小，使递归调用次数变小。</p>
+<ul>
+<li>栈帧过大导致栈内存溢出</li>
+</ul>
+<p>即该区域可能抛出以下异常：</p>
+<ul>
+<li>当线程请求的栈深度超过虚拟机所允许的深度，即栈帧过多，会抛出 <code>StackOverflowError</code> 异常；</li>
+<li>虚拟机栈进行动态扩展时如果无法申请到足够内存，会抛出 <code>OutOfMemoryError</code> 异常。</li>
+</ul>
+<h3 id="线程运行诊断">线程运行诊断</h3>
+<p><strong>案例1</strong> ：CPU 占用过高</p>
+<p><strong>定位问题</strong></p>
+<ol>
+<li>
+<p>使用 linux 的 top 命令定位哪个进程对 cpu 的占用过高</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用 ps 查看进程的哪个线程占用率过高</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps H -eo pid,tid,%cpu | grep 进程ID</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用 jstack 命令查看有问题的线程，展示的线程 ID 为十六进制，可定位到问题代码的行数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack 进程ID</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>案例2</strong> ：程序运行很长时间没有结果</p>
+<p>jstack 命令也能够检查出来 deadlock 死锁的存在。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> A a = <span class="keyword">new</span> A();</span><br><span class="line"><span class="keyword">static</span> B b = <span class="keyword">new</span> B();</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException</span>&#123;</span><br><span class="line">    <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(a)&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">                e,printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">synchronized</span>(b)&#123;</span><br><span class="line">                System.out.println(<span class="string">"我获得了a和b"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br><span class="line">    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(b)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span>(a)&#123;&#123;</span><br><span class="line">                System.out.println(<span class="string">"我获得了a和b"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// deadlock 死锁</span></span><br><span class="line"><span class="comment">// 线程1先锁住a然后休眠2秒，在其休眠这段时间一秒后新线程2锁住了b，当线程2锁线程a时发现已经被锁了需要等待。再过一秒线程1醒过来，想要锁住线程b但是需要等待，于是死锁。</span></span><br></pre></td></tr></table></figure>
+<h2 id="本地方法栈">本地方法栈</h2>
+<p>Native Method Stacks，本地方法运行时候使用的内存。</p>
+<p>本地方法：本地方法由其他语言如C或C++编写，编译成与处理器相关的机器代码。</p>
+<p>与虚拟机栈一样，本地方法栈区域也会抛出 <code>StackOverflowError</code> 和 <code>OutOfMemoryError</code> 异常。</p>
+<h2 id="heap堆">Heap堆</h2>
+<p>通过 new 关键字，创建对象都会使用堆内存</p>
+<ul>
+<li>
+<p><strong>线程共享</strong>的，堆中对象都需要考虑线程安全的问题</p>
+</li>
+<li>
+<p>有垃圾回收机制，不再被引用的对象会被回收</p>
+</li>
+</ul>
+<p>如果在堆中没有足够的内存再去完成实例分配，并且堆也无法再扩展时，将会抛出 <code>OutofMemoryError</code> 异常。</p>
+<h3 id="堆内存溢出">堆内存溢出</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        String a = <span class="string">"hello"</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">            list.add(a);</span><br><span class="line">            a = a + a;</span><br><span class="line">            i ++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// java.lang.OutofMemoryError:Java heap space</span></span><br></pre></td></tr></table></figure>
+<p>可以使用 <code>-Xmx8m</code> 修改堆空间大小。</p>
+<h3 id="堆内存诊断">堆内存诊断</h3>
+<p><strong>jps工具</strong></p>
+<p>查看当前系统中有哪些 java 进程</p>
+<p><strong>jmap工具</strong></p>
+<p>查看某一时刻堆内存占用情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -heap 进程ID</span><br></pre></td></tr></table></figure>
+<p><strong>jconsole工具</strong></p>
+<p>是一个图形界面，多功能的监测工具，可以连续监测</p>
+<h2 id="方法区">方法区</h2>
+<p><img src="https://pic.tyzhang.top/images/2021/04/04/image39668280b49515ce.png" alt="image39668280b49515ce.png"></p>
+<p><img src="https://pic.tyzhang.top/images/2021/04/04/image.png" alt="image.png"></p>
+<p>【上面两张图的“常量池”应该是“运行时常量池”】</p>
+<p>Method Area 方法区，也称非堆（Non-Heap），又是一个被<strong>线程共享</strong>的内存区域。方法区用于存放 class 的相关信息，如类名，访问修饰符，常量池，字段描述，方法描述等等。另外，方法区包含了一个特殊的区域“运行时常量池”。</p>
+<p>当方法区无法满足内存分配需求时，将抛出 <code>OutOfMemoryError</code> 异常。</p>
+<h3 id="方法区内存溢出">方法区内存溢出</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.8放在了元空间，1.8前放在永久代。元空间内存溢出，默认使用物理内存，不限制大小，因此默认不会看到溢出</span></span><br><span class="line"><span class="comment">// -XX:MaxMetaspaceSizer=8m 来设置元空间大小</span></span><br><span class="line"><span class="comment">// 可以用来加载类的二进制字节码</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1_8</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Demo1_8 test = <span class="keyword">new</span> Demo1_8();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20000</span>; i++, j++) &#123;</span><br><span class="line">                <span class="comment">//生成类的二进制字节码</span></span><br><span class="line">                ClassWriter cw = <span class="keyword">new</span> ClassWriter(<span class="number">0</span>); </span><br><span class="line">                <span class="comment">// 版本号，public，类名，包名，父类，接口</span></span><br><span class="line">                cw.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, <span class="string">"Class"</span> + i, <span class="keyword">null</span>, <span class="string">"java/lang/Object"</span>, <span class="keyword">null</span>);	</span><br><span class="line">                <span class="comment">//返回byte[]</span></span><br><span class="line">                <span class="keyword">byte</span>[] code = cw.toByteArray();	</span><br><span class="line">                <span class="comment">// 执行类加载</span></span><br><span class="line">                test.defineClass(<span class="string">"Class"</span> + i, code, <span class="number">0</span>, code.length);	</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            System.out.println(j);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1.8 java.lang.OutOfMemoryError:Metaspace</span></span><br><span class="line"><span class="comment">// 1.6 java.lang.OutOfMemoryError:PermGen space</span></span><br></pre></td></tr></table></figure>
+<p>Java1.8使用 <code>-XX:MaxMetaspaceSizer=8m</code> 设置最大元空间大小。</p>
+<p>Java1.8前使用 <code>-XX:MaxPermSize=8m</code> 设置最大元空间大小。</p>
+<h3 id="场景">场景</h3>
+<p>动态加载类</p>
+<ul>
+<li>Spring</li>
+<li>MyBatis</li>
+</ul>
+<p>spring aop中都是使用到了cglib这类字节码的技术，动态代理的类越多，就需要越多的方法区来保证动态生成的class可以加载入到内存中去。</p>
+<h3 id="运行时常量池">运行时常量池</h3>
+<p><strong>常量池</strong>，就是一张表，虚拟机指令根据这张常量表找到要执行的类名、方法名、参数类型、字面量等信息。</p>
+<p><strong>运行时常量池</strong>，常量池是 *.class 文件中的，当该类被加载，它的常量池信息就会放入运行时常量池，并把里面的符号地址变为真实地址。</p>
+<p>可以通过 <code>javap -v</code> 命令反编译 .class 文件查看。</p>
+<h3 id="stringtable">StringTable</h3>
+<h4 id="特性">特性</h4>
+<p>String table 又称为 String pool，字符串常量池，其存在于堆中(jdk1.7之后改的)，hashtable 结构，不能扩容。最重要的一点，String table 中存储的并不是 String 类型的对象，存储的而是指向 String 对象的索引，真实对象还是存储在堆中。</p>
+<p>String table 还存在一个 hash 表的特性，里面<strong>不存在相同的两个字符串，延迟加载遇到没见过的才加进去</strong>。</p>
+<p>此外 String 对象调用 intern() 方法时，会先在 String table 中查找是否存在于该对象相同的字符串，若存在直接返回 String table 中字符串的引用，若不存在则在 String table 中创建一个与该对象相同的字符串。</p>
+<ul>
+<li>利用字符串常量池的机制，来避免重复创造字符串对象</li>
+<li><strong>字符串变量拼接</strong>的原理是 StringBuilder（1.8）</li>
+<li><strong>字符串常量拼接</strong>的原理是 编译器优化</li>
+<li>可以使用 intern() 方法，主动将字符串对象尝试放入字符串常量池当中
+<ul>
+<li>JDK 1.8 将这个字符串对象尝试放入字符串常量池，如果字符串常量池中有则不会放入，如过没有则会放入，无论成功与否都会把串池中的对象返回</li>
+<li>JDK 1.6 将这个字符串对象尝试放入字符串常量池，如果字符串常量池中有则不会放入，如过没有则会将这个字符串对象<strong>复制</strong>一份放入串池，无论成功与否都会把串池中的对象返回</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// StringTable ["a", "b", "ab"]  hashtable结构 不能扩容</span></span><br><span class="line"><span class="comment">// 常量池中的信息，都会被加载到运行时常量池，这时 a b ab 都是常量池中的符号，还没有变为 java 字符串对象</span></span><br><span class="line"><span class="comment">// ldc #2 会把 a 符号变为 "a" 字符串对象</span></span><br><span class="line"><span class="comment">// ldc #3 会把 b 符号变为 "b" 字符串对象</span></span><br><span class="line"><span class="comment">// ldc #4 会把 ab 符号变为 "ab" 字符串对象</span></span><br><span class="line">String s1 = <span class="string">"a"</span>; <span class="comment">// 懒惰的</span></span><br><span class="line">String s2 = <span class="string">"b"</span>;</span><br><span class="line">String s3 = <span class="string">"ab"</span>;</span><br><span class="line">String s4 = s1 + s2; <span class="comment">// new String("ab")</span></span><br><span class="line"><span class="comment">// 通过反编译可以发现s4经过了以下细节</span></span><br><span class="line"><span class="comment">// new StringBuilder().append("a").append("b").toString()</span></span><br><span class="line"><span class="comment">// toString() 方法实际是通过 new 关键字创建了一个字符串对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">System.out.println(s3 == s4);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 直接在常量池寻找"ab"和s3是一样的</span></span><br><span class="line"><span class="comment">// javac 在编译期间的优化，结果已经在编译期间确定为 ab，与s4的s1s2变量不相同</span></span><br><span class="line">String s5 = <span class="string">"a"</span> + <span class="string">"b"</span>; </span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">System.out.println(s3 == s5);</span><br><span class="line"></span><br><span class="line"><span class="comment">// s4为"ab"，而"ab"已经存在于字符串常量池当中，直接返回字符串常量池当中的"ab"的引用(和s3相同)给s6</span></span><br><span class="line"><span class="comment">// intern 用来返回常量池中的某字符串，如果常量池中已经存在该字符串，则直接返回常量池中该对象的引用。否则，在常量池中加入该对象，然后 返回引用。</span></span><br><span class="line">String s6 = s4.intern();</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">System.out.println(s3 == s6);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">String x2 = <span class="keyword">new</span> String(<span class="string">"c"</span>) + <span class="keyword">new</span> String(<span class="string">"d"</span>);</span><br><span class="line"><span class="comment">// StringTable ["c", "d"]</span></span><br><span class="line"><span class="comment">// 堆 new String("cd")</span></span><br><span class="line"></span><br><span class="line">String x1 = <span class="string">"cd"</span>;</span><br><span class="line"><span class="comment">// StringTable ["c", "d", "cd"]</span></span><br><span class="line"><span class="comment">// 堆 new String("cd")</span></span><br><span class="line"></span><br><span class="line">x2.intern();<span class="comment">//  StringTable中已经有了，入池失败</span></span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">System.out.println(x1 == x2);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果将两行语句调换 1.8</span></span><br><span class="line">String x2 = <span class="keyword">new</span> String(<span class="string">"c"</span>) + <span class="keyword">new</span> String(<span class="string">"d"</span>); <span class="comment">// 堆中</span></span><br><span class="line">x2.intern(); <span class="comment">// 池中没有，入池成功</span></span><br><span class="line">String x1 = <span class="string">"cd"</span>; <span class="comment">// 常量池中有，直接取出来</span></span><br><span class="line">System.out.println(x1 == x2); <span class="comment">// true</span></span><br><span class="line"><span class="comment">// 1.6中副本入池，x2仍然是堆中cd，不等</span></span><br></pre></td></tr></table></figure>
+<h4 id="存放位置">存放位置</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// JDK 8下设置 -Xmx10m -XX:UseGCOvereadLimit</span></span><br><span class="line"><span class="comment">// JDK 6下设置 -XX:MaxPermSize=10m</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;~&gt;();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j&lt; <span class="number">26000</span>; j++)&#123;</span><br><span class="line">                list.add(String.valueOf(j).intern());</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwsable e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            System.out.println(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1.6 OutOfMemory: PerGen space</span></span><br><span class="line"><span class="comment">// 1.8 OutOfMemory: Heap space</span></span><br></pre></td></tr></table></figure>
+<p>在 JDK 1.7 之前运行时常量池逻辑包含字符串常量池存放在方法区，此时 hotspot 虚拟机对方法区的实现为永久代</p>
+<p>在 JDK 1.7 字符串常量池被从方法区拿到了堆中，这里没有提到运行时常量池，也就是说字符串常量池被单独拿到堆，运行时常量池剩下的东西还在方法区，也就是hotspot中的永久代</p>
+<p>在 JDK 1.8 hotspot 移除了永久代用元空间（Metaspace）取而代之，这时候字符串常量池还在堆，运行时常量池还在方法区，只不过方法区的实现从永久代变成了元空间（Metaspace）</p>
+<h4 id="垃圾回收">垃圾回收</h4>
+<p>当内存不足时，StringTable 中那些没有被引用的字符串仍然会被回收。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*-Xmx10m -XX:+PrintStringTableStatistics -XX:+PrintGCDetails -verbose:gc*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10000</span>; j++) &#123;</span><br><span class="line">                String.valueOf(i).intern();</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            System.out.println(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// [GC (Allocation Failure) [PSYoungGen: 2048K-&gt;504K(2560K)] 2048K-&gt;664K(9728K), 0.0016202 secs] [Times: user=0.03 sys=0.02, real=0.00 secs]</span></span><br></pre></td></tr></table></figure>
+<h3 id="性能调优">性能调优</h3>
+<ol>
+<li>
+<p>调整 hash 桶的个数。如果系统里字符串常量非常多，可以适当调大</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置桶大小 -XX:StringTable=桶个数</span></span><br><span class="line"><span class="comment">// -XX:StringTable=20000 -XX:PrintStringTableStatistics</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> (BufferedReader reader =</span><br><span class="line">                <span class="keyword">new</span> BufferedReader(</span><br><span class="line">                        <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">"linux.words"</span>), <span class="string">"utf-8"</span>))) &#123;</span><br><span class="line">            String line = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">long</span> start = System.nanoTime();</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                line = reader.readLine();</span><br><span class="line">                <span class="keyword">if</span> (line == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                line.intern();</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">"cost"</span> + (System.nanoTime() - start) / <span class="number">1000000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 200000 401ms</span></span><br><span class="line"><span class="comment">// 1009	12000ms</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>考虑将字符串对象是否入池。如果应用里有大量的字符串而且可能会重复，则可以考虑让字符串入池减少堆内存个数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        List&lt;String&gt; address = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        System.in.read();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span> (BufferedReader reader =</span><br><span class="line">                    <span class="keyword">new</span> BufferedReader(</span><br><span class="line">                            <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">"linux.words"</span>), <span class="string">"utf-8"</span>))) &#123;</span><br><span class="line">                String line = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">long</span> start = System.nanoTime();</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    line = reader.readLine();</span><br><span class="line">                    <span class="keyword">if</span> (line == <span class="keyword">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// address.add(line); // 防止垃圾回收</span></span><br><span class="line">                    address.add(line.intern()); <span class="comment">// 做一个入池动作，将串池内的加入到list，外的被垃圾回收掉</span></span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">"cost"</span> + (System.nanoTime() - start) / <span class="number">1000000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.in.read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="垃圾回收">垃圾回收</h1>
+<h2 id="如何判断对象可以回收">如何判断对象可以回收</h2>
+<h3 id="引用计数法">引用计数法</h3>
+<p>给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加 1；当引用失效时，计数器值就减 1；任何时刻计数器为 0 的对象就是不可能再被使用的。</p>
+<p>判定效率高，但两个对象相互引用会导致内存泄漏，环形数据。</p>
+<h3 id="可达性分析算法">可达性分析算法</h3>
+<p>通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到 GC Roots 没有任何引用链相连（用图论的话来说，就是从 GC Roots 到这个对象不可达）时，则证明此对象是不可用的。</p>
+<p>如下图，对象 object 5、object 6、object 7 虽然互相有关联，但是它们到 GC Roots 是不可达的，所以它们将会被判定为是可回收的对象。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/04/05/image.png" alt="image.png"></p>
+<p>在 Java 语言中，可作为 GC Roots 的对象包括下面几种：</p>
+<ul>
+<li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中 JNI（即一般说的 Native 方法）引用的对象</li>
+</ul>
+<p>Memory Analyzer(MAT) 由 Eclipse 提供的 java 堆分析工具。</p>
+<h2 id="四种引用">四种引用</h2>
+<h3 id="强引用">强引用</h3>
+<p>强引用就是指在程序代码之中普遍存在的，类似 <code>Object obj=new Object()</code> 这类的引用。只有所有 GC Roots 对象都不通过强引用引用该对象，该对象才能被垃圾回收。</p>
+<h3 id="软引用">软引用</h3>
+<p>仅有软引用引用该对象时，在垃圾回收后，内存仍不足时会再次触发垃圾回收，回收软引用对象。</p>
+<p>软引用是通过 SoftReference 类实现的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">SoftReference softObj = <span class="keyword">new</span> SoftReference(obj);</span><br><span class="line">obj = <span class="keyword">null</span>; <span class="comment">// 去除强引用</span></span><br></pre></td></tr></table></figure>
+<p>这样就是一个简单的软引用使用方法，可以通过 get() 方法获取对象。当 JVM 认为内存空间不足时，就会去试图回收软引用指向的对象，也就是说在 JVM 抛出 <code>OutOfMemoryError</code> 之前，会去清理软引用对象。</p>
+<p>软引用可以与引用队列（ReferenceQueue）联合使用，用来释放软引用自身。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line">SoftReference softObj = <span class="keyword">new</span> SoftReference(obj, queue);</span><br><span class="line">obj = <span class="keyword">null</span>; <span class="comment">// 去除强引用</span></span><br></pre></td></tr></table></figure>
+<p>当 softObj 软引用的 obj 被 GC 回收之后，softObj 对象就会被塞到 queue 中，之后我们可以通过这个队列的 poll() 来检查你关心的对象是否被回收了，如果队列为空，就返回一个null；否则就返回软引用对象，也就是 sofObj。</p>
+<blockquote>
+<p>软引用一般用来实现内存敏感的缓存，如果有空闲内存就可以保留缓存，当内存不足时就清理掉，这样就保证使用缓存的同时不会耗尽内存。例如图片缓存框架中缓存图片就是通过软引用的。</p>
+</blockquote>
+<p><strong>举例：</strong> byte[] 数组缓存举例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*-Xmx20m -XX:+PrintGCDetails -verbose:gc*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1_1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _4MB = <span class="number">4</span> * <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">soft</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// List --&gt; SoftReference --&gt; byte[]</span></span><br><span class="line">        List&lt;SoftReference&lt;<span class="keyword">byte</span>[]&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            SoftReference&lt;<span class="keyword">byte</span>[]&gt; ref = <span class="keyword">new</span> SoftReference&lt;&gt;(<span class="keyword">new</span> <span class="keyword">byte</span>[_4MB]);</span><br><span class="line">            System.out.println(ref.get());</span><br><span class="line">            list.add(ref);</span><br><span class="line">            System.out.println(list.size());</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"循环结束"</span> + list.size());</span><br><span class="line">        <span class="keyword">for</span> (SoftReference&lt;<span class="keyword">byte</span>[]&gt; ref : list) &#123;</span><br><span class="line">            System.out.println(ref.get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// OutOfMemoryError: Java heap space</span></span><br><span class="line">        <span class="comment">// List&lt;byte[]&gt; list = new ArrayList&lt;&gt;();</span></span><br><span class="line">        <span class="comment">// for (int i = 0; i &lt; 5; i++) &#123;</span></span><br><span class="line">            <span class="comment">// list.add(new byte[_4MB]);</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">        <span class="comment">// 改为弱引用</span></span><br><span class="line">        soft();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 第三次循环GC一次，第四次GC后仍然不够，再触发一次新的GC，回收软引用。</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">循环结束5</span></span><br><span class="line"><span class="comment">null</span></span><br><span class="line"><span class="comment">null</span></span><br><span class="line"><span class="comment">null</span></span><br><span class="line"><span class="comment">null</span></span><br><span class="line"><span class="comment">[B@677327b6</span></span><br><span class="line"><span class="comment">**/</span></span><br></pre></td></tr></table></figure>
+<p><strong>举例：</strong> 使用引用队列清理软引用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*-Xmx20m -XX:+PrintGCDetails -verbose:gc*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1_1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _4MB = <span class="number">4</span> * <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">soft</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;SoftReference&lt;<span class="keyword">byte</span>[]&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">// 引用队列</span></span><br><span class="line">        ReferenceQueue&lt;<span class="keyword">byte</span>[]&gt; queue = <span class="keyword">new</span> ReferenceQueue&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            <span class="comment">// 关联了引用队列，当软引用所关联的byte[]被回收时，软引用自己会加入到queue中去</span></span><br><span class="line">            SoftReference&lt;<span class="keyword">byte</span>[]&gt; ref = <span class="keyword">new</span> SoftReference&lt;&gt;(<span class="keyword">new</span> <span class="keyword">byte</span>[_4MB], queue);</span><br><span class="line">            System.out.println(ref.get());</span><br><span class="line">            list.add(ref);</span><br><span class="line">            System.out.println(list.size());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 从队列中获取无用的软引用对象，并移除</span></span><br><span class="line">        Reference&lt;? extends <span class="keyword">byte</span>[]&gt; poll = queue.poll();</span><br><span class="line">        <span class="keyword">while</span> (poll != <span class="keyword">null</span>) &#123;</span><br><span class="line">            list.remove(poll);</span><br><span class="line">            poll = queue.poll();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"循环结束"</span> + list.size());</span><br><span class="line">        <span class="keyword">for</span> (SoftReference&lt;<span class="keyword">byte</span>[]&gt; ref : list) &#123;</span><br><span class="line">            System.out.println(ref.get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        soft();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">5</span></span><br><span class="line"><span class="comment">循环结束1</span></span><br><span class="line"><span class="comment">[B@677327b6</span></span><br><span class="line"><span class="comment">**/</span></span><br></pre></td></tr></table></figure>
+<h3 id="弱引用">弱引用</h3>
+<p>仅有弱引用引用该对象时，在垃圾回收时，无论内存是否充足，都会回收弱引用对象。</p>
+<p>弱引用可以通过 WeakReference 类实现的，它的生命周期比软引用还要短，也是通过 get() 方法获取对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">WeakReference&lt;Object&gt; weakObj = <span class="keyword">new</span> WeakReference&lt;Object&gt;(obj);</span><br><span class="line">obj = <span class="keyword">null</span>; <span class="comment">// 去除强引用</span></span><br></pre></td></tr></table></figure>
+<p>同样也可以配合 ReferenceQueue 使用，也同样适用于内存敏感的缓存。 ThreadLocal 中的 key 就用到了弱引用。</p>
+<h3 id="虚引用">虚引用</h3>
+<p>也称为幽灵引用或者幻影引用。为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。</p>
+<p>虚引用可以通过 PhantomReference 类实现，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line">PhantomReference&lt;Object&gt; phantomObj = <span class="keyword">new</span> PhantomReference&lt;Object&gt;(obj, queue);</span><br><span class="line">obj = <span class="keyword">null</span>; <span class="comment">// 去除强引用</span></span><br></pre></td></tr></table></figure>
+<p>无法通过虚引用访问对象的任何属性或者函数。虚引用仅仅只是提供了一种确保对象被 finalize 以后来做某些事情的机制。</p>
+<p>虚引用必须配合引用队列使用，主要配合 ByteBuffer 使用，被引用对象回收时，会将虚引用入队，由 Reference Handler 线程调用虚引用相关方法释放直接内存。</p>
+<h3 id="终结器引用了解">终结器引用（了解）</h3>
+<p>即使在可达性分析算法中不可达的对象，也并非时“非死不可”的。对于终结器引用对象，需要经历两次标记过程：</p>
+<ol>
+<li>
+<p>如果对象在进行可达性分析后发现没有与 GC Roots 相连接的引用链，那它将会被第一次标记并进行一次筛选，筛选的条件是此对象是否有必要执行 finalize() 方法</p>
+<p>虚拟机将这两种情况都视为“没有必要执行”：</p>
+<ul>
+<li>当对象没有覆盖 finalized() 方法</li>
+<li>finalize() 方法已经被虚拟机调用过</li>
+</ul>
+</li>
+<li>
+<p>如果对象被判定为有必要执行 finalized() 方法，那么这个对象将会被放置在一个叫做 F-Queue 的队列之中，并在稍后由一个虚拟机自动创建、低优先级的 Finalizer 线程去执行它（不保证会等待它执行结束）。此时它还有机会在 finalized() 方法中去拯救自己（重新与引用链上的任何一个对象关联即可），如果它没有拯救自己，将会在第二次标记时被移除队列，面临被 GC 回收。</p>
+</li>
+</ol>
+<p>无需手动编码，但其内部配合引用队列使用，在垃圾回收时，终结器引用入队（被引用对象暂时没有被回收），再由 Finalizer 线程通过终结器引用找到被引用对象并调用它的 finalize 方法，第二次 GC 时才能回收被引用对象。</p>
+<h2 id="垃圾回收算法">垃圾回收算法</h2>
+<h3 id="标记清除">标记清除</h3>
+<p>“标记-清除”（Mark-Sweep）算法，分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。<strong>它的标记过程其实就是前面的可达性分析算法中判定垃圾对象的标记过程。</strong></p>
+<p>缺点：</p>
+<ul>
+<li>标记和清除两个过程的效率都不高。</li>
+<li>标记清除之后会产生大量不连续的内存碎片，内存碎片太多会导致<strong>以后在程序运行过程中需要分配较大对象时，无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作</strong>。</li>
+</ul>
+<h3 id="复制">复制</h3>
+<p>复制（Copying）收集算法，它将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。<strong>当这一块内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉</strong>。</p>
+<ul>
+<li>每次只对一块内存进行回收，运行高效</li>
+<li>只需移动栈顶指针，按顺序分配内存即可，实现简单</li>
+<li>内存回收时不用考虑内存碎片的出现</li>
+</ul>
+<p>缺点：可一次性分配的<strong>最大内存缩小了一半</strong>。</p>
+<p>复制收集算法比较适合新生代，在老年代中，对象存活率比较高，会执行较多的复制操作，效率将会变低，所以老年代一般会选用其他算法，如“标记-整理”算法。</p>
+<h3 id="标记整理">标记整理</h3>
+<p>“标记-整理”（Mark-Compact）算法，标记过程和“标记-清除”算法一样，但后续不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
+<ul>
+<li>没有内存碎片，但是效率比较慢</li>
+</ul>
+<h2 id="分代垃圾回收">分代垃圾回收</h2>
+<p>“分代收集”（Generational Collection）算法，根据对象存活周期的不同将内存划分为几块。一般是把 Java 堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。当前的商业虚拟机的垃圾收集都采用该算法。</p>
+<p>在新生代中，每次垃圾回收时都会发现有大批对象死去，只有少量存活。选用复制算法，只需要付出少量存活对象的复制成本就可以完成垃圾回收。</p>
+<p>而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记-清理”或者“标记-整理”算法来进行回收。</p>
+<h4 id="新生代">新生代</h4>
+<p>主要用来存放新生的对象。一般占据堆的 1/3 空间，由于频繁创建对象，所以新生代会频繁地触发 Minor GC 进行垃圾回收。</p>
+<p>尽管新生代采用“复制”算法，但是新生代中的对象绝大部分都是“朝生夕死”的，所以并不需要按照 1:1 的比例来划分内存空间。而是将内存空间划分为<strong>伊甸园（Eden）</strong>、<strong>幸存区From（SurvivorFrom）</strong>、**幸存区To（SurviviorTo）**三个空间，默认比例是 <code>8:1:1</code>。</p>
+<p>对象首先分配在伊甸园，当新生代空间不足时，触发 Minor GC，将伊甸园和幸存区From存活的对象使用“复制”算法复制到幸存区To中，然后让存活的对象<strong>年龄+1</strong>，并且<strong>交换</strong>幸存区From和幸存区To的<strong>指针</strong>。当某个对象年龄达到年龄阈值（默认值、最大值为15，4bit）时，就会把它们晋升到老年代中。在新生代中进行 GC 时，有可能遇到幸存区To空间没有足够空间存放新生代存活下来的对象，这些对象将通过<strong>分配担保机制</strong>（Handle Promotion，就像是去银行借贷）进入老年代。当老年代空间不足时，先尝试 Minor GC，如果还不足则触发 Full GC。</p>
+<p>GC 会引发 Stop the world，停顿所有 Java 执行线程，确保可达性分析过程中引用（全局性引用（例如常量或类静态属性）与执行上下文（例如栈帧中的本地变量表））关系的一致性。</p>
+<p>一个线程内的 OOM 不会导致整个Java的线程结束。OOM 会清空线程占用的堆内存。</p>
+<h2 id="相关vm参数">相关VM参数</h2>
+<table>
+<thead>
+<tr>
+<th>含义</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>堆初始大小</td>
+<td><code>-Xms</code></td>
+</tr>
+<tr>
+<td>堆最大大小</td>
+<td><code>-Xmx</code> 或者 <code>-XX:MaxHeapSize=size</code></td>
+</tr>
+<tr>
+<td>新生代大小</td>
+<td><code>-Xmn</code> 或（<code>-XX:NewSize=size+XX:MaxNewSize=size</code>）</td>
+</tr>
+<tr>
+<td>幸存区比例(动态)</td>
+<td><code>-XX:InitialSurvivorRadio=radio</code> 和 <code>-XX:+UserAdaptiveSizePolicy</code></td>
+</tr>
+<tr>
+<td>幸存区比例</td>
+<td><code>-XX:SurvivorRadio=radio</code></td>
+</tr>
+<tr>
+<td>晋升阈值</td>
+<td><code>-XX:MaxTenuringThreshold=threshold</code></td>
+</tr>
+<tr>
+<td>晋升详情</td>
+<td><code>-XX:+PrintTenuringDistribution</code></td>
+</tr>
+<tr>
+<td>GC详情</td>
+<td><code>-XX:+PrintGCDetails -verbose:gc</code></td>
+</tr>
+<tr>
+<td>Full GC前MinorGC</td>
+<td><code>-XX:+ScavengeBeforeFullGC</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="理解gc日志">理解GC日志</h2>
+<p>每一种收集器的日志形式都是由它们自身的实现所决定的但虚拟机设计者为了方便用户阅读，将各个收集器的日志都维持一定的共性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">33.125: [GC [DefNew:3324K-&gt;152K(3712K), 0.0025925 secs] 3324K-&gt;152K(11904K), 0.0031680 secs]</span><br><span class="line">100.667: [Full GC [Tenured:0K-&gt;210K(10240K), 0.0149142 secs] 4603K-&gt;210K(19456K), [Perm:2999K-&gt;2999K(21248K)], 0.0150007 secs][Times:user=0.01 sys=0.00, real=0.02 secs]</span><br></pre></td></tr></table></figure>
+<p>最前面的数字“33.125:”和“100.667:”代表了 GC 发生的时间，这个数字的含义是从 Java 虚拟机启动以来经过的秒数。</p>
+<p>GC 日志开头的 “[GC”和“[Full GC”说明了这次垃圾回收的停顿类型。如果有“Full”说明这次 GC 是发生了 Stop-The-World的。</p>
+<p>“[DefNew”、“[Tenured”、“[Perm”表示 GC 发生的区域，这里显示的区域名称与使用的 GC 收集器是密切相关的。例如上面样例所使用的 Serial 收集器中新生代名为“Default New Generation”，所以显示的是“[DefNew&quot;，如果是 ParNew 收集器，新生代名称就会变为“[ParNew”。</p>
+<p>后面方括号内部“3324K-&gt;152K(3712K)”含义是“GC前该内存区域已使用容量-&gt;GC后该内存区域已使用容量(该内存区域总容量)”。而方括号之外的“3324K-&gt;152K(11904K)”表示“GC前Java堆已使用容量-&gt;GC后Java堆已使用容量(Java堆总容量)”。</p>
+<p>再往后，“0.0025925 secs”表示该内存区域 GC 所占用的时间，单位是秒。</p>
+<h2 id="垃圾回收器">垃圾回收器</h2>
+<p>7 种作用于不同分代的收集器，如果两个收集器之间存在连线，就说明它们可以搭配使用。</p>
+<p><img src="JVM/image-20210407210645337.png" alt="image-20210407210645337"></p>
+<h3 id="串行serialgc">串行SerialGC</h3>
+<ul>
+<li>单线程</li>
+<li>适合堆内存较小的客户端模式使用</li>
+<li>新生代内存不足发生的垃圾回收 - Minor GC</li>
+<li>老年代内存不足发生的垃圾回收 - Full GC</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UserSerialGC=Serial+SerialOld</span><br><span class="line"># Serial “复制”算法</span><br><span class="line"># SerialOld 工作在老年代，“标记-整理”算法</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.tyzhang.top/images/2021/04/07/image.png" alt="image.png"></p>
+<h3 id="吞吐量优先parallelgc">吞吐量优先ParallelGC</h3>
+<ul>
+<li>多线程</li>
+<li>堆内存较大，多核CPU支持</li>
+<li>让单位时间内，STW时间最短</li>
+<li>新生代内存不足发生的垃圾回收 - Minor GC</li>
+<li>老年代内存不足发生的垃圾回收 - Full GC</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseParallelGC ~ -XX:+UseParallelOldGC</span><br><span class="line"># Parallel 新生代 “复制”算法</span><br><span class="line"># ParallelOld 老年代 “标记-整理”算法</span><br><span class="line">-XX:+UseAdaptiveSizePolicy # 采用自适应新生代大小调整策略</span><br><span class="line">-XX:GCTimeRatio=ratio	# 调整吞吐量目标（垃圾回收时间与总时间占比，1/（1+radio）），一般设置为19</span><br><span class="line">-XX:MaxGCPauseMillis=ms	# 最大暂停毫秒数，默认是200，与上一个参数是冲突的</span><br><span class="line">-XX:ParallelGCThreads=n	# 控制运行时线程数</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.tyzhang.top/images/2021/04/07/imagee3d4c84df195ec48.png" alt="imagee3d4c84df195ec48.png"></p>
+<h3 id="响应时间优先-cms">响应时间优先 CMS</h3>
+<ul>
+<li>多线程</li>
+<li>堆内存较大，多核CPU支持</li>
+<li>尽可能让STW单次时间最短</li>
+<li>新生代内存不足发生的垃圾回收 - Minor GC</li>
+<li>老年代内存不足发生的垃圾回收
+<ul>
+<li>若 CMS 回收垃圾的速度能高于新产生垃圾的速度，那么是属于 并发回收 的阶段，不会产生 Full GC</li>
+<li>反之则会退化为 SerialOld回收器，产生 Full GC</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC ~ -XX:+UseParNewGC ~ SerialOld</span><br><span class="line"># ParNew 新生代 “复制”算法</span><br><span class="line"># CMS 老年代 “标记-清除”算法，但是当CMS失效时，会退化采用SerialOld来进行垃圾回收</span><br><span class="line">-XX:ParallelGCThreads=n ~ -XX:ConcGCThreads=threads	# 一般设置为并行线程数量的1/4</span><br><span class="line">-XX:CMSInitiatingOccupancyFraction=percent	# 执行CMS垃圾回收的内存占比，预留空间给浮动垃圾（在垃圾回收过程中其他用户线程产生的新垃圾）</span><br><span class="line">-XX:+CMSScavengeBeforeRemark	# 在重新标记之前对新生代垃圾做一次回收工作，将来扫描对象就少，减轻回收压力</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.tyzhang.top/images/2021/04/07/image9132a69296b13538.png" alt="image9132a69296b13538.png"></p>
+<p>缺点：</p>
+<ul>
+<li>CMS 回收器对 CPU 资源非常敏感。</li>
+<li>CMS 回收器无法处理浮动垃圾，可能出现 “Concurrent Mode Failure” 失败而导致一次 Full GC 的产生。
+<ul>
+<li>浮动垃圾：由于 CMS 并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生，这一部分垃圾出现在标记过程之后，CMS 无法在当次回收中处理掉它们，只好留待下一次 GC 时再清理掉，这部分垃圾就被称为浮动垃圾。</li>
+<li></li>
+</ul>
+</li>
+<li>CMS 使用“标记-清除”算法，会产生空间碎片问题。</li>
+</ul>
+<p><img src="https://pic.tyzhang.top/images/2021/04/07/imagee2a1c1115b2b2329.png" alt="imagee2a1c1115b2b2329.png"></p>
+<h3 id="g1">G1</h3>
+<p>Garbage First</p>
+<ul>
+<li>同时注重吞吐量和低延迟，默认暂停目标是200ms。</li>
+<li>超大堆内存，会将堆划分为多个大小相等的Region，新生代和老年代不再是物理隔离的，它们都是一部分 Region（不需要连续）的集合。</li>
+<li>整体上是“标记-整理”算法，两个区域之间是复制算法。</li>
+<li>新生代内存不足发生的垃圾回收 - Minor GC</li>
+<li>老年代内存不足发生的垃圾回收
+<ul>
+<li>若 并行回收垃圾的速度能高于新产生垃圾的速度，那么是属于并行回收的阶段，不会产生 Full GC</li>
+<li>反之则会退化为 串行 回收器，产生 Full GC</li>
+</ul>
+</li>
+</ul>
+<p><strong>相关JVM参数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseG1GC</span><br><span class="line">-XX:G1HeapRegionSize=size</span><br><span class="line">-XX:MacGCPauseMills=time</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.tyzhang.top/images/2021/04/07/image71e588def6468222.png" alt="image71e588def6468222.png"></p>
+<p>G1 回收器会跟踪各个 Region 里面的垃圾堆积的价值大小（回收所获得的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的回收时间，优先回收价值最大的 Region。这也是 Garbage-First 名称的又来。</p>
+<ul>
+<li>初始标记阶段仅仅只是标记一下 GC Roots 能直接关联到的对象</li>
+<li>并发标记阶段是从 GC Root 开始对堆中对象进行可达性分析，找出存活的对象</li>
+<li>最终标记阶段则是为了修正在并发标记期间因用户程序继续运作而导致标记产生变动的那一部分标记记录</li>
+<li>筛选回收阶段首先对各个 Region 的回收价值和成本进行排序，根据用户所期望的 GC 停顿时间来制定回收计划</li>
+</ul>
+<p><strong>跨代引用时如何避免全堆扫描</strong></p>
+<p>在 G1 回收器中，Region 之间的对象引用以及其他收集器中的新生代与老年代之间的对象引用，虚拟机都是使用 Remembered Set 来避免全堆扫描的。</p>
+<p>G1 中每个 Region 都有一个与之对应的 Remembered Set，虚拟机发现程序对 Reference 类型的数据进行写操作时，会产生一个写屏障暂时中断写操作，检查 Reference 引用的对象是否处于不同的 Region 之中（在分代的例子中就是检查是否老年代中的对象引用了新生代中的对象），如果是，就通过 CardTable 把相关引用信息记录到被引用对象所属的 Region 的 Remembered Set 之中。</p>
+<p>当进行内存回收时，在 GC 根节点的枚举范围中加入 Remembered Set 即可保证不对全堆扫描也不会有遗漏。</p>
+<blockquote>
+<p>CardTable 把 Region 分为一个一个的小表格，记录老年代中哪些区域存在跨代引用，存在的被称为脏卡区域。</p>
+</blockquote>
+<h2 id="内存分配与回收策略">内存分配与回收策略</h2>
+<h3 id="对象优先在伊甸园区分配">对象优先在伊甸园区分配</h3>
+<p>大多数情况下，对象在新生代伊甸园区中分配。当伊甸园区没有足够空间进行分配时，虚拟机将发起一次 Minor GC。</p>
+<ul>
+<li>新生代 GC（Minor GC）：指发生在新生代的垃圾收集动作，因为 Java 对象大多都具备朝生夕灭的特性，所以 Minor GC 非常频繁，一般回收速度也比较快。</li>
+<li>老年代 GC（Major GC/Full GC）：指发生在老年代的 GC，出现了 Major GC，经常会伴随至少一次的 Minor GC（但非绝对的，在 Parallel Scavenge 收集器的收集策略里就有直接进行 Major GC 的策略选择过程）。Major GC 的速度一般会比 Minor GC 慢 10 倍以上。</li>
+</ul>
+<h3 id="大对象直接进入老年代">大对象直接进入老年代</h3>
+<p>所谓的大对象是指，需要大量连续内存空间的 Java 对象。经常出现大对象容易导致内存还有不少空间时就提前触发垃圾收集以获取足够的连续空间来“安置”它们。虚拟机提供了一个 <code>-XX：PretenureSizeThreshold</code> 参数，令大于这个设置值的对象直接在老年代分配，避免在伊甸园区及两个幸存区之间发生大量的内存复制。</p>
+<blockquote>
+<p><code>PretenureSizeThreshold</code> 参数只对 Serial 和 ParNew 两款回收器有效。</p>
+</blockquote>
+<h3 id="长期存活的对象将进入老年代">长期存活的对象将进入老年代</h3>
+<p>虚拟机给每个对象定义了一个对象年龄（Age）计数器。如果对象在伊甸园区出生，并经过第一次 Minor GC 后仍然存活，并且能被幸存区容纳的话，将被移动到另一块幸存区空间中，并且对象年龄设为1。</p>
+<p>对象在幸存区中每“熬过”一次 Minor GC，年龄就增加 1 岁，当它的年龄增加到一定程度（默认为 15 岁），就<br>
+将会被晋升到老年代中。对象晋升老年代的年龄阈值，可以通过参数 <code>-XX：MaxTenuringThreshold</code>设置，最大为 15。</p>
+<h3 id="动态对象年龄判定">动态对象年龄判定</h3>
+<p>如果在幸存区空间中<strong>相同年龄</strong>所有对象<strong>大小的总和</strong>大于幸存区空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代，无须等到 <code>MaxTenuringThreshold</code> 中要求的年龄。</p>
+<h3 id="空间分配担保">空间分配担保</h3>
+<p>在发生 Minor GC 之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么 Minor GC 可以确保是安全的。如果不成立，则虚拟机会查看 HandlePromotionFailure 设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试着进行一次 Minor GC，尽管这次 Minor GC 是有风险的；如果小于，或者 HandlePromotionFailure 设置不允许冒险，那这时也要改为进行一次 Full GC。</p>
+<p>冒险：新生代使用复制收集算法，但为了内存利用率，只使用其中一个幸存区空间来作为轮换备份。当出现大量对象在 Minor GC 后仍然存活的情况（最极端的情况就是内存回收后新生代中所有对象都存活），就需要老年代进行分配担保，把幸存区无法容纳的对象直接进入老年代。</p>
+<h2 id="垃圾回收调优">垃圾回收调优</h2>
+<p>显示所有VM相关参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -XX:PrintFlagsFinal -version | findstr &quot;GC&quot;</span><br></pre></td></tr></table></figure>
+<p>调优跟应用、环境有关，没有放之四海而皆准的法则。</p>
+<h3 id="调优领域">调优领域</h3>
+<ul>
+<li>内存</li>
+<li>锁竞争</li>
+<li>CPU 占用</li>
+<li>IO</li>
+</ul>
+<h3 id="确定目标">确定目标</h3>
+<p>根据【低延迟】还是【高吞吐量】，选择合适的回收器</p>
+<ul>
+<li>低延迟：CMS，G1，ZGC</li>
+<li>高吞吐量：ParallelGC</li>
+</ul>
+<h3 id="最快的gc是不发生gc">最快的GC是不发生GC</h3>
+<p>查看 Full GC 前后的内存占用，考虑以下几个问题：</p>
+<ul>
+<li>数据是不是太多？
+<ul>
+<li>resultSet = statement.executeQuery(“select * from 大表”)，应该添加 limit 限制，即进行分页查询操作，限制查询出来数据的大小，防止表中数据爆炸。</li>
+</ul>
+</li>
+<li>数据表示是否太臃肿？
+<ul>
+<li>对象图（对象相关信息全都查出来了），应该要什么查什么，避免对堆内存造成不必要的浪费。</li>
+<li>对象大小</li>
+</ul>
+</li>
+<li>是否存在内存泄漏？
+<ul>
+<li><code>static Map map =</code> 静态的map对象不断地向它添加对象，会造成OOM</li>
+<li>解决方法：软引用、弱引用、第三方缓存实现比如redis等</li>
+</ul>
+</li>
+</ul>
+<h3 id="新生代调优">新生代调优</h3>
+<p>1）新生代的特点</p>
+<ul>
+<li>所有的 new 操作的内存分配非常廉价
+<ul>
+<li>TLAB thread-local allocation buffer，每个线程都会在伊甸园中分配一块私有的区域，即TLAB。如果启动了本地线程分配缓存，当 new 一个对象的时候，会优先检查该区域内有没有足够的空间，如果有则在这块区域中给对象分配内存。</li>
+</ul>
+</li>
+<li>死亡对象的回收代价是零</li>
+<li>大部分对象用过即死</li>
+<li>Minor GC 的时间远远低于 Full GC</li>
+</ul>
+<p>2）新生代理想大小</p>
+<p>并不是越大越好，太大会导致原本用完即死的对象一直停留在内存中，等到新生代内存不足触发 GC 时才会被回收。</p>
+<ul>
+<li>新生代能容纳所有【并发量 *（请求响应）】的数据</li>
+<li>幸存区大到能保留【当前活跃对象 + 需要晋升对象】</li>
+<li>晋升阈值配置得当，让长时间存活的对象尽快晋升
+<ul>
+<li>-XX:MaxTenuringThreshold=threshold，调整最大晋升阈值</li>
+<li>-XX:+PrintTenuringDistribution，打印晋升详细信息</li>
+</ul>
+</li>
+</ul>
+<h3 id="老年代调优">老年代调优</h3>
+<p>以 CMS 为例</p>
+<ul>
+<li>CMS 的老年代内存越大越好</li>
+<li>先尝试不做调优，如果没有 Full GG，那么说明老年代空间很充裕，否则先尝试调优新生代</li>
+<li>观察发生 Full GC 时老年代内存占用，将老年代内存预设调大1/4~1/3
+<ul>
+<li>-XX:CMSInitiatingOccupanyFraction=percent，控制老年代在空间占用多少的时候进行垃圾回收。</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例">案例</h3>
+<ul>
+<li>
+<p>Full GC 和 Minor GC 频繁</p>
+<p>GC 频繁说明空间紧张。如果是新生代紧张，被塞满，幸存区空间紧张，导致空间晋升阈值降低，老年代存了很多生存周期短的对象，进而触发了 Full GC。先试着增大新生代内存，增大幸存区空间和晋升阈值。</p>
+</li>
+<li>
+<p>请求高峰期发生 Full GC，单次暂停时间特别长（CMS）</p>
+<p>因为业务需求需要低延迟，所以选择了 CMS。查看 GC 日志 CMS 的哪个阶段耗时较长。比较慢的一般在重新标记阶段，耗时比较长，因为 CMS 要扫描整个堆内存。设置在重新标记前先做一次新生代回收。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+CMSScavengeBeforeRemark</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>老年代充裕情况下，发生 Full GC（CMS 假设使用 jdk 1.7）</p>
+<p>1.7 及以前使用永久代作为方法区，1.8 使用元空间。永久代空间不足也会导致 Full GC，所以扩大永久代空间。（1.8 后元空间的垃圾回收不由 Java 控制？）</p>
+</li>
+</ul>
+<h1 id="虚拟机性能监控与故障处理工具">虚拟机性能监控与故障处理工具</h1>
+<p>给一个系统定位问题的时候，知识、经验是关键基础，数据是依据，工具是运用知识处理数据的手段。这里说的数据包括：运行日志、异常堆栈、GC 日志、线程快照（threaddump/javacore 文件）、堆转储快照（heapdump/hprof 文件）等。经常使用适当的虚拟机监控和分析的工具可以加快我们分析数据、定位解决问题的速度，但在学习工具前，也应<br>
+当意识到工具永远都是知识技能的一层包装，没有什么工具是“秘密武器”，不可能学会了就能包治百病。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>主要作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jps</td>
+<td>JVM Process Status Tool，显示指定系统内所有的 HotSpot 虚拟机进程</td>
+</tr>
+<tr>
+<td>jstat</td>
+<td>JVM Statistics Monitoring Tool，用于收集 HotSpot 虚拟机各方面的运行数据</td>
+</tr>
+<tr>
+<td>jinfo</td>
+<td>Configuration Info for Java，显示虚拟机配置信息</td>
+</tr>
+<tr>
+<td>jmap</td>
+<td>Memory Map for Java，生成虚拟机的内存转储快照（heapdump 文件）</td>
+</tr>
+<tr>
+<td>jhat</td>
+<td>JVM Heap Dump Browser，用于分析 heapdump 文件，它会建立一个 HTTP/HTML 服务器，让用户可以在浏览器上查看分析结果</td>
+</tr>
+<tr>
+<td>jstack</td>
+<td>Stack Trace for Java，显示虚拟机的线程快照</td>
+</tr>
+</tbody>
+</table>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/多线程—CAS无锁-乐观锁/" data-toggle="tooltip" data-placement="top" title="多线程—乐观锁，CAS机制（非阻塞）">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#内存结构"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5185;&#x5B58;&#x7ED3;&#x6784;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#程序计数器"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟机栈"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x865A;&#x62DF;&#x673A;&#x6808;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#线程安全"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">&#x7EBF;&#x7A0B;&#x5B89;&#x5168;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#栈内存溢出"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">&#x6808;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#线程运行诊断"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">&#x7EBF;&#x7A0B;&#x8FD0;&#x884C;&#x8BCA;&#x65AD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#本地方法栈"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6808;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#heap堆"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Heap&#x5806;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#堆内存溢出"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">&#x5806;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#堆内存诊断"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text">&#x5806;&#x5185;&#x5B58;&#x8BCA;&#x65AD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#方法区"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x533A;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#方法区内存溢出"><span class="toc-nav-number">1.5.1.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x533A;&#x5185;&#x5B58;&#x6EA2;&#x51FA;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#场景"><span class="toc-nav-number">1.5.2.</span> <span class="toc-nav-text">&#x573A;&#x666F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#运行时常量池"><span class="toc-nav-number">1.5.3.</span> <span class="toc-nav-text">&#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#stringtable"><span class="toc-nav-number">1.5.4.</span> <span class="toc-nav-text">StringTable</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#特性"><span class="toc-nav-number">1.5.4.1.</span> <span class="toc-nav-text">&#x7279;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#存放位置"><span class="toc-nav-number">1.5.4.2.</span> <span class="toc-nav-text">&#x5B58;&#x653E;&#x4F4D;&#x7F6E;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#垃圾回收"><span class="toc-nav-number">1.5.4.3.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#性能调优"><span class="toc-nav-number">1.5.5.</span> <span class="toc-nav-text">&#x6027;&#x80FD;&#x8C03;&#x4F18;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#垃圾回收"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如何判断对象可以回收"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x5982;&#x4F55;&#x5224;&#x65AD;&#x5BF9;&#x8C61;&#x53EF;&#x4EE5;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#引用计数法"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text">&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#可达性分析算法"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text">&#x53EF;&#x8FBE;&#x6027;&#x5206;&#x6790;&#x7B97;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#四种引用"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x56DB;&#x79CD;&#x5F15;&#x7528;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#强引用"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">&#x5F3A;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#软引用"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">&#x8F6F;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#弱引用"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">&#x5F31;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#虚引用"><span class="toc-nav-number">2.2.4.</span> <span class="toc-nav-text">&#x865A;&#x5F15;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#终结器引用了解"><span class="toc-nav-number">2.2.5.</span> <span class="toc-nav-text">&#x7EC8;&#x7ED3;&#x5668;&#x5F15;&#x7528;&#xFF08;&#x4E86;&#x89E3;&#xFF09;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收算法"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x7B97;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#标记清除"><span class="toc-nav-number">2.3.1.</span> <span class="toc-nav-text">&#x6807;&#x8BB0;&#x6E05;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#复制"><span class="toc-nav-number">2.3.2.</span> <span class="toc-nav-text">&#x590D;&#x5236;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#标记整理"><span class="toc-nav-number">2.3.3.</span> <span class="toc-nav-text">&#x6807;&#x8BB0;&#x6574;&#x7406;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分代垃圾回收"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">&#x5206;&#x4EE3;&#x5783;&#x573E;&#x56DE;&#x6536;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#新生代"><span class="toc-nav-number">2.4.0.1.</span> <span class="toc-nav-text">&#x65B0;&#x751F;&#x4EE3;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#相关vm参数"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">&#x76F8;&#x5173;VM&#x53C2;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#理解gc日志"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">&#x7406;&#x89E3;GC&#x65E5;&#x5FD7;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收器"><span class="toc-nav-number">2.7.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x5668;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#串行serialgc"><span class="toc-nav-number">2.7.1.</span> <span class="toc-nav-text">&#x4E32;&#x884C;SerialGC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#吞吐量优先parallelgc"><span class="toc-nav-number">2.7.2.</span> <span class="toc-nav-text">&#x541E;&#x5410;&#x91CF;&#x4F18;&#x5148;ParallelGC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#响应时间优先-cms"><span class="toc-nav-number">2.7.3.</span> <span class="toc-nav-text">&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x4F18;&#x5148; CMS</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#g1"><span class="toc-nav-number">2.7.4.</span> <span class="toc-nav-text">G1</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#内存分配与回收策略"><span class="toc-nav-number">2.8.</span> <span class="toc-nav-text">&#x5185;&#x5B58;&#x5206;&#x914D;&#x4E0E;&#x56DE;&#x6536;&#x7B56;&#x7565;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#对象优先在伊甸园区分配"><span class="toc-nav-number">2.8.1.</span> <span class="toc-nav-text">&#x5BF9;&#x8C61;&#x4F18;&#x5148;&#x5728;&#x4F0A;&#x7538;&#x56ED;&#x533A;&#x5206;&#x914D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#大对象直接进入老年代"><span class="toc-nav-number">2.8.2.</span> <span class="toc-nav-text">&#x5927;&#x5BF9;&#x8C61;&#x76F4;&#x63A5;&#x8FDB;&#x5165;&#x8001;&#x5E74;&#x4EE3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#长期存活的对象将进入老年代"><span class="toc-nav-number">2.8.3.</span> <span class="toc-nav-text">&#x957F;&#x671F;&#x5B58;&#x6D3B;&#x7684;&#x5BF9;&#x8C61;&#x5C06;&#x8FDB;&#x5165;&#x8001;&#x5E74;&#x4EE3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#动态对象年龄判定"><span class="toc-nav-number">2.8.4.</span> <span class="toc-nav-text">&#x52A8;&#x6001;&#x5BF9;&#x8C61;&#x5E74;&#x9F84;&#x5224;&#x5B9A;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#空间分配担保"><span class="toc-nav-number">2.8.5.</span> <span class="toc-nav-text">&#x7A7A;&#x95F4;&#x5206;&#x914D;&#x62C5;&#x4FDD;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#垃圾回收调优"><span class="toc-nav-number">2.9.</span> <span class="toc-nav-text">&#x5783;&#x573E;&#x56DE;&#x6536;&#x8C03;&#x4F18;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#调优领域"><span class="toc-nav-number">2.9.1.</span> <span class="toc-nav-text">&#x8C03;&#x4F18;&#x9886;&#x57DF;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#确定目标"><span class="toc-nav-number">2.9.2.</span> <span class="toc-nav-text">&#x786E;&#x5B9A;&#x76EE;&#x6807;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#最快的gc是不发生gc"><span class="toc-nav-number">2.9.3.</span> <span class="toc-nav-text">&#x6700;&#x5FEB;&#x7684;GC&#x662F;&#x4E0D;&#x53D1;&#x751F;GC</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#新生代调优"><span class="toc-nav-number">2.9.4.</span> <span class="toc-nav-text">&#x65B0;&#x751F;&#x4EE3;&#x8C03;&#x4F18;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#老年代调优"><span class="toc-nav-number">2.9.5.</span> <span class="toc-nav-text">&#x8001;&#x5E74;&#x4EE3;&#x8C03;&#x4F18;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#案例"><span class="toc-nav-number">2.9.6.</span> <span class="toc-nav-text">&#x6848;&#x4F8B;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#虚拟机性能监控与故障处理工具"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x865A;&#x62DF;&#x673A;&#x6027;&#x80FD;&#x76D1;&#x63A7;&#x4E0E;&#x6545;&#x969C;&#x5904;&#x7406;&#x5DE5;&#x5177;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2021 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

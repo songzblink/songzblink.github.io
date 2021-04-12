@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<!-- 博客名字 + canonical + css引入 -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Pandas的使用 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/Pandas的使用/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- 网站的标题 + 背景图片 -->
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#python" title="python">python</a>
+                            
+                        </div>
+                        <h1>Pandas的使用</h1>
+                        <!-- <h2 class="subheading">一份Pandas的使用笔记</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2020-10-26
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	<!-- 导航链接 -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <blockquote>
+<p>原本是DataFrame的使用笔记，记着记着变多了就改成了Pandas。</p>
+</blockquote>
+<p>天下苦 python 久已……开个玩笑，不论是在数据挖掘还是在实验代码编写的过程中，但凡涉及到使用 pandas 操作 <code>.csv</code> 文件我都得屁颠儿屁颠儿地面向互联网编程。查了用用了查，脑子不好使于是想着开一篇文章记录下来吧。</p>
+<blockquote>
+<p>PS：更为详细的内容请查阅pandas的<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html" target="_blank" rel="noopener">文档</a></p>
+</blockquote>
+<h1 id="dataframe的使用">DataFrame的使用</h1>
+<h2 id="dataframe的创建">DataFrame的创建</h2>
+<h3 id="创建空的dataframe">创建空的DataFrame</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame()</span><br></pre></td></tr></table></figure>
+<p><code>pandas.DataFrame(data, index, columns, dtype, copy)</code></p>
+<ul>
+<li>data：要传入的数据，包括 ndarray、series、map、lists、dict、constant 和另一个DataFrame</li>
+<li>index和columns：行索引和列索引，格式 <code>['x1','x2']</code></li>
+<li>dtype：每列的类型</li>
+<li>copy：从input输入中拷贝数据，默认是false，不拷贝（没用过）</li>
+</ul>
+<h2 id="dataframe选取特定行或者列">DataFrame选取特定行或者列</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data = pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],<span class="string">'b'</span>:[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'c'</span>:[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">Out[<span class="number">1</span>]:</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h3 id="提取列">提取列</h3>
+<h4 id="单列">单列</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'a'</span>]</span><br><span class="line">Out[<span class="number">2</span>]:</span><br><span class="line"><span class="number">0</span>    <span class="number">1</span></span><br><span class="line"><span class="number">1</span>    <span class="number">2</span></span><br><span class="line"><span class="number">2</span>    <span class="number">3</span></span><br><span class="line">Name: a, dtype: int64</span><br></pre></td></tr></table></figure>
+<h4 id="多列">多列</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data[[<span class="string">'a'</span>, <span class="string">'b'</span>]]</span><br><span class="line">Out[<span class="number">3</span>]:</span><br><span class="line">	a	b</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用-loc-或者-iloc-提取">使用 .loc 或者 .iloc 提取</h3>
+<p>第一个参数是行，第二个参数是列</p>
+<ul>
+<li>.loc按标签提取</li>
+<li>.iloc按位置索引提取</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">data.loc[:, <span class="string">'a'</span>] <span class="comment"># 等价于data.iloc[:, 0]</span></span><br><span class="line">Out[<span class="number">6</span>]:</span><br><span class="line"><span class="number">0</span>    <span class="number">1</span></span><br><span class="line"><span class="number">1</span>    <span class="number">2</span></span><br><span class="line"><span class="number">2</span>    <span class="number">3</span></span><br><span class="line">Name: a, dtype: int64</span><br><span class="line"></span><br><span class="line">data.loc[:, [<span class="string">'a'</span>, <span class="string">'b'</span>]] <span class="comment"># 等价于data.iloc[:, [0, 1]]</span></span><br><span class="line">Out[<span class="number">7</span>]:</span><br><span class="line">	a	b</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h3 id="提取行">提取行</h3>
+<p>提取行一般只能用 .loc 和 .iloc</p>
+<h4 id="提取一行">提取一行</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">data.loc[<span class="number">1</span>] <span class="comment"># 标签索引</span></span><br><span class="line">Out[<span class="number">8</span>]:</span><br><span class="line">a    <span class="number">2</span></span><br><span class="line">b    <span class="number">5</span></span><br><span class="line">c    <span class="number">8</span></span><br><span class="line">Name: <span class="number">1</span>, dtype: int64</span><br><span class="line"></span><br><span class="line">data.iloc[<span class="number">1</span>] <span class="comment"># 位置索引</span></span><br><span class="line">Out[<span class="number">9</span>]:</span><br><span class="line">a    <span class="number">2</span></span><br><span class="line">b    <span class="number">5</span></span><br><span class="line">c    <span class="number">8</span></span><br><span class="line">Name: <span class="number">1</span>, dtype: int64</span><br></pre></td></tr></table></figure>
+<h4 id="提取多行">提取多行</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">data.loc[:<span class="number">1</span>]</span><br><span class="line">Out[<span class="number">10</span>]: </span><br><span class="line">   a  b  c</span><br><span class="line"><span class="number">0</span>  <span class="number">1</span>  <span class="number">4</span>  <span class="number">7</span></span><br><span class="line"><span class="number">1</span>  <span class="number">2</span>  <span class="number">5</span>  <span class="number">8</span></span><br><span class="line"></span><br><span class="line">data.loc[[<span class="number">0</span>,<span class="number">1</span>]]</span><br><span class="line">Out[<span class="number">11</span>]: </span><br><span class="line">   a  b  c</span><br><span class="line"><span class="number">0</span>  <span class="number">1</span>  <span class="number">4</span>  <span class="number">7</span></span><br><span class="line"><span class="number">1</span>  <span class="number">2</span>  <span class="number">5</span>  <span class="number">8</span></span><br></pre></td></tr></table></figure>
+<h4 id="行列一起使用">行列一起使用</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data.loc[<span class="number">0</span>:<span class="number">1</span>, <span class="string">'b'</span>]</span><br><span class="line">Out[<span class="number">12</span>]: </span><br><span class="line"><span class="number">0</span>    <span class="number">4</span></span><br><span class="line"><span class="number">1</span>    <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<h3 id="按匹配条件提取多行">按匹配条件提取多行</h3>
+<h4 id="单条件">单条件</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data[data[<span class="string">'a'</span>]&lt;=<span class="number">2</span>]</span><br><span class="line">Out[<span class="number">13</span>]:</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br></pre></td></tr></table></figure>
+<h4 id="多条件">多条件</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这两种用法得到的结果一致</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 与 条件 不能使用 and</span></span><br><span class="line">data[(data[<span class="string">'a'</span>]&lt;=<span class="number">2</span>) &amp; (data[<span class="string">'b'</span>]&gt;=<span class="number">5</span>)]</span><br><span class="line">data.loc[(data[<span class="string">'a'</span>]&lt;=<span class="number">2</span>) &amp; (data[<span class="string">'b'</span>]&gt;=<span class="number">5</span>)]</span><br><span class="line">Out[<span class="number">14</span>]:</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 或 条件 不能使用 or</span></span><br><span class="line">data[(data[<span class="string">'a'</span>]&lt;=<span class="number">2</span>) | (data[<span class="string">'b'</span>]&gt;=<span class="number">5</span>)]</span><br><span class="line">data.loc[(data[<span class="string">'a'</span>]&lt;=<span class="number">2</span>) | (data[<span class="string">'b'</span>]&gt;=<span class="number">5</span>)]</span><br><span class="line">Out[<span class="number">15</span>]:</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h2 id="dataframe的插入">DataFrame的插入</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data = pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],<span class="string">'b'</span>:[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'c'</span>:[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">Out[<span class="number">1</span>]:</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h3 id="插入列">插入列</h3>
+<h4 id="在末尾插入新列">在末尾插入新列</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'d'</span>] = <span class="keyword">None</span></span><br><span class="line">Out[<span class="number">2</span>]:</span><br><span class="line">	a	b	c	d</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span>	<span class="keyword">None</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span>	<span class="keyword">None</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span>	<span class="keyword">None</span></span><br></pre></td></tr></table></figure>
+<h4 id="插入多列">插入多列</h4>
+<h5 id="方法一利用-pdconcat">方法一：利用 pd.concat</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pd.concat([data, pd.DataFrame(columns=list(<span class="string">'de'</span>))])</span><br><span class="line">Out[<span class="number">3</span>]:</span><br><span class="line">	a	b	c	d	e</span><br><span class="line"><span class="number">0</span>	<span class="number">1.0</span>	<span class="number">4.0</span>	<span class="number">7.0</span>	NaN	NaN</span><br><span class="line"><span class="number">1</span>	<span class="number">2.0</span>	<span class="number">5.0</span>	<span class="number">8.0</span>	NaN	NaN</span><br><span class="line"><span class="number">2</span>	<span class="number">3.0</span>	<span class="number">6.0</span>	<span class="number">9.0</span>	NaN	NaN</span><br></pre></td></tr></table></figure>
+<h5 id="方法二利用-reindex-来重排和增加列名">方法二：利用 reindex 来重排和增加列名</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data.reindex(columns=list(<span class="string">'abcde'</span>))</span><br><span class="line">Out[<span class="number">4</span>]:</span><br><span class="line">	a	b	c	d	e</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span>	NaN	NaN</span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span>	NaN	NaN</span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span>	NaN	NaN</span><br></pre></td></tr></table></figure>
+<h3 id="重排改变各列的相对位置且保留原始列数值">重排，改变各列的相对位置，且保留原始列数值</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data.reindex(columns=list(<span class="string">'cdeab'</span>))</span><br><span class="line">Out[<span class="number">5</span>]:</span><br><span class="line">	c	d	e	a	b</span><br><span class="line"><span class="number">0</span>	<span class="number">7</span>	NaN	NaN	<span class="number">1</span>	<span class="number">4</span></span><br><span class="line"><span class="number">1</span>	<span class="number">8</span>	NaN	NaN	<span class="number">2</span>	<span class="number">5</span></span><br><span class="line"><span class="number">2</span>	<span class="number">9</span>	NaN	NaN	<span class="number">3</span>	<span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h3 id="插入行">插入行</h3>
+<h4 id="loc-函数可以定位行后并直接赋值插入">loc( ) 函数可以定位行后，并直接赋值插入</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data.loc[<span class="number">0</span>] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">Out[<span class="number">6</span>]:</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">2</span>	<span class="number">3</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h4 id="当不想改变原来行的值时可以先将表格分开添加行后再合并">当不想改变原来行的值时，可以先将表格分开，添加行后再合并</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df1 = data.loc[:<span class="number">0</span>]</span><br><span class="line">df2 = data.loc[<span class="number">1</span>:]</span><br><span class="line">df3 = pd.DataFrame(&#123; </span><br><span class="line">    <span class="string">'a'</span> : [<span class="number">1</span>],</span><br><span class="line">    <span class="string">'b'</span> : [<span class="number">2</span>],</span><br><span class="line">    <span class="string">'c'</span> : [<span class="number">3</span>]</span><br><span class="line">&#125;)</span><br><span class="line">data =  df1.append(df3, ignore_index = <span class="keyword">True</span>).append(df2, ignore_index = <span class="keyword">True</span>)</span><br><span class="line">Out[<span class="number">7</span>]:</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span></span><br><span class="line"><span class="number">1</span>	<span class="number">1</span>	<span class="number">2</span>	<span class="number">3</span></span><br><span class="line"><span class="number">2</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br><span class="line"><span class="number">3</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h2 id="获取dataframe的行数和列数">获取DataFrame的行数和列数</h2>
+<h3 id="返回列数">返回列数：</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.shape[<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="返回行数">返回行数：</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df.shape[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 或者 len(df)</span></span><br></pre></td></tr></table></figure>
+<h2 id="索引号的修改与重排列">索引号的修改与重排列</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data = pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],<span class="string">'b'</span>:[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'c'</span>:[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">Out[<span class="number">1</span>]:</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h3 id="修改列索引号">修改列索引号</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data.columns = [<span class="string">'d'</span>,<span class="string">'e'</span>,<span class="string">'f'</span>]</span><br><span class="line">Out[<span class="number">2</span>]:</span><br><span class="line">	d	e	f</span><br><span class="line"><span class="number">0</span>	<span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span></span><br><span class="line"><span class="number">2</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h3 id="重排列列索引号">重排列列索引号</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data.reindex(columns=list(<span class="string">'fed'</span>))</span><br><span class="line">Out[<span class="number">3</span>]: </span><br><span class="line">	f	e	d</span><br><span class="line"><span class="number">0</span>	<span class="number">7</span>	<span class="number">4</span>	<span class="number">1</span></span><br><span class="line"><span class="number">1</span>	<span class="number">8</span>	<span class="number">5</span>	<span class="number">2</span></span><br><span class="line"><span class="number">2</span>	<span class="number">9</span>	<span class="number">6</span>	<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h3 id="重置索引">重置索引</h3>
+<p>方法一：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.index = range(len(data))</span><br></pre></td></tr></table></figure>
+<p>方法二：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = data.reset_index(drop=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="常用统计方法">常用统计方法</h1>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mean()</td>
+<td>平均值</td>
+</tr>
+<tr>
+<td>median()</td>
+<td>中位数</td>
+</tr>
+<tr>
+<td>max()</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>min()</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>sum()</td>
+<td>求和</td>
+</tr>
+<tr>
+<td>std()</td>
+<td>标准差</td>
+</tr>
+</tbody>
+</table>
+<p>此外，Series 类型独有的方法：argmax() 最大值的位置，argmin() 最小值的位置。</p>
+<h1 id="使用中的问题">使用中的问题</h1>
+<h2 id="dataframe写入csv文件中文乱码">DataFrame写入csv文件中文乱码</h2>
+<p>解决办法：添加参数 <code>encoding=&quot;utf_8_sig&quot;</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.to_csv(output_file, encoding=<span class="string">"utf_8_sig"</span>)</span><br></pre></td></tr></table></figure>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/DataFrame的使用/" data-toggle="tooltip" data-placement="top" title="DataFrame的使用">&larr; 上一篇</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Python批量处理文件/" data-toggle="tooltip" data-placement="top" title="Python批量处理文件">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#dataframe的使用"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">DataFrame&#x7684;&#x4F7F;&#x7528;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#dataframe的创建"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">DataFrame&#x7684;&#x521B;&#x5EFA;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建空的dataframe"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">&#x521B;&#x5EFA;&#x7A7A;&#x7684;DataFrame</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#dataframe选取特定行或者列"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">DataFrame&#x9009;&#x53D6;&#x7279;&#x5B9A;&#x884C;&#x6216;&#x8005;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#提取列"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">&#x63D0;&#x53D6;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#单列"><span class="toc-nav-number">1.2.1.1.</span> <span class="toc-nav-text">&#x5355;&#x5217;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#多列"><span class="toc-nav-number">1.2.1.2.</span> <span class="toc-nav-text">&#x591A;&#x5217;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#使用-loc-或者-iloc-提取"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">&#x4F7F;&#x7528; .loc &#x6216;&#x8005; .iloc &#x63D0;&#x53D6;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#提取行"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">&#x63D0;&#x53D6;&#x884C;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#提取一行"><span class="toc-nav-number">1.2.3.1.</span> <span class="toc-nav-text">&#x63D0;&#x53D6;&#x4E00;&#x884C;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#提取多行"><span class="toc-nav-number">1.2.3.2.</span> <span class="toc-nav-text">&#x63D0;&#x53D6;&#x591A;&#x884C;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#行列一起使用"><span class="toc-nav-number">1.2.3.3.</span> <span class="toc-nav-text">&#x884C;&#x5217;&#x4E00;&#x8D77;&#x4F7F;&#x7528;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#按匹配条件提取多行"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text">&#x6309;&#x5339;&#x914D;&#x6761;&#x4EF6;&#x63D0;&#x53D6;&#x591A;&#x884C;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#单条件"><span class="toc-nav-number">1.2.4.1.</span> <span class="toc-nav-text">&#x5355;&#x6761;&#x4EF6;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#多条件"><span class="toc-nav-number">1.2.4.2.</span> <span class="toc-nav-text">&#x591A;&#x6761;&#x4EF6;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#dataframe的插入"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">DataFrame&#x7684;&#x63D2;&#x5165;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#插入列"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">&#x63D2;&#x5165;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#在末尾插入新列"><span class="toc-nav-number">1.3.1.1.</span> <span class="toc-nav-text">&#x5728;&#x672B;&#x5C3E;&#x63D2;&#x5165;&#x65B0;&#x5217;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#插入多列"><span class="toc-nav-number">1.3.1.2.</span> <span class="toc-nav-text">&#x63D2;&#x5165;&#x591A;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#方法一利用-pdconcat"><span class="toc-nav-number">1.3.1.2.1.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x4E00;&#xFF1A;&#x5229;&#x7528; pd.concat</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#方法二利用-reindex-来重排和增加列名"><span class="toc-nav-number">1.3.1.2.2.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x4E8C;&#xFF1A;&#x5229;&#x7528; reindex &#x6765;&#x91CD;&#x6392;&#x548C;&#x589E;&#x52A0;&#x5217;&#x540D;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#重排改变各列的相对位置且保留原始列数值"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">&#x91CD;&#x6392;&#xFF0C;&#x6539;&#x53D8;&#x5404;&#x5217;&#x7684;&#x76F8;&#x5BF9;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E14;&#x4FDD;&#x7559;&#x539F;&#x59CB;&#x5217;&#x6570;&#x503C;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#插入行"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">&#x63D2;&#x5165;&#x884C;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#loc-函数可以定位行后并直接赋值插入"><span class="toc-nav-number">1.3.3.1.</span> <span class="toc-nav-text">loc( ) &#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x5B9A;&#x4F4D;&#x884C;&#x540E;&#xFF0C;&#x5E76;&#x76F4;&#x63A5;&#x8D4B;&#x503C;&#x63D2;&#x5165;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#当不想改变原来行的值时可以先将表格分开添加行后再合并"><span class="toc-nav-number">1.3.3.2.</span> <span class="toc-nav-text">&#x5F53;&#x4E0D;&#x60F3;&#x6539;&#x53D8;&#x539F;&#x6765;&#x884C;&#x7684;&#x503C;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x5148;&#x5C06;&#x8868;&#x683C;&#x5206;&#x5F00;&#xFF0C;&#x6DFB;&#x52A0;&#x884C;&#x540E;&#x518D;&#x5408;&#x5E76;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#获取dataframe的行数和列数"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x83B7;&#x53D6;DataFrame&#x7684;&#x884C;&#x6570;&#x548C;&#x5217;&#x6570;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#返回列数"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">&#x8FD4;&#x56DE;&#x5217;&#x6570;&#xFF1A;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#返回行数"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text">&#x8FD4;&#x56DE;&#x884C;&#x6570;&#xFF1A;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#索引号的修改与重排列"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x7D22;&#x5F15;&#x53F7;&#x7684;&#x4FEE;&#x6539;&#x4E0E;&#x91CD;&#x6392;&#x5217;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#修改列索引号"><span class="toc-nav-number">1.5.1.</span> <span class="toc-nav-text">&#x4FEE;&#x6539;&#x5217;&#x7D22;&#x5F15;&#x53F7;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#重排列列索引号"><span class="toc-nav-number">1.5.2.</span> <span class="toc-nav-text">&#x91CD;&#x6392;&#x5217;&#x5217;&#x7D22;&#x5F15;&#x53F7;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#重置索引"><span class="toc-nav-number">1.5.3.</span> <span class="toc-nav-text">&#x91CD;&#x7F6E;&#x7D22;&#x5F15;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#常用统计方法"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5E38;&#x7528;&#x7EDF;&#x8BA1;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#使用中的问题"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x4F7F;&#x7528;&#x4E2D;&#x7684;&#x95EE;&#x9898;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#dataframe写入csv文件中文乱码"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">DataFrame&#x5199;&#x5165;csv&#x6587;&#x4EF6;&#x4E2D;&#x6587;&#x4E71;&#x7801;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#python" title="python">python</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2021 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>
