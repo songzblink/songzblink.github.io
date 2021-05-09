@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Github认证登录 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/Github认证登录/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#java项目" title="java项目">java项目</a>
+                            
+                        </div>
+                        <h1>Github认证登录</h1>
+                        <!-- <h2 class="subheading">Github认证登录</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2021-04-22
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <h2 id="github登录原理">Github登录原理</h2>
+<p>本质上属于第三方登录，实质上就是 OAuth 授权。用户想要登录 A 网站，A 网站让用户提供第三方网站的数据，证明自己的身份。获取第三方网站的身份数据，就需要 OAuth 授权。</p>
+<h2 id="前期准备">前期准备</h2>
+<p>GitHub 往下拉到底 <a href="https://docs.github.com/en/developers/apps/building-oauth-apps" target="_blank" rel="noopener"><code>API</code> -&gt; <code>Developers</code> -&gt; <code>APPS</code> -&gt; <code>Buiding OAuth Apps</code></a>，根据流程创建我们的 OAuth Apps，并且记得复制备份自己的 <code>Client ID</code> 和 <code>Client secret</code>。</p>
+<p>或者直接访问<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">网址</a>进行填写登记。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/04/23/image.png" alt="image.png"></p>
+<p>提交表单以后，GitHub 应该会返回客户端 ID（client ID）和客户端密钥（client secret），这就是应用的身份识别码。</p>
+<h2 id="web-application-flow">Web application flow</h2>
+<p><img src="https://pic.tyzhang.top/images/2021/04/24/image.png" alt="image.png"></p>
+<p><a href="https://docs.github.com/en/developers/apps/authorizing-oauth-apps" target="_blank" rel="noopener">Web application flow</a></p>
+<ol>
+<li>前端获取 <code>code &amp; state</code>；</li>
+<li>拿着 <code>code</code> 传给后端，从后端获取 <code>access_token</code>；</li>
+<li>用 <code>access_token</code> 获取用户信息。</li>
+</ol>
+<h4 id="1-前端获取-code-amp-state">1. 前端获取 code &amp; state</h4>
+<p>根据 OAuth2.0 规范，第一步是根据 ClientId 获取到 code(后面需要这个 code + Client secrets 换取access_token)。</p>
+<p>获取 code 的步骤很简单，只要拼接好一个 URL 访问，带用户操作完成后，Github 会重定向会第一步中设置的回调地址。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET https://github.com/login/oauth/authorize</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>必需</strong> 第一步中注册得到的 ClientID</td>
+</tr>
+<tr>
+<td>redirect_uri</td>
+<td>string</td>
+<td>第一步中设置的回调地址</td>
+</tr>
+<tr>
+<td>loin</td>
+<td>string</td>
+<td>推荐登录的 Github 账户，一般不填</td>
+</tr>
+<tr>
+<td>scope</td>
+<td>string</td>
+<td>这个参数指定了最后能获取到的信息，取值范围有 user 和 repo 等等,默认同时取 user 和 repo 的信息，详细取值范围见<a href="https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/" target="_blank" rel="noopener">Github 文档</a></td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>你设定的一个随机值，用来防止 cross-sit 攻击</td>
+</tr>
+<tr>
+<td>allow_signup</td>
+<td>string</td>
+<td>这个参数指定是否允许用户在认证的时候注册 Github 账号，默认是 true</td>
+</tr>
+</tbody>
+</table>
+<p>前端代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://github.com/login/oauth/authorize?client_id=8f3c188a9891dd******&amp;redirect_uri=http://localhost:8888/callback&amp;scope=user&amp;state=1"</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里的回调地址是我后端代码的一个接口。</p>
+<p>当提交完这个 http 请求之后，Github 会请求我们的回调地址，并且携带参数 <code>code &amp; state</code>。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8888/callback?code=c646acea9e8251f2****&amp;state=1</span><br></pre></td></tr></table></figure>
+<h3 id="2-拿着-code-传给后端从后端获取-access_token">2. 拿着 code 传给后端，从后端获取 access_token</h3>
+<p>第二步就是用 code + Client Secret 获取 access_token 了。这一步建议是一定要放到后端，因为如果在前端做的话，有可能会把 <code>client secret</code> 暴露的风险，别人一个 F12 什么都知道了。</p>
+<p>获取 <code>access_token</code> 的接口同样是 http 协议：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST https://github.com/login/oauth/access_token</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>client_id</td>
+<td>string</td>
+<td><strong>必需</strong> 第一步中获取到的 ClientID</td>
+</tr>
+<tr>
+<td>cleint_secret</td>
+<td>string</td>
+<td><strong>必需</strong> 第一步中获取到的 ClientSecret</td>
+</tr>
+<tr>
+<td>code</td>
+<td>string</td>
+<td><strong>必需</strong> 第二步中前端获取到的 code</td>
+</tr>
+<tr>
+<td>redirect_uri</td>
+<td>string</td>
+<td>第一步中设置的回调地址</td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>第一步中设置的随机值</td>
+</tr>
+</tbody>
+</table>
+<p>默认的响应为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access_token=gho_16C7e42F292c6912E7710c838347Ae178B4a&amp;token_type=bearer</span><br></pre></td></tr></table></figure>
+<p>后端代码，使用了 <a href="https://square.github.io/okhttp/" target="_blank" rel="noopener">OKHttp</a>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// accessTokenDTO 中包含了 Client ID、Client Secret、传回来的 code 和 state 以及回调地址</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getAccessToken</span><span class="params">(AccessTokenDTO accessTokenDTO)</span> </span>&#123;</span><br><span class="line">    MediaType mediaType = MediaType.get(<span class="string">"application/json; charset=utf-8"</span>);</span><br><span class="line">    OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDTO));</span><br><span class="line">    Request request = <span class="keyword">new</span> Request.Builder().url(<span class="string">"https://github.com/login/oauth/access_token"</span>).post(body).build();</span><br><span class="line">    <span class="keyword">try</span> (Response response = client.newCall(request).execute()) &#123;</span><br><span class="line">        String string = response.body().string();</span><br><span class="line">        <span class="comment">// 响应的 string 内容为</span></span><br><span class="line">        <span class="comment">// access_token=gho_lHe2f033RxDGztm92QIjj&amp;scope=user&amp;token_type=bearer</span></span><br><span class="line">        <span class="comment">// 提取并返回token给调用者</span></span><br><span class="line">        String token = string.split(<span class="string">"&amp;"</span>)[<span class="number">0</span>].split(<span class="string">"="</span>)[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> token;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-用-access_token-获取用户信息">3. 用 access_token 获取用户信息</h3>
+<p>这一步也是在后端完成，API 如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Authorization</span>: token OAUTH-TOKEN</span><br><span class="line">GET https://api.github.com/user</span><br></pre></td></tr></table></figure>
+<p>需要携带参数 <code>Authorization: token OAUTH-TOKEN</code>，但是在最近的一次更新中官方推荐使用 <code>access_token</code> 安全访问 API 的方式，使用 Github 推荐的最新方式（Authorization HTTP header），旧方式（query parameter）即将被废弃。<a href="https://niter.cn/p/115" target="_blank" rel="noopener">参考资料</a></p>
+<p>于是后端代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> GithubUser <span class="title">getUser</span><span class="params">(String accessToken)</span> </span>&#123;</span><br><span class="line">    OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">        .url(<span class="string">"https://api.github.com/user"</span>)</span><br><span class="line">        .header(<span class="string">"Authorization"</span>, <span class="string">"token "</span> + accessToken)</span><br><span class="line">        .build();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Response response = client.newCall(request).execute();</span><br><span class="line">        String string = response.body().string();</span><br><span class="line">        GithubUser githubUser = JSON.parseObject(string, GithubUser.class);</span><br><span class="line">        <span class="keyword">return</span> githubUser;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="效果测试">效果测试</h3>
+<p>我们在前端完成第 1 步，后端的回调地址中完成后 2 步，去获取 Github 账户的用户名。</p>
+<p>完整代码：隐藏了部分我得 OAuth 信息。</p>
+<p><strong>前端：</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://github.com/login/oauth/authorize?client_id=[your_client_id]&amp;redirect_uri=http://localhost:8888/callback&amp;scope=user&amp;state=1"</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>后端：</strong></p>
+<p>DTO类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessTokenDTO</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String client_id;</span><br><span class="line">    <span class="keyword">private</span> String client_secret;</span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line">    <span class="keyword">private</span> String redirect_uri;</span><br><span class="line">    <span class="keyword">private</span> String state;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Github 登录提供程序类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GithubProvider</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 携带code，从后端获取access_token</span></span><br><span class="line">	<span class="comment">// accessTokenDTO中包含了Client ID、Client Secret、传回来的code和state以及回调地址</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAccessToken</span><span class="params">(AccessTokenDTO accessTokenDTO)</span> </span>&#123;</span><br><span class="line">        MediaType mediaType = MediaType.get(<span class="string">"application/json; charset=utf-8"</span>);</span><br><span class="line">        OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">        RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDTO));</span><br><span class="line">        Request request = <span class="keyword">new</span> Request.Builder().url(<span class="string">"https://github.com/login/oauth/access_token"</span>).post(body).build();</span><br><span class="line">        <span class="keyword">try</span> (Response response = client.newCall(request).execute()) &#123;</span><br><span class="line">            String token = response.body().string().split(<span class="string">"&amp;"</span>)[<span class="number">0</span>].split(<span class="string">"="</span>)[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">return</span> token;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">// 用access_token获取用户信息</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GithubUser <span class="title">getUser</span><span class="params">(String accessToken)</span> </span>&#123;</span><br><span class="line">        OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">        Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">                .url(<span class="string">"https://api.github.com/user"</span>)</span><br><span class="line">                .header(<span class="string">"Authorization"</span>, <span class="string">"token "</span> + accessToken)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Response response = client.newCall(request).execute();</span><br><span class="line">            String string = response.body().string();</span><br><span class="line">            GithubUser githubUser = JSON.parseObject(string, GithubUser.class);</span><br><span class="line">            <span class="keyword">return</span> githubUser;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Controller：回调地址</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorizeController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    GithubProvider githubProvider;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/callback"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">callback</span><span class="params">(@RequestParam(name = <span class="string">"code"</span>)</span> String code,</span></span><br><span class="line"><span class="function">                           @<span class="title">RequestParam</span><span class="params">(name = <span class="string">"state"</span>)</span> String state) </span>&#123;</span><br><span class="line">        AccessTokenDTO accessTokenDTO = <span class="keyword">new</span> AccessTokenDTO();</span><br><span class="line">        accessTokenDTO.setClient_id(<span class="string">"[your_client_id]"</span>);</span><br><span class="line">        accessTokenDTO.setClient_secret(<span class="string">"[your_client_secret]"</span>);</span><br><span class="line">        accessTokenDTO.setCode(code);</span><br><span class="line">        accessTokenDTO.setRedirect_uri(<span class="string">"http://localhost:8888/callback"</span>);</span><br><span class="line">        accessTokenDTO.setState(state);</span><br><span class="line">        <span class="comment">// 2.拿着code+client_secret获取access_token</span></span><br><span class="line">        String accessToken = githubProvider.getAccessToken(accessTokenDTO);</span><br><span class="line">        <span class="comment">// 3.用access_token去获取用户信息</span></span><br><span class="line">        GithubUser user = githubProvider.getUser(accessToken);</span><br><span class="line">        <span class="comment">// 测试，打印用户名</span></span><br><span class="line">        System.out.println(user.getName()); <span class="comment">// output:zhengbing song</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"index"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Bootstrap快速使用/" data-toggle="tooltip" data-placement="top" title="Bootstrap快速使用">&larr; 上一篇</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/算法—对动态规划的思考/" data-toggle="tooltip" data-placement="top" title="对于动态规划的思考">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#github登录原理"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Github&#x767B;&#x5F55;&#x539F;&#x7406;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前期准备"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x524D;&#x671F;&#x51C6;&#x5907;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#web-application-flow"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Web application flow</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-前端获取-code-amp-state"><span class="toc-nav-number">3.0.1.</span> <span class="toc-nav-text">1. &#x524D;&#x7AEF;&#x83B7;&#x53D6; code &amp; state</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-拿着-code-传给后端从后端获取-access_token"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">2. &#x62FF;&#x7740; code &#x4F20;&#x7ED9;&#x540E;&#x7AEF;&#xFF0C;&#x4ECE;&#x540E;&#x7AEF;&#x83B7;&#x53D6; access_token</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-用-access_token-获取用户信息"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">3. &#x7528; access_token &#x83B7;&#x53D6;&#x7528;&#x6237;&#x4FE1;&#x606F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#效果测试"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">&#x6548;&#x679C;&#x6D4B;&#x8BD5;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#java项目" title="java项目">java项目</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.tangyincheng.com/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2021 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

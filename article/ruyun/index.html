@@ -2,7 +2,6 @@
 <html lang="en">
 
 <!-- Head tag -->
-<!-- 博客名字 + canonical + css引入 -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,7 +66,6 @@
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
-	<!-- 网站的标题 + 背景图片 -->
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
@@ -109,7 +107,6 @@
     </div>
 </header>
 
-	<!-- 导航链接 -->
     <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
@@ -158,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -222,10 +219,12 @@
                 post-container">
 
 				
-                <h2 id="如云-hexo-theme-ruyun"><a href="#如云-hexo-theme-ruyun" class="headerlink" title="如云 / hexo-theme-ruyun"></a>如云 / hexo-theme-ruyun</h2><p>一个Hexo个人博客主题。</p>
+                <h2 id="如云-hexo-theme-ruyun">如云 / hexo-theme-ruyun</h2>
+<p>一个Hexo个人博客主题。</p>
 <p>基于<a href="http://www.huweihuang.com/" target="_blank" rel="noopener">胡伟煌</a>移植的<a href="https://github.com/Huxpro/huxpro.github.io" target="_blank" rel="noopener">黄玄Jekyll博客主题</a>修改而来。</p>
 <p>我对它进行了一些调整和新增，以便更适合我的口味。</p>
-<h3 id="修改"><a href="#🎨-修改" class="headerlink" title="🎨 修改"></a>🎨 修改</h3><ul>
+<h3 id="修改">🎨 修改</h3>
+<ul>
 <li><strong>大道至简</strong>：删除多项不必要的功能插件。</li>
 <li><strong>口味</strong>：主页、文章样式的修改，更简洁直观。</li>
 <li><strong>每天皆不同</strong>：修改文章默认头图为每日必应壁纸，增加<a href="https://hitokoto.cn/api" target="_blank" rel="noopener">每日一句</a>、<a href="https://www.jinrishici.com" target="_blank" rel="noopener">一诗</a>等widget插件。</li>
@@ -234,10 +233,14 @@
 <li><strong>一碗米粉</strong>：放置你自己的公众号二维码，也可以是赞赏码等任何你想的图片。</li>
 <li><strong>一步合法</strong>：一键填写备案网站ICP备案号、公安部备案号。</li>
 </ul>
-<h3 id="效果"><a href="#🌈-效果" class="headerlink" title="🌈 效果"></a>🌈 效果</h3><p>我的博客: <a href="https://ztygalaxy.github.io" target="_blank" rel="noopener">ztygalaxy</a>，部分插件未启用。</p>
-<h3 id="用法"><a href="#🔨-用法" class="headerlink" title="🔨 用法"></a>🔨 用法</h3><p>在<code>_config.yml</code>中配置个人信息。</p>
-<h4 id="1-替换repo信息"><a href="#1-替换Repo信息" class="headerlink" title="1. 替换Repo信息."></a>1. 替换Repo信息.</h4><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="string">你的Repo名称，如ztygalaxy.github.io</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br><span class="line"><span class="attr">  message:</span> <span class="string">Update</span> <span class="string">Content</span></span><br></pre></td></tr></table></figure>
-<h4 id="2-继续客制化"><a href="#2-继续客制化" class="headerlink" title="2. 继续客制化."></a>2. 继续客制化.</h4><p>通过替换、修改<code>source/img/avatar/ironman.png</code>来配置头像。</p>
+<h3 id="效果">🌈 效果</h3>
+<p>我的博客: <a href="https://ztygalaxy.github.io" target="_blank" rel="noopener">ztygalaxy</a>，部分插件未启用。</p>
+<h3 id="用法">🔨 用法</h3>
+<p>在<code>_config.yml</code>中配置个人信息。</p>
+<h4 id="1-替换repo信息">1. 替换Repo信息.</h4>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="string">你的Repo名称，如ztygalaxy.github.io</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br><span class="line"><span class="attr">  message:</span> <span class="string">Update</span> <span class="string">Content</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-继续客制化">2. 继续客制化.</h4>
+<p>通过替换、修改<code>source/img/avatar/ironman.png</code>来配置头像。</p>
 <p>或者修改它的路径：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sidebar:</span> <span class="literal">true</span>    <span class="comment"># 侧边栏开关.</span></span><br><span class="line"><span class="attr">sidebar-about-description:</span> <span class="string">"你的个人描述"</span></span><br><span class="line"><span class="attr">sidebar-avatar:</span> <span class="string">img/你的头像路径</span></span><br></pre></td></tr></table></figure>
 <p>在<code>widgets</code>下配置侧边栏的部件，使用<code>#</code>关闭。</p>
@@ -245,9 +248,11 @@
 <p>如果你的网站需要放置备案信息，填写<code>icp</code>。</p>
 <p>钢铁侠的回到顶部，可在<code>css/image</code>中替换。</p>
 <p>其他样式和资源文件，可以在浏览器中检查元素到对应文件修改，例如<code>layout</code>文件夹下，它们的名字作用都很明了。</p>
-<h4 id="3-文章撰写与参数说明"><a href="#3-文章撰写与参数说明" class="headerlink" title="3. 文章撰写与参数说明"></a>3. 文章撰写与参数说明</h4><p>你应该非常熟悉hexo文章的生成撰写，也可以在给出的样例文章基础上修改，参数说明如下。</p>
+<h4 id="3-文章撰写与参数说明">3. 文章撰写与参数说明</h4>
+<p>你应该非常熟悉hexo文章的生成撰写，也可以在给出的样例文章基础上修改，参数说明如下。</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 					# 文章名称</span><br><span class="line">subtitle:				# 子标题</span><br><span class="line">date:					# 创建日期</span><br><span class="line">catalog: true			# 是否使用目录</span><br><span class="line">header-img:				# 头图地址</span><br><span class="line">tags:					# 标签</span><br><span class="line">toc<span class="emphasis">_nav_</span>num: true		# 是否使用目录</span><br><span class="line">musicid: 				# 如果需要背景音乐，请填写其网易云id</span><br><span class="line">musicauto: 1			# 是否需要自动播放，默认为1</span><br><span class="line">top: 0					# 是否需要置顶</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h3 id="相关"><a href="#👦-相关" class="headerlink" title="👦 相关"></a>👦 相关</h3><p><a href="http://www.huweihuang.com/" target="_blank" rel="noopener">胡伟煌的博客</a>    <a href="http://huangxuan.me/" target="_blank" rel="noopener">黄玄的博客</a>    <a href="https://ztygalaxy.github.io" target="_blank" rel="noopener">张天宇的博客</a></p>
+<h3 id="相关">👦 相关</h3>
+<p><a href="http://www.huweihuang.com/" target="_blank" rel="noopener">胡伟煌的博客</a>    <a href="http://huangxuan.me/" target="_blank" rel="noopener">黄玄的博客</a>    <a href="https://ztygalaxy.github.io" target="_blank" rel="noopener">张天宇的博客</a></p>
 <p>相关阅读：<a href="http://coderunthings.com/2017/08/20/howhexoworks/" target="_blank" rel="noopener">Hexo是怎么工作的</a></p>
 
                 
@@ -293,7 +298,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如云-hexo-theme-ruyun"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x5982;&#x4E91;-hexo-theme-ruyun" class="headerlink" title="&#x5982;&#x4E91; / hexo-theme-ruyun"></a>&#x5982;&#x4E91; / hexo-theme-ruyun</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#修改"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#&#x1F3A8;-&#x4FEE;&#x6539;" class="headerlink" title="&#x1F3A8; &#x4FEE;&#x6539;"></a>&#x1F3A8; &#x4FEE;&#x6539;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#效果"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#&#x1F308;-&#x6548;&#x679C;" class="headerlink" title="&#x1F308; &#x6548;&#x679C;"></a>&#x1F308; &#x6548;&#x679C;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#用法"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><a href="#&#x1F528;-&#x7528;&#x6CD5;" class="headerlink" title="&#x1F528; &#x7528;&#x6CD5;"></a>&#x1F528; &#x7528;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-替换repo信息"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text"><a href="#1-&#x66FF;&#x6362;Repo&#x4FE1;&#x606F;" class="headerlink" title="1. &#x66FF;&#x6362;Repo&#x4FE1;&#x606F;."></a>1. &#x66FF;&#x6362;Repo&#x4FE1;&#x606F;.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-继续客制化"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text"><a href="#2-&#x7EE7;&#x7EED;&#x5BA2;&#x5236;&#x5316;" class="headerlink" title="2. &#x7EE7;&#x7EED;&#x5BA2;&#x5236;&#x5316;."></a>2. &#x7EE7;&#x7EED;&#x5BA2;&#x5236;&#x5316;.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-文章撰写与参数说明"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text"><a href="#3-&#x6587;&#x7AE0;&#x64B0;&#x5199;&#x4E0E;&#x53C2;&#x6570;&#x8BF4;&#x660E;" class="headerlink" title="3. &#x6587;&#x7AE0;&#x64B0;&#x5199;&#x4E0E;&#x53C2;&#x6570;&#x8BF4;&#x660E;"></a>3. &#x6587;&#x7AE0;&#x64B0;&#x5199;&#x4E0E;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><a href="#&#x1F466;-&#x76F8;&#x5173;" class="headerlink" title="&#x1F466; &#x76F8;&#x5173;"></a>&#x1F466; &#x76F8;&#x5173;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如云-hexo-theme-ruyun"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5982;&#x4E91; / hexo-theme-ruyun</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#修改"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x1F3A8; &#x4FEE;&#x6539;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#效果"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x1F308; &#x6548;&#x679C;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#用法"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x1F528; &#x7528;&#x6CD5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-替换repo信息"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">1. &#x66FF;&#x6362;Repo&#x4FE1;&#x606F;.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-继续客制化"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">2. &#x7EE7;&#x7EED;&#x5BA2;&#x5236;&#x5316;.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-文章撰写与参数说明"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">3. &#x6587;&#x7AE0;&#x64B0;&#x5199;&#x4E0E;&#x53C2;&#x6570;&#x8BF4;&#x660E;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x1F466; &#x76F8;&#x5173;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -329,7 +334,7 @@
                     
                         <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
                     
-                        <li><a href="http://www.yctang.club/" target="_blank">yctang</a></li>
+                        <li><a href="http://www.tangyincheng.com/" target="_blank">yctang</a></li>
                     
                         <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
                     

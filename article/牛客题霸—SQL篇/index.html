@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          牛客题霸—SQL篇 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/牛客题霸—SQL篇/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#algorithm" title="algorithm">algorithm</a>
+                            
+                        </div>
+                        <h1>牛客题霸—SQL篇</h1>
+                        <!-- <h2 class="subheading">记录了在牛客刷题的答案</h2> -->
+                        <span class="meta">
+                            宋正兵 更新 on
+                            2021-05-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <blockquote>
+<p><font id="qusnum"></font></p>
+<script src="/js/jquery.min.js"></script>
+<script language="javascript" type="text/javascript">
+$(document).ready(function(){
+    var i=$('h2').size();
+    var years = {};
+ var myDate = new Date(); 
+ var year = myDate.getFullYear();
+ var month = myDate.getMonth()+1;
+ var day = myDate.getDate();
+ var newDay = year + "年" + month + "月" + day + "日";
+    var str = '截至' + newDay +  '，已收录' + i + '道题目。';
+    document.getElementById('qusnum').innerHTML = str;
+});
+</script>
+</blockquote>
+<p><a href="https://www.nowcoder.com/ta/sql" target="_blank" rel="noopener">SQL数据库实战题_面试必刷+解析_牛客题霸_牛客网 (nowcoder.com)</a></p>
+<h2 id="sql1-查找最晚入职员工的所有信息">SQL1 查找最晚入职员工的所有信息</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 方法1：使用子查询</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> hire_date=(<span class="keyword">SELECT</span> <span class="keyword">MAX</span>(hire_date) <span class="keyword">FROM</span> employees);</span><br><span class="line"># 方法2：使用 order by 排序 和 limit 限制一个</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees <span class="keyword">ORDER</span> <span class="keyword">BY</span> hire_date <span class="keyword">DESC</span> <span class="keyword">limit</span> <span class="number">0</span>, <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="sql2-查找入职员工时间排名倒数第三的员工所有信息">SQL2 查找入职员工时间排名倒数第三的员工所有信息</h2>
+<p>可能有入职时间相同的员工，所以利用 <code>SELECT DISTINCT</code> 语句，仅仅列出不同（distinct）的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM employees </span><br><span class="line">WHERE hire_date=(SELECT DISTINCT hire_date FROM employees ORDER BY hire_date DESC LIMIT 1 OFFSET 2);</span><br></pre></td></tr></table></figure>
+<h2 id="sql3-查找各个部门当前领导当前薪水详情以及其对应部门编号dept_no">SQL3 查找各个部门当前领导当前薪水详情以及其对应部门编号dept_no</h2>
+<p><code>WHERE</code> 的两个条件是确保还在职，通过 <code>SELECT s.*, d.dept_no</code> 提取出我们需要的列。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s.*, d.dept_no <span class="keyword">FROM</span> salaries s <span class="keyword">INNER</span> <span class="keyword">JOIN</span> dept_manager d </span><br><span class="line"><span class="keyword">ON</span> s.emp_no=d.emp_no </span><br><span class="line"><span class="keyword">WHERE</span> s.to_date = <span class="string">'9999-01-01'</span> <span class="keyword">and</span> d.to_date=<span class="string">'9999-01-01'</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> s.emp_no;</span><br></pre></td></tr></table></figure>
+<h2 id="sql4-查找所有已经分配部门的员工的last_name和first_name以及dept_no">SQL4 查找所有已经分配部门的员工的last_name和first_name以及dept_no</h2>
+<p>用内连接，又只有一列是公有的，也可以用自然连接</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.last_name,e.first_name,d.dept_no <span class="keyword">FROM</span> employees e </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> dept_emp d <span class="keyword">ON</span> e.emp_no = d.emp_no;</span><br></pre></td></tr></table></figure>
+<h2 id="sql5-查找所有员工的last_name和first_name以及对应部门编号dept_no">SQL5 查找所有员工的last_name和first_name以及对应部门编号dept_no</h2>
+<p>观察输出要求，很明显我们要用到的是左外连接，输出全部左表内容，右表没有的用 null 替代。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.last_name, e.first_name,d.dept_no </span><br><span class="line"><span class="keyword">FROM</span> employees e <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> dept_emp d </span><br><span class="line"><span class="keyword">ON</span> e.emp_no=d.emp_no;</span><br></pre></td></tr></table></figure>
+<h2 id="sql7-查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t">SQL7 查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t</h2>
+<p>1、用 COUNT() 函数和 GROUP BY 语句可以统计同一 emp_no 值的记录条数</p>
+<p>2、根据题意，输出的变动次数为 t，故用 AS 语句将 COUNT(emp_no) 的值转换为 t</p>
+<p>3、由于 COUNT() 函数不可用于 WHERE 语句中，故使用 HAVING 语句来限定 t&gt;15 的条件</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_no, <span class="keyword">COUNT</span>(emp_no) <span class="keyword">AS</span> t <span class="keyword">FROM</span> salaries <span class="keyword">GROUP</span> <span class="keyword">BY</span> emp_no <span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(emp_no) &gt; <span class="number">15</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="sql8-找出所有员工当前具体的薪水salary情况">SQL8 找出所有员工当前具体的薪水salary情况</h2>
+<p>对于 DISTINCT 与 GROUP BY 的使用：</p>
+<ol>
+<li>当对系统的性能高并且数据量大时使用 GROUP BY</li>
+<li>当对系统的性能不高时或者使用数据量少时两者皆可</li>
+<li>尽量使用 GROUP BY</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 方法1：DISTINCT</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> salary <span class="keyword">FROM</span> salaries <span class="keyword">WHERE</span> <span class="keyword">to_date</span>=<span class="string">'9999-01-01'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span>;</span><br><span class="line"># 方法2：GROUP BY</span><br><span class="line"><span class="keyword">SELECT</span> salary <span class="keyword">FROM</span> salaries <span class="keyword">WHERE</span> <span class="keyword">to_date</span>=<span class="string">'9999-01-01'</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> salary <span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/牛客—剑指Offer/" data-toggle="tooltip" data-placement="top" title="牛客—剑指Offer">&larr; 上一篇</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Bootstrap快速使用/" data-toggle="tooltip" data-placement="top" title="Bootstrap快速使用">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sql1-查找最晚入职员工的所有信息"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">SQL1 &#x67E5;&#x627E;&#x6700;&#x665A;&#x5165;&#x804C;&#x5458;&#x5DE5;&#x7684;&#x6240;&#x6709;&#x4FE1;&#x606F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sql2-查找入职员工时间排名倒数第三的员工所有信息"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">SQL2 &#x67E5;&#x627E;&#x5165;&#x804C;&#x5458;&#x5DE5;&#x65F6;&#x95F4;&#x6392;&#x540D;&#x5012;&#x6570;&#x7B2C;&#x4E09;&#x7684;&#x5458;&#x5DE5;&#x6240;&#x6709;&#x4FE1;&#x606F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sql3-查找各个部门当前领导当前薪水详情以及其对应部门编号dept_no"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">SQL3 &#x67E5;&#x627E;&#x5404;&#x4E2A;&#x90E8;&#x95E8;&#x5F53;&#x524D;&#x9886;&#x5BFC;&#x5F53;&#x524D;&#x85AA;&#x6C34;&#x8BE6;&#x60C5;&#x4EE5;&#x53CA;&#x5176;&#x5BF9;&#x5E94;&#x90E8;&#x95E8;&#x7F16;&#x53F7;dept_no</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sql4-查找所有已经分配部门的员工的last_name和first_name以及dept_no"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">SQL4 &#x67E5;&#x627E;&#x6240;&#x6709;&#x5DF2;&#x7ECF;&#x5206;&#x914D;&#x90E8;&#x95E8;&#x7684;&#x5458;&#x5DE5;&#x7684;last_name&#x548C;first_name&#x4EE5;&#x53CA;dept_no</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sql5-查找所有员工的last_name和first_name以及对应部门编号dept_no"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">SQL5 &#x67E5;&#x627E;&#x6240;&#x6709;&#x5458;&#x5DE5;&#x7684;last_name&#x548C;first_name&#x4EE5;&#x53CA;&#x5BF9;&#x5E94;&#x90E8;&#x95E8;&#x7F16;&#x53F7;dept_no</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sql7-查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">SQL7 &#x67E5;&#x627E;&#x85AA;&#x6C34;&#x6DA8;&#x5E45;&#x8D85;&#x8FC7;15&#x6B21;&#x7684;&#x5458;&#x5DE5;&#x53F7;emp_no&#x4EE5;&#x53CA;&#x5176;&#x5BF9;&#x5E94;&#x7684;&#x6DA8;&#x5E45;&#x6B21;&#x6570;t</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sql8-找出所有员工当前具体的薪水salary情况"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">SQL8 &#x627E;&#x51FA;&#x6240;&#x6709;&#x5458;&#x5DE5;&#x5F53;&#x524D;&#x5177;&#x4F53;&#x7684;&#x85AA;&#x6C34;salary&#x60C5;&#x51B5;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#algorithm" title="algorithm">algorithm</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.tangyincheng.com/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2021 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>
