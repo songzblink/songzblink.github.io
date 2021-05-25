@@ -231,7 +231,7 @@
 <p>2）加在 static 方法上等同于锁住类对象 xxx.class</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(Test.class) &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="synchronized的原理">synchronized的原理</h3>
-<p>在展开讨论 synchronized 的远离之前，需要先引入<strong>对象头</strong>和<strong>Monitor</strong>两个知识。</p>
+<p>在展开讨论 synchronized 的原理之前，需要先引入<strong>对象头</strong>和<strong>Monitor</strong>两个知识。</p>
 <p><strong>对象头</strong></p>
 <p><img src="https://pic.tyzhang.top/images/2021/02/28/image.png" alt="image.png"></p>
 <p>其中 Mark Word 的结构为</p>
@@ -276,7 +276,7 @@
 </blockquote>
 <ul>
 <li>
-<p>偏向锁的工作愿意：只有第一次使用 CAS 才将线程 ID 设置到对象的 Mark Word 头，之后发现这个线程 ID 是自己的就表示没有竞争，不用重新 CAS</p>
+<p>偏向锁的工作原理：只有第一次使用 CAS 才将线程 ID 设置到对象的 Mark Word 头，之后发现这个线程 ID 是自己的就表示没有竞争，不用重新 CAS</p>
 </li>
 <li>
 <p>偏向锁的失效</p>

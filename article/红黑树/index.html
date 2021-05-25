@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Exception异常类及其处理 - 宋正兵的博客 | zbsong Blog
+          红黑树 - 宋正兵的博客 | zbsong Blog
         
     </title>
 
-    <link rel="canonical" href="zbsong.top/article/jdk学习之路—Exception/">
+    <link rel="canonical" href="zbsong.top/article/红黑树/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -88,14 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#jdk学习之路" title="jdk学习之路">jdk学习之路</a>
+                              <a class="tag" href="/tags/#note" title="note">note</a>
                             
                         </div>
-                        <h1>Exception异常类及其处理</h1>
-                        <!-- <h2 class="subheading">谈谈Exception异常类，当然包含RuntimeException</h2> -->
+                        <h1>红黑树</h1>
+                        <!-- <h2 class="subheading">红黑树的基本定义和操作</h2> -->
                         <span class="meta">
                             宋正兵 on
-                            2020-11-22
+                            2021-05-13
                         </span>
                     </div>
                 
@@ -219,44 +219,80 @@
                 post-container">
 
 				
-                <h2 id="异常">异常</h2>
-<p>异常指的是导致程序中断执行的一种指令流，出现错误之后，整个程序将不会按照既定的方式进行执行，而是中断。</p>
-<p>比如下面的数学计算将会产生异常：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"【1】**** 程序开始执行 ****"</span>);</span><br><span class="line">        System.out.println(<span class="string">"【2】**** 数学计算 : "</span> + <span class="number">10</span> / <span class="number">0</span>); <span class="comment">// Exception in thread "main" java.lang.ArithmeticException: / by zero</span></span><br><span class="line">        System.out.println(<span class="string">"【3】**** 程序执行完毕 ****"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果希望程序依然可以正常完成，就需要一个完善的异常处理机制，以保证程序的顺利执行。</p>
-<h2 id="处理异常">处理异常</h2>
-<p>基本的异常处理结构：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="comment">// 可能出现异常的够</span></span><br><span class="line">&#125; [<span class="keyword">catch</span> (异常类型 异常对象)&#123;</span><br><span class="line">    <span class="comment">// 异常处理</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (异常类型 异常对象)&#123;</span><br><span class="line">    <span class="comment">// 异常处理</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (异常类型 异常对象)&#123;</span><br><span class="line">    <span class="comment">// 异常处理</span></span><br><span class="line">&#125; ...] [<span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="comment">// 不管异常是否处理都要执行;</span></span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
-<p>可以是： <code>try...catch</code>  、 <code>try...catch...finally</code> 、 <code>try...finally</code> 组合使用。</p>
-<p>修改代码处理异常：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"【1】**** 程序开始执行 ****"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"【2】**** 数学计算 : "</span> + <span class="number">10</span> / <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ArithmeticException e) &#123;</span><br><span class="line">             e.printStackTrace();	<span class="comment">// 处理异常</span></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"【3】**** 程序执行完毕 ****"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* output</span></span><br><span class="line"><span class="comment">【1】**** 程序开始执行 ****</span></span><br><span class="line"><span class="comment">java.lang.ArithmeticException: / by zero</span></span><br><span class="line"><span class="comment">【3】**** 程序执行完毕 ****</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<p>此时即便出现了异常，程序也可以正常执行完毕，所以此时的设计属于一个合理的设计。</p>
-<h2 id="throws关键字和throw关键字的区别">throws关键字和throw关键字的区别</h2>
+                <h2 id="红黑树">红黑树</h2>
+<p>红黑树本质上是一种带颜色的二叉查找树，同时带有一定的规则，保证了一种平衡。</p>
+<p>插入、查找、删除的时间复杂度是 $O(log n)$。</p>
+<p>在 Java 集合框架中，HashMap、Tree Map、TreeSet 等都有红黑树的应用。</p>
+<h2 id="红黑树的性质">红黑树的性质</h2>
+<ol>
+<li>每个节点要么是黑色，要么是红色。</li>
+<li>根节点是黑色。</li>
+<li>所有的叶子节点都是黑色。（这里的叶子节点指的是为 null 的节点）</li>
+<li>每个红色节点的两个子节点一定都是黑色的。</li>
+<li>从任意一个节点到其子树的每个叶子节点的路径都包含相同数量的黑色节点。</li>
+</ol>
+<p>注意：</p>
+<p>对于性质 4，从每个根到节点的路径上不会有两个连续的红色节点，但黑色节点是可以连续的。因此若给定黑色节点的个数 N，最短路径的情况是连续的 N 个黑色，树的高度为 N - 1；最长路径的情况为节点红黑相间，树的高度为 2(N - 1) 。</p>
+<h2 id="红黑树的平衡插入">红黑树的平衡插入</h2>
+<h3 id="步骤">步骤：</h3>
 <ul>
-<li>throw：在代码块中使用，主要是手工进行异常对象的抛出；</li>
-<li>throws：在方法定义上使用，表示将此方法中可能产生的异常明确告诉给调用处，由调用处进行处理。</li>
+<li>查找插入的位置；</li>
+<li>插入后调整结构保持平衡，包括对节点重新着色和对树进行相关的旋转操作。</li>
 </ul>
-<p>在方法的声明上使用 throws 关键字来进行异常类型的标注，例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyMath</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这个代码执行的时候可能会产生异常，如果产生异常了调用处处理</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">div</span> <span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x / y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(MyMath.div(<span class="number">10</span>, <span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中主方法本身也是一个方法，那么主方法也可以向上继续抛出异常，也可以就在主方法中使用try…catch进行处理。</p>
-<p>throw 关键字用来手工产生异常的实例化对象，并且进行异常的抛出处理。例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123; <span class="comment">// 对象不再是由系统生成的，而是由手工定义的</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"自己抛着玩的对象"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="runtimeexception">RuntimeException</h2>
-<p>首先需要明确的是，Exception类及其子类是Throwable类的子类，表示合理的应用程序可能希望捕获的状况。在程序之中可以处理的异常的最大类型就是Throwable，它提供有两个子类：</p>
-<ul>
-<li>Error：程序还未执行出现的错误，如系统崩溃、虚拟机错误、动态链接失败等无法恢复或不可能捕获的错误，开发者无法处理；</li>
-<li>Exception：程序中出现的异常，开发者可以处理。</li>
-</ul>
-<p><img src="https://pic.tyzhang.top/images/2020/11/22/image.png" alt="image.png"></p>
-<p>特别值得说的一点是Exception又分为不受检查异常（绿色背景）和受检查异常（红色背景）。</p>
-<p><strong>不受检查异常（runtime exceptions）</strong> 是因程序员没有进行必要的检查，由于疏忽而引起的错误，经典的RuntimeException如下：</p>
-<ul>
-<li>java.lang.NullPointerException</li>
-<li>java.lang.ArithmaticException</li>
-<li>java.lang.ArrayIndexoutofBoundsException</li>
-</ul>
-<p><strong>受检查异常（checked exceptions）</strong> 必须被 try…catch 语句块所捕获，或在方法声明里使用 throws 关键字，确保在编译时被捕获处理。命名为受检查异常是因为 Java 编译器要进行检查，java 虚拟机也要进行检查，以确保这个规则得到遵守。</p>
-<p>如果出现RuntimeException错误，那么一定是程序员的错误。</p>
+<h3 id="思想">思想</h3>
+<p>我们把要插入的节点设置为<strong>红色</strong>，这样插入后就不会影响性质 5，只需要专心调整性质 4 即可。我们只需要关心插入节点的父节点是否为红色，如果是红色，就要把父节点进行变化，让父节点变成黑色或者换一个黑色节点当父亲节点，当然这些操作不能同时影响不同路径上的黑色节点数的一致的原则。</p>
+<h3 id="实例">实例</h3>
+<p>进行实例讲解前，约定如下：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2392382-9ac3d6b69ef7ead3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/662/format/webp" alt=""></p>
+<p>下面的情况都属于父亲节点是祖先节点的左孩子，对于父亲节点是祖先节点的右孩子的情况是对称操作，就不多举例了。</p>
+<h4 id="情况1-父亲节点和叔叔节点都是红色"><strong>情况1. 父亲节点和叔叔节点都是红色</strong></h4>
+<p><img src="https://upload-images.jianshu.io/upload_images/2392382-9f2c746bf0769f49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/656/format/webp" alt=""></p>
+<h4 id="情况2-父亲节点为红色叔叔节点为黑色或不存在"><strong>情况2. 父亲节点为红色，叔叔节点为黑色或不存在</strong></h4>
+<p><img src="https://upload-images.jianshu.io/upload_images/2392382-ab4097b750826870.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/670/format/webp" alt=""></p>
+<h4 id="情况3-对于情况-2-的拓展当前节点为父节点的右孩子"><strong>情况3. 对于情况 2 的拓展当前节点为父节点的右孩子</strong></h4>
+<p><img src="https://upload-images.jianshu.io/upload_images/2392382-fbfc4f299941cb8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1024/format/webp" alt=""></p>
+<p>先对父亲节点进行左旋，让原来的父亲节点作为插入节点，使得插入节点变成父亲节点的左孩子，即得到情况 2，然后按照情况 2 处理。</p>
+<h2 id="红黑树的删除调整">红黑树的删除调整</h2>
+<h3 id="删除">删除</h3>
+<p>待删除节点按照孩子节点的个数分为三种情况：</p>
+<ol>
+<li>待删除节点没有子节点， 则直接删除该节点；</li>
+<li>待删除节点有一个子节点，则用该子节点替换它的父节点；</li>
+<li>待删除节点有两个子节点，则取它的后继节点替换它，并删除这个后继节点原来的位置，它可能有两种情况：
+<ol>
+<li>后继节点是待删除节点的右孩子</li>
+<li>后继节点不是待删除节点的右孩子</li>
+</ol>
+</li>
+</ol>
+<p><strong>情况1 和情况 2</strong></p>
+<p>如果待删除节点的颜色是红色，直接删除无需调整；如果删除的节点是黑色的，则需要对红黑树进行调整。</p>
+<p><strong>情况 3</strong></p>
+<p>设待删除节点为 Z，后继节点为 Y。</p>
+<p>如果后继节点 Y 是待删除节点 Z 的右子节点：用后继节点 Y 去替换待删除节点 Z。</p>
+<p><img src="http://dl.iteye.com/upload/attachment/0082/2539/ada3dc7c-1161-31ee-aba5-62636f413389.jpg" alt=""></p>
+<p>如果后继节点 Y 不是待删除节点 Z 的右子节点：用后继节点 Y 去替换待删除节点 Z，然后用后继节点 Y 的右孩子 X 来填补节点 Y 的位置。由于移动后节点 Y 保持了原来节点 Z 的颜色，而节点 X 再替代 Y 节点之后可能会出现问题（当 Y 是黑色的时候），需要进行调整。</p>
+<p><img src="https://pic.tyzhang.top/images/2020/06/12/20141105150235906.jpg" alt=""></p>
+<h3 id="调整">调整</h3>
+<p>如果删除节点的颜色是红色，从上面的节点到叶节点所经历的黑色节点没有变化，所以有一个<strong>前置条件就是待删除的节点是黑色的</strong>。这个原来是黑色的节点被删除后，我们要通过一定的变化，使得这棵树仍然是合法的红黑树。</p>
+<h4 id="情况1-当前节点的兄弟节点是红色的"><strong>情况1. 当前节点的兄弟节点是红色的</strong></h4>
+<p><img src="http://dl.iteye.com/upload/attachment/0082/2806/c63c13fc-59c8-3eaf-8fc7-1d5a33fafd70.png" alt=""></p>
+<p>当前节点 x 的兄弟节点 w 是红色，那么从红黑树的属性来看，它的兄弟节点必然有两个黑色的子节点。那么我们就可以通过节点 x 的父亲节点左旋，然后将父亲节点 B 的颜色变成红色，原来兄弟节点 D 变成黑色。这样我们就能够转换成情况 2，为下一步调整做好准备。</p>
+<h4 id="情况2-当前节点的兄弟节点包括兄弟节点的所有子节点都是黑色">情况2 当前节点的兄弟节点，包括兄弟节点的所有子节点都是黑色</h4>
+<p><img src="http://dl.iteye.com/upload/attachment/0082/2810/d9090d3a-bd83-3e11-b7bb-51d922569ae0.png" alt=""></p>
+<p>这种情况下，我们将兄弟节点 w 设置为红色，然后将 x 节点指向它的父节点。</p>
+<p>为什么这么一变就平衡了呢？假定节点 A 是要调整的节点一路调整过来的。因为原来那个要调整的节点是黑色的，它一旦被删除后该路径上的黑色节点就少了 1，所以这里节点 A 所在的路径都是黑色节点少 1。这里将节点 A 的兄弟节点变成红色后，从它的父节点到下面的所有路径就都统一少了 1，于是父亲节点 B 所在的路径都有了相同的黑色节点数量。</p>
+<p>不用担心当前对于“一棵树中间的子树少了一个黑色节点”没办法保证整个红黑树的合理性，继续向上调整的过程中会对节点 B，也就是 x 所指向的这个节点设置为黑色，这样就保证前面亏的那一个黑色节点就补回来了。</p>
+<h4 id="情况3-当前节点的兄弟节点是黑色且兄弟节点的左子节点是红色右子节点是黑色">情况3 当前节点的兄弟节点是黑色，且兄弟节点的左子节点是红色，右子节点是黑色</h4>
+<p><img src="http://dl.iteye.com/upload/attachment/0082/2822/5f2f4562-f770-3bbe-a650-f3709fa0fd1b.png" alt=""></p>
+<p>将兄弟节点 w 做一个右旋操作，转变成情况 4。</p>
+<h4 id="情况4-当前节点的兄弟节点是黑色且兄弟节点的左子节点是任意颜色右子节点是红色">情况4 当前节点的兄弟节点是黑色，且兄弟节点的左子节点是任意颜色，右子节点是红色</h4>
+<p><img src="http://dl.iteye.com/upload/attachment/0082/2825/026edb2b-a8ee-3042-ba11-2f8f9cf0e6b1.png" alt=""></p>
+<p>将父节点 B 做一个左旋操作，同时将父亲节点 B 变成黑色，将原来的兄弟节点 D 变成红色，并且将 D 的右子节点变成黑色。这样保证了新的子树中间根节点到各叶子节点的路径依然是平衡的。然后直接将 x 指向其根节点。</p>
+<blockquote>
+<p>为什么这一步调整结束后就直接 x = T.root了呢？也就是说我们一走完这个就可以把 x 直接跳到根节点，其他的都不需要看了。这是因为我们前面的一个前提，A 节点向上所在的路径都是黑色节点少了一个的，这里我们以调整之后相当于给它增加了一个黑色节点，同时对其他子树的节点没有任何变化。相当于我内部已经给它补偿上来了。所以后续就不需要再往上去调整。</p>
+</blockquote>
+<p>前面讨论的这 4 种情况是在当前节点是父节点的左子节点的条件下进行的。如果当前节点是父节点的右子节点，则可以对应的做对称的操作处理，过程也是一样的。</p>
 
                 
                 <hr>
@@ -264,12 +300,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/jdk学习之路—反射/" data-toggle="tooltip" data-placement="top" title="浅谈反射">&larr; 上一篇</a>
+                            <a href="/article/牛客—剑指Offer/" data-toggle="tooltip" data-placement="top" title="牛客—剑指Offer">&larr; 上一篇</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/jdk学习之路—重写equals时必须重写hashCode方法/" data-toggle="tooltip" data-placement="top" title="重写equals时必须重写hashCode方法">下一篇 &rarr;</a>
+                            <a href="/article/牛客—华为机试/" data-toggle="tooltip" data-placement="top" title="牛客—华为机试">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -305,7 +341,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#异常"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#处理异常"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5904;&#x7406;&#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#throws关键字和throw关键字的区别"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">throws&#x5173;&#x952E;&#x5B57;&#x548C;throw&#x5173;&#x952E;&#x5B57;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#runtimeexception"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">RuntimeException</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#红黑树"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x7EA2;&#x9ED1;&#x6811;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#红黑树的性质"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x7EA2;&#x9ED1;&#x6811;&#x7684;&#x6027;&#x8D28;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#红黑树的平衡插入"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x7EA2;&#x9ED1;&#x6811;&#x7684;&#x5E73;&#x8861;&#x63D2;&#x5165;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#步骤"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">&#x6B65;&#x9AA4;&#xFF1A;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#思想"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">&#x601D;&#x60F3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#实例"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">&#x5B9E;&#x4F8B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#情况1-父亲节点和叔叔节点都是红色"><span class="toc-nav-number">3.3.1.</span> <span class="toc-nav-text"><strong>&#x60C5;&#x51B5;1. &#x7236;&#x4EB2;&#x8282;&#x70B9;&#x548C;&#x53D4;&#x53D4;&#x8282;&#x70B9;&#x90FD;&#x662F;&#x7EA2;&#x8272;</strong></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#情况2-父亲节点为红色叔叔节点为黑色或不存在"><span class="toc-nav-number">3.3.2.</span> <span class="toc-nav-text"><strong>&#x60C5;&#x51B5;2. &#x7236;&#x4EB2;&#x8282;&#x70B9;&#x4E3A;&#x7EA2;&#x8272;&#xFF0C;&#x53D4;&#x53D4;&#x8282;&#x70B9;&#x4E3A;&#x9ED1;&#x8272;&#x6216;&#x4E0D;&#x5B58;&#x5728;</strong></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#情况3-对于情况-2-的拓展当前节点为父节点的右孩子"><span class="toc-nav-number">3.3.3.</span> <span class="toc-nav-text"><strong>&#x60C5;&#x51B5;3. &#x5BF9;&#x4E8E;&#x60C5;&#x51B5; 2 &#x7684;&#x62D3;&#x5C55;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x4E3A;&#x7236;&#x8282;&#x70B9;&#x7684;&#x53F3;&#x5B69;&#x5B50;</strong></span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#红黑树的删除调整"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x7EA2;&#x9ED1;&#x6811;&#x7684;&#x5220;&#x9664;&#x8C03;&#x6574;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#删除"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#调整"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">&#x8C03;&#x6574;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#情况1-当前节点的兄弟节点是红色的"><span class="toc-nav-number">4.2.1.</span> <span class="toc-nav-text"><strong>&#x60C5;&#x51B5;1. &#x5F53;&#x524D;&#x8282;&#x70B9;&#x7684;&#x5144;&#x5F1F;&#x8282;&#x70B9;&#x662F;&#x7EA2;&#x8272;&#x7684;</strong></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#情况2-当前节点的兄弟节点包括兄弟节点的所有子节点都是黑色"><span class="toc-nav-number">4.2.2.</span> <span class="toc-nav-text">&#x60C5;&#x51B5;2 &#x5F53;&#x524D;&#x8282;&#x70B9;&#x7684;&#x5144;&#x5F1F;&#x8282;&#x70B9;&#xFF0C;&#x5305;&#x62EC;&#x5144;&#x5F1F;&#x8282;&#x70B9;&#x7684;&#x6240;&#x6709;&#x5B50;&#x8282;&#x70B9;&#x90FD;&#x662F;&#x9ED1;&#x8272;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#情况3-当前节点的兄弟节点是黑色且兄弟节点的左子节点是红色右子节点是黑色"><span class="toc-nav-number">4.2.3.</span> <span class="toc-nav-text">&#x60C5;&#x51B5;3 &#x5F53;&#x524D;&#x8282;&#x70B9;&#x7684;&#x5144;&#x5F1F;&#x8282;&#x70B9;&#x662F;&#x9ED1;&#x8272;&#xFF0C;&#x4E14;&#x5144;&#x5F1F;&#x8282;&#x70B9;&#x7684;&#x5DE6;&#x5B50;&#x8282;&#x70B9;&#x662F;&#x7EA2;&#x8272;&#xFF0C;&#x53F3;&#x5B50;&#x8282;&#x70B9;&#x662F;&#x9ED1;&#x8272;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#情况4-当前节点的兄弟节点是黑色且兄弟节点的左子节点是任意颜色右子节点是红色"><span class="toc-nav-number">4.2.4.</span> <span class="toc-nav-text">&#x60C5;&#x51B5;4 &#x5F53;&#x524D;&#x8282;&#x70B9;&#x7684;&#x5144;&#x5F1F;&#x8282;&#x70B9;&#x662F;&#x9ED1;&#x8272;&#xFF0C;&#x4E14;&#x5144;&#x5F1F;&#x8282;&#x70B9;&#x7684;&#x5DE6;&#x5B50;&#x8282;&#x70B9;&#x662F;&#x4EFB;&#x610F;&#x989C;&#x8272;&#xFF0C;&#x53F3;&#x5B50;&#x8282;&#x70B9;&#x662F;&#x7EA2;&#x8272;</span></a></li></ol></li></ol></li></ol>
         
         </div>
       </aside>
@@ -325,7 +361,7 @@
                     <h5><a href="/tags/">标签</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#jdk学习之路" title="jdk学习之路">jdk学习之路</a>
+                          <a class="tag" href="/tags/#note" title="note">note</a>
                         
                     </div>
                 </section>
