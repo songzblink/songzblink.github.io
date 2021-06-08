@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          秒杀项目的总结 - 宋正兵的博客 | zbsong Blog
+          子集树和排列树 - 宋正兵的博客 | zbsong Blog
         
     </title>
 
-    <link rel="canonical" href="zbsong.top/article/项目—秒杀总结/">
+    <link rel="canonical" href="zbsong.top/article/子集树和排列树/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -88,14 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#java项目" title="java项目">java项目</a>
+                              <a class="tag" href="/tags/#algorithm" title="algorithm">algorithm</a>
                             
                         </div>
-                        <h1>秒杀项目的总结</h1>
-                        <!-- <h2 class="subheading">如何解决秒杀中存在的超卖问题，以及限流优化</h2> -->
+                        <h1>子集树和排列树</h1>
+                        <!-- <h2 class="subheading">解空间</h2> -->
                         <span class="meta">
                             宋正兵 on
-                            2021-04-20
+                            2021-05-28
                         </span>
                     </div>
                 
@@ -219,19 +219,37 @@
                 post-container">
 
 				
-                
+                <h2 id="概念">概念</h2>
+<p>假定有一个集合 S。</p>
+<p>当我们要求解的结果是集合 S 的某一子集，那么对应的解空间是<strong>子集树</strong>，时间复杂度是 $O(2^{n})$。</p>
+<p><img src="https://img-blog.csdn.net/20170714172921581?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvempxXzEzMTQ1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<p>当我们要求解的结果是集合 S 的元素的某一种排列的时候，其对应的解空间就是<strong>排列树</strong>，时间复杂度是 $O(n!)$。</p>
+<p><img src="https://img-blog.csdn.net/20170714173539873?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvempxXzEzMTQ1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<h2 id="算法描述">算法描述</h2>
+<p>子集树：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// t表示当前是树的第t层，即对集合S种的第t个元素进行判断</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">backtrace</span><span class="params">(<span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 大于S中总的元素个数，遍历完成</span></span><br><span class="line">    <span class="keyword">if</span> (t &gt; n) &#123;</span><br><span class="line">        output(x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 两种可能，加入或者不加入到解集合</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">1</span>; i++) &#123;</span><br><span class="line">        x[t] = i;</span><br><span class="line">        <span class="comment">// 满足约束条件，对t+1层进行判断</span></span><br><span class="line">        <span class="keyword">if</span> (constraint(t) &amp;&amp; Bound(t)) &#123;</span><br><span class="line">            backtrace(t + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>排列树：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// t表示集合S的第t个元素</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">backtrace</span><span class="params">(<span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (t &gt; n) &#123;</span><br><span class="line">        output(x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 第t个元素与其后面的所有元素进行交换位置</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = t; i &lt;= n; i++) &#123;</span><br><span class="line">        swap(x[t], x[i]);</span><br><span class="line">       	<span class="comment">// 满足约束条件，对t+1层进行判断</span></span><br><span class="line">        <span class="keyword">if</span> (constraint(t) &amp;&amp; Bound(t)) &#123;</span><br><span class="line">            backtrace(t + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        swap(x[t], x[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="举例">举例</h2>
+<p>排列树：<a href="https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7?tpId=13&amp;&amp;tqId=11180&amp;rp=1&amp;ru=/ta/coding-interviews&amp;qru=/ta/coding-interviews/question-ranking" target="_blank" rel="noopener">JZ27 字符串的排列</a></p>
+<p>题目大意：输入一个字符串,按字典序打印出该字符串中字符的所有排列。</p>
+<p>思路：</p>
+<p>按照排列树的算法描述来套进该问题，对于字符串中的第 t 个元素，依次和它之后的元素交换，可以得到不同的排列结果。然后做好去重即可。</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;String&gt; <span class="title">Permutation</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">       ArrayList&lt;String&gt; resList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (str != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">char</span>[] arr = str.toCharArray();</span><br><span class="line">            backtrace(arr, <span class="number">0</span>, resList);</span><br><span class="line">            Collections.sort(resList);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resList;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">backtrace</span><span class="params">(<span class="keyword">char</span>[] arr, <span class="keyword">int</span> t, ArrayList&lt;String&gt; resList)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (t &gt;= arr.length) &#123;</span><br><span class="line">            String tempStr = String.copyValueOf(arr);</span><br><span class="line">            <span class="keyword">if</span> (!resList.contains(tempStr)) &#123;</span><br><span class="line">                resList.add(tempStr);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = t; i &lt; arr.length; i++) &#123;</span><br><span class="line">            swap(arr, t, i);</span><br><span class="line">            backtrace(arr, t + <span class="number">1</span>, resList);</span><br><span class="line">            swap(arr, t, i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">char</span>[] arr, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">char</span> temp = arr[i];</span><br><span class="line">        arr[i] = arr[j];</span><br><span class="line">        arr[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
                 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/算法—对动态规划的思考/" data-toggle="tooltip" data-placement="top" title="对于动态规划的思考">&larr; 上一篇</a>
+                            <a href="/article/牛客—剑指Offer/" data-toggle="tooltip" data-placement="top" title="牛客—剑指Offer">&larr; 上一篇</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/算法—两数之和三数之和四数之和/" data-toggle="tooltip" data-placement="top" title="两数之和三数之和四数之和">下一篇 &rarr;</a>
+                            <a href="/article/红黑树/" data-toggle="tooltip" data-placement="top" title="红黑树">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -267,7 +285,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#概念"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#算法描述"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#举例"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x4E3E;&#x4F8B;</span></a></li></ol>
         
         </div>
       </aside>
@@ -287,7 +305,7 @@
                     <h5><a href="/tags/">标签</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#java项目" title="java项目">java项目</a>
+                          <a class="tag" href="/tags/#algorithm" title="algorithm">algorithm</a>
                         
                     </div>
                 </section>

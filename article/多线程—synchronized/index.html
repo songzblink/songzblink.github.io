@@ -323,6 +323,10 @@
 <p><img src="https://pic.tyzhang.top/images/2021/02/28/imagea4f250948efe762b.png" alt="imagea4f250948efe762b.png"></p>
 <p><img src="https://pic.tyzhang.top/images/2021/02/28/image7372f553d60664b0.png" alt="image7372f553d60664b0.png"></p>
 <h3 id="自旋">自旋</h3>
+<blockquote>
+<p>自旋好像是轻量级锁自旋噢，因为 CAS 失败后可以尝试自旋，直到成功，或者有设置某种条件，超过多少次自旋就竞争失败啥的。</p>
+<p>重量级锁失败就阻塞了啊。</p>
+</blockquote>
 <p>重量级锁竞争的时候，还可以使用自旋来进行优化，如果当前线程自旋成功（即这时候持有锁的线程已经退出同步块，释放了锁），这时当前线程就可以避免阻塞。</p>
 <ul>
 <li>自旋会占用 CPU 时间，单核 CPU 自旋就是浪费时间，多核 CPU 自旋才能发挥优势。</li>

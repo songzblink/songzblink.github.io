@@ -23,13 +23,6 @@
     </url>
 
     <url>
-        <loc>zbsong.top/tags/note/</loc>
-        <lastmod>2021-05-13T06:58:54.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>zbsong.top/tags/jdk%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/</loc>
         <lastmod>2021-05-15T05:32:03.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -37,15 +30,22 @@
     </url>
 
     <url>
+        <loc>zbsong.top/tags/note/</loc>
+        <lastmod>2021-06-05T07:52:23.431Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>zbsong.top/tags/java/</loc>
-        <lastmod>2021-05-15T06:00:10.000Z</lastmod>
+        <lastmod>2021-06-08T12:23:46.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>zbsong.top/tags/algorithm/</loc>
-        <lastmod>2021-05-25T04:23:17.884Z</lastmod>
+        <lastmod>2021-06-08T14:05:35.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
