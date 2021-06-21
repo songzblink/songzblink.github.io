@@ -221,8 +221,8 @@
 				
                 <p>转载地址：<a href="https://www.jianshu.com/p/9be58ee20dee" target="_blank" rel="noopener">Java高级特性——反射</a></p>
 <p>除了转载的内容外，加入了部分实验代码。</p>
-<h1 id="反射机制的相关类">反射机制的相关类</h1>
-<p>与Java反射相关的类如下：</p>
+<h1 id="反射机制的相关类"><a href="#反射机制的相关类" class="headerlink" title="反射机制的相关类"></a>反射机制的相关类</h1><p>与Java反射相关的类如下：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -249,21 +249,20 @@
 </tr>
 </tbody>
 </table>
-<h1 id="class类">Class类</h1>
-<p>它位于 java.lang 包中，其构造函数是私有的，由 JVM（类加载器）创建 Class 对象，我们可以通过 getClass() 方法获取到 Class 对象。</p>
+</div>
+<h1 id="class类"><a href="#Class类" class="headerlink" title="Class类"></a>Class类</h1><p>它位于 java.lang 包中，其构造函数是私有的，由 JVM（类加载器）创建 Class 对象，我们可以通过 getClass() 方法获取到 Class 对象。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 私有构造函数，使得只有jvm可以创建该类的对象，这个私有构造函数还可以防止通过默认构造函数创建类对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Class</span><span class="params">(ClassLoader loader)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 初始化final变量ClassLoader</span></span><br><span class="line">    classLoader = loader;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>利用 Class 对象，我们可以拿到创建的类的属性、方法等。</p>
-<h2 id="class-类的作用">Class 类的作用</h2>
-<ol>
+<h2 id="class-类的作用"><a href="#Class-类的作用" class="headerlink" title="Class 类的作用"></a>Class 类的作用</h2><ol>
 <li>获取类中属性的类型</li>
 <li>获取类中属性的名称</li>
 <li>获取类的方法</li>
 <li>获取类的基类等等</li>
 <li>利用 Class 类完成反射</li>
 </ol>
-<h2 id="class-类的主要方法">Class 类的主要方法</h2>
-<p><strong>获得类相关的方法</strong></p>
+<h2 id="class-类的主要方法"><a href="#Class-类的主要方法" class="headerlink" title="Class 类的主要方法"></a>Class 类的主要方法</h2><p><strong>获得类相关的方法</strong></p>
 <p><strong>带有Declared修饰的方法可以反射到私有的方法，没有Declared修饰的只能用来反射公有的方法</strong></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -322,7 +321,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>获得类中属性相关的方法</strong></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -349,7 +350,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>获得类中注解相关的方法</strong></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -376,7 +379,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>获得类中构造器相关的方法</strong></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -403,7 +408,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>获得类中方法相关的方法</strong></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -430,7 +437,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>类中其他重要的方法</strong></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -477,6 +486,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>forName 方法</strong></p>
 <ul>
 <li>加载类： <code>public static Class&lt;?&gt; forName(String className) throws ClassNotFoundException</code></li>
@@ -501,8 +511,8 @@
 <p><code>public String getSimpleName()</code> 返回源代码中给出的基础类的简单名称，如果基础类是匿名的，则返回空字符串。可以理解为返回的仅仅是类名，不包含路径。</p>
 <p>提供下面的例子，以便直观地感受四个方法之间的差异。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AAA</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">BBB</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 数组</span></span><br><span class="line">        System.out.println(String[].class.getName()); <span class="comment">// [Ljava.lang.String;</span></span><br><span class="line">        System.out.println(String[].class.getCanonicalName()); <span class="comment">// java.lang.String[]</span></span><br><span class="line">        System.out.println(String[].class.getSimpleName()); <span class="comment">// String[]</span></span><br><span class="line">        System.out.println(String[].class.getTypeName()); <span class="comment">// java.lang.String[]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 成员内部类</span></span><br><span class="line">        System.out.println(BBB.class.getName()); <span class="comment">// lang.reflect.AAA$BBB</span></span><br><span class="line">        System.out.println(BBB.class.getCanonicalName()); <span class="comment">// lang.reflect.AAA.BBB</span></span><br><span class="line">        System.out.println(BBB.class.getSimpleName()); <span class="comment">// BBB</span></span><br><span class="line">        System.out.println(BBB.class.getTypeName()); <span class="comment">// lang.reflect.AAA$BBB</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 匿名内部类</span></span><br><span class="line">        System.out.println(<span class="keyword">new</span> Object()&#123;&#125;.getClass().getName()); <span class="comment">// lang.reflect.AAA$1</span></span><br><span class="line">        System.out.println(<span class="keyword">new</span> Object()&#123;&#125;.getClass().getCanonicalName()); <span class="comment">// null</span></span><br><span class="line">        System.out.println(<span class="keyword">new</span> Object()&#123;&#125;.getClass().getSimpleName()); <span class="comment">// ""</span></span><br><span class="line">        System.out.println(<span class="keyword">new</span> Object()&#123;&#125;.getClass().getTypeName()); <span class="comment">// lang.reflect.AAA$4</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 普通类</span></span><br><span class="line">        System.out.println(AAA.class.getName()); <span class="comment">// lang.reflect.AAA</span></span><br><span class="line">        System.out.println(AAA.class.getCanonicalName()); <span class="comment">// lang.reflect.AAA</span></span><br><span class="line">        System.out.println(AAA.class.getSimpleName()); <span class="comment">// AAA</span></span><br><span class="line">        System.out.println(AAA.class.getTypeName()); <span class="comment">// lang.reflect.AAA</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 基本数据类型</span></span><br><span class="line">        System.out.println(<span class="keyword">int</span>.class.getName()); <span class="comment">// int</span></span><br><span class="line">        System.out.println(<span class="keyword">int</span>.class.getCanonicalName()); <span class="comment">// int</span></span><br><span class="line">        System.out.println(<span class="keyword">int</span>.class.getSimpleName()); <span class="comment">// int</span></span><br><span class="line">        System.out.println(<span class="keyword">int</span>.class.getTypeName()); <span class="comment">// int</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="field类">Field类</h1>
-<p>Field代表类的成员变量（成员变量也称为类的属性）。</p>
+<h1 id="field类"><a href="#Field类" class="headerlink" title="Field类"></a>Field类</h1><p>Field代表类的成员变量（成员变量也称为类的属性）。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -525,8 +535,9 @@
 </tr>
 </tbody>
 </table>
-<h1 id="method类">Method类</h1>
-<p>Method代表类的方法。</p>
+</div>
+<h1 id="method类"><a href="#Method类" class="headerlink" title="Method类"></a>Method类</h1><p>Method代表类的方法。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -541,8 +552,9 @@
 </tr>
 </tbody>
 </table>
-<h1 id="constructor类">Constructor类</h1>
-<p>Constructor代表类的构造方法。</p>
+</div>
+<h1 id="constructor类"><a href="#Constructor类" class="headerlink" title="Constructor类"></a>Constructor类</h1><p>Constructor代表类的构造方法。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -557,6 +569,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 
                 
                 <hr>
@@ -605,7 +618,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#反射机制的相关类"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x53CD;&#x5C04;&#x673A;&#x5236;&#x7684;&#x76F8;&#x5173;&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#class类"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Class&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#class-类的作用"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Class &#x7C7B;&#x7684;&#x4F5C;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#class-类的主要方法"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Class &#x7C7B;&#x7684;&#x4E3B;&#x8981;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#field类"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Field&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#method类"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Method&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#constructor类"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Constructor&#x7C7B;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#反射机制的相关类"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x53CD;&#x5C04;&#x673A;&#x5236;&#x7684;&#x76F8;&#x5173;&#x7C7B;" class="headerlink" title="&#x53CD;&#x5C04;&#x673A;&#x5236;&#x7684;&#x76F8;&#x5173;&#x7C7B;"></a>&#x53CD;&#x5C04;&#x673A;&#x5236;&#x7684;&#x76F8;&#x5173;&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#class类"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#Class&#x7C7B;" class="headerlink" title="Class&#x7C7B;"></a>Class&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#class-类的作用"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#Class-&#x7C7B;&#x7684;&#x4F5C;&#x7528;" class="headerlink" title="Class &#x7C7B;&#x7684;&#x4F5C;&#x7528;"></a>Class &#x7C7B;&#x7684;&#x4F5C;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#class-类的主要方法"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#Class-&#x7C7B;&#x7684;&#x4E3B;&#x8981;&#x65B9;&#x6CD5;" class="headerlink" title="Class &#x7C7B;&#x7684;&#x4E3B;&#x8981;&#x65B9;&#x6CD5;"></a>Class &#x7C7B;&#x7684;&#x4E3B;&#x8981;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#field类"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#Field&#x7C7B;" class="headerlink" title="Field&#x7C7B;"></a>Field&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#method类"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#Method&#x7C7B;" class="headerlink" title="Method&#x7C7B;"></a>Method&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#constructor类"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#Constructor&#x7C7B;" class="headerlink" title="Constructor&#x7C7B;"></a>Constructor&#x7C7B;</span></a></li></ol>
         
         </div>
       </aside>
@@ -742,6 +755,14 @@
                     <br>
                     Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
                     re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+					<br>
+                    <a href="http://www.beian.miit.gov.cn/" style="color: gray">浙ICP备2021018896号</a>
+					<br>
+					<!-- <p class="copyright text-muted" style="margin-top: 5px"> -->
+						<img src="../../img/备案图标.png"/>
+						<a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=undefined" style="color: gray">undefined</a>
+					<!-- </p> -->
 					
                 </p>
             </div>

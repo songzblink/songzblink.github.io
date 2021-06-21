@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          阅读记录 - 宋正兵的博客 | zbsong Blog
+          云服务器部署实例 - 宋正兵的博客 | zbsong Blog
         
     </title>
 
-    <link rel="canonical" href="zbsong.top/article/阅读记录/">
+    <link rel="canonical" href="zbsong.top/article/云服务器部署实例/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -91,11 +91,11 @@
                               <a class="tag" href="/tags/#note" title="note">note</a>
                             
                         </div>
-                        <h1>阅读记录</h1>
-                        <!-- <h2 class="subheading">记录一些看过的比较好的博客</h2> -->
+                        <h1>云服务器部署实例</h1>
+                        <!-- <h2 class="subheading">如何部署一个云服务器</h2> -->
                         <span class="meta">
                             宋正兵 on
-                            2021-03-11
+                            2021-06-10
                         </span>
                     </div>
                 
@@ -220,31 +220,58 @@
 
 				
                 <blockquote>
-<p>记录了一些觉得写得好的，有用的博客。</p>
+<p>本文记录将博客从 github 迁移到云服务器的过程，供将来查阅学习。</p>
 </blockquote>
-<p><strong>博客</strong></p>
-<p><a href="https://javadoop.com/" target="_blank" rel="noopener">Javadoop_首页</a></p>
-<p><a href="https://blog.csdn.net/m0_53474063" target="_blank" rel="noopener">codedot_CSDN博客-Java基础,Spring,MySQL领域博主</a></p>
-<p><strong>排序算法</strong></p>
-<p><a href="https://www.cnblogs.com/onepixel/p/7674659.html" target="_blank" rel="noopener">十大经典排序算法</a></p>
-<p><a href="https://www.cnblogs.com/chengxiao/p/6129630.html" target="_blank" rel="noopener">堆排序</a></p>
-<p><strong>集合</strong></p>
-<p><a href="http://yikun.github.io/2015/04/01/Java-HashMap%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/" target="_blank" rel="noopener">Java HashMap工作原理及实现</a></p>
-<p><a href="https://www.zhihu.com/question/422840340/answer/1494603694" target="_blank" rel="noopener">java中，HashMap为什么每次扩容的倍数是2，而不是1.5或者2.5？</a></p>
-<p><strong>数据结构</strong></p>
-<p><a href="https://blog.csdn.net/u011240877/article/details/53329023" target="_blank" rel="noopener">重温数据结构：深入理解红黑树</a></p>
-<p><a href="https://www.jianshu.com/p/e136ec79235c" target="_blank" rel="noopener">30张图带你彻底理解红黑树</a></p>
-<p><strong>并发编程</strong></p>
-<p><a href="https://mp.weixin.qq.com/s/6kAMFCXT46mWfxRdega1vA" target="_blank" rel="noopener">java 线程的状态及转换</a></p>
-<p><a href="https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html" target="_blank" rel="noopener">从ReentrantLock的实现看AQS的原理及应用</a></p>
-<p><strong>数据库</strong></p>
-<p><a href="https://www.nowcoder.com/discuss/tiny/673309?channel=666&amp;source_id=feed_index_nctrack&amp;fromIframe=true" target="_blank" rel="noopener">MVCC</a></p>
-<p><strong>Redis</strong></p>
-<p><a href="https://mp.weixin.qq.com/s/YdIdoZ_yusVWza1PU7lWaw" target="_blank" rel="noopener">I/O多路复用</a></p>
-<p><a href="https://mp.weixin.qq.com/s/keVI4Fn8N42VhIhODkuqBA" target="_blank" rel="noopener">Redis单线程模型</a></p>
-<p><strong>综合</strong></p>
-<p><a href="https://mp.weixin.qq.com/s/cOF063I4OFFIomLC2Vo9qw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/cOF063I4OFFIomLC2Vo9qw</a></p>
-<p><a href="https://www.cnblogs.com/moyand/p/9047978.html" target="_blank" rel="noopener">彻底理解cookie，session，token - 墨颜丶 - 博客园 (cnblogs.com)</a></p>
+<h2 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h2><ul>
+<li>镜像：CentOS 7.6 64bit</li>
+<li>公网 IP 地址：1.116.xxx.xxx【打码】</li>
+</ul>
+<h2 id="安装宝塔"><a href="#安装宝塔" class="headerlink" title="安装宝塔"></a>安装宝塔</h2><p>下载宝塔面板命令：<a href="https://www.bt.cn/" target="_blank" rel="noopener">宝塔面板官网</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y wget &amp;&amp; wget -O install.sh http://download.bt.cn/install/install_6.0.sh &amp;&amp; sh install.sh</span><br></pre></td></tr></table></figure>
+<p>登录云服务器，并输入上述命令下载宝塔面板，耐心等待安装完成。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/06/10/image.png" alt="image.png"></p>
+<p>记录下最后四行的“外网面板地址”、“内网面板地址”、“username”、“password”。</p>
+<h2 id="登录宝塔面板"><a href="#登录宝塔面板" class="headerlink" title="登录宝塔面板"></a>登录宝塔面板</h2><p>通过刚刚获得的外网面板地址，用户名和密码去登录。</p>
+<blockquote>
+<p>宝塔面板需要开放 8888 端口，在服务器管理界面–&gt;防火墙中进行添加。</p>
+</blockquote>
+<p>如果记不得了也没问题，通过命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/bt default</span><br></pre></td></tr></table></figure>
+<p>可以查看面板入口。</p>
+<p>登录后弹出了<strong>推荐安装套件</strong>，可以快速地安装一些程序环境，用于快速搭建各种开源的网站程序。按需就好，这里选择“LNMP(推荐)”。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/06/10/image41cd008b451e6b9e.png" alt="image41cd008b451e6b9e.png"></p>
+<blockquote>
+<p> 就是还需要去绑定宝塔官网账号，有点嫌麻烦的。</p>
+</blockquote>
+<p>然后等待安装完成，等待状态可以看左上角有个红底的数字提示，表示任务列表中有多少个任务。</p>
+<p>在等待期间，我们可以到“面板设置”中修改登录时的面板用户和面板密码。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/06/10/imageb7227d4ebbbcfb96.png" alt="imageb7227d4ebbbcfb96.png"></p>
+<h2 id="添加站点"><a href="#添加站点" class="headerlink" title="添加站点"></a>添加站点</h2><p>在“网站”中点击添加站点</p>
+<p><img src="https://pic.tyzhang.top/images/2021/06/10/imagea827873d85359917.png" alt="imagea827873d85359917.png"></p>
+<p>创建站点的域名如果你还没有申请域名，或者域名还没有备案呢，那么就可以直接把公网IP填写进来。</p>
+<p>这里我想把我静态博客放上去，为了方便以后更新，所以我创建了 FTP 账号。</p>
+<p>然后点击提交。</p>
+<p>然后可以通过 IP 去访问站点。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/06/10/image896a1be29f6d05cc.png" alt="image896a1be29f6d05cc.png"></p>
+<h2 id="手动更新文件"><a href="#手动更新文件" class="headerlink" title="手动更新文件"></a>手动更新文件</h2><p>在宝塔面板的“文件”中，找到我们创建站点时的根目录，可以对文件进行一些修改动作。</p>
+<p><img src="https://pic.tyzhang.top/images/2021/06/10/image70efc9f4fb808ebd.png" alt="image70efc9f4fb808ebd.png"></p>
+<p>保存后再次访问，就替换为修改后的内容了。</p>
+<h2 id="利用ftp上传博客代码"><a href="#利用FTP上传博客代码" class="headerlink" title="利用FTP上传博客代码"></a>利用FTP上传博客代码</h2><p><a href="https://www.cnblogs.com/shangxiaofei/p/7160844.html" target="_blank" rel="noopener">【ftp】服务器的链接命令 - 无信不立 - 博客园 (cnblogs.com)</a></p>
+<p>首先确保放行端口 21，可以在云服务器的控制台或者宝塔面板中完成。</p>
+<p>然后修改宝塔 FTP 配置文件，操作步骤依次是：软件商店-运行环境-FTP软件-配置修改，如下图；</p>
+<p><img src="https://pic.tyzhang.top/images/2021/06/10/image0d0d19200cbe281e.png" alt="image0d0d19200cbe281e.png"></p>
+<p>把 ForcePassiveIP 替换成我们服务器公网 IP 地址，然后保存即可。【这一步的目的我猜是设置公网 IP，让远程连接能够访问】</p>
+<p>然后我们在本地博客代码的根目录下打开 PowerShell，使用命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 1.116.***.***</span><br></pre></td></tr></table></figure>
+<p>然后输入用户名和密码，就能看到如下界面了：</p>
+<p><img src="https://pic.tyzhang.top/images/2021/06/10/image930a155b3e15e83b.png" alt="image930a155b3e15e83b.png"></p>
+<p>通过命令上传文件</p>
+<p><strong>尴尬，发现了问题，ftp不能直接上传整个目录，只能通过命令一个一个的传，找个时间写个程序实现下。</strong></p>
+<h2 id="利用github做代码备份"><a href="#利用GitHub做代码备份" class="headerlink" title="利用GitHub做代码备份"></a>利用GitHub做代码备份</h2><p>待完善：代码分别存放在本地、github、云服务器，云服务器部署是为了防止 github 无法访问的情况。</p>
+<p>完整的流程是本地更新代码，提交到 github 代码仓库，云服务器通过定时脚本或者钩子实现从 github 拉取代码。</p>
+<blockquote>
+<p>就别 ftp 了。</p>
+</blockquote>
 
                 
                 <hr>
@@ -252,12 +279,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/多线程—volatile/" data-toggle="tooltip" data-placement="top" title="多线程—volatile关键字">&larr; 上一篇</a>
+                            <a href="/article/项目—秒杀总结/" data-toggle="tooltip" data-placement="top" title="两种限流算法的实现">&larr; 上一篇</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/多线程—synchronized/" data-toggle="tooltip" data-placement="top" title="多线程—管程-悲观锁相关内容以及synchronized做的优化">下一篇 &rarr;</a>
+                            <a href="/article/Spring学习/" data-toggle="tooltip" data-placement="top" title="Spring">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -293,7 +320,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#系统信息"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x7CFB;&#x7EDF;&#x4FE1;&#x606F;" class="headerlink" title="&#x7CFB;&#x7EDF;&#x4FE1;&#x606F;"></a>&#x7CFB;&#x7EDF;&#x4FE1;&#x606F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#安装宝塔"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x5B89;&#x88C5;&#x5B9D;&#x5854;" class="headerlink" title="&#x5B89;&#x88C5;&#x5B9D;&#x5854;"></a>&#x5B89;&#x88C5;&#x5B9D;&#x5854;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#登录宝塔面板"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#&#x767B;&#x5F55;&#x5B9D;&#x5854;&#x9762;&#x677F;" class="headerlink" title="&#x767B;&#x5F55;&#x5B9D;&#x5854;&#x9762;&#x677F;"></a>&#x767B;&#x5F55;&#x5B9D;&#x5854;&#x9762;&#x677F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#添加站点"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#&#x6DFB;&#x52A0;&#x7AD9;&#x70B9;" class="headerlink" title="&#x6DFB;&#x52A0;&#x7AD9;&#x70B9;"></a>&#x6DFB;&#x52A0;&#x7AD9;&#x70B9;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#手动更新文件"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#&#x624B;&#x52A8;&#x66F4;&#x65B0;&#x6587;&#x4EF6;" class="headerlink" title="&#x624B;&#x52A8;&#x66F4;&#x65B0;&#x6587;&#x4EF6;"></a>&#x624B;&#x52A8;&#x66F4;&#x65B0;&#x6587;&#x4EF6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#利用ftp上传博客代码"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><a href="#&#x5229;&#x7528;FTP&#x4E0A;&#x4F20;&#x535A;&#x5BA2;&#x4EE3;&#x7801;" class="headerlink" title="&#x5229;&#x7528;FTP&#x4E0A;&#x4F20;&#x535A;&#x5BA2;&#x4EE3;&#x7801;"></a>&#x5229;&#x7528;FTP&#x4E0A;&#x4F20;&#x535A;&#x5BA2;&#x4EE3;&#x7801;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#利用github做代码备份"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><a href="#&#x5229;&#x7528;GitHub&#x505A;&#x4EE3;&#x7801;&#x5907;&#x4EFD;" class="headerlink" title="&#x5229;&#x7528;GitHub&#x505A;&#x4EE3;&#x7801;&#x5907;&#x4EFD;"></a>&#x5229;&#x7528;GitHub&#x505A;&#x4EE3;&#x7801;&#x5907;&#x4EFD;</span></a></li></ol>
         
         </div>
       </aside>
