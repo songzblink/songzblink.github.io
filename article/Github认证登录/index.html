@@ -149,13 +149,13 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/about/">关于</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/about/">关于</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -219,23 +219,26 @@
                 post-container">
 
 				
-                <h2 id="github登录原理"><a href="#Github登录原理" class="headerlink" title="Github登录原理"></a>Github登录原理</h2><p>本质上属于第三方登录，实质上就是 OAuth 授权。用户想要登录 A 网站，A 网站让用户提供第三方网站的数据，证明自己的身份。获取第三方网站的身份数据，就需要 OAuth 授权。</p>
-<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><p>GitHub 往下拉到底 <a href="https://docs.github.com/en/developers/apps/building-oauth-apps" target="_blank" rel="noopener"><code>API</code> -&gt; <code>Developers</code> -&gt; <code>APPS</code> -&gt; <code>Buiding OAuth Apps</code></a>，根据流程创建我们的 OAuth Apps，并且记得复制备份自己的 <code>Client ID</code> 和 <code>Client secret</code>。</p>
+                <h2 id="github登录原理">Github登录原理</h2>
+<p>本质上属于第三方登录，实质上就是 OAuth 授权。用户想要登录 A 网站，A 网站让用户提供第三方网站的数据，证明自己的身份。获取第三方网站的身份数据，就需要 OAuth 授权。</p>
+<h2 id="前期准备">前期准备</h2>
+<p>GitHub 往下拉到底 <a href="https://docs.github.com/en/developers/apps/building-oauth-apps" target="_blank" rel="noopener"><code>API</code> -&gt; <code>Developers</code> -&gt; <code>APPS</code> -&gt; <code>Buiding OAuth Apps</code></a>，根据流程创建我们的 OAuth Apps，并且记得复制备份自己的 <code>Client ID</code> 和 <code>Client secret</code>。</p>
 <p>或者直接访问<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">网址</a>进行填写登记。</p>
 <p><img src="https://pic.tyzhang.top/images/2021/04/23/image.png" alt="image.png"></p>
 <p>提交表单以后，GitHub 应该会返回客户端 ID（client ID）和客户端密钥（client secret），这就是应用的身份识别码。</p>
-<h2 id="web-application-flow"><a href="#Web-application-flow" class="headerlink" title="Web application flow"></a>Web application flow</h2><p><img src="https://pic.tyzhang.top/images/2021/04/24/image.png" alt="image.png"></p>
+<h2 id="web-application-flow">Web application flow</h2>
+<p><img src="https://pic.tyzhang.top/images/2021/04/24/image.png" alt="image.png"></p>
 <p><a href="https://docs.github.com/en/developers/apps/authorizing-oauth-apps" target="_blank" rel="noopener">Web application flow</a></p>
 <ol>
 <li>前端获取 <code>code &amp; state</code>；</li>
 <li>拿着 <code>code</code> 传给后端，从后端获取 <code>access_token</code>；</li>
 <li>用 <code>access_token</code> 获取用户信息。</li>
 </ol>
-<h4 id="1-前端获取-code-amp-state"><a href="#1-前端获取-code-amp-state" class="headerlink" title="1. 前端获取 code &amp; state"></a>1. 前端获取 code &amp; state</h4><p>根据 OAuth2.0 规范，第一步是根据 ClientId 获取到 code(后面需要这个 code + Client secrets 换取access_token)。</p>
+<h4 id="1-前端获取-code-amp-state">1. 前端获取 code &amp; state</h4>
+<p>根据 OAuth2.0 规范，第一步是根据 ClientId 获取到 code(后面需要这个 code + Client secrets 换取access_token)。</p>
 <p>获取 code 的步骤很简单，只要拼接好一个 URL 访问，带用户操作完成后，Github 会重定向会第一步中设置的回调地址。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET https://github.com/login/oauth/authorize</span><br></pre></td></tr></table></figure>
 <p>参数说明：</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -277,17 +280,16 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>前端代码：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://github.com/login/oauth/authorize?client_id=8f3c188a9891dd******&amp;redirect_uri=http://localhost:8888/callback&amp;scope=user&amp;state=1"</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>这里的回调地址是我后端代码的一个接口。</p>
 <p>当提交完这个 http 请求之后，Github 会请求我们的回调地址，并且携带参数 <code>code &amp; state</code>。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8888/callback?code=c646acea9e8251f2****&amp;state=1</span><br></pre></td></tr></table></figure>
-<h3 id="2-拿着-code-传给后端从后端获取-access_token"><a href="#2-拿着-code-传给后端，从后端获取-access-token" class="headerlink" title="2. 拿着 code 传给后端，从后端获取 access_token"></a>2. 拿着 code 传给后端，从后端获取 access_token</h3><p>第二步就是用 code + Client Secret 获取 access_token 了。这一步建议是一定要放到后端，因为如果在前端做的话，有可能会把 <code>client secret</code> 暴露的风险，别人一个 F12 什么都知道了。</p>
+<h3 id="2-拿着-code-传给后端从后端获取-access_token">2. 拿着 code 传给后端，从后端获取 access_token</h3>
+<p>第二步就是用 code + Client Secret 获取 access_token 了。这一步建议是一定要放到后端，因为如果在前端做的话，有可能会把 <code>client secret</code> 暴露的风险，别人一个 F12 什么都知道了。</p>
 <p>获取 <code>access_token</code> 的接口同样是 http 协议：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST https://github.com/login/oauth/access_token</span><br></pre></td></tr></table></figure>
 <p>参数说明：</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -324,17 +326,18 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>默认的响应为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access_token=gho_16C7e42F292c6912E7710c838347Ae178B4a&amp;token_type=bearer</span><br></pre></td></tr></table></figure>
 <p>后端代码，使用了 <a href="https://square.github.io/okhttp/" target="_blank" rel="noopener">OKHttp</a>。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// accessTokenDTO 中包含了 Client ID、Client Secret、传回来的 code 和 state 以及回调地址</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getAccessToken</span><span class="params">(AccessTokenDTO accessTokenDTO)</span> </span>&#123;</span><br><span class="line">    MediaType mediaType = MediaType.get(<span class="string">"application/json; charset=utf-8"</span>);</span><br><span class="line">    OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDTO));</span><br><span class="line">    Request request = <span class="keyword">new</span> Request.Builder().url(<span class="string">"https://github.com/login/oauth/access_token"</span>).post(body).build();</span><br><span class="line">    <span class="keyword">try</span> (Response response = client.newCall(request).execute()) &#123;</span><br><span class="line">        String string = response.body().string();</span><br><span class="line">        <span class="comment">// 响应的 string 内容为</span></span><br><span class="line">        <span class="comment">// access_token=gho_lHe2f033RxDGztm92QIjj&amp;scope=user&amp;token_type=bearer</span></span><br><span class="line">        <span class="comment">// 提取并返回token给调用者</span></span><br><span class="line">        String token = string.split(<span class="string">"&amp;"</span>)[<span class="number">0</span>].split(<span class="string">"="</span>)[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> token;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-用-access_token-获取用户信息"><a href="#3-用-access-token-获取用户信息" class="headerlink" title="3. 用 access_token 获取用户信息"></a>3. 用 access_token 获取用户信息</h3><p>这一步也是在后端完成，API 如下：</p>
+<h3 id="3-用-access_token-获取用户信息">3. 用 access_token 获取用户信息</h3>
+<p>这一步也是在后端完成，API 如下：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Authorization</span>: token OAUTH-TOKEN</span><br><span class="line">GET https://api.github.com/user</span><br></pre></td></tr></table></figure>
 <p>需要携带参数 <code>Authorization: token OAUTH-TOKEN</code>，但是在最近的一次更新中官方推荐使用 <code>access_token</code> 安全访问 API 的方式，使用 Github 推荐的最新方式（Authorization HTTP header），旧方式（query parameter）即将被废弃。<a href="https://niter.cn/p/115" target="_blank" rel="noopener">参考资料</a></p>
 <p>于是后端代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> GithubUser <span class="title">getUser</span><span class="params">(String accessToken)</span> </span>&#123;</span><br><span class="line">    OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">        .url(<span class="string">"https://api.github.com/user"</span>)</span><br><span class="line">        .header(<span class="string">"Authorization"</span>, <span class="string">"token "</span> + accessToken)</span><br><span class="line">        .build();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Response response = client.newCall(request).execute();</span><br><span class="line">        String string = response.body().string();</span><br><span class="line">        GithubUser githubUser = JSON.parseObject(string, GithubUser.class);</span><br><span class="line">        <span class="keyword">return</span> githubUser;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="效果测试"><a href="#效果测试" class="headerlink" title="效果测试"></a>效果测试</h3><p>我们在前端完成第 1 步，后端的回调地址中完成后 2 步，去获取 Github 账户的用户名。</p>
+<h3 id="效果测试">效果测试</h3>
+<p>我们在前端完成第 1 步，后端的回调地址中完成后 2 步，去获取 Github 账户的用户名。</p>
 <p>完整代码：隐藏了部分我得 OAuth 信息。</p>
 <p><strong>前端：</strong></p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://github.com/login/oauth/authorize?client_id=[your_client_id]&amp;redirect_uri=http://localhost:8888/callback&amp;scope=user&amp;state=1"</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -393,7 +396,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#github登录原理"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#Github&#x767B;&#x5F55;&#x539F;&#x7406;" class="headerlink" title="Github&#x767B;&#x5F55;&#x539F;&#x7406;"></a>Github&#x767B;&#x5F55;&#x539F;&#x7406;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前期准备"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x524D;&#x671F;&#x51C6;&#x5907;" class="headerlink" title="&#x524D;&#x671F;&#x51C6;&#x5907;"></a>&#x524D;&#x671F;&#x51C6;&#x5907;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#web-application-flow"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#Web-application-flow" class="headerlink" title="Web application flow"></a>Web application flow</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-前端获取-code-amp-state"><span class="toc-nav-number">3.0.1.</span> <span class="toc-nav-text"><a href="#1-&#x524D;&#x7AEF;&#x83B7;&#x53D6;-code-amp-state" class="headerlink" title="1. &#x524D;&#x7AEF;&#x83B7;&#x53D6; code &amp; state"></a>1. &#x524D;&#x7AEF;&#x83B7;&#x53D6; code &amp; state</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-拿着-code-传给后端从后端获取-access_token"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><a href="#2-&#x62FF;&#x7740;-code-&#x4F20;&#x7ED9;&#x540E;&#x7AEF;&#xFF0C;&#x4ECE;&#x540E;&#x7AEF;&#x83B7;&#x53D6;-access-token" class="headerlink" title="2. &#x62FF;&#x7740; code &#x4F20;&#x7ED9;&#x540E;&#x7AEF;&#xFF0C;&#x4ECE;&#x540E;&#x7AEF;&#x83B7;&#x53D6; access_token"></a>2. &#x62FF;&#x7740; code &#x4F20;&#x7ED9;&#x540E;&#x7AEF;&#xFF0C;&#x4ECE;&#x540E;&#x7AEF;&#x83B7;&#x53D6; access_token</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-用-access_token-获取用户信息"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><a href="#3-&#x7528;-access-token-&#x83B7;&#x53D6;&#x7528;&#x6237;&#x4FE1;&#x606F;" class="headerlink" title="3. &#x7528; access_token &#x83B7;&#x53D6;&#x7528;&#x6237;&#x4FE1;&#x606F;"></a>3. &#x7528; access_token &#x83B7;&#x53D6;&#x7528;&#x6237;&#x4FE1;&#x606F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#效果测试"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><a href="#&#x6548;&#x679C;&#x6D4B;&#x8BD5;" class="headerlink" title="&#x6548;&#x679C;&#x6D4B;&#x8BD5;"></a>&#x6548;&#x679C;&#x6D4B;&#x8BD5;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#github登录原理"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Github&#x767B;&#x5F55;&#x539F;&#x7406;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前期准备"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x524D;&#x671F;&#x51C6;&#x5907;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#web-application-flow"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Web application flow</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-前端获取-code-amp-state"><span class="toc-nav-number">3.0.1.</span> <span class="toc-nav-text">1. &#x524D;&#x7AEF;&#x83B7;&#x53D6; code &amp; state</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-拿着-code-传给后端从后端获取-access_token"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">2. &#x62FF;&#x7740; code &#x4F20;&#x7ED9;&#x540E;&#x7AEF;&#xFF0C;&#x4ECE;&#x540E;&#x7AEF;&#x83B7;&#x53D6; access_token</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-用-access_token-获取用户信息"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">3. &#x7528; access_token &#x83B7;&#x53D6;&#x7528;&#x6237;&#x4FE1;&#x606F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#效果测试"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">&#x6548;&#x679C;&#x6D4B;&#x8BD5;</span></a></li></ol></li></ol>
         
         </div>
       </aside>

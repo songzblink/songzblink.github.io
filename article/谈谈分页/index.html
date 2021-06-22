@@ -149,13 +149,13 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/about/">关于</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/about/">关于</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -220,21 +220,28 @@
 
 				
                 <p>现在需要实现一个分页查询的功能，从前端接受参数页码 <code>pageNum</code> 和每页大小  <code>pageSize</code> 。</p>
-<h2 id="原始的分页方式"><a href="#原始的分页方式" class="headerlink" title="原始的分页方式"></a>原始的分页方式</h2><blockquote>
+<h2 id="原始的分页方式">原始的分页方式</h2>
+<blockquote>
 <p>根据页面只取一页数据，然后显示这一页，需要构造sql语句。</p>
 </blockquote>
 <p>考虑到查询完成之后返回所需数据给前端的同时，还需要告诉前端当前数据片段处在整个数据表的什么位置等信息，所以提前定义一个类 <code>CommonPage</code> 用以告诉前端这些信息。</p>
-<h3 id="commonpage类"><a href="#CommonPage类" class="headerlink" title="CommonPage类"></a>CommonPage类</h3><p>泛型以适应多种类型的数据集合</p>
+<h3 id="commonpage类">CommonPage类</h3>
+<p>泛型以适应多种类型的数据集合</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonPage</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// 当前页码</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> PageNum;</span><br><span class="line">    <span class="comment">// 每页显示的条数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pageSize;</span><br><span class="line">    <span class="comment">// 总页数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> totalPage;</span><br><span class="line">    <span class="keyword">private</span> Long total;</span><br><span class="line">    <span class="comment">// 每页显示的数据集合</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;T&gt; list;</span><br><span class="line">    <span class="comment">// setter、getter方法省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h3><p>利用LIMIT限定查询结果的起始行，以及总行数，用法：</p>
+<h3 id="分页查询">分页查询</h3>
+<p>利用LIMIT限定查询结果的起始行，以及总行数，用法：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp <span class="keyword">LIMIT</span> <span class="number">4</span>, <span class="number">3</span>;</span><br><span class="line">// 其中4表示从第5行开始，3表示一共查询3行，即5、6、7行记录</span><br></pre></td></tr></table></figure>
 <p>于是通过JDBC操作按照从前端得到的分页条件 <code>pageNum</code> 和  <code>pageSize</code> 执行如下sql代码：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tab_route <span class="keyword">where</span> <span class="keyword">limit</span> ? , ?</span><br></pre></td></tr></table></figure>
 <p>第一个参数是起始行 <code>start = (pageNum-1)*pageSize</code> ，第二个参数是 <code>pageSize</code>。</p>
 <p>查询完成后，将查询得到的List数据封装到CommonPage实例中返回，这样就能够实现分页查询。</p>
-<h2 id="分页插件pagehelper"><a href="#分页插件—pagehelper" class="headerlink" title="分页插件—pagehelper"></a>分页插件—pagehelper</h2><h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><p>整合到SpringBoot中</p>
+<h2 id="分页插件pagehelper">分页插件—pagehelper</h2>
+<h3 id="引入依赖">引入依赖</h3>
+<p>整合到SpringBoot中</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="调用方法"><a href="#调用方法" class="headerlink" title="调用方法"></a>调用方法</h3><p>使用PageHelper的静态方法startPage ：<br>特点：</p>
+<h3 id="调用方法">调用方法</h3>
+<p>使用PageHelper的静态方法startPage ：<br>
+特点：</p>
 <ol>
 <li>静态方法，传递两个参数（当前页码，每页查询条数）</li>
 <li>使用pageHelper 分页的时候，不再关注分页语句，查询全部的语句</li>
@@ -242,10 +249,12 @@
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PageHelper.startPage(<span class="number">1</span>,<span class="number">5</span>);</span><br><span class="line"><span class="comment">//紧跟着的第一个select 方法会被分页</span></span><br><span class="line">List&lt;Employee&gt; list = empMapper.selectAll();</span><br></pre></td></tr></table></figure>
 <p>也就是说在Service层 <code>PageHelper.startPage(1,5);</code> 语句后一定是紧跟查询语句。</p>
-<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>Service层示例代码</p>
+<h3 id="示例代码">示例代码</h3>
+<p>Service层示例代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> PageInfo <span class="title">findPage</span><span class="params">(<span class="keyword">int</span> page,<span class="keyword">int</span> pageSize)</span></span>&#123;</span><br><span class="line">    PageHelper.startPage(page,pageSize);</span><br><span class="line">    List&lt;Employee&gt; List= empMapper.selectAll();</span><br><span class="line">    PageInfo pageInfo = <span class="keyword">new</span> PageInfo(list);</span><br><span class="line">    <span class="keyword">return</span> pageInfo;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>返回的信息就是PageInfo对象，该类是插件里的类。</p>
-<h3 id="迎合开发需求"><a href="#迎合开发需求" class="headerlink" title="迎合开发需求"></a>迎合开发需求</h3><p>如果开发中有实际需求用不到PageInfo中那么多个属性，可以对上面定义的CommonPage类进行修改，如下：</p>
+<h3 id="迎合开发需求">迎合开发需求</h3>
+<p>如果开发中有实际需求用不到PageInfo中那么多个属性，可以对上面定义的CommonPage类进行修改，如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonPage</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// 当前页码</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> PageNum;</span><br><span class="line">    <span class="comment">// 每页显示的条数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pageSize;</span><br><span class="line">    <span class="comment">// 总页数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> totalPage;</span><br><span class="line">    <span class="keyword">private</span> Long total;</span><br><span class="line">    <span class="comment">// 每页显示的数据集合</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;T&gt; list;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将 PageHelper分页后的list转为分页信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">CommonPage&lt;T&gt; <span class="title">restPage</span><span class="params">(List&lt;T&gt; list)</span> </span>&#123;</span><br><span class="line">        CommonPage&lt;T&gt; result = <span class="keyword">new</span> CommonPage&lt;T&gt;();</span><br><span class="line">        <span class="comment">// 这一步将list截取需要的那一段</span></span><br><span class="line">        PageInfo&lt;T&gt; pageInfo = <span class="keyword">new</span> PageInfo&lt;T&gt;(list);</span><br><span class="line">        result.setTotalPage(pageInfo.getPages());</span><br><span class="line">        result.setPageNum(pageInfo.getPageNum());</span><br><span class="line">        result.setPageSize(pageInfo.getPageSize());</span><br><span class="line">        result.setTotal(pageInfo.getTotal());</span><br><span class="line">        result.setList(pageInfo.getList());</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// setter、getter方法省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>示例代码：</strong></p>
 <p>Service层代码</p>
@@ -258,7 +267,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/jdk学习之路—Integer的缓存机制/" data-toggle="tooltip" data-placement="top" title="Integer的缓存机制">&larr; 上一篇</a>
+                            <a href="/article/jdk学习之路—parseInt方法/" data-toggle="tooltip" data-placement="top" title="Integer的parseInt()方法">&larr; 上一篇</a>
                         </li>
                     
                     
@@ -299,7 +308,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#原始的分页方式"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x539F;&#x59CB;&#x7684;&#x5206;&#x9875;&#x65B9;&#x5F0F;" class="headerlink" title="&#x539F;&#x59CB;&#x7684;&#x5206;&#x9875;&#x65B9;&#x5F0F;"></a>&#x539F;&#x59CB;&#x7684;&#x5206;&#x9875;&#x65B9;&#x5F0F;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#commonpage类"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#CommonPage&#x7C7B;" class="headerlink" title="CommonPage&#x7C7B;"></a>CommonPage&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#分页查询"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#&#x5206;&#x9875;&#x67E5;&#x8BE2;" class="headerlink" title="&#x5206;&#x9875;&#x67E5;&#x8BE2;"></a>&#x5206;&#x9875;&#x67E5;&#x8BE2;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分页插件pagehelper"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x5206;&#x9875;&#x63D2;&#x4EF6;&#x2014;pagehelper" class="headerlink" title="&#x5206;&#x9875;&#x63D2;&#x4EF6;&#x2014;pagehelper"></a>&#x5206;&#x9875;&#x63D2;&#x4EF6;&#x2014;pagehelper</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#引入依赖"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#&#x5F15;&#x5165;&#x4F9D;&#x8D56;" class="headerlink" title="&#x5F15;&#x5165;&#x4F9D;&#x8D56;"></a>&#x5F15;&#x5165;&#x4F9D;&#x8D56;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#调用方法"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#&#x8C03;&#x7528;&#x65B9;&#x6CD5;" class="headerlink" title="&#x8C03;&#x7528;&#x65B9;&#x6CD5;"></a>&#x8C03;&#x7528;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#示例代码"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text"><a href="#&#x793A;&#x4F8B;&#x4EE3;&#x7801;" class="headerlink" title="&#x793A;&#x4F8B;&#x4EE3;&#x7801;"></a>&#x793A;&#x4F8B;&#x4EE3;&#x7801;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#迎合开发需求"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text"><a href="#&#x8FCE;&#x5408;&#x5F00;&#x53D1;&#x9700;&#x6C42;" class="headerlink" title="&#x8FCE;&#x5408;&#x5F00;&#x53D1;&#x9700;&#x6C42;"></a>&#x8FCE;&#x5408;&#x5F00;&#x53D1;&#x9700;&#x6C42;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#原始的分页方式"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x539F;&#x59CB;&#x7684;&#x5206;&#x9875;&#x65B9;&#x5F0F;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#commonpage类"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">CommonPage&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#分页查询"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x5206;&#x9875;&#x67E5;&#x8BE2;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分页插件pagehelper"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5206;&#x9875;&#x63D2;&#x4EF6;&#x2014;pagehelper</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#引入依赖"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x5F15;&#x5165;&#x4F9D;&#x8D56;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#调用方法"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x8C03;&#x7528;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#示例代码"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x793A;&#x4F8B;&#x4EE3;&#x7801;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#迎合开发需求"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">&#x8FCE;&#x5408;&#x5F00;&#x53D1;&#x9700;&#x6C42;</span></a></li></ol></li></ol>
         
         </div>
       </aside>

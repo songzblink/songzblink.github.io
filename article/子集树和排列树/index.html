@@ -149,13 +149,13 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/about/">关于</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/about/">关于</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -219,16 +219,19 @@
                 post-container">
 
 				
-                <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>假定有一个集合 S。</p>
+                <h2 id="概念">概念</h2>
+<p>假定有一个集合 S。</p>
 <p>当我们要求解的结果是集合 S 的某一子集，那么对应的解空间是<strong>子集树</strong>，时间复杂度是 $O(2^{n})$。</p>
 <p><img src="https://img-blog.csdn.net/20170714172921581?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvempxXzEzMTQ1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
 <p>当我们要求解的结果是集合 S 的元素的某一种排列的时候，其对应的解空间就是<strong>排列树</strong>，时间复杂度是 $O(n!)$。</p>
 <p><img src="https://img-blog.csdn.net/20170714173539873?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvempxXzEzMTQ1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>子集树：</p>
+<h2 id="算法描述">算法描述</h2>
+<p>子集树：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// t表示当前是树的第t层，即对集合S种的第t个元素进行判断</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">backtrace</span><span class="params">(<span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 大于S中总的元素个数，遍历完成</span></span><br><span class="line">    <span class="keyword">if</span> (t &gt; n) &#123;</span><br><span class="line">        output(x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 两种可能，加入或者不加入到解集合</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">1</span>; i++) &#123;</span><br><span class="line">        x[t] = i;</span><br><span class="line">        <span class="comment">// 满足约束条件，对t+1层进行判断</span></span><br><span class="line">        <span class="keyword">if</span> (constraint(t) &amp;&amp; Bound(t)) &#123;</span><br><span class="line">            backtrace(t + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>排列树：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// t表示集合S的第t个元素</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">backtrace</span><span class="params">(<span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (t &gt; n) &#123;</span><br><span class="line">        output(x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 第t个元素与其后面的所有元素进行交换位置</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = t; i &lt;= n; i++) &#123;</span><br><span class="line">        swap(x[t], x[i]);</span><br><span class="line">       	<span class="comment">// 满足约束条件，对t+1层进行判断</span></span><br><span class="line">        <span class="keyword">if</span> (constraint(t) &amp;&amp; Bound(t)) &#123;</span><br><span class="line">            backtrace(t + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        swap(x[t], x[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>排列树：<a href="https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7?tpId=13&amp;&amp;tqId=11180&amp;rp=1&amp;ru=/ta/coding-interviews&amp;qru=/ta/coding-interviews/question-ranking" target="_blank" rel="noopener">JZ27 字符串的排列</a></p>
+<h2 id="举例">举例</h2>
+<p>排列树：<a href="https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7?tpId=13&amp;&amp;tqId=11180&amp;rp=1&amp;ru=/ta/coding-interviews&amp;qru=/ta/coding-interviews/question-ranking" target="_blank" rel="noopener">JZ27 字符串的排列</a></p>
 <p>题目大意：输入一个字符串,按字典序打印出该字符串中字符的所有排列。</p>
 <p>思路：</p>
 <p>按照排列树的算法描述来套进该问题，对于字符串中的第 t 个元素，依次和它之后的元素交换，可以得到不同的排列结果。然后做好去重即可。</p>
@@ -282,7 +285,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#概念"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x6982;&#x5FF5;" class="headerlink" title="&#x6982;&#x5FF5;"></a>&#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#算法描述"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;" class="headerlink" title="&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;"></a>&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#举例"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#&#x4E3E;&#x4F8B;" class="headerlink" title="&#x4E3E;&#x4F8B;"></a>&#x4E3E;&#x4F8B;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#概念"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#算法描述"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#举例"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x4E3E;&#x4F8B;</span></a></li></ol>
         
         </div>
       </aside>
