@@ -219,18 +219,16 @@
                 post-container">
 
 				
-                <p>参考博客：<a href="https://blog.csdn.net/zjcjava/article/details/78406330" target="_blank" rel="noopener">JMM概述</a></p>
+                <p>参考博客：<a href="https://blog.csdn.net/zjcjava/article/details/78406330" target="_blank" rel="noopener">JMM概述</a> </p>
 <p>在介绍 volatile 关键字之前，我们应该先了解了解 JMM（Java 内存模型）。</p>
-<h2 id="java内存模型">Java内存模型</h2>
-<p>JMM 本身是一个抽象的概念，并不真实存在，它描述的是通过一组规则或规范定制了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式。因为它不是对物理内存的规范，而是在虚拟机基础上进行的规范从而能实现平台一致性，以达到 Java 程序能够“一次编写，到处运行”。</p>
+<h2 id="java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h2><p>JMM 本身是一个抽象的概念，并不真实存在，它描述的是通过一组规则或规范定制了程序中各个变量（包括实例字段、静态字段和构成数组对象的元素）的访问方式。因为它不是对物理内存的规范，而是在虚拟机基础上进行的规范从而能实现平台一致性，以达到 Java 程序能够“一次编写，到处运行”。</p>
 <p>由于JVM 运行程序的实体是线程，而每个线程创建时 JVM 都会为其创建一个工作内存（有些地方成为栈空间），工作内存是每个线程的私有数据区域，而 Java内存模型中规定所有变量都存储在主内存，主内存是共享内存区域，所有线程都可访问，但线程对变量的操作（读取赋值等）必须在工作内存中进行，首先要将变量从主内存拷贝到自己的工作空间，然后对变量进行操作，操作完成再将变量写回主内存，不能直接操作主内存中的变量，各个线程中的工作内存储存着主内存中的变量副本拷贝，因此不同的线程无法访问对方的工作内存，此线程间的通讯（传值） 必须通过主内存来完成。</p>
 <p><img src="https://pic.tyzhang.top/images/2021/03/15/imagedceb6e4934633705.png" alt="imagedceb6e4934633705.png"></p>
 <p>JMM 是围绕着在并发过程中如何处理可见性、原子性、有序性这三个特性而简历的模型。</p>
 <blockquote>
 <p>有时间专门整理一篇 JMM 相关内容。</p>
 </blockquote>
-<h3 id="原子性atomicity">原子性（Atomicity）</h3>
-<blockquote>
+<h3 id="原子性atomicity"><a href="#原子性（Atomicity）" class="headerlink" title="原子性（Atomicity）"></a>原子性（Atomicity）</h3><blockquote>
 <p>一个操作不能被打断，要么全部执行完毕，要么不执行</p>
 </blockquote>
 <p>基本类型数据的访问大都是原子操作，long 和 double 类型的变量是 64 位，但是在 32 位 JVM 中，32 位的 JVM 会将 64 位数据的读写操作分为 2 次 32 位的读写操作来进行，这就导致了 long、double 类型的变量在 32 位虚拟机中是非原子操作，数据有可能会被破坏，也就意味着多个线程在并发访问的时候是线程非安全的。</p>
@@ -239,8 +237,7 @@
 <li>加 synchronized 关键字</li>
 <li>使用 JUC 下的 AtomicInteger 类</li>
 </ul>
-<h3 id="可见性visibility">可见性（visibility）</h3>
-<blockquote>
+<h3 id="可见性visibility"><a href="#可见性（visibility）" class="headerlink" title="可见性（visibility）"></a>可见性（visibility）</h3><blockquote>
 <p>一个线程对共享变量做了修改之后，其他的线程立即能够看到（感知到）该变量的这种修改（变化）。</p>
 </blockquote>
 <p>volatile 关键字、synchronized关键字、Lock接口、final 可以实现可见性。</p>
@@ -248,18 +245,17 @@
 <p>synchronized 关键字在同步方法/同步块开始时（Monitor Enter），使用共享变量时会从主内存中刷新变量值到工作内存中；在同步方法/同步块结束时（Monitor Exit），会将工作内存中的变量值同步到主内存中去。</p>
 <p>使用 Lock 接口（拿最常用的实现 ReentrantLock 重入锁）来实现可见性：在方法开始的位置执行 <code>lock（）</code> 方法，这和 synchronized 开始位置（Monitor Entry）有相同的语义，即使用共享变量时会从主内存中刷新变量值到工作内存中；在方法最后的执行 <code>unlock（）</code> 方法，和 synchronized 结束位置（Monitor Exit）有相同的语义，即将工作内存中的变量值同步到主内存中去。</p>
 <p>被 final 关键字修饰的变量，在构造函数完成且构造函数中没有把 <code>this</code> 的引用传递出去时，其他线程就可以看到 final 变量的值，实现了可见性。（<code>this</code> 引用逃逸非常危险，其他的线程很可能通过引用访问到只初始化了一半的对象）</p>
-<h3 id="有序性ordering">有序性（Ordering）</h3>
-<blockquote>
+<h3 id="有序性ordering"><a href="#有序性（Ordering）" class="headerlink" title="有序性（Ordering）"></a>有序性（Ordering）</h3><blockquote>
 <p>在单线程中，代码的执行时从前往后依次执行的。但是在多线程并发时，程序的执行有可能是无序的。在本线程内观察，所有操作都是有序的。如果在一个线程中观察另一个线程，所有操作都是无序的，无序是因为发生了指令重排序、工作内存和主内存同步延迟现象（单线程中不存在）。</p>
 </blockquote>
 <p>一个最经典的例子就是银行汇款问题，一个银行账户存款 100，这时一个人从该账户取 10 元，同时另一个人向该账户汇 10 元，那么余额应该还是 100。那么此时可能发生这种情况，A 线程负责取款，B 线程负责汇款，A 从主内存读到 100，B 从主内存读到 100，A 执行减 10 操作，并将数据刷新到主内存，这时主内存数据 $100-10=90$，而 B 内存执行加 10 操作，并将数据刷新到主内存，最后主内存数据 $100+10=110$，显然这是一个严重的问题，我们要保证 A 线程和 B 线程有序执行，先取款后汇款或者先汇款后取款，此为有序性。</p>
 <p>可以通过 volatile 关键字和 synchronized 关键字来保证多线程操作的有序性，volatile 关键字通过加入内存屏障来禁止指令的重排序优化，而 synchronized 关键字通过加锁来允许同一时间只有一个线程对共享变量进行操作。</p>
-<h2 id="指令重排带来的问题">指令重排带来的问题</h2>
-<p>计算机在执行程序时，为了提高性能，编译器和处理器常常会进行<strong>指令重排</strong>。</p>
+<h2 id="指令重排带来的问题"><a href="#指令重排带来的问题" class="headerlink" title="指令重排带来的问题"></a>指令重排带来的问题</h2><p>计算机在执行程序时，为了提高性能，编译器和处理器常常会进行<strong>指令重排</strong>。</p>
 <p><img src="https://pic.tyzhang.top/images/2021/03/15/imagefb56c72e0dac516b.png" alt="imagefb56c72e0dac516b.png"></p>
 <p>虽然处理器进行指令重排会考虑指令之间的数据依赖性，但是不同处理器之间和不同线程之间的数据依赖性不被编译器和处理器考虑。</p>
 <p>对于代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>, x = <span class="number">0</span>, y = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 线程1</span></span><br><span class="line">&#123;</span><br><span class="line">    x = a;</span><br><span class="line">    b = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 线程2</span></span><br><span class="line">&#123;</span><br><span class="line">    y = b;</span><br><span class="line">    a = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -281,8 +277,10 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>执行的结果是 <code>x = 0, y = 0</code>。</p>
 <p>如果编译器对这段代码进行指令重排，可能会出现</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -304,21 +302,19 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>执行的结果是 <code>x = 2, y = 1</code>。</p>
 <p>这也就说明在多线程环境下，由于指令重排的存在，两个线程使用的变量能否保持一致性是无法确定的。</p>
-<h2 id="volatile">volatile</h2>
-<p>volatile 关键字的底层实现原理是内存屏障（Memory Barrier），它能保证被修饰的变量对所有线程的可见性，还能够禁止指令重排序优化。</p>
+<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><p>volatile 关键字的底层实现原理是内存屏障（Memory Barrier），它能保证被修饰的变量对所有线程的可见性，还能够禁止指令重排序优化。</p>
 <blockquote>
 <p>volatile 仅保证可见性，有序性需要结合 synchronized 来实现。</p>
 </blockquote>
 <p>如果指令间插入了内存屏障，则会告诉编译器和处理器，不管什么指令都不能和这条内存屏障指令重排序，即通过插入内存屏障禁止在内存屏障前后的指令执行重排序优化。内存屏障另一个作用就是强制刷新各种缓存数据，保证线程能够读到这些数据的最新版本。</p>
-<h3 id="保证内存可见性">保证内存可见性</h3>
-<ul>
+<h3 id="保证内存可见性"><a href="#保证内存可见性" class="headerlink" title="保证内存可见性"></a>保证内存可见性</h3><ul>
 <li>对 volatile 变量的写指令后加入写屏障，写屏障保证在该屏障之前对 volatile 变量的改动，都同步到主内存当中</li>
 <li>对 volatile 变量的读指令前加入读屏障，读屏障保证在该屏障之后，对 volatile 变量的读取，加载的都是主内存当中的新数据</li>
 </ul>
-<h3 id="如何保证有序性">如何保证有序性？</h3>
-<ul>
+<h3 id="如何保证有序性"><a href="#如何保证有序性？" class="headerlink" title="如何保证有序性？"></a>如何保证有序性？</h3><ul>
 <li>写屏障确保指令重排序时，不会将写屏障之前的代码排在写屏障之后</li>
 <li>读屏障确保指令重排序时，不会讲读屏障之后的代码排在读屏障之前</li>
 </ul>
@@ -333,8 +329,7 @@
 <p>如何解决呢？对 INSTANCE 使用 volatile 关键字修饰即可，可以禁用指令重排，所有的写（write）操作都将发生在读（read）操作之前。（JDK 1.5 以上版本的 volatile 才会真正有效）</p>
 <p>正确的代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="comment">// 懒汉式</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    INSTANC = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="happens-before">happens-before</h2>
-<p>A happens-before B 就是 A 先行发生于 B，定义为 hb(A,B)。在 Java 内存模型中，happens-before 的意思是钱一个操作的结果可以被后续操作获取。</p>
+<h2 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h2><p>A happens-before B 就是 A 先行发生于 B，定义为 hb(A,B)。在 Java 内存模型中，happens-before 的意思是钱一个操作的结果可以被后续操作获取。</p>
 <p><strong>happens-before 的作用</strong></p>
 <p>JVM 对代码进行编译优化，会出现指令重排序的情况，为了避免编译优化对并发编程安全性的影响，需要 happens-before 规则定义一些禁止编译优化的场景，保证并发编程的正确性。</p>
 <p>还是以 double-checked locking  单例模式问题为例，</p>
@@ -348,35 +343,28 @@
 <p>按照上面分解的顺序（1-&gt;2-&gt;3）执行不存在任何问题，但是由于 JVM 编译优化的存在，可能会导致步骤 2 和步骤 3 颠倒，即按照 1-&gt;3-&gt;2 的顺序的执行【发生指令重排序】。按照 1-&gt;3-&gt;2 的顺序的执行，在多线程环境下就有可能出现 INSTANCE 虽然和内存空间关联起来了，但是对象还未完成初始化，会导致在使用 INSTANCE 实例的时候报错。添加 volatile 关键字可以禁用指令重排序，解决该问题。</p>
 <p>happens-before 规定了哪些写操作对其他线程的读操作可见，它是可见性与有序性的一套规则总结。</p>
 <ul>
-<li>
-<p>线程解锁 m 之前对变量的写，对于接下来对 m 加锁的其他线程对该变量的读可见。</p>
+<li><p>线程解锁 m 之前对变量的写，对于接下来对 m 加锁的其他线程对该变量的读可见。</p>
 <p>说人话就是，对于同一个锁，一个线程解锁，另一个线程获取这个锁之后能看到前一个线程的操作结果。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line"><span class="keyword">static</span> Object m = <span class="keyword">new</span> Object();</span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(m) &#123;</span><br><span class="line">        x = <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,<span class="string">"t1"</span>).start();</span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(m) &#123;</span><br><span class="line">        System.out.println(x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,<span class="string">"t2"</span>).start();</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>线程对 volatile 变量的写，对接下来其他线程对该变量的读可见。</p>
+<li><p>线程对 volatile 变量的写，对接下来其他线程对该变量的读可见。</p>
 <p>说人话就是，一个线程去写 volatile 变量，另一个线程去读这个变量，那么写操作的结果一定对读的这个线程是可见的。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">    x = <span class="number">10</span>;</span><br><span class="line">&#125;,<span class="string">"t1"</span>).start();</span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">    System.out.println(x);</span><br><span class="line">&#125;,<span class="string">"t2"</span>).start();</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>start 前对变量的写，对该线程开始后对该变量的读可见。</p>
+<li><p>start 前对变量的写，对该线程开始后对该变量的读可见。</p>
 <p>说人话就是，在线程启动前，对共享变量的修改结果对线程可见。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line">x = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">    System.out.println(x);</span><br><span class="line">&#125;,<span class="string">"t2"</span>).start();</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>线程结束前对变量的写，对其他线程得知它结束后的读可见。</p>
+<li><p>线程结束前对变量的写，对其他线程得知它结束后的读可见。</p>
 <p>说人话就是，其他线程调用 <code>t1.isAlive()</code> 或 <code>t1.join()</code> 等待它结束，那么线程 t1 的修改对它可见。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line">Thread t1 = <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">    x = <span class="number">10</span>;</span><br><span class="line">&#125;,<span class="string">"t1"</span>);</span><br><span class="line">t1.start();</span><br><span class="line">t1.join();</span><br><span class="line">System.out.println(x);</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>线程 t1 打断 t2 （<code>t2.interrupted()</code> 或 <code>t2.isInterrupted()</code>）前对变量的写，对于其他线程得知 t2 被打断后对变量的读可见</p>
+<li><p>线程 t1 打断 t2 （<code>t2.interrupted()</code> 或 <code>t2.isInterrupted()</code>）前对变量的写，对于其他线程得知 t2 被打断后对变量的读可见</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Thread t2 = <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(Thread.currentThread().isInterrupted()) &#123;</span><br><span class="line">                System.out.println(x);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,<span class="string">"t2"</span>);</span><br><span class="line">    t2.start();</span><br><span class="line">    <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        x = <span class="number">10</span>;</span><br><span class="line">        t2.interrupt();</span><br><span class="line">    &#125;,<span class="string">"t1"</span>).start();</span><br><span class="line">    <span class="keyword">while</span>(!t2.isInterrupted()) &#123;</span><br><span class="line">        Thread.yield();</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>具有传递性，即 hb(A, B) ， hb(B, C)，那么 hb(A, C)。</p>
+<li><p>具有传递性，即 hb(A, B) ， hb(B, C)，那么 hb(A, C)。</p>
 </li>
-<li>
-<p>变量都是指成员变量或静态成员变量。</p>
+<li><p>变量都是指成员变量或静态成员变量。</p>
 </li>
 </ul>
 
@@ -427,7 +415,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#java内存模型"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Java&#x5185;&#x5B58;&#x6A21;&#x578B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#原子性atomicity"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x539F;&#x5B50;&#x6027;&#xFF08;Atomicity&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#可见性visibility"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x53EF;&#x89C1;&#x6027;&#xFF08;visibility&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#有序性ordering"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x6709;&#x5E8F;&#x6027;&#xFF08;Ordering&#xFF09;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#指令重排带来的问题"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x6307;&#x4EE4;&#x91CD;&#x6392;&#x5E26;&#x6765;&#x7684;&#x95EE;&#x9898;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#volatile"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">volatile</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#保证内存可见性"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">&#x4FDD;&#x8BC1;&#x5185;&#x5B58;&#x53EF;&#x89C1;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#如何保证有序性"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x6709;&#x5E8F;&#x6027;&#xFF1F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#happens-before"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">happens-before</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#java内存模型"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#Java&#x5185;&#x5B58;&#x6A21;&#x578B;" class="headerlink" title="Java&#x5185;&#x5B58;&#x6A21;&#x578B;"></a>Java&#x5185;&#x5B58;&#x6A21;&#x578B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#原子性atomicity"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#&#x539F;&#x5B50;&#x6027;&#xFF08;Atomicity&#xFF09;" class="headerlink" title="&#x539F;&#x5B50;&#x6027;&#xFF08;Atomicity&#xFF09;"></a>&#x539F;&#x5B50;&#x6027;&#xFF08;Atomicity&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#可见性visibility"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#&#x53EF;&#x89C1;&#x6027;&#xFF08;visibility&#xFF09;" class="headerlink" title="&#x53EF;&#x89C1;&#x6027;&#xFF08;visibility&#xFF09;"></a>&#x53EF;&#x89C1;&#x6027;&#xFF08;visibility&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#有序性ordering"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><a href="#&#x6709;&#x5E8F;&#x6027;&#xFF08;Ordering&#xFF09;" class="headerlink" title="&#x6709;&#x5E8F;&#x6027;&#xFF08;Ordering&#xFF09;"></a>&#x6709;&#x5E8F;&#x6027;&#xFF08;Ordering&#xFF09;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#指令重排带来的问题"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x6307;&#x4EE4;&#x91CD;&#x6392;&#x5E26;&#x6765;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x6307;&#x4EE4;&#x91CD;&#x6392;&#x5E26;&#x6765;&#x7684;&#x95EE;&#x9898;"></a>&#x6307;&#x4EE4;&#x91CD;&#x6392;&#x5E26;&#x6765;&#x7684;&#x95EE;&#x9898;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#volatile"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#保证内存可见性"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><a href="#&#x4FDD;&#x8BC1;&#x5185;&#x5B58;&#x53EF;&#x89C1;&#x6027;" class="headerlink" title="&#x4FDD;&#x8BC1;&#x5185;&#x5B58;&#x53EF;&#x89C1;&#x6027;"></a>&#x4FDD;&#x8BC1;&#x5185;&#x5B58;&#x53EF;&#x89C1;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#如何保证有序性"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><a href="#&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x6709;&#x5E8F;&#x6027;&#xFF1F;" class="headerlink" title="&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x6709;&#x5E8F;&#x6027;&#xFF1F;"></a>&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x6709;&#x5E8F;&#x6027;&#xFF1F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#happens-before"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</span></a></li></ol>
         
         </div>
       </aside>
