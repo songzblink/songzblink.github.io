@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          谈url输入到浏览器地址栏后发生了什么 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/url流程/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#note" title="note">note</a>
+                            
+                        </div>
+                        <h1>谈url输入到浏览器地址栏后发生了什么</h1>
+                        <!-- <h2 class="subheading">总结网络相关知识，大概率只向下到运输层</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2021-06-26
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <p>我们先来看一下 URL 的定义。</p>
+<h2 id="url定义">URL定义</h2>
+<p>URL 统一资源定位符，是用来表示从互联网上得到资源的位置和访问这些资源的方法。可以说互联网上的所有资源都有一个唯一确定的 URL。URL 的一般形式由以下四个部分组成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;协议&gt;://&lt;主机&gt;:&lt;端口&gt;/&lt;路径&gt;</span><br></pre></td></tr></table></figure>
+<p>其中协议现在比较常用的就是 http 或者 https，其次就是 ftp。协议后面的 <code>://</code> 是规定的格式。</p>
+<p>主机指该主机在互联网上的域名，也可以是 IP 地址。再后面的端口和路径有时可省略。</p>
+<hr>
+<h2 id="大致流程">大致流程</h2>
+<p>那么当一个 URL 被输入到浏览器地址栏后发生了什么呢？</p>
+<p>主要分为两个：HTML 页面加载和网页静态资源的加载</p>
+<p>总体来讲分为以下六个步骤：</p>
+<ol>
+<li>DNS 解析</li>
+<li>TCP 连接</li>
+<li>发送 HTTP 请求</li>
+<li>服务器处理请求并返回结果</li>
+<li>浏览器解析渲染页面</li>
+<li>连接结束</li>
+</ol>
+<h3 id="1-nds解析">1. NDS解析</h3>
+<p>在浏览器的地址栏输入 URL 之后，浏览器首先会对 URL 进行解析。一个 URL 一般包括几大部分：</p>
+<ul>
+<li>协议头，比如 http、https 和 ftp 等</li>
+<li>主机，主机域名或者是 IP 地址</li>
+<li>端口号，一般都省略</li>
+<li>路径，所要访问资源所在的路径</li>
+</ul>
+<p>拿访问 <code>https://zbsong.top/article/</code> 为例，使用的协议是 <code>https</code>，主机是域名 <code>zbsong.top</code>，端口号 80 被省略，路径就是域名后面的 <code>/article</code>。</p>
+<p>对 URL 解析完成后就需要去进行 DNS 解析。</p>
+<p>DNS 解析的目的就是从主机的域名解析出主机的 IP 地址。网络中的主机都是使用 IP 地址来标识的，IP 地址才是主机在网络中的位置，域名只是为了方便记忆使用的。</p>
+<p>DNS 解析的过程：</p>
+<ol>
+<li>
+<p>浏览器拿到地址后首先搜索自身缓存的 DNS 记录，例如 Chrome 可以通过 <code>chrome://net-internals/#dns</code> 查看。</p>
+</li>
+<li>
+<p>如果浏览器缓存中没有找到，则去查看 HOSTS 文件和操作系统的缓存</p>
+<ol>
+<li>操作系统缓存，Windows 系统下可以使用 <code>ipconfig /displaydns</code> 查看</li>
+<li>HOSTS 文件的位置请百度查询，通过修改此文件内域名和 IP 地址的映射关系，可以实现科学上网</li>
+</ol>
+</li>
+<li>
+<p>如果步骤 2 中也没有找到，就需要向域名服务器发送请求</p>
+<ol>
+<li>域名服务器即网络设置中填写的 DNS 服务器</li>
+<li>以 UDP 用户数据报方式发送给本地域名服务器</li>
+<li>这一刻才算真正意义上的解析流程开始</li>
+</ol>
+</li>
+<li>
+<p>如果本地域名服务器也没有相应的记录，就会开始递归查询+迭代查询</p>
+<ol>
+<li>主机所询问地本地域名服务器不知道被查询域名的 IP 地址，那么本地域名服务器就会以 DNS 客户的身份，向其他根域名服务器继续发出查询请求报文，所以是<strong>递归查询</strong></li>
+<li>当根域名服务器收到本地域名服务器发出地迭代查询请求报文时，要么给出索要查询的 IP 地址，要么告诉本地域名服务器下一步应该向哪一个域名服务器进行查询，然后让本地域名服务器进行后续的查询，所以是<strong>迭代查询</strong></li>
+</ol>
+<blockquote>
+<p>根域名服务器是最高层次的域名服务器，它知道所有的顶级域名服务器的域名和 IP 地址（com 域名服务器、cn 域名服务器等），所以不管哪一个本地域名服务器，若要对互联网上的任何一个域名进行解析，只要自己无法解析，就首先要求助于根域名服务器。</p>
+</blockquote>
+</li>
+<li>
+<p>查询到域名对应的 IP 地址后，根据查询的路径返回给浏览器。</p>
+</li>
+</ol>
+<h3 id="2-建立tcp连接">2. 建立TCP连接</h3>
+<p>浏览器在知道服务器的 IP 地址后，会选择一个大于 1024 的本机端口向目标 IP 地址的 80 端口发起 TCP 连接请求，经过标准的 TCP 三次握手后，建立 TCP 连接。</p>
+<p>选择大于 1024 的本机端口是因为 1024 以上的端口是专门留给没有熟知端口号的应用程序所使用的。</p>
+<h3 id="3-发起http请求">3. 发起HTTP请求</h3>
+<p>TCP 连接建立后，浏览器构建 HTTP 请求报文，将 HTTP 报文包裹在 TCP 报文段中，发送到服务器的指定端口（HTTP 协议 80 或者 8080，HTTPS 协议 443）。</p>
+<p>HTTP 请求报文是由四部分组成：请求行、请求头部、空行和请求包体。</p>
+<p><img src="http://s2.51cto.com/wyfs02/M02/59/16/wKioL1THNfahGAkDAAFu--59S3M173.jpg-wh_651x-s_3115124878.jpg" alt="http请求报文"></p>
+<p><strong>请求行</strong>：请求行由方法字段、URL 字段和 HTTP 协议版本字段 3 个部分组成，它们之间使用空格隔开。常见的 HTTP 请求方法有：GET、POST、HEAD、PUT、DELETE、OPTIONS、TRACE、CONNECT；</p>
+<ul>
+<li>GET：用于获取/查询资源信息。要求服务器将 URL 定位的资源放在响应报文的数据部分，回送给客户端，请求参数和对应的值附加在 URL 后面，利用问号 ? 代表 URL 的结尾与请求参数的开始，请求参数之间用 &amp; 隔开。例如 <code>http://localhost:8080/index.html?page=1&amp;size=10</code>。</li>
+<li>POST：用于更新资源信息。向服务器提交数据，POST 方法将请求参数封装在 HTTP 请求包体中，可以传输大量数据。</li>
+</ul>
+<p><strong>请求头部</strong> ：请求头部由 <code>头部字段名称:值</code> 对组成，每行一对。请求头部通知服务器有关于客户端请求的信息，典型的请求头有：</p>
+<ul>
+<li>User-Agent：产生请求的浏览器类型；</li>
+<li>Accept：客户端可识别的响应内容类型列表；</li>
+<li>Accept-Language：客户端可接受的自然语言；</li>
+<li>Accept-Encoding：客户端可接受的编码压缩格式；</li>
+<li>Accept-Charset：可接受的应答的字符集；</li>
+<li>Host：请求的主机名；</li>
+<li>connection：连接方式（close 或 keep-alive）；</li>
+<li>Cookie：存储客户端扩展字段；</li>
+</ul>
+<p><strong>空行</strong> ：最后一个请求头之后是一个空行，发送回车和换行符，通知服务器以下不再有请求头；</p>
+<p><strong>请求包体</strong> ：请求包体不在 GET 方法中使用，而是在 POST 方法中使用。POST 方法适用于需要提交数据的场合。与请求包体相关的最常使用的是包体类型 Content-Type 和包体长度 Content-Length；</p>
+<h3 id="4-服务器处理请求并返回结果">4. 服务器处理请求并返回结果</h3>
+<p>服务器从固定的端口收到 TCP 报文，对 HTTP 协议进行解析，按照报文格式进一步封装成 HTTP Request 对象，供上层使用，这一部分工作一般由 Web 服务器（如 Tomcat）去进行。</p>
+<p>请求被处理完成后返回结果，即 HTTP 响应报文。</p>
+<p>HTTP 响应报文由状态行、响应头部、空行和响应包体 4 个部分组成，</p>
+<p><img src="https://s4.51cto.com/wyfs02/M02/9E/64/wKioL1mRXkODhzsMAAB6AlTh90g576.png-s_2504498406.png" alt="HTTP响应报文"></p>
+<p><strong>状态行</strong> ：状态行由 HTTTP 协议版本字段、状态码和状态码描述文本 3 个部分组成，它们之间使用空格隔开；</p>
+<ul>
+<li>状态码由三位数字组成，第一位数字表示响应的类型，常用的状态码有五大类：
+<ul>
+<li><code>1xx</code>：表示服务器已经接收了客户端请求，客户端可继续发送请求；</li>
+<li><code>2xx</code>：表示服务器已成功接收到请求并进行处理；</li>
+<li><code>3xx</code>：表示服务器要求客户端重定向；</li>
+<li><code>4xx</code>：表示客户端的请求有非法内容；</li>
+<li><code>5xx</code>：表示服务器未能正常处理客户端的请求而出现意外错误；</li>
+</ul>
+</li>
+<li>状态码描述文本：
+<ul>
+<li><code>200 OK</code>：表示客户端请求成功；</li>
+<li><code>400 Bad Request</code>：表示客户端请求有语法错误，不能被服务器理解；</li>
+<li><code>401 Unauthonzed</code>：表示请求未经授权，该状态代码必须与 WWW-Authenticate 报头域一起使用;；</li>
+<li><code>403 Forbidden</code>：表示服务器收到请求，但是拒绝提供服务；</li>
+<li><code>404 Not Found</code>：表示请求的资源不存在；</li>
+<li><code>500 Internal Server Error</code>：表示服务器放生了不可预期的错误，导致无法完成客户端的请求；</li>
+<li><code>503 Service Unavailable</code>：表示服务器当前不能够处理客户端的请求，过一段时间后可能会恢复正常；</li>
+</ul>
+</li>
+</ul>
+<p><strong>响应头部</strong> ：响应头部由 <code>头部字段名称:值</code> 对组成，每行一对。</p>
+<ul>
+<li>Location：用于重定向接受者到一个新的位置。例如：客户端所请求的页面已不存在原先的位置，为了让客户端重定向到这个页面新的位置，服务器端可以发回 Location 响应报头后使用重定向语句，让客户端去访问新的域名所对应的服务器上的资源;</li>
+<li>Server：包含了服务器用来处理请求的软件信息及其版本。它和 User-Agent 请求报头域是相对应的，前者发送服务器端软件的信息，后者发送客户端软件（浏览器）和操作系统的信息。</li>
+<li>Vary：指示不可缓存的请求头列表;</li>
+<li>Connection：连接方式;
+<ul>
+<li>对于<strong>请求</strong>来说：
+<ul>
+<li>close：告诉 WEB 服务器或者代理服务器，在完成本次请求的响应后，断开连接，不等待本次连接的后续请求了</li>
+<li>keep-alive：告诉WEB服务器或者代理服务器，在完成本次请求的响应后，保持连接，等待本次连接的后续请求</li>
+</ul>
+</li>
+<li>对于<strong>响应</strong>来说：
+<ul>
+<li>close：连接已经关闭</li>
+<li>keep-alive：连接保持着，在等待本次连接的后续请求);</li>
+</ul>
+</li>
+<li>WWW-Authenticate：必须被包含在 401（未授权的）响应消息中，这个报头域和前面讲到的Authorization 请求报头域是相关的，当客户端收到 401 响应消息，就要决定是否请求服务器对其进行验证。如果要求服务器对其进行验证，就可以发送一个包含了 Authorization  报头域的请求;</li>
+</ul>
+</li>
+</ul>
+<p><strong>空行</strong> ：最后一个响应头部之后是一个空行，发送回车符和换行符，通知服务器以下不再有响应头部。</p>
+<p><strong>响应包体</strong> ：服务器返回给客户端的文本信息;</p>
+<p>通常 html、css、js 和图片等文件就包含在服务器返回给浏览器的文本信息中。</p>
+<h3 id="5-浏览器解析渲染页面">5. 浏览器解析渲染页面</h3>
+<p>浏览器收到 HTML\CSS\JS 文件后，会边解析边渲染。</p>
+<h3 id="6-连接结束">6. 连接结束</h3>
+<p>完成请求之后，会经历四次挥手释放 TCP 连接，标志着客户端浏览器和服务器断开连接。</p>
+<h2 id="总结">总结</h2>
+<p><strong>客户端</strong></p>
+<p>（应用层）获取 URL，通过负责域名解析的 DNS 服务获得网址的 IP 地址，根据 HTTP 协议省成 HTTP 请求报文。</p>
+<p>（传输层）浏览器客户端和网站服务器（通过三次握手）建立 TCP 连接，根据 TCP 协议把 HTTP 请求报文按序号分割成多个报文段发送。</p>
+<p>（网络层）根据 IP 协议（传输数据），ARP 协议（获取硬件地址），内部网关协议（路由信息协议 RIP、开放最短路径优先 OSPF）和外部网关协议（边界网关协议 BGP）（寻找合适的路径进行转发），把报文段封装成 IP 数据报传输。</p>
+<p>（数据链路层）把网络层交下来的 IP 数据包封装成帧，利用 CSMA/CD（载波监听多点接入/碰撞检测）协议尽最大努力的交付数据帧，并且提供透明传输和差错检测。</p>
+<p>（物理层）利用物理介质进行传输。</p>
+<p><strong>服务器</strong></p>
+<p>服务器就是反过来，自下而上的顺序把客户端传送的数据呈现到应用程序进行处理。处理的结果同样的根据刚才客户端的流程发送给客户端。</p>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/http和https的区别/" data-toggle="tooltip" data-placement="top" title="HTTP和HTTPS的区别">&larr; 上一篇</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Redis学习/" data-toggle="tooltip" data-placement="top" title="Redis">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#url定义"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">URL&#x5B9A;&#x4E49;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#大致流程"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5927;&#x81F4;&#x6D41;&#x7A0B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-nds解析"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">1. NDS&#x89E3;&#x6790;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-建立tcp连接"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">2. &#x5EFA;&#x7ACB;TCP&#x8FDE;&#x63A5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-发起http请求"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">3. &#x53D1;&#x8D77;HTTP&#x8BF7;&#x6C42;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-服务器处理请求并返回结果"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">4. &#x670D;&#x52A1;&#x5668;&#x5904;&#x7406;&#x8BF7;&#x6C42;&#x5E76;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-浏览器解析渲染页面"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">5. &#x6D4F;&#x89C8;&#x5668;&#x89E3;&#x6790;&#x6E32;&#x67D3;&#x9875;&#x9762;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-连接结束"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">6. &#x8FDE;&#x63A5;&#x7ED3;&#x675F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x603B;&#x7ED3;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#note" title="note">note</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.tangyincheng.com/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2021 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+					<br>
+                    <a href="http://www.beian.miit.gov.cn/" style="color: gray">浙ICP备2021018896号</a>
+					<br>
+					<!-- <p class="copyright text-muted" style="margin-top: 5px"> -->
+						<img src="../../img/备案图标.png"/>
+						<a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" style="color: gray">null</a>
+					<!-- </p> -->
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

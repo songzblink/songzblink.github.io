@@ -220,7 +220,7 @@
 
 				
                 <p>NumPy(Numerical Python) 是 Python 语言的一个扩展程序库，支持大量的维度数组与矩阵运算，此外也针对数组运算提供大量的数学函数库。</p>
-<h1 id="1-numpy线性代数"><a href="#1、Numpy线性代数" class="headerlink" title="1、Numpy线性代数"></a>1、Numpy线性代数</h1><div class="table-container">
+<h1 id="1-numpy线性代数">1、Numpy线性代数</h1>
 <table>
 <thead>
 <tr>
@@ -259,14 +259,15 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="两个向量的点积-numpyvdot"><a href="#两个向量的点积-numpy-vdot" class="headerlink" title="两个向量的点积 numpy.vdot()"></a>两个向量的点积 numpy.vdot()</h2><p><code>numpy.vdot()</code> 函数是两个向量的点积。</p>
+<h2 id="两个向量的点积-numpyvdot">两个向量的点积 numpy.vdot()</h2>
+<p><code>numpy.vdot()</code> 函数是两个向量的点积。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">a = np.array([<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">b = np.array([<span class="number">11</span>,<span class="number">12</span>],[<span class="number">13</span>,<span class="number">14</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># vdot 将数组展开计算内积</span></span><br><span class="line">print(np.vdot(a,b))</span><br></pre></td></tr></table></figure>
 <p>输出结果为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">130</span></span><br></pre></td></tr></table></figure>
 <p>计算式为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>*<span class="number">11</span> + <span class="number">2</span>*<span class="number">12</span> + <span class="number">3</span>*<span class="number">13</span> + <span class="number">4</span>*<span class="number">14</span> = <span class="number">130</span></span><br></pre></td></tr></table></figure>
-<h1 id="2-numpy数组操作"><a href="#2、Numpy数组操作" class="headerlink" title="2、Numpy数组操作"></a>2、Numpy数组操作</h1><h2 id="连接数组"><a href="#连接数组" class="headerlink" title="连接数组"></a>连接数组</h2><div class="table-container">
+<h1 id="2-numpy数组操作">2、Numpy数组操作</h1>
+<h2 id="连接数组">连接数组</h2>
 <table>
 <thead>
 <tr>
@@ -293,15 +294,16 @@
 </tr>
 </tbody>
 </table>
-</div>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">a = np.array([<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'第一个数组：'</span>)</span><br><span class="line"><span class="keyword">print</span> (a)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'\n'</span>)</span><br><span class="line">b = np.array([[<span class="number">5</span>,<span class="number">6</span>],[<span class="number">7</span>,<span class="number">8</span>]])</span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> (<span class="string">'第二个数组：'</span>)</span><br><span class="line"><span class="keyword">print</span> (b)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
 <p>输出结果：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">第一个数组：</span><br><span class="line">[[<span class="number">1</span> <span class="number">2</span>]</span><br><span class="line"> [<span class="number">3</span> <span class="number">4</span>]]</span><br><span class="line"></span><br><span class="line">第二个数组：</span><br><span class="line">[[<span class="number">5</span> <span class="number">6</span>]</span><br><span class="line"> [<span class="number">7</span> <span class="number">8</span>]]</span><br></pre></td></tr></table></figure>
-<h4 id="numpyhstack"><a href="#numpy-hstack" class="headerlink" title="numpy.hstack"></a>numpy.hstack</h4><p>numpy.hstack 是 numpy.stack 函数的变体，它通过水平堆叠来生成数组。</p>
+<h4 id="numpyhstack">numpy.hstack</h4>
+<p>numpy.hstack 是 numpy.stack 函数的变体，它通过水平堆叠来生成数组。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (<span class="string">'水平堆叠：'</span>)</span><br><span class="line">c = np.hstack((a,b))</span><br><span class="line"><span class="keyword">print</span> (c)</span><br></pre></td></tr></table></figure>
 <p>输出结果：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">水平堆叠：</span><br><span class="line">[[<span class="number">1</span> <span class="number">2</span> <span class="number">5</span> <span class="number">6</span>]</span><br><span class="line"> [<span class="number">3</span> <span class="number">4</span> <span class="number">7</span> <span class="number">8</span>]]</span><br></pre></td></tr></table></figure>
-<h4 id="numpyvstack"><a href="#numpy-vstack" class="headerlink" title="numpy.vstack"></a>numpy.vstack</h4><p>numpy.vstack 是 numpy.stack 函数的变体，它通过垂直堆叠来生成数组。</p>
+<h4 id="numpyvstack">numpy.vstack</h4>
+<p>numpy.vstack 是 numpy.stack 函数的变体，它通过垂直堆叠来生成数组。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (<span class="string">'竖直堆叠：'</span>)</span><br><span class="line">c = np.vstack((a,b))</span><br><span class="line"><span class="keyword">print</span> (c)</span><br></pre></td></tr></table></figure>
 <p>输出结果：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">竖直堆叠：</span><br><span class="line">[[<span class="number">1</span> <span class="number">2</span>]</span><br><span class="line"> [<span class="number">3</span> <span class="number">4</span>]</span><br><span class="line"> [<span class="number">5</span> <span class="number">6</span>]</span><br><span class="line"> [<span class="number">7</span> <span class="number">8</span>]]</span><br></pre></td></tr></table></figure>
@@ -353,7 +355,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-numpy线性代数"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#1&#x3001;Numpy&#x7EBF;&#x6027;&#x4EE3;&#x6570;" class="headerlink" title="1&#x3001;Numpy&#x7EBF;&#x6027;&#x4EE3;&#x6570;"></a>1&#x3001;Numpy&#x7EBF;&#x6027;&#x4EE3;&#x6570;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#两个向量的点积-numpyvdot"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#&#x4E24;&#x4E2A;&#x5411;&#x91CF;&#x7684;&#x70B9;&#x79EF;-numpy-vdot" class="headerlink" title="&#x4E24;&#x4E2A;&#x5411;&#x91CF;&#x7684;&#x70B9;&#x79EF; numpy.vdot()"></a>&#x4E24;&#x4E2A;&#x5411;&#x91CF;&#x7684;&#x70B9;&#x79EF; numpy.vdot()</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-numpy数组操作"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#2&#x3001;Numpy&#x6570;&#x7EC4;&#x64CD;&#x4F5C;" class="headerlink" title="2&#x3001;Numpy&#x6570;&#x7EC4;&#x64CD;&#x4F5C;"></a>2&#x3001;Numpy&#x6570;&#x7EC4;&#x64CD;&#x4F5C;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#连接数组"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#&#x8FDE;&#x63A5;&#x6570;&#x7EC4;" class="headerlink" title="&#x8FDE;&#x63A5;&#x6570;&#x7EC4;"></a>&#x8FDE;&#x63A5;&#x6570;&#x7EC4;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#numpyhstack"><span class="toc-nav-number">2.1.0.1.</span> <span class="toc-nav-text"><a href="#numpy-hstack" class="headerlink" title="numpy.hstack"></a>numpy.hstack</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#numpyvstack"><span class="toc-nav-number">2.1.0.2.</span> <span class="toc-nav-text"><a href="#numpy-vstack" class="headerlink" title="numpy.vstack"></a>numpy.vstack</span></a></li></ol></li></ol></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-numpy线性代数"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1&#x3001;Numpy&#x7EBF;&#x6027;&#x4EE3;&#x6570;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#两个向量的点积-numpyvdot"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x4E24;&#x4E2A;&#x5411;&#x91CF;&#x7684;&#x70B9;&#x79EF; numpy.vdot()</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-numpy数组操作"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2&#x3001;Numpy&#x6570;&#x7EC4;&#x64CD;&#x4F5C;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#连接数组"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x8FDE;&#x63A5;&#x6570;&#x7EC4;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#numpyhstack"><span class="toc-nav-number">2.1.0.1.</span> <span class="toc-nav-text">numpy.hstack</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#numpyvstack"><span class="toc-nav-number">2.1.0.2.</span> <span class="toc-nav-text">numpy.vstack</span></a></li></ol></li></ol></li></ol></li></ol>
         
         </div>
       </aside>
