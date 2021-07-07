@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Java基础一文流 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/Java基础/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#note" title="note">note</a>
+                            
+                        </div>
+                        <h1>Java基础一文流</h1>
+                        <!-- <h2 class="subheading">基础概念、集合</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2021-07-06
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <h3 id="1-java语言的特点">1 Java语言的特点</h3>
+<ol>
+<li>面向对象（三大特性：封装、继承、多态）</li>
+<li>一次编译，到处运行（JVM 实现平台无关性）</li>
+<li>提供相对安全的内存管理和访问机制，避免绝大部分的内存泄漏和指针越界问题</li>
+<li>热点代码检测和运行时编译及优化，使得 Java 应用能随着运行时间的增加而获得更高的性能</li>
+<li>丰富的应用程序接口和第三方类库来帮助实现各种功能</li>
+</ol>
+<h3 id="2-比较-jvm-和-jdk-以及-jre">2 比较 JVM 和 JDK 以及 JRE</h3>
+<p>JVM 运行 Java 字节码的虚拟机，有针对不同系统的特定实现，目的是使用相同的字节码得到相同的结果。字节码和不同系统的 JVM 实现是 Java 语言“一次编译，到处运行”的关键所在。</p>
+<blockquote>
+<p>字节码（<code>.class</code> 文件）是 JVM 可以理解的代码，只面向虚拟机。Java 程序从源代码到运行会经过：<code>.java</code> 源代码文件被 JDK 中的 javac 编译为 <code>class</code> 文件，然后被虚拟机加载解释为机器可执行的二进制机器码。</p>
+</blockquote>
+<p>JRE 是 Java 运行时环境，它是运行已编译 Java 程序所需的所有内容的集合，包括 Java 虚拟机（JVM），Java 类库，java 命令和其他一些基础构建，不能用于创建新程序。</p>
+<p>JDK 是 Java Development Kit 的缩写，拥有 JRE 有的一切，还有 javac 编译器和工具（JConsole等），能创建和编译程序。</p>
+<h3 id="3-为什么说-java-语言解释与编译并存">3 为什么说 Java 语言“解释与编译并存”</h3>
+<p>高级编程语言按照程序的执行方式分为编译型和解释型两种。编译型语言是指编译器针对操作系统将源代码一次性翻译成可被该平台执行的机器码；解释型语言是指解释器对源程序逐行解释成特定平台的机器码并立即执行。</p>
+<p>Java 语言会经过编译、解释两个步骤。Java 代码会先经过编译，生成字节码（<code>.class</code> 文件），这种字节码必须由 Java 解释器来解释执行。所以解释与编译并存。</p>
+<p>另外一种角度是在 JVM 中运行字节码指令的时候，对于热点代码即时编译器会对其进行编译优化，所以它是解释与编译并存。</p>
+<h3 id="4-java-基本类型有哪几种各占多少位">4 Java 基本类型有哪几种，各占多少位？</h3>
+<p>8 种，分别是 byte、short、int、long、float、double、char、boolean</p>
+<table>
+<thead>
+<tr>
+<th>基本类型</th>
+<th>占用内存大小（字节）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>1</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8</td>
+</tr>
+<tr>
+<td>float</td>
+<td>8</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>-没有精确定义，但是在 JVM 当中会当作 int 类型去处理，int 是 32 位的，32 位的处理器一次处理的数据是 32 位，这样高效</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-java泛型以及泛型擦除">5 Java泛型以及泛型擦除</h3>
+<p>泛型提供了编译时的类型安全检测机制，允许在编译时检测到非法的类型。</p>
+<p>泛型的用法一般有泛型类、泛型接口、泛型方法。</p>
+<blockquote>
+<p>extends 用来设定类型通配符的上限，super 用来设定类型通配符的下界。</p>
+</blockquote>
+<p>Java 在编译泛型代码后会执行泛型擦除的动作，即泛型信息在编译为字节码之后就丢失了，实际的类型都当作 Object 类型来处理。</p>
+<h3 id="6-和equals的区别">6 ==和equals的区别</h3>
+<p>对于基本数据类型，== 比较的是值；对于引用数据类型，== 比较的是对象的内存地址。</p>
+<p><code>equals()</code> 的作用不能用于判断基本数据类型，只能用来判断两个对象是否相等。<code>equals()</code> 方法存在于 Object 类中，默认情况下比较的是两个对象的内存地址，等价于 ==，类如果重写了 <code>euqals()</code> 方法，一般是会比较两个对象中的属性是否相等。</p>
+<h3 id="7-hashcode和equals">7 hashCode()和equals()</h3>
+<p>Java 有这样的规定：</p>
+<ul>
+<li>equals 相等的两个对象的 hashcode 一定相等</li>
+<li>hashcode 相等的两个对象 equals 不一定相等</li>
+</ul>
+<p>hashCode 用于计算对象的哈希值，该方法在 Object 类中定义，是一个本地方法，即用 c 或者 c++ 实现的，通常来说是将对象的内存地址转换为整数之后返回。</p>
+<p>equals 方法用于比较两个对象是否相等，该方法也是在 Object 类中定义的，默认是比较两个对象的内存地址，一般情况下会重写为比较两个对象中的属性是否相等。</p>
+<p>假设此时我们维护一个不重复的集合，集合中的元素有多个成员属性，为了实现集合中的元素不重复，可以通过重写 equals 方法，挨个比较两个对象的成员属性。但是它有一个缺陷是如果集合中的元素很多，那么每新插入一个元素都需要和集合中已有的所有元素进行 equals 比较，这无疑会让插入操作的效率变得很低。</p>
+<p>通过重写 hashcode 方法，一般的实现为使得相同的对象具有相同的 hash 值，插入的元素会被保存在该元素 hash 值所对应的位置。于是每次新插入元素的时候，都会通过该元素的 hash 值找到集合中对应的位置，判断该位置是否已经存在有元素，如果没有则表示一定没有重复，如果有则需要 equals 比较，进行进一步的确认。</p>
+<p>这样就减少了 equals 方法的调用次数，大大提高了插入元素的效率。</p>
+<h3 id="8-重载和重写的区别待补充">8 重载和重写的区别【待补充】</h3>
+<p>重载发生在父类和子类之间，方法名相同，参数类型不同、个数不同、顺序不同，方法返回值和访问修饰符可以不同。</p>
+<p>JVM 的静态分派</p>
+<p>重写发生在运行期，是子类对父类的允许访问的方法的实现过程进行重新编写，外部样子不能改变，内部逻辑可以改变。</p>
+<p>JVM 的动态分派</p>
+<h3 id="9-深拷贝和浅拷贝">9 深拷贝和浅拷贝</h3>
+<p>浅拷贝：对基本数据类型进行值传递，对引用数据类型进行引用传递的拷贝，称为浅拷贝。</p>
+<p>深拷贝：对基本数据类型进行值传递，对引用数据类型，创建一个新的对象并复制其内容，称为深拷贝。</p>
+<h3 id="10-面向对象和面向过程的区别">10 面向对象和面向过程的区别</h3>
+<p>面向对象：对现实世界理解和抽象的方法，有封装、继承、多态的特性，可以设计出低耦合的系统，是系统易维护、易复用、易扩展。</p>
+<p>面向过程：以过程为中心的编程思想，以什么正在发生为主要目标进行编程，不同于面向对象的是谁在受影响。</p>
+<h3 id="11-成员变量与局部变量的区别">11 成员变量与局部变量的区别</h3>
+<ol>
+<li>从语法形式上看，成员变量属于类，局部变量是在代码块或方法中定义的变量或者方法的参数；所以成员变量可以被访问修饰符和 static 修饰，而局部变量不能被访问修饰符和 static 修饰；但它们都可以被 final 修饰。</li>
+<li>从存储方式看，成员变量被 static 修饰，那么它就属于类的，如果没有 static 修饰，它就属于实例的；对象是存在于堆内存中，局部变量存在于栈内存中。</li>
+<li>从生命周期来看，成员变量是对象的一部分，随着对象的创建而存在，局部变量随着方法的调用而创建。</li>
+<li>从是否有默认值来看，成员变量如果没被赋予初值，则会自动以类型默认值复制（一个例外是 final 修饰的成员变量必须显式地赋值），局部变量不会自动赋值。</li>
+</ol>
+<h3 id="12-面向对象三大特性">12 面向对象三大特性</h3>
+<p>封装：利用抽象数据类型把数据和基于数据的操作封装起来，数据隐藏在抽象数据类型内部，只保留一些接口使其与外界发生联系。</p>
+<p>继承：把多个类共同的属性和行为抽象到一个公共的类中，其他类与该公共的类之间形成继承关系，从而减少重复定义公共部分。</p>
+<p>多态：一个对象具有多种的状态，具体的表现为父类引用指向子类实例。引用类型变量发出的方法调用到底是哪个类中的方法，必须要在程序运行期才能确定。</p>
+<h3 id="13-string-stringbuffer和stringbuilder的区别">13 String、StringBuffer和StringBuilder的区别</h3>
+<p><strong>不可变</strong></p>
+<p>String 类中使用 final 关键字来修饰字符数组，该字符数组用于保存字符串，所以 <strong>String 对象是不可变的</strong>。不可变的特性给 String 带来了三个好处：</p>
+<ol>
+<li>线程安全的，同一个字符串实例可以被多个线程共享。</li>
+<li>使得 hashCode 可以被缓存，不需要重新计算，所以字符串很适合作为 Map 中的键，因为其不需要重写计算哈希值。</li>
+<li>实现字符串常量池，可以实现在运行时节约堆空间，因为不同的字符串遍历都指向池中的同一个字符串。</li>
+</ol>
+<p>StringBuilder 和 StringBuffer 都继承自 AbstractStringBuilder 类，用于保存字符串的字符数组没有使用 final 关键字修饰，所以这俩种对象是可变的。</p>
+<p><strong>线程安全</strong></p>
+<p>StringBuffer 对方法加了同步锁，所以是<strong>线程安全</strong>的，StringBuilder 没有加锁，是非线程安全的。</p>
+<p><strong>性能</strong></p>
+<p>每次对 String 类型进行改变的时候，都会生成一个新的 String 对象，然后将指针指向新的 String 对象。StringBuffer 每次都会对 StringBuffer 对象本身进行操作，而不是生成新的对象并改变对象引用。</p>
+<p><strong>总结</strong></p>
+<ol>
+<li>操作少量的数据：String</li>
+<li>单线程，操作大量数据：StringBuilder</li>
+<li>多线程，操作大量数据：StringBuffer</li>
+</ol>
+<h3 id="14-异常">14 异常</h3>
+<p>所有的异常都有一个共同的祖先 Throwable 类，它有两个重要的子类 Exception 异常和 Error 错误。</p>
+<p>Exception：程序本身可以处理的异常，可以通过 catch 来进行捕获。异常又分为受检查异常（必须处理）和不受检查异常（运行时异常）。</p>
+<ul>
+<li>受检查异常如果没有被 catch 或者 throw 处理，没办法通过编译，比如 IO 相关的异常、ClassNotFoundException、SQLException 等。</li>
+<li>不受检查异常（运行时异常）即使不处理也可以正常通过编译。RuntimeException 及其子类都统称为非受检查异常，比如 NullPointerException、NumberFOrmatException（字符串转数字）、ArrayIndexOutOfBoundsException（数组越界）、ClassCastException（类型转换错误）、ArithmeticException（算术错误）等。</li>
+</ul>
+<blockquote>
+<p>这里可以引到 Spring 处理自定义异常</p>
+</blockquote>
+<p>Error：属于程序无法处理的错误，没办法通过 catch 来进行捕获。比如 NoClassDefFoundError（类定义错误）、OutOfMemoryError（虚拟机内存不够错误）等。发生这类异常时，JVM 一般会选择终止线程。</p>
+<h3 id="15-序列化和反序列化">15 序列化和反序列化</h3>
+<p>当我们需要持久化 Java 对象，比如将 Java 对象保存在文件中，或者在网络中传输 Java 对象时，都需要用到序列化。</p>
+<p>简单讲，序列化就是将对象转换成二进制字节流的过程；反序列化就是将序列化所生成的二进制字节流转换成对象的过程。</p>
+<p>如果有些字段不想进行序列化，可以用 transient 关键字修饰，它可以阻止实例中被修饰的变量序列化。transient 只能修饰变量，不能修饰类和方法。</p>
+<blockquote>
+<p>值得注意的是，序列化保存的是对象的状态，静态变量属于类的状态，所以静态变量不会被序列化。</p>
+</blockquote>
+<p>一个可以被序列化的类需要实现 Serializable 接口，该接口是一个序列化的标记，没有任何方法。</p>
+<p>使用 ObjectOutputStream 的 writeObject 方法可以将对象序列化写入字节流（OutputStream）当中，ObjectInputStream 的 readObject 可以将序列化的对象以字节流（InputStream）的形式读取出来。</p>
+<p>字符流和字节流的区别在于，字节流操作时不会用到缓冲区（内存），是对文件本身的直接操作，而字符流在操作时使用了缓冲区，通过缓冲区再操作文件。可以通过写文件操作时，都不关闭输出流来进行比较，字节流因为是直接对文件进行操作，所以不关闭也能够完成内容的输出，但是字符流不行，不关闭输出流的话缓冲区的内容没有办法被输出。</p>
+<p><a href="https://blog.csdn.net/cynhafa/article/details/6882061" target="_blank" rel="noopener">java 字节流与字符流的区别_afa的专栏-CSDN博客</a></p>
+<h3 id="16-list-set-map的区别">16 List、Set、Map的区别</h3>
+<p>List 存储的元素是有序的（输入顺序）、可重复的集合，底层是数组或者链表实现的，所以可以存 null。</p>
+<p>Set 存储的元素是无序的、不可重复的， Set 底层是 Map，所以 HashSet 可以有 1 个 null 元素，TreeSet 不能有为 null 的元素。</p>
+<p>Map 是键值对的映射集合，key 是无序的、不可重复的，value 是可重复的，HashMap 可以有 1 个 key 为 null 的元素（被放在最前面），TreeMap 不能有 key 为 null 的元素，因为底层是红黑树结构。</p>
+<h3 id="17-arraylist和linkedlist的区别">17 ArrayList和LinkedList的区别</h3>
+<p><strong>底层数据结构</strong> ：ArrayList 底层使用的是数组来存储元素；LinkedList 使用的是双向链表。</p>
+<p><strong>插入和删除操作</strong> ：</p>
+<ul>
+<li>ArrayList 采用数组存储，所以插入和删除元素的时间复杂度受元素位置的影响。插入操作默认在列表的末尾追加，时间复杂度是 $O(1)$，如果在指定位置 i 插入或者删除的话，时间复杂度是 $O(n-i)$，因为此时列表的第 i 和第 i 个元素之后的 n-i 个元素都要需要被移动。</li>
+<li>LinkedList 采用链表存储，所以如果是在头尾插入或删除元素不受元素位置影响，时间复杂度近似 $O(1)$，如果要在指定位置 i 处插入或删除元素的话，因为需要先找到该位置，所以时间复杂度为 $O(n)$。</li>
+</ul>
+<p><strong>随机访问</strong> ：ArrayList 支持随机访问，LinkedList 不支持。</p>
+<p><strong>内存空间占用</strong> ：ArrayList 的空间浪费主要体现在 list 列表的末尾会预留一定的容量空间，而 LinkedList 的每一个元素都需要消耗比 ArrayList 更多的空间，因为需要维护链表数据结构。</p>
+<p><strong>扩容操作</strong> ：ArrayList 的默认初始容量为 10，会在添加元素前进行检查，如果容量不够就进行扩容，每次扩容容量为旧容量的 1.5 倍。</p>
+<h3 id="217-comparable和comparator的区别">2.17 Comparable和Comparator的区别</h3>
+<p>Comparable 接口中有一个方法 <code>compareTo(Object obj)</code> ，Comparator 接口有一个 <code>compare(Object obj1, Object obj2)</code> 方法，两个方法都可以用来排序。</p>
+<p>Comparator 也被叫做比较器，在使用集合的排序方法比如 <code>Collections.sort()</code> 方法时，可以传递集合以及一个自定义的比较器，用来指定排序的方法。</p>
+<p>而一个类如果实现了 Comparable 接口并重写了 compareTo 方法，那么它在被加入 TreeMap 这类有序的集合时，会按照 compareTo 方法来进行排序。</p>
+<h3 id="218-hashmap以及concurrenthashmap的区别">2.18 HashMap以及ConcurrentHashMap的区别</h3>
+<p>HashMap 底层用一个 Node 数组存储对象，用对象的 hashCode 去计算散列地址，用拉链法处理散列冲突，当链表的长度超过 8（树形化阈值） 并且 HashMap 的容量大于 64（最小树形化容量） 时，链表会转换为红黑树。</p>
+<p>HashMap 的散列地址计算是把对象的 hashCode 的高 16 位和低 16 位异或，然后和数组的长度取模，这种计算方式保证高低 bit 都参与到 hash 的计算中，同时位运算不会有太大的开销。</p>
+<p>HashMap 的默认大小是 16，每次添加完元素后，会比较当前元素个数和阈值（阈值等于加载因子*容量），如果超过阈值就需要将哈希表扩容为原来的 2 倍。值得注意的点是，哈希表的容量一定是 2 的整数次幂，这样在计算散列地址的时候 <code>(数组长度 - 1) &amp; hash值</code> 就相当于 hash 值对数组长度取模，提升了计算效率，并且如果哈希表的容量不是偶数的话，<code>数组长度 - 1</code> 为偶数，那么做与操作的时候最后一位肯定为 0，会浪费一半的空间。</p>
+<p>HashMap 中有一个关键方法是 put，它会触发 resize、触发链表转红黑树。当放入一个新元素的时候，如果散列位置处的链表长度大于 8 （树形化阈值）且哈希表容量大于 64 （最小树形化容量），会调用 treeifyBin 把链表转为红黑树，新元素插入后，进行 ++size 操作，并且和扩容阈值比较判断是否需要 resize 扩容。</p>
+<blockquote>
+<ul>
+<li>计算散列地址找到哈希表中对应的桶，并放入该元素</li>
+<li>如果放入这个元素后链表长度大于等于 8 （树形化阈值），调用 treeifyBin 把链表转为红黑树
+<ul>
+<li>如果哈希表的容量小于 64 （最小树形化容量）则会直接进行扩容 resize</li>
+<li>把所有元素都变为树形节点 TreeNode，让桶的第一个元素指向根节点</li>
+<li>调用 treeify 塑造红黑树</li>
+</ul>
+</li>
+<li>如果放入这个元素后，总的元素个数超过扩容阈值，则调用 resize 进行扩容</li>
+</ul>
+</blockquote>
+<p>HashMap 的另一个关键方法就是 resize，HashMap 的扩容操作是通过创建一个新的 Node 数组，其容量为原来的两倍，具体对于一个链表， hash 值的高位是 1 的元素组成高位链表，存放到新数组的 原下标+旧数组长度 的桶中，hash 值得高位是 0 得元素组成低位链表，存放到新数组的 原下标 的桶中。如果桶中是红黑树的话会调用 split 方法，也是同样的操作，只不过分成高低位树链表的元素个数如果小于 6 （链表还原阈值）的话，红黑树会被还原为链表。</p>
+<p>JDK 1.8 以前 HashMap 用的是头插法，JDK 1.8 以后就用的尾插法。头插法在并发环境下扩容时可能会导致成环，导致 get 操作的时候死循环。但是就算改成尾插法后，并发环境下扩容也可能会出现数据丢失的问题，因为 HashMap 本来就是线程不安全的，如果有并发的场景，还是应该使用 ConcurrentHashMap。</p>
+<p>在 JDK 1.8 中 ConcurrentHashMap 的底层数据结构和 HashMap 一样，是数组+链表或红黑树。它加锁时采用的是 synchronized 和 CAS 来进行并发控制，对链表的头结点进行加锁。</p>
+<p>不考虑扩容的情况下，写操作有两种情况，一种是桶为空的情况，这个时候利用 CAS 操作尝试将 node 节点插入；另外一种是桶不为空的情况，这时需要对链表头节点加互斥锁 synchronized，然后正常的去遍历链表进行插入操作就好了。</p>
+<p>如果考虑扩容的情况，如果当前线程在写的时候发现当前节点的哈希值是 MOVED（-1），说明这是一个 ForwardingNode，表示当前正在进行扩容。那么它会调用 helpTransfer 方法参与并发扩容。此时的 sizeCtl 中记录了当前有几个线程参与并发扩容。并发扩容其实就是给每个线程分一块区域，让他们单独进行扩容操作，会根据 CPU 的核数和哈希表的长度计算每个核一轮处理桶的个数，处理完一轮后再去领取任务。</p>
+<p>还有一点值得提及的是，如果在扩容的时候进行了 get 操作，并且发现当前链表的头结点是 ForwardingNode，那么会调用 ForwardingNode 的 find 方法进行查找。</p>
+<p>比较重要的两个操作就是 tabAt 和 casTabAt：</p>
+<ul>
+<li>tabAt：获取 Node[] 中第 i 个 Node</li>
+<li>casTabAt：CAS 修改 Node[] 中第 i 个 Node 的值</li>
+</ul>
+<p>因为哈希表被 volatile 关键字修饰的，所以它具有可见性，其他被 volatile 修饰的变量还有 sizeCtl 和 couterCells。</p>
+<p>sizeCtl 默认为 <code>0</code>，当初始化时为 <code>-1</code>，当扩容时为 <code>-(1 + 扩容线程数)</code>，当初始化或扩容完成后为 <code>下一次的扩容阈值大小</code>。</p>
+<p>couterCells 是一个 CounterCell 数组，用于记录元素的个数，进行累加的时候会把不同的线程映射到不同的数组元素，以防止冲突，然后用 CAS 直接增加对应的数值，失败会进行重试。如果竞争严重的话还会对数组进行扩容，以减少竞争。size 方法会把所有的 cell 计数累加。</p>
+<p><a href="https://blog.csdn.net/weixin_43871678/article/details/115966911" target="_blank" rel="noopener">ConcurrentHashMap多线程扩容_Hanyinh的博客-CSDN博客</a></p>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Java并发/" data-toggle="tooltip" data-placement="top" title="Java并发一文流">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-java语言的特点"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1 Java&#x8BED;&#x8A00;&#x7684;&#x7279;&#x70B9;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-比较-jvm-和-jdk-以及-jre"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2 &#x6BD4;&#x8F83; JVM &#x548C; JDK &#x4EE5;&#x53CA; JRE</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-为什么说-java-语言解释与编译并存"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">3 &#x4E3A;&#x4EC0;&#x4E48;&#x8BF4; Java &#x8BED;&#x8A00;&#x201C;&#x89E3;&#x91CA;&#x4E0E;&#x7F16;&#x8BD1;&#x5E76;&#x5B58;&#x201D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-java-基本类型有哪几种各占多少位"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">4 Java &#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x54EA;&#x51E0;&#x79CD;&#xFF0C;&#x5404;&#x5360;&#x591A;&#x5C11;&#x4F4D;&#xFF1F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-java泛型以及泛型擦除"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">5 Java&#x6CDB;&#x578B;&#x4EE5;&#x53CA;&#x6CDB;&#x578B;&#x64E6;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-和equals的区别"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">6 ==&#x548C;equals&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-hashcode和equals"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">7 hashCode()&#x548C;equals()</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-重载和重写的区别待补充"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">8 &#x91CD;&#x8F7D;&#x548C;&#x91CD;&#x5199;&#x7684;&#x533A;&#x522B;&#x3010;&#x5F85;&#x8865;&#x5145;&#x3011;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#9-深拷贝和浅拷贝"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">9 &#x6DF1;&#x62F7;&#x8D1D;&#x548C;&#x6D45;&#x62F7;&#x8D1D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#10-面向对象和面向过程的区别"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">10 &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x548C;&#x9762;&#x5411;&#x8FC7;&#x7A0B;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#11-成员变量与局部变量的区别"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">11 &#x6210;&#x5458;&#x53D8;&#x91CF;&#x4E0E;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#12-面向对象三大特性"><span class="toc-nav-number">12.</span> <span class="toc-nav-text">12 &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#13-string-stringbuffer和stringbuilder的区别"><span class="toc-nav-number">13.</span> <span class="toc-nav-text">13 String&#x3001;StringBuffer&#x548C;StringBuilder&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#14-异常"><span class="toc-nav-number">14.</span> <span class="toc-nav-text">14 &#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#15-序列化和反序列化"><span class="toc-nav-number">15.</span> <span class="toc-nav-text">15 &#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#16-list-set-map的区别"><span class="toc-nav-number">16.</span> <span class="toc-nav-text">16 List&#x3001;Set&#x3001;Map&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#17-arraylist和linkedlist的区别"><span class="toc-nav-number">17.</span> <span class="toc-nav-text">17 ArrayList&#x548C;LinkedList&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#217-comparable和comparator的区别"><span class="toc-nav-number">18.</span> <span class="toc-nav-text">2.17 Comparable&#x548C;Comparator&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#218-hashmap以及concurrenthashmap的区别"><span class="toc-nav-number">19.</span> <span class="toc-nav-text">2.18 HashMap&#x4EE5;&#x53CA;ConcurrentHashMap&#x7684;&#x533A;&#x522B;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#note" title="note">note</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.tangyincheng.com/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2021 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+					<br>
+                    <a href="http://www.beian.miit.gov.cn/" style="color: gray">浙ICP备2021018896号</a>
+					<br>
+					<!-- <p class="copyright text-muted" style="margin-top: 5px"> -->
+						<img src="../../img/备案图标.png"/>
+						<a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" style="color: gray">null</a>
+					<!-- </p> -->
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

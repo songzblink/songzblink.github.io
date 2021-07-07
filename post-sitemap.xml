@@ -7,6 +7,30 @@
     </url>
 
     <url>
+        <loc>zbsong.top/article/Java%E5%9F%BA%E7%A1%80/</loc>
+        <lastmod>2021-07-07T13:50:16.917Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>zbsong.top/article/jdk%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%E2%80%94%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/</loc>
+        <lastmod>2021-07-06T13:58:10.146Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>zbsong.top/article/%E7%89%9B%E5%AE%A2%E2%80%94%E5%89%91%E6%8C%87Offer/</loc>
+        <lastmod>2021-07-06T04:13:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>zbsong.top/article/Java%E5%B9%B6%E5%8F%91/</loc>
         <lastmod>2021-06-27T09:58:45.917Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -49,14 +73,6 @@
     <url>
         <loc>zbsong.top/article/Redis%E5%AD%A6%E4%B9%A0/</loc>
         <lastmod>2021-06-22T15:39:43.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>zbsong.top/article/%E7%89%9B%E5%AE%A2%E2%80%94%E5%89%91%E6%8C%87Offer/</loc>
-        <lastmod>2021-06-22T15:17:08.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -145,14 +161,6 @@
     <url>
         <loc>zbsong.top/article/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E2%80%94AQS/</loc>
         <lastmod>2021-05-15T06:00:10.365Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>zbsong.top/article/jdk%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%E2%80%94%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/</loc>
-        <lastmod>2021-05-15T05:32:03.723Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
