@@ -155,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -219,17 +219,20 @@
                 post-container">
 
 				
-                <h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>异常指的是导致程序中断执行的一种指令流，出现错误之后，整个程序将不会按照既定的方式进行执行，而是中断。</p>
+                <h2 id="异常">异常</h2>
+<p>异常指的是导致程序中断执行的一种指令流，出现错误之后，整个程序将不会按照既定的方式进行执行，而是中断。</p>
 <p>比如下面的数学计算将会产生异常：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"【1】**** 程序开始执行 ****"</span>);</span><br><span class="line">        System.out.println(<span class="string">"【2】**** 数学计算 : "</span> + <span class="number">10</span> / <span class="number">0</span>); <span class="comment">// Exception in thread "main" java.lang.ArithmeticException: / by zero</span></span><br><span class="line">        System.out.println(<span class="string">"【3】**** 程序执行完毕 ****"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果希望程序依然可以正常完成，就需要一个完善的异常处理机制，以保证程序的顺利执行。</p>
-<h2 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h2><p>基本的异常处理结构：</p>
+<h2 id="处理异常">处理异常</h2>
+<p>基本的异常处理结构：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="comment">// 可能出现异常的够</span></span><br><span class="line">&#125; [<span class="keyword">catch</span> (异常类型 异常对象)&#123;</span><br><span class="line">    <span class="comment">// 异常处理</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (异常类型 异常对象)&#123;</span><br><span class="line">    <span class="comment">// 异常处理</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (异常类型 异常对象)&#123;</span><br><span class="line">    <span class="comment">// 异常处理</span></span><br><span class="line">&#125; ...] [<span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="comment">// 不管异常是否处理都要执行;</span></span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
 <p>可以是： <code>try...catch</code>  、 <code>try...catch...finally</code> 、 <code>try...finally</code> 组合使用。</p>
 <p>修改代码处理异常：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"【1】**** 程序开始执行 ****"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"【2】**** 数学计算 : "</span> + <span class="number">10</span> / <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ArithmeticException e) &#123;</span><br><span class="line">             e.printStackTrace();	<span class="comment">// 处理异常</span></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"【3】**** 程序执行完毕 ****"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* output</span></span><br><span class="line"><span class="comment">【1】**** 程序开始执行 ****</span></span><br><span class="line"><span class="comment">java.lang.ArithmeticException: / by zero</span></span><br><span class="line"><span class="comment">【3】**** 程序执行完毕 ****</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 <p>此时即便出现了异常，程序也可以正常执行完毕，所以此时的设计属于一个合理的设计。</p>
-<h2 id="throws关键字和throw关键字的区别"><a href="#throws关键字和throw关键字的区别" class="headerlink" title="throws关键字和throw关键字的区别"></a>throws关键字和throw关键字的区别</h2><ul>
+<h2 id="throws关键字和throw关键字的区别">throws关键字和throw关键字的区别</h2>
+<ul>
 <li>throw：在代码块中使用，主要是手工进行异常对象的抛出；</li>
 <li>throws：在方法定义上使用，表示将此方法中可能产生的异常明确告诉给调用处，由调用处进行处理。</li>
 </ul>
@@ -238,7 +241,8 @@
 <p>其中主方法本身也是一个方法，那么主方法也可以向上继续抛出异常，也可以就在主方法中使用try…catch进行处理。</p>
 <p>throw 关键字用来手工产生异常的实例化对象，并且进行异常的抛出处理。例如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123; <span class="comment">// 对象不再是由系统生成的，而是由手工定义的</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"自己抛着玩的对象"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="runtimeexception"><a href="#RuntimeException" class="headerlink" title="RuntimeException"></a>RuntimeException</h2><p>首先需要明确的是，Exception类及其子类是Throwable类的子类，表示合理的应用程序可能希望捕获的状况。在程序之中可以处理的异常的最大类型就是Throwable，它提供有两个子类：</p>
+<h2 id="runtimeexception">RuntimeException</h2>
+<p>首先需要明确的是，Exception类及其子类是Throwable类的子类，表示合理的应用程序可能希望捕获的状况。在程序之中可以处理的异常的最大类型就是Throwable，它提供有两个子类：</p>
 <ul>
 <li>Error：程序还未执行出现的错误，如系统崩溃、虚拟机错误、动态链接失败等无法恢复或不可能捕获的错误，开发者无法处理；</li>
 <li>Exception：程序中出现的异常，开发者可以处理。</li>
@@ -301,7 +305,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#异常"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x5F02;&#x5E38;" class="headerlink" title="&#x5F02;&#x5E38;"></a>&#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#处理异常"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x5904;&#x7406;&#x5F02;&#x5E38;" class="headerlink" title="&#x5904;&#x7406;&#x5F02;&#x5E38;"></a>&#x5904;&#x7406;&#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#throws关键字和throw关键字的区别"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#throws&#x5173;&#x952E;&#x5B57;&#x548C;throw&#x5173;&#x952E;&#x5B57;&#x7684;&#x533A;&#x522B;" class="headerlink" title="throws&#x5173;&#x952E;&#x5B57;&#x548C;throw&#x5173;&#x952E;&#x5B57;&#x7684;&#x533A;&#x522B;"></a>throws&#x5173;&#x952E;&#x5B57;&#x548C;throw&#x5173;&#x952E;&#x5B57;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#runtimeexception"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#RuntimeException" class="headerlink" title="RuntimeException"></a>RuntimeException</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#异常"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#处理异常"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5904;&#x7406;&#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#throws关键字和throw关键字的区别"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">throws&#x5173;&#x952E;&#x5B57;&#x548C;throw&#x5173;&#x952E;&#x5B57;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#runtimeexception"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">RuntimeException</span></a></li></ol>
         
         </div>
       </aside>

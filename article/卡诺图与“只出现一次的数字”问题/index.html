@@ -155,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -219,11 +219,14 @@
                 post-container">
 
 				
-                <h2 id="只出现一次的数字问题"><a href="#只出现一次的数字问题" class="headerlink" title="只出现一次的数字问题"></a>只出现一次的数字问题</h2><h3 id="只出现一次的数字-ii"><a href="#只出现一次的数字-II" class="headerlink" title="只出现一次的数字 II"></a>只出现一次的数字 II</h3><blockquote>
+                <h2 id="只出现一次的数字问题">只出现一次的数字问题</h2>
+<h3 id="只出现一次的数字-ii">只出现一次的数字 II</h3>
+<blockquote>
 <p>给定一个<strong>非空</strong>整数数组，除了某个元素只出现一次以外，其余每个元素均出现了三次。找出那个只出现了一次的元素。</p>
 </blockquote>
 <p>题目来源：<a href="https://leetcode-cn.com/problems/single-number-ii/" target="_blank" rel="noopener">LeetCode</a></p>
-<h4 id="卡诺图解法"><a href="#卡诺图解法" class="headerlink" title="卡诺图解法"></a>卡诺图解法</h4><blockquote>
+<h4 id="卡诺图解法">卡诺图解法</h4>
+<blockquote>
 <p>如果不理解卡诺图，可以看下面的<a href="#jump">卡诺图章节</a></p>
 </blockquote>
 <p>根据题目，我们需要找到一个能表达一个模 <code>3</code> 含义的状态转移过程，需要设置两个状态位来描述 <code>00-&gt;01-&gt;10-&gt;00</code> 的状态转移过程。</p>
@@ -232,14 +235,18 @@
 <p>此时并没有办法直接通过观察看出我们所需要执行操作的具体形式，此时可以祭出卡诺图来解决问题。</p>
 <p>下面是关于 <code>b</code> 的卡诺图，表中的数位对应状态的下一个状态中 <code>b</code> 的值。</p>
 <p><img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_18-01-55.png" alt="Snipaste_2020-12-11_18-01-55.png"></p>
-<p>使用卡诺图化简法，不难写出如下转移方程：</p>
-<script type="math/tex; mode=display">
-b = \overline{x}\overline{a}b + x\overline{a}\overline{b} = \overline{a}(\overline{x}b + x\overline{b})</script><p>又由于 $\overline{x}b + x\overline{b} = x  \bigoplus b $ ，所以有 <code>b = ~a &amp; (b ^ x)</code>。</p>
+<p>使用卡诺图化简法，不难写出如下转移方程：<br>
+$$<br>
+b = \overline{x}\overline{a}b + x\overline{a}\overline{b} = \overline{a}(\overline{x}b + x\overline{b})<br>
+$$<br>
+又由于 $\overline{x}b + x\overline{b} = x  \bigoplus b $ ，所以有 <code>b = ~a &amp; (b ^ x)</code>。</p>
 <p>下面是关于 <code>a</code> 的卡诺图，表中的数位对应状态的下一个状态中 <code>a</code> 的值。</p>
 <p><img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_18-01-45.png" alt="Snipaste_2020-12-11_18-01-45.png"></p>
-<p>使用卡诺图化简法，不难写出如下转移方程：</p>
-<script type="math/tex; mode=display">
-a = \overline{x}a + xb</script><p>所以有 <code>a = (~x &amp; a) | (x &amp; b)</code>。 </p>
+<p>使用卡诺图化简法，不难写出如下转移方程：<br>
+$$<br>
+a = \overline{x}a + xb<br>
+$$<br>
+所以有 <code>a = (~x &amp; a) | (x &amp; b)</code>。</p>
 <p>把所有数依次输入，然后不断更新状态.最终，出现 <code>3</code> 次的位都成 <code>0</code>（也就是<code>00</code>），出现 <code>1</code> 次的位都成了 <code>1</code>（也就是 <code>01</code>）。我们最后直接返回状态 <code>Y</code> 就是要的答案。（另外辅助验证，最后 <code>X</code> 应该为全 <code>0</code> ，因为最后所有位的状态要么是 <code>00</code> ，即出现 <code>3</code> 次的数的位，要么是 <code>01</code>，即出现 <code>1</code> 次的数的位）</p>
 <p>可以写出代码为：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> tmp;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x : nums) &#123;</span><br><span class="line">            tmp = b;</span><br><span class="line">            b = ~a &amp; (x ^ b);</span><br><span class="line">            a = (~x &amp; a) | (x &amp; tmp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -247,8 +254,8 @@ a = \overline{x}a + xb</script><p>所以有 <code>a = (~x &amp; a) | (x &amp; b)
 <p><img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_18-30-34.png" alt="Snipaste_2020-12-11_18-30-34.png"></p>
 <p>有 $a = x\overline{a}\overline{b} +  \overline{x}a\overline{b} = (x\overline{a} + \overline{x}a)\overline{b}$ ，很明显的异或操作，于是有 <code>a = ~b &amp; (x ^ a)</code> 。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x : nums) &#123;</span><br><span class="line">            b = ~a &amp; (x ^ b);</span><br><span class="line">            a = ~b &amp; (x ^ a);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="逻辑真值表达式解法"><a href="#逻辑真值表达式解法" class="headerlink" title="逻辑真值表达式解法"></a>逻辑真值表达式解法</h4><p>同样的是需要找到一种逻辑操作，可以满足 <code>1 * 1 * 1 = 0</code> 且 <code>0 * 1 = 1 * 0 = 1</code>，其中 <code>*</code> 是这种新逻辑操作符。设当前状态为 <code>XY</code>，输入为 <code>Z</code>，那么我们可以为<code>X</code> 和 <code>Y</code> 列出真值表。</p>
-<div class="table-container">
+<h4 id="逻辑真值表达式解法">逻辑真值表达式解法</h4>
+<p>同样的是需要找到一种逻辑操作，可以满足 <code>1 * 1 * 1 = 0</code> 且 <code>0 * 1 = 1 * 0 = 1</code>，其中 <code>*</code> 是这种新逻辑操作符。设当前状态为 <code>XY</code>，输入为 <code>Z</code>，那么我们可以为<code>X</code> 和 <code>Y</code> 列出真值表。</p>
 <table>
 <thead>
 <tr>
@@ -297,13 +304,15 @@ a = \overline{x}a + xb</script><p>所以有 <code>a = (~x &amp; a) | (x &amp; b)
 </tr>
 </tbody>
 </table>
-</div>
 <p>对于 <code>Y</code>，转化为逻辑表达式就是（取所有 $Y_{NEW} = 1$ 的行的 <code>X</code>、<code>Y</code>、<code>Z</code> 的最小项，然后 $OR$ 起来）。</p>
-<script type="math/tex; mode=display">
-Y_{NEW} = \overline{X}Y\overline{Z} + \overline{X}\overline{Y}Z</script><p>化简：</p>
-<script type="math/tex; mode=display">
-Y_{NEW} = \overline{X}(Y \bigoplus  Z)</script><p>同理可以求得 <code>X</code> 的逻辑表达式，此处有一个可以取巧的地方，不用再去求新的表达式。我们更新完 <code>Y</code> 之后，把 $Y_{NEW}$ 放到逻辑表达式中替换原来的 <code>Y</code> 的值形成新的逻辑表，这个新的逻辑表（<code>Z</code>、$X_{NEW}$、$XY_{NEW}$）对于 <code>X</code> 来说是跟求 <code>Y</code> 的时候的逻辑表是同构的。</p>
-<div class="table-container">
+<p>$$<br>
+Y_{NEW} = \overline{X}Y\overline{Z} + \overline{X}\overline{Y}Z<br>
+$$<br>
+化简：<br>
+$$<br>
+Y_{NEW} = \overline{X}(Y \bigoplus  Z)<br>
+$$<br>
+同理可以求得 <code>X</code> 的逻辑表达式，此处有一个可以取巧的地方，不用再去求新的表达式。我们更新完 <code>Y</code> 之后，把 $Y_{NEW}$ 放到逻辑表达式中替换原来的 <code>Y</code> 的值形成新的逻辑表，这个新的逻辑表（<code>Z</code>、$X_{NEW}$、$XY_{NEW}$）对于 <code>X</code> 来说是跟求 <code>Y</code> 的时候的逻辑表是同构的。</p>
 <table>
 <thead>
 <tr>
@@ -359,44 +368,62 @@ Y_{NEW} = \overline{X}(Y \bigoplus  Z)</script><p>同理可以求得 <code>X</co
 </tr>
 </tbody>
 </table>
-</div>
 <p>所以 $X_{NEW} = \overline{Y_{NEW}}(X \bigoplus  Z)$</p>
 <p>把所有数依次输入，然后不断更新状态.最终，出现 <code>3</code> 次的位都成 <code>0</code>（也就是<code>00</code>），出现 <code>1</code> 次的位都成了 <code>1</code>（也就是 <code>01</code>）。我们最后直接返回状态 <code>Y</code> 就是要的答案。（另外辅助验证，最后 <code>X</code> 应该为全 <code>0</code> ，因为最后所有位的状态要么是 <code>00</code> ，即出现 <code>3</code> 次的数的位，要么是 <code>01</code>，即出现 <code>1</code> 次的数的位）</p>
 <p>代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x : nums) &#123;</span><br><span class="line">            b = ~a &amp; (x ^ b);</span><br><span class="line">            a = ~b &amp; (x ^ a);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="卡诺图"><a href="#卡诺图" class="headerlink" title="卡诺图"></a><span id="jump">卡诺图</span></h2><h3 id="关于最小项"><a href="#关于“最小项”" class="headerlink" title="关于“最小项”"></a>关于“最小项”</h3><h4 id="1最小项的定义"><a href="#（1）最小项的定义" class="headerlink" title="（1）最小项的定义"></a>（1）最小项的定义</h4><p>如果一个函数的某个乘积项<strong>包含了函数的全部变量</strong>，其中<strong>每个变量</strong>都以<strong>原变量或反变量的形式</strong>出现，且<strong>仅出现一次</strong>，则这个乘积项称为该函数的一个标准积项，通常成为<strong>最小项</strong>。</p>
-<p>例如 <code>3</code> 个变量 A、B 、C 可组成 <code>8</code> 个 最小项：</p>
-<script type="math/tex; mode=display">
-\overline{A}\overline{B}\overline{C}、\overline{A}\overline{B}C、\overline{A}B\overline{C}、A\overline{B}\overline{C}、\overline{A}BC、A\overline{B}C、AB\overline{C}、ABC</script><h4 id="2最小项的表示方法"><a href="#（2）最小项的表示方法" class="headerlink" title="（2）最小项的表示方法"></a>（2）最小项的表示方法</h4><p>通常用符号 $m_{i}$ 来表示最小项。下标 <code>i</code> 的确定：把最小项中的原变量标记为 <code>1</code>，反变量标记为 <code>0</code>，当变量顺序确定后，可以按顺序排列成一个二进制数，则与这个二进制数相对应的十进制数，就是这个最小项的下标 <code>i</code>。</p>
-<p><code>3</code> 个变量 A、B、C 的 <code>8</code> 个最小项可以分别表示为：</p>
-<script type="math/tex; mode=display">
-m_{0}=\overline{A}\overline{B}\overline{C}、m_{1}=\overline{A}\overline{B}C、m_{2}=\overline{A}B\overline{C}、m_{3}=\overline{A}BC、m_{4}=A\overline{B}\overline{C}、m_{5}=A\overline{B}C、m_{6}=AB\overline{C}、m_{7}=ABC</script><h4 id="3最小项的性质"><a href="#（3）最小项的性质" class="headerlink" title="（3）最小项的性质"></a>（3）最小项的性质</h4><p><img src="https://pic.tyzhang.top/images/2020/12/11/image-20201211110655988.png" alt="image-20201211110655988.png"></p>
+<h2 id="卡诺图"><span id="jump">卡诺图</span></h2>
+<h3 id="关于最小项">关于“最小项”</h3>
+<h4 id="1最小项的定义">（1）最小项的定义</h4>
+<p>如果一个函数的某个乘积项<strong>包含了函数的全部变量</strong>，其中<strong>每个变量</strong>都以<strong>原变量或反变量的形式</strong>出现，且<strong>仅出现一次</strong>，则这个乘积项称为该函数的一个标准积项，通常成为<strong>最小项</strong>。</p>
+<p>例如 <code>3</code> 个变量 A、B 、C 可组成 <code>8</code> 个 最小项：<br>
+$$<br>
+\overline{A}\overline{B}\overline{C}、\overline{A}\overline{B}C、\overline{A}B\overline{C}、A\overline{B}\overline{C}、\overline{A}BC、A\overline{B}C、AB\overline{C}、ABC<br>
+$$</p>
+<h4 id="2最小项的表示方法">（2）最小项的表示方法</h4>
+<p>通常用符号 $m_{i}$ 来表示最小项。下标 <code>i</code> 的确定：把最小项中的原变量标记为 <code>1</code>，反变量标记为 <code>0</code>，当变量顺序确定后，可以按顺序排列成一个二进制数，则与这个二进制数相对应的十进制数，就是这个最小项的下标 <code>i</code>。</p>
+<p><code>3</code> 个变量 A、B、C 的 <code>8</code> 个最小项可以分别表示为：<br>
+$$<br>
+m_{0}=\overline{A}\overline{B}\overline{C}、m_{1}=\overline{A}\overline{B}C、m_{2}=\overline{A}B\overline{C}、m_{3}=\overline{A}BC、m_{4}=A\overline{B}\overline{C}、m_{5}=A\overline{B}C、m_{6}=AB\overline{C}、m_{7}=ABC<br>
+$$</p>
+<h4 id="3最小项的性质">（3）最小项的性质</h4>
+<p><img src="https://pic.tyzhang.top/images/2020/12/11/image-20201211110655988.png" alt="image-20201211110655988.png"></p>
 <ul>
 <li>性质1：任意一个最小项，只有一组变量取值使其值为 <code>1</code>，而在变量取其他各组值时这个最小项的值都是 <code>0</code>；</li>
 <li>性质2：不同的最小项，使它的值为 <code>1</code> 的那一组变量取值也不同；</li>
 <li>性质3：任意两个不同的最小项的乘积必为 <code>0</code>；</li>
 <li>性质4：全部最小项的和必为 <code>1</code>；</li>
 </ul>
-<h4 id="4逻辑函数的最小项表达式"><a href="#（4）逻辑函数的最小项表达式" class="headerlink" title="（4）逻辑函数的最小项表达式"></a>（4）逻辑函数的最小项表达式</h4><p>任何一个逻辑函数都可以表示成唯一的一组最小项之和，称为标准与或表达式，也称为最小项表达式。</p>
+<h4 id="4逻辑函数的最小项表达式">（4）逻辑函数的最小项表达式</h4>
+<p>任何一个逻辑函数都可以表示成唯一的一组最小项之和，称为标准与或表达式，也称为最小项表达式。</p>
 <p>对于不是最小项表达式的与或表达式，可以利用公式进行化简。</p>
-<h4 id="5公式和定理"><a href="#（5）公式和定理" class="headerlink" title="（5）公式和定理"></a>（5）公式和定理</h4><p>交换律：$A B = B  A \\ A + B = B + A$   </p>
-<p>结合律：$(A B)C = A (B C) \\ (A+B)+C = A+(B+C)$<br>分配律：$A(B+C) = AB + AC \\ A + BC = (A+B)(A+C)$</p>
-<p>同一律：$AA=A \\ A+A=A$</p>
-<p>德·摩根定律：$\overline{AB} = \overline{A} + \overline{B} \\ \overline{A+B}=\overline{A} \cdot \overline{B}$</p>
+<h4 id="5公式和定理">（5）公式和定理</h4>
+<p>交换律：$A B = B  A \ A + B = B + A$</p>
+<p>结合律：$(A B)C = A (B C) \ (A+B)+C = A+(B+C)$<br>
+分配律：$A(B+C) = AB + AC \ A + BC = (A+B)(A+C)$</p>
+<p>同一律：$AA=A \ A+A=A$</p>
+<p>德·摩根定律：$\overline{AB} = \overline{A} + \overline{B} \ \overline{A+B}=\overline{A} \cdot \overline{B}$</p>
 <p>还原律：$\overline{\overline{A}} = A$</p>
-<h4 id="6最小项的相邻性"><a href="#（6）最小项的相邻性" class="headerlink" title="（6）最小项的相邻性"></a>（6）最小项的相邻性</h4><p>任何两个最小项如果他们只有一个因子不同，其余因子都相同，则称这两个最小项为相邻最小项。</p>
+<h4 id="6最小项的相邻性">（6）最小项的相邻性</h4>
+<p>任何两个最小项如果他们只有一个因子不同，其余因子都相同，则称这两个最小项为相邻最小项。</p>
 <p>显然，$m_{0}(\overline{A}\overline{B}\overline{C})$  与 $m_{1}(\overline{A}\overline{B}C)$  具有相邻性，而 $m_{1}(\overline{A}\overline{B}C)$ 与 $m_{2}(\overline{A}B\overline{C})$ 不相邻。</p>
-<p>相邻的两个最小项之和可以合并成一项，并消去一个变量。如：</p>
-<script type="math/tex; mode=display">
-m_{0} + m_{2} = \overline{A}\overline{B}\overline{C} + \overline{A}B\overline{C} = \overline{A}(\overline{AB})m_{0} + m_{2} = \overline{A}\overline{B}\overline{C} + \overline{A}B\overline{C} = \overline{A}(\overline{B}+B)\overline{C} = \overline{A}\overline{C}</script><h3 id="卡诺图的构成"><a href="#卡诺图的构成" class="headerlink" title="卡诺图的构成"></a>卡诺图的构成</h3><p>把所有最小项按一定顺序排列起来，每一个小方格由一个最小项占有。设变量数为 n，则最小项的数目为 $2^{n}$。两个变量的卡诺图：</p>
+<p>相邻的两个最小项之和可以合并成一项，并消去一个变量。如：<br>
+$$<br>
+m_{0} + m_{2} = \overline{A}\overline{B}\overline{C} + \overline{A}B\overline{C} = \overline{A}(\overline{AB})m_{0} + m_{2} = \overline{A}\overline{B}\overline{C} + \overline{A}B\overline{C} = \overline{A}(\overline{B}+B)\overline{C} = \overline{A}\overline{C}<br>
+$$</p>
+<h3 id="卡诺图的构成">卡诺图的构成</h3>
+<p>把所有最小项按一定顺序排列起来，每一个小方格由一个最小项占有。设变量数为 n，则最小项的数目为 $2^{n}$。两个变量的卡诺图：</p>
 <p><img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_16-02-21.png" alt="Snipaste_2020-12-11_16-02-21.png"></p>
 <p>上图还显示这些小方格与变量 <code>A</code> 和变量 <code>B</code> 之间的关系。每行、列都被表上 <code>0</code>、<code>1</code> 代表变量值。</p>
 <p><img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_16-14-20.png" alt="Snipaste_2020-12-11_16-14-20.png"></p>
-<p>如上图，其中有三个小方格被标上 <code>1</code>，这些方格就代表了函数的最小项：</p>
-<script type="math/tex; mode=display">
-m_{1} + m_{2} + m_{3} = \overline{A}B + A\overline{B} + AB = A + B</script><p><strong>注意：</strong> </p>
+<p>如上图，其中有三个小方格被标上 <code>1</code>，这些方格就代表了函数的最小项：<br>
+$$<br>
+m_{1} + m_{2} + m_{3} = \overline{A}B + A\overline{B} + AB = A + B<br>
+$$<br>
+<strong>注意：</strong></p>
 <p>最小项并不是按照自然二进制顺序排列，而是按照类似于格雷码的顺序排列，这种排列方式相邻两列只有一位发生变化。</p>
-<h3 id="逻辑函数的卡诺图化简法"><a href="#逻辑函数的卡诺图化简法" class="headerlink" title="逻辑函数的卡诺图化简法"></a>逻辑函数的卡诺图化简法</h3><p>卡诺图相邻性的特点保证了<strong>几何相邻两方格所代表的最小项只有一个变量不同</strong>。因此，若相邻的方格都为 <code>1</code> 时，则对应的最小项就可以合并。合并的结果是消去这个不同的变量，只保留相同的变量。这是图形化简法的依据。</p>
+<h3 id="逻辑函数的卡诺图化简法">逻辑函数的卡诺图化简法</h3>
+<p>卡诺图相邻性的特点保证了<strong>几何相邻两方格所代表的最小项只有一个变量不同</strong>。因此，若相邻的方格都为 <code>1</code> 时，则对应的最小项就可以合并。合并的结果是消去这个不同的变量，只保留相同的变量。这是图形化简法的依据。</p>
 <p>性质：在 <code>n</code> 个变量的卡诺图中，若有 <code>2k</code> 个 <code>1</code> 格相邻（即圈内的 <code>1</code> 格数必须为 <code>1,2,4,8</code> 等，它们可以圈在一起加以合并，合并时可消去 <code>k</code> 个不同的变量，简化为一个具有 <code>(n-k)</code> 个变量的与项。若 <code>k=n</code>，则合并时可消去全部变量，结果为 <code>1</code>。</p>
 <p><strong>用卡诺图化简法求最简与或表达式的步骤：</strong></p>
 <ol>
@@ -404,7 +431,8 @@ m_{1} + m_{2} + m_{3} = \overline{A}B + A\overline{B} + AB = A + B</script><p><s
 <li>合并最小项；</li>
 <li>写出最简与或表达式。</li>
 </ol>
-<p><img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_16-21-57.png" alt="Snipaste_2020-12-11_16-21-57.png"><br><img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_16-22-49.png" alt="Snipaste_2020-12-11_16-22-49.png"></p>
+<p><img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_16-21-57.png" alt="Snipaste_2020-12-11_16-21-57.png"><br>
+<img src="https://pic.tyzhang.top/images/2020/12/11/Snipaste_2020-12-11_16-22-49.png" alt="Snipaste_2020-12-11_16-22-49.png"></p>
 <p><strong>提示：</strong></p>
 <ul>
 <li>圈的个数应尽可能少。即保证 <code>1</code> 格一个也不漏圈的前提下，圈的个数越少越好。</li>
@@ -461,7 +489,7 @@ m_{1} + m_{2} + m_{3} = \overline{A}B + A\overline{B} + AB = A + B</script><p><s
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#只出现一次的数字问题"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x53EA;&#x51FA;&#x73B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x5B57;&#x95EE;&#x9898;" class="headerlink" title="&#x53EA;&#x51FA;&#x73B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x5B57;&#x95EE;&#x9898;"></a>&#x53EA;&#x51FA;&#x73B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x5B57;&#x95EE;&#x9898;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#只出现一次的数字-ii"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#&#x53EA;&#x51FA;&#x73B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x5B57;-II" class="headerlink" title="&#x53EA;&#x51FA;&#x73B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x5B57; II"></a>&#x53EA;&#x51FA;&#x73B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x5B57; II</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#卡诺图解法"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text"><a href="#&#x5361;&#x8BFA;&#x56FE;&#x89E3;&#x6CD5;" class="headerlink" title="&#x5361;&#x8BFA;&#x56FE;&#x89E3;&#x6CD5;"></a>&#x5361;&#x8BFA;&#x56FE;&#x89E3;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#逻辑真值表达式解法"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text"><a href="#&#x903B;&#x8F91;&#x771F;&#x503C;&#x8868;&#x8FBE;&#x5F0F;&#x89E3;&#x6CD5;" class="headerlink" title="&#x903B;&#x8F91;&#x771F;&#x503C;&#x8868;&#x8FBE;&#x5F0F;&#x89E3;&#x6CD5;"></a>&#x903B;&#x8F91;&#x771F;&#x503C;&#x8868;&#x8FBE;&#x5F0F;&#x89E3;&#x6CD5;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#卡诺图"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x5361;&#x8BFA;&#x56FE;" class="headerlink" title="&#x5361;&#x8BFA;&#x56FE;"></a><span id="jump">&#x5361;&#x8BFA;&#x56FE;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#关于最小项"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#&#x5173;&#x4E8E;&#x201C;&#x6700;&#x5C0F;&#x9879;&#x201D;" class="headerlink" title="&#x5173;&#x4E8E;&#x201C;&#x6700;&#x5C0F;&#x9879;&#x201D;"></a>&#x5173;&#x4E8E;&#x201C;&#x6700;&#x5C0F;&#x9879;&#x201D;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1最小项的定义"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text"><a href="#&#xFF08;1&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x5B9A;&#x4E49;" class="headerlink" title="&#xFF08;1&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x5B9A;&#x4E49;"></a>&#xFF08;1&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x5B9A;&#x4E49;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2最小项的表示方法"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text"><a href="#&#xFF08;2&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x8868;&#x793A;&#x65B9;&#x6CD5;" class="headerlink" title="&#xFF08;2&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x8868;&#x793A;&#x65B9;&#x6CD5;"></a>&#xFF08;2&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x8868;&#x793A;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3最小项的性质"><span class="toc-nav-number">2.1.3.</span> <span class="toc-nav-text"><a href="#&#xFF08;3&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x6027;&#x8D28;" class="headerlink" title="&#xFF08;3&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x6027;&#x8D28;"></a>&#xFF08;3&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x6027;&#x8D28;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#4逻辑函数的最小项表达式"><span class="toc-nav-number">2.1.4.</span> <span class="toc-nav-text"><a href="#&#xFF08;4&#xFF09;&#x903B;&#x8F91;&#x51FD;&#x6570;&#x7684;&#x6700;&#x5C0F;&#x9879;&#x8868;&#x8FBE;&#x5F0F;" class="headerlink" title="&#xFF08;4&#xFF09;&#x903B;&#x8F91;&#x51FD;&#x6570;&#x7684;&#x6700;&#x5C0F;&#x9879;&#x8868;&#x8FBE;&#x5F0F;"></a>&#xFF08;4&#xFF09;&#x903B;&#x8F91;&#x51FD;&#x6570;&#x7684;&#x6700;&#x5C0F;&#x9879;&#x8868;&#x8FBE;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#5公式和定理"><span class="toc-nav-number">2.1.5.</span> <span class="toc-nav-text"><a href="#&#xFF08;5&#xFF09;&#x516C;&#x5F0F;&#x548C;&#x5B9A;&#x7406;" class="headerlink" title="&#xFF08;5&#xFF09;&#x516C;&#x5F0F;&#x548C;&#x5B9A;&#x7406;"></a>&#xFF08;5&#xFF09;&#x516C;&#x5F0F;&#x548C;&#x5B9A;&#x7406;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#6最小项的相邻性"><span class="toc-nav-number">2.1.6.</span> <span class="toc-nav-text"><a href="#&#xFF08;6&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x76F8;&#x90BB;&#x6027;" class="headerlink" title="&#xFF08;6&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x76F8;&#x90BB;&#x6027;"></a>&#xFF08;6&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x76F8;&#x90BB;&#x6027;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#卡诺图的构成"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#&#x5361;&#x8BFA;&#x56FE;&#x7684;&#x6784;&#x6210;" class="headerlink" title="&#x5361;&#x8BFA;&#x56FE;&#x7684;&#x6784;&#x6210;"></a>&#x5361;&#x8BFA;&#x56FE;&#x7684;&#x6784;&#x6210;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#逻辑函数的卡诺图化简法"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text"><a href="#&#x903B;&#x8F91;&#x51FD;&#x6570;&#x7684;&#x5361;&#x8BFA;&#x56FE;&#x5316;&#x7B80;&#x6CD5;" class="headerlink" title="&#x903B;&#x8F91;&#x51FD;&#x6570;&#x7684;&#x5361;&#x8BFA;&#x56FE;&#x5316;&#x7B80;&#x6CD5;"></a>&#x903B;&#x8F91;&#x51FD;&#x6570;&#x7684;&#x5361;&#x8BFA;&#x56FE;&#x5316;&#x7B80;&#x6CD5;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#只出现一次的数字问题"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x53EA;&#x51FA;&#x73B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x5B57;&#x95EE;&#x9898;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#只出现一次的数字-ii"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x53EA;&#x51FA;&#x73B0;&#x4E00;&#x6B21;&#x7684;&#x6570;&#x5B57; II</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#卡诺图解法"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">&#x5361;&#x8BFA;&#x56FE;&#x89E3;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#逻辑真值表达式解法"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">&#x903B;&#x8F91;&#x771F;&#x503C;&#x8868;&#x8FBE;&#x5F0F;&#x89E3;&#x6CD5;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#卡诺图"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="jump">&#x5361;&#x8BFA;&#x56FE;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#关于最小项"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x5173;&#x4E8E;&#x201C;&#x6700;&#x5C0F;&#x9879;&#x201D;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1最小项的定义"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text">&#xFF08;1&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x5B9A;&#x4E49;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2最小项的表示方法"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text">&#xFF08;2&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x8868;&#x793A;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3最小项的性质"><span class="toc-nav-number">2.1.3.</span> <span class="toc-nav-text">&#xFF08;3&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x6027;&#x8D28;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#4逻辑函数的最小项表达式"><span class="toc-nav-number">2.1.4.</span> <span class="toc-nav-text">&#xFF08;4&#xFF09;&#x903B;&#x8F91;&#x51FD;&#x6570;&#x7684;&#x6700;&#x5C0F;&#x9879;&#x8868;&#x8FBE;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#5公式和定理"><span class="toc-nav-number">2.1.5.</span> <span class="toc-nav-text">&#xFF08;5&#xFF09;&#x516C;&#x5F0F;&#x548C;&#x5B9A;&#x7406;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#6最小项的相邻性"><span class="toc-nav-number">2.1.6.</span> <span class="toc-nav-text">&#xFF08;6&#xFF09;&#x6700;&#x5C0F;&#x9879;&#x7684;&#x76F8;&#x90BB;&#x6027;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#卡诺图的构成"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x5361;&#x8BFA;&#x56FE;&#x7684;&#x6784;&#x6210;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#逻辑函数的卡诺图化简法"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x903B;&#x8F91;&#x51FD;&#x6570;&#x7684;&#x5361;&#x8BFA;&#x56FE;&#x5316;&#x7B80;&#x6CD5;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
