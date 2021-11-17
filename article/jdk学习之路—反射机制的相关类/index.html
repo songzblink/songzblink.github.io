@@ -149,6 +149,12 @@
                     
                         
                         <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
                             <a href="/about/">关于</a>
                         </li>
                         
@@ -156,12 +162,6 @@
                         
                         <li>
                             <a href="/tags/">标签</a>
-                        </li>
-                        
-                    
-                        
-                        <li>
-                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -564,12 +564,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/卡诺图与“只出现一次的数字”问题/" data-toggle="tooltip" data-placement="top" title="卡诺图与“只出现一次的数字”问题">&larr; 上一篇</a>
+                            <a href="/article/jdk学习之路—反射/" data-toggle="tooltip" data-placement="top" title="浅谈反射">&larr; 上一篇</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/jdk学习之路—反射/" data-toggle="tooltip" data-placement="top" title="浅谈反射">下一篇 &rarr;</a>
+                            <a href="/article/jdk学习之路—Exception/" data-toggle="tooltip" data-placement="top" title="Exception异常类及其处理">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -840,6 +840,24 @@
 <img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>
