@@ -228,6 +228,8 @@
 <p>如果想要访问列表中的某个元素，我们只需要通过指定列表名以及元素的索引即可，例如我们想要访问列表<code>names</code>中的第<code>2</code>个元素，那么可以通过下面的语句进行访问：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">names[<span class="number">2</span>]<span class="comment">#Sam</span></span><br></pre></td></tr></table></figure>
 <p>python提供有一种快捷访问列表末尾元素的方式，通过将索引指定为<code>-1</code>可以实现访问列表的最后一个元素，以此类推，如果我们想要访问倒数第<code>n</code>个元素，可以将索引指定为<code>-n</code>。通过这种方式可以在不知道列表长度的情况下访问任意的元素，但需要<strong>注意越界的问题</strong>。</p>
+<p>如果想要判断列表是否为空，可以使用<code>if</code>语句：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> names:</span><br><span class="line">    <span class="comment">#如果不会空则会执行这里的语句</span></span><br><span class="line">    <span class="comment">#如果为空则会跳过这里的语句</span></span><br></pre></td></tr></table></figure>
 <h2 id="常用的方法">常用的方法</h2>
 <p>对列表进行操作的方法：</p>
 <table>
