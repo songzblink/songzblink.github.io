@@ -219,8 +219,7 @@
                 post-container">
 
 				
-                <h2 id="http">HTTP</h2>
-<p>HTTP 超文本传输协议，定义了浏览器怎样向万维网服务器请求万维网文档，以及服务器怎样把文档传送给浏览器的规则。</p>
+                <h2 id="http"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>HTTP 超文本传输协议，定义了浏览器怎样向万维网服务器请求万维网文档，以及服务器怎样把文档传送给浏览器的规则。</p>
 <p>HTTP 的工作原理：浏览器在向服务器发送请求之前，首先需要建立 TCP 连接，然后才能发送 HTTP 请求报文，并接收 HTTP 响应报文。</p>
 <ol>
 <li>客户端请求服务器建立连接</li>
@@ -231,8 +230,7 @@
 <blockquote>
 <p>以上是 HTTP/1.0，HTTP/1.1 使用了持续链接，即服务器在发送响应后仍然在一段时间内保持这条连接，使同一个客户和该服务器可以继续在这条连接上传送后续的 HTTP 请求报文和响应报文。这样做可以解决每次都要建立新的 TCP 连接带来的开销。</p>
 </blockquote>
-<h2 id="https">HTTPS</h2>
-<p>HTTPS 超文本传输安全协议，是在 HTTP 的基础上加上 TLS/SSL 协议，通过加密传输和身份验证保证传输的安全性。</p>
+<h2 id="https"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>HTTPS 超文本传输安全协议，是在 HTTP 的基础上加上 TLS/SSL 协议，通过加密传输和身份验证保证传输的安全性。</p>
 <p>HTTP 能完成网站浏览服务，但由于是明文传输数据和缺乏信息完整性校验，存在安全缺陷，特别是在网站登录和网络支付的场景。</p>
 <p>HTTPS 提供数据加密、完整性校验以及身份验证，来解决 HTTP 的安全缺陷问题。</p>
 <p><strong>SSL协议的握手过程</strong></p>
@@ -241,7 +239,7 @@
 <p>第二步，服务器确认双方使用的加密方法，并给出数字证书、以及一个服务器生成的随机数（Server random）。</p>
 <p>第三步，客户端确认数字证书有效，然后生成一个新的随机数（Premaster secret），并使用数字证书中的公钥，加密这个随机数，发给服务器。</p>
 <p>第四步，服务器使用自己的私钥，获取客户端发来的随机数（即Premaster secret）。</p>
-<p>第五步，客户端和服务器根据约定的加密方法，使用前面的三个随机数，生成&quot;对话密钥&quot;（session key），用来加密接下来的整个对话过程。</p>
+<p>第五步，客户端和服务器根据约定的加密方法，使用前面的三个随机数，生成”对话密钥”（session key），用来加密接下来的整个对话过程。</p>
 <blockquote>
 <p>证书的作用：为网站提供身份证明，防止中间人攻击。证书包含有公钥，浏览器根据证书中的公钥加密信息发送给服务器。</p>
 </blockquote>
@@ -249,9 +247,8 @@
 <p><strong>（1）如何保证公钥不被篡改？</strong></p>
 <p>将公钥放在<a href="https://en.wikipedia.org/wiki/Digital_certificate" target="_blank" rel="noopener">数字证书</a>中。只要证书是可信的，公钥就是可信的。</p>
 <p><strong>（2）公钥加密计算量太大，如何减少耗用的时间？</strong></p>
-<p>每一次对话（session），客户端和服务器端都生成一个&quot;对话密钥&quot;（session key），用它来加密信息。由于&quot;对话密钥&quot;是对称加密，所以运算速度非常快，而服务器公钥只用于加密&quot;对话密钥&quot;本身，这样就减少了加密运算的消耗时间。</p>
-<h2 id="区别"><strong>区别</strong></h2>
-<ul>
+<p>每一次对话（session），客户端和服务器端都生成一个”对话密钥”（session key），用它来加密信息。由于”对话密钥”是对称加密，所以运算速度非常快，而服务器公钥只用于加密”对话密钥”本身，这样就减少了加密运算的消耗时间。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a><strong>区别</strong></h2><ul>
 <li>安全性不同。HTTP 没有用于数据加密和数据完整性校验的机制，而 HTTPS 通过数字证书来保障双方的通信安全</li>
 <li>监听端口不同。HTTP 监听端口 80，HTTPS 监听端口 443</li>
 <li>传输内容不同。HTTP 以纯文本格式明文传输，HTTPS 以密文格式传输</li>
@@ -306,7 +303,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#http"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">HTTP</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#https"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">HTTPS</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#区别"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><strong>&#x533A;&#x522B;</strong></span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#http"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#https"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#区别"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#&#x533A;&#x522B;" class="headerlink" title="&#x533A;&#x522B;"></a><strong>&#x533A;&#x522B;</strong></span></a></li></ol>
         
         </div>
       </aside>

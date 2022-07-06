@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Python—组合数据类型的基本使用 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/Python—组合数据类型/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#python" title="python">python</a>
+                            
+                        </div>
+                        <h1>Python—组合数据类型的基本使用</h1>
+                        <!-- <h2 class="subheading">列表、元组、字典以及集合的创建、删除以及修改</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2022-07-05
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>列表由一系列按特定顺序排列的元素组成，元素可以是任意的数据类型。使用[]定义列表，元素之间使用逗号分隔。列表是Python中内置的可变序列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  <span class="number">0</span> ,  <span class="number">1</span> ,  <span class="number">2</span>  ,... ,  N<span class="number">-2</span> , N<span class="number">-1</span> <span class="comment">#正向递增</span></span><br><span class="line">元素<span class="number">1</span>,元素<span class="number">2</span>,元素<span class="number">3</span>,... ,元素n<span class="number">-1</span>,元素n</span><br><span class="line"> -N ,-N+<span class="number">1</span>,-N+<span class="number">2</span>, ... ,  <span class="number">-2</span>  , <span class="number">-1</span>  <span class="comment">#反向递减</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建以及删除"><a href="#创建以及删除" class="headerlink" title="创建以及删除"></a>创建以及删除</h3><p>列表的创建可以通过如下方式：</p>
+<ul>
+<li><p>直接使用[]创建列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">列表名 = [element1, element2, ..., elementN]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用内置方法list()创建列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#列表名 = list(序列)</span></span><br><span class="line">lst1 = list(<span class="string">'helloworld'</span>)</span><br><span class="line">lst2 = list(range(<span class="number">1</span>, <span class="number">11</span>)) <span class="comment">#[1, 2, ..., 10]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>列表的删除可以通过如下方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> 列表名</span><br></pre></td></tr></table></figure>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><ul>
+<li><p>使用for遍历循环</p>
+</li>
+<li><p>遍历循环for与range()函数和len()函数组合遍历</p>
+</li>
+<li><p>遍历循环for与enumerate()函数组合遍历元素和索引</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, item <span class="keyword">in</span> enumerate():</span><br><span class="line">    print(index, item)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>index：元素的索引</li>
+<li>item：元素值</li>
+</ul>
+</li>
+</ul>
+<h3 id="相关操作方法"><a href="#相关操作方法" class="headerlink" title="相关操作方法"></a>相关操作方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">lst.append(e)</td>
+<td style="text-align:left">在列表lst最后增加一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left">lst.insert(index, e)</td>
+<td style="text-align:left">在列表第index位置处，增加一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left">lst.clear()</td>
+<td style="text-align:left">清除列表lst中所有元素</td>
+</tr>
+<tr>
+<td style="text-align:left">lst.pop(index)</td>
+<td style="text-align:left">将列表lst中第index位置的元素取出，并从列表中将其删除。如未指定index的值，默认是列表末尾</td>
+</tr>
+<tr>
+<td style="text-align:left">lst.remove(e)</td>
+<td style="text-align:left">将列表lst中出现的第一个元素e删除</td>
+</tr>
+<tr>
+<td style="text-align:left">lst.reverse()</td>
+<td style="text-align:left">将列表lst中的元素反转</td>
+</tr>
+<tr>
+<td style="text-align:left">lst.copy()</td>
+<td style="text-align:left">拷贝列表lst中的所有元素，生成一个新的列表</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="列表排序"><a href="#列表排序" class="headerlink" title="列表排序"></a>列表排序</h3><ul>
+<li><p>列表对象的sort()方法</p>
+<p>对原列表中的元素进行排序，排序之后原列表中元素的顺序将发生改变</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lst.sort(key=<span class="keyword">None</span>, reverse=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>key：指定带有一个参数的函数，用于从每个列表元素中提取比较键（例如<code>key=str.lower</code>。对应于列表中每一项的键会被计算一次，然后在整个排序过程中使用。 默认值 <code>None</code> 表示直接对列表项排序而不计算一个单独的键值。</li>
+<li>reverse：为一个布尔值。 如果设为 <code>True</code>，则每个列表元素将按反向顺序比较进行排序。</li>
+</ul>
+<p>sort()方法是稳定排序。</p>
+</li>
+<li><p>内置的sorted()函数</p>
+<p>使用sorted()函数排序后，原列表元素顺序不变，排序后产生一个新的列表对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sorted(iterable, key=<span class="keyword">None</span>, reverse=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>更多排序相关内容，参考官方给出的文档：<a href="https://docs.python.org/3.10/howto/sorting.html#sortinghowto" target="_blank" rel="noopener">Sorting HOW TO — Python 3.10.5 documentation</a></p>
+<h3 id="列表生成式"><a href="#列表生成式" class="headerlink" title="列表生成式"></a>列表生成式</h3><ul>
+<li><p>生成指定范围的数值列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lst = [expression <span class="keyword">for</span> item <span class="keyword">in</span> range]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从列表中选择符合条件的元素组成新列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lst = [expression <span class="keyword">for</span> item <span class="keyword">in</span> 列表 <span class="keyword">if</span> condition]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><p>元组由一系列按特定顺序排列的元素组成，元素可以是任意的数据类型。使用()定义元组，元素之间使用逗号分隔。元组是Python中的不可变序列。</p>
+<h3 id="创建以及删除"><a href="#创建以及删除-1" class="headerlink" title="创建以及删除"></a>创建以及删除</h3><p>列表的创建可以通过如下方式：</p>
+<ul>
+<li><p>直接使用()创建元组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t = (元素<span class="number">1</span>, 元素<span class="number">2</span>, ...)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用内置函数tuple()创建元组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t  = tuple(<span class="string">'helloword'</span>)</span><br><span class="line">t2 = tuple([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">t3 = tuple(range(<span class="number">1</span>, <span class="number">11</span>))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>列表的删除可以通过如下方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> 元组名</span><br></pre></td></tr></table></figure>
+<h3 id="遍历"><a href="#遍历-1" class="headerlink" title="遍历"></a>遍历</h3><p>元组的遍历与列表的遍历方式相同。</p>
+<h3 id="元组生成式"><a href="#元组生成式" class="headerlink" title="元组生成式"></a>元组生成式</h3><p>元组生成式与列表生成式语法相同，区别在于，元组生成式的结果是一个生成器对象generator，需要转换成元组或列表才能查看到元素内容。如果使用__next__()函数（该函数每次访问生成器都会从中取出一个元素，并将该元素从生成器中删除）遍历生成器后，再想重新遍历必须重新创建一个生成器对象，因为遍历后原生成器对象已经不存在了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t = (i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>)) <span class="comment">#结果是一个生成器对象（generator）</span></span><br><span class="line">print(t, type(t)) <span class="comment"># &lt;generator object &lt;genexpr&gt; at 0x0000029AA2FA2500&gt; &lt;class 'generator'&gt;</span></span><br><span class="line">t = tuple(t)</span><br><span class="line">print(t, type(t)) <span class="comment"># (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) &lt;class 'tuple'&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="元组和列表的区别"><a href="#元组和列表的区别" class="headerlink" title="元组和列表的区别"></a>元组和列表的区别</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>列表</th>
+<th>元组</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可变序列</td>
+<td>不可变序列</td>
+</tr>
+<tr>
+<td>append()、insert()、remove()、pop()等方法实现添加和删除列表元素</td>
+<td>无法实现添加、删除和修改元素的操作</td>
+</tr>
+<tr>
+<td>支持切片访问和修改列表中的元素</td>
+<td>支持切片访问元素，不支持修改操作</td>
+</tr>
+<tr>
+<td>访问和处理速度慢</td>
+<td>访问和处理速度快</td>
+</tr>
+<tr>
+<td>不能作为字典的键</td>
+<td>可以作为字典的键</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>字典是无序的键值对集合，通过键从字典中获取对应的值，但不能通过索引来获取。使用{}定义字典，键值对之间用逗号分隔，键和值之间用冒号分隔。字典中的键必须是唯一的，如果出现两次，后出现的将覆盖先出现的。并且键要求是不可变序列。字典是Python中的可变序列。</p>
+<h3 id="创建以及删除"><a href="#创建以及删除-2" class="headerlink" title="创建以及删除"></a>创建以及删除</h3><p>字典的创建可以通过如下方式：</p>
+<ul>
+<li><p>直接使用{}创建字典</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;key1: value1, key2: value2...&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用内置函数dict()创建字典</p>
+<ul>
+<li><p>通过映射函数创建字典</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>zip(lst1, lst2)</span><br><span class="line">lst1 = [1, 2, 3]</span><br><span class="line">lst2 = ['a', 'b', 'c']</span><br><span class="line">zip_obj = zip(lst1, lst2)</span><br><span class="line">d = dict(zip_obj)</span><br><span class="line">print(d) #&#123;1: 'a', 2: 'b', 3: 'c'&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过给定关键字创建字典</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> dict(key1 = value1, key2 = value2...)</span><br><span class="line">d = dict(a=1, b=2) #但是反过来数字不能在左边，可能是因为key必须是不可变的</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>字典的删除可以通过如下方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> 字典名</span><br></pre></td></tr></table></figure>
+<h3 id="访问和遍历"><a href="#访问和遍历" class="headerlink" title="访问和遍历"></a>访问和遍历</h3><p>字典元素可以通过如下方式进行访问：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d[key]或者d.get(key)</span><br><span class="line"><span class="comment">#get(key[, default])，如果key存在于字典中则返回对应的值，反正返回default。default未给出则默认返回None。</span></span><br></pre></td></tr></table></figure>
+<p>字典元素可以通过如下方式进行遍历：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式1</span></span><br><span class="line"><span class="keyword">for</span> element <span class="keyword">in</span> d.items():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#方式2</span></span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> d.items():</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h3 id="相关操作方法"><a href="#相关操作方法-1" class="headerlink" title="相关操作方法"></a>相关操作方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d.keys()</td>
+<td>获取所有的key数据</td>
+</tr>
+<tr>
+<td>d.values()</td>
+<td>获取所有的value数据</td>
+</tr>
+<tr>
+<td>d.pop(key, default)</td>
+<td>key存在获取对应的vaule，同时删除可键值对，否则获取默认值default</td>
+</tr>
+<tr>
+<td>d.popitem()</td>
+<td>随机从字典中取出一个键值对，如果为元组类型，同时将该键值对从字典中删除</td>
+</tr>
+<tr>
+<td>d.clear()</td>
+<td>清空字典中所有的键值对</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="字典生成式"><a href="#字典生成式" class="headerlink" title="字典生成式"></a>字典生成式</h3><ul>
+<li><p>使用指定范围的数作为key生成字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#d = &#123;key: value for item in range&#125;</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">d = &#123;item: random.randint(<span class="number">1</span>, <span class="number">100</span>) <span class="keyword">for</span> item <span class="keyword">in</span> range(<span class="number">4</span>)&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用映射函数生成字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;key: value <span class="keyword">for</span> key, value <span class="keyword">in</span> zip(lst1, lst2)&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>Python中的集合与数学中集合的概念一致，使用{}定义，元素之间使用逗号分隔。集合只能存储不可变数据类型（字符串、整数、浮点数、元组），集合中的元素要求是唯一的，并且集合中的key是无序的。集合可分为可变集合set与不可变集合frozenset。</p>
+<h3 id="创建以及删除"><a href="#创建以及删除-3" class="headerlink" title="创建以及删除"></a>创建以及删除</h3><p>集合的创建可以通过如下方式：</p>
+<ul>
+<li><p>直接使用{}创建集合</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=&#123;元素<span class="number">1</span>, 元素<span class="number">2</span>, ..., 元素N&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用内置函数set()创建集合</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=set(可迭代对象)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>集合的删除可以通过如下方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> 集合名</span><br></pre></td></tr></table></figure>
+<h3 id="集合的操作符"><a href="#集合的操作符" class="headerlink" title="集合的操作符"></a>集合的操作符</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">A = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">B = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>&#125;</span><br><span class="line"><span class="comment"># 交集</span></span><br><span class="line">print(A &amp; B) <span class="comment">#&#123;4, 5&#125;</span></span><br><span class="line"><span class="comment"># 并集</span></span><br><span class="line">print(A | B) <span class="comment">#&#123;1, 2, 3, 4, 5, 6, 7, 8&#125;</span></span><br><span class="line"><span class="comment"># 差集</span></span><br><span class="line">print(A - B) <span class="comment">#&#123;1, 2, 3&#125;</span></span><br><span class="line"><span class="comment"># 补集</span></span><br><span class="line">print(A ^ B) <span class="comment">#&#123;1, 2, 3, 6, 7, 8&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="遍历"><a href="#遍历-2" class="headerlink" title="遍历"></a>遍历</h3><ul>
+<li><p>使用遍历循环for</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> s:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用for循环和enumerate()函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, item <span class="keyword">in</span> enumerate(s, <span class="number">10</span>): <span class="comment">#10表示元素的序号，不是索引，可以任意指定</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="相关操作方法"><a href="#相关操作方法-2" class="headerlink" title="相关操作方法"></a>相关操作方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s.add(e)</td>
+<td>如果e不在集合s中，则将e添加到集合s</td>
+</tr>
+<tr>
+<td>s.remove(e)</td>
+<td>如果e在集合中，将其删除；如果不在集合中，程序报错</td>
+</tr>
+<tr>
+<td>s.clear()</td>
+<td>清楚集合中所有元素</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="集合生成式"><a href="#集合生成式" class="headerlink" title="集合生成式"></a>集合生成式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s=&#123;i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>)&#125;</span><br><span class="line">print(s) <span class="comment">#&#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10&#125;</span></span><br><span class="line"><span class="comment">#选择符合条件的元素组成新集合</span></span><br><span class="line">s=&#123;i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>) <span class="keyword">if</span> i%<span class="number">2</span>==<span class="number">0</span>&#125;</span><br><span class="line">print(s) <span class="comment">#&#123;0, 2, 4, 6, 8, 10&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="列表-元组-字典和集合的区别"><a href="#列表、元组、字典和集合的区别" class="headerlink" title="列表、元组、字典和集合的区别"></a>列表、元组、字典和集合的区别</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>序列类型</th>
+<th>是否重复</th>
+<th>是否有序</th>
+<th>定义符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>列表list</td>
+<td>可变序列</td>
+<td>可重复</td>
+<td>有序</td>
+<td>[]</td>
+</tr>
+<tr>
+<td>元组tuple</td>
+<td>不可变序列</td>
+<td>可重复</td>
+<td>有序</td>
+<td>()</td>
+</tr>
+<tr>
+<td>字典dict</td>
+<td>可变序列</td>
+<td>key不可重复<br>value可重复</td>
+<td>无序</td>
+<td>{key:value}</td>
+</tr>
+<tr>
+<td>集合set</td>
+<td>可变序列</td>
+<td>不可重复</td>
+<td>无序</td>
+<td>{}</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Python—字符串处理/" data-toggle="tooltip" data-placement="top" title="Python—字符串处理">&larr; 上一篇</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/algorithm-Python刷题录/" data-toggle="tooltip" data-placement="top" title="Python刷题录">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#列表"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x5217;&#x8868;" class="headerlink" title="&#x5217;&#x8868;"></a>&#x5217;&#x8868;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;" class="headerlink" title="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;"></a>&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;" class="headerlink" title="&#x904D;&#x5386;"></a>&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;" class="headerlink" title="&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;"></a>&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#列表排序"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><a href="#&#x5217;&#x8868;&#x6392;&#x5E8F;" class="headerlink" title="&#x5217;&#x8868;&#x6392;&#x5E8F;"></a>&#x5217;&#x8868;&#x6392;&#x5E8F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#列表生成式"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><a href="#&#x5217;&#x8868;&#x751F;&#x6210;&#x5F0F;" class="headerlink" title="&#x5217;&#x8868;&#x751F;&#x6210;&#x5F0F;"></a>&#x5217;&#x8868;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#元组"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x5143;&#x7EC4;" class="headerlink" title="&#x5143;&#x7EC4;"></a>&#x5143;&#x7EC4;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;-1" class="headerlink" title="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;"></a>&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;-1" class="headerlink" title="&#x904D;&#x5386;"></a>&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#元组生成式"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text"><a href="#&#x5143;&#x7EC4;&#x751F;&#x6210;&#x5F0F;" class="headerlink" title="&#x5143;&#x7EC4;&#x751F;&#x6210;&#x5F0F;"></a>&#x5143;&#x7EC4;&#x751F;&#x6210;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#元组和列表的区别"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text"><a href="#&#x5143;&#x7EC4;&#x548C;&#x5217;&#x8868;&#x7684;&#x533A;&#x522B;" class="headerlink" title="&#x5143;&#x7EC4;&#x548C;&#x5217;&#x8868;&#x7684;&#x533A;&#x522B;"></a>&#x5143;&#x7EC4;&#x548C;&#x5217;&#x8868;&#x7684;&#x533A;&#x522B;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字典"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#&#x5B57;&#x5178;" class="headerlink" title="&#x5B57;&#x5178;"></a>&#x5B57;&#x5178;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><a href="#&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;-2" class="headerlink" title="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;"></a>&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#访问和遍历"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><a href="#&#x8BBF;&#x95EE;&#x548C;&#x904D;&#x5386;" class="headerlink" title="&#x8BBF;&#x95EE;&#x548C;&#x904D;&#x5386;"></a>&#x8BBF;&#x95EE;&#x548C;&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;-1" class="headerlink" title="&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;"></a>&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#字典生成式"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text"><a href="#&#x5B57;&#x5178;&#x751F;&#x6210;&#x5F0F;" class="headerlink" title="&#x5B57;&#x5178;&#x751F;&#x6210;&#x5F0F;"></a>&#x5B57;&#x5178;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;" class="headerlink" title="&#x96C6;&#x5408;"></a>&#x96C6;&#x5408;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text"><a href="#&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;-3" class="headerlink" title="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;"></a>&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#集合的操作符"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x7684;&#x64CD;&#x4F5C;&#x7B26;" class="headerlink" title="&#x96C6;&#x5408;&#x7684;&#x64CD;&#x4F5C;&#x7B26;"></a>&#x96C6;&#x5408;&#x7684;&#x64CD;&#x4F5C;&#x7B26;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;-2" class="headerlink" title="&#x904D;&#x5386;"></a>&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text"><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;-2" class="headerlink" title="&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;"></a>&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#集合生成式"><span class="toc-nav-number">4.5.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x751F;&#x6210;&#x5F0F;" class="headerlink" title="&#x96C6;&#x5408;&#x751F;&#x6210;&#x5F0F;"></a>&#x96C6;&#x5408;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#列表-元组-字典和集合的区别"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#&#x5217;&#x8868;&#x3001;&#x5143;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x548C;&#x96C6;&#x5408;&#x7684;&#x533A;&#x522B;" class="headerlink" title="&#x5217;&#x8868;&#x3001;&#x5143;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x548C;&#x96C6;&#x5408;&#x7684;&#x533A;&#x522B;"></a>&#x5217;&#x8868;&#x3001;&#x5143;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x548C;&#x96C6;&#x5408;&#x7684;&#x533A;&#x522B;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#python" title="python">python</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.tangyincheng.com/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2022 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+					<br>
+                    <a href="http://www.beian.miit.gov.cn/" style="color: gray">浙ICP备2021018896号</a>
+					<br>
+					<!-- <p class="copyright text-muted" style="margin-top: 5px"> -->
+						<img src="../../img/备案图标.png"/>
+						<a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" style="color: gray">null</a>
+					<!-- </p> -->
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>
