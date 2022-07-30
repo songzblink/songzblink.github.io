@@ -155,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -221,17 +221,14 @@
 				
                 <p>为了避免临界区的竞态条件发生，产生资源共享问题，可以使用 synchronized【对象锁】来解决问题。</p>
 <p>它采用互斥的方式让同一时刻至多只有一个线程能持有【对象锁】，其它线程再想获取这个【对象锁】时就会阻塞住。这样就能保证拥有锁的线程可以安全的执行临界区内的代码，不用担心线程上下文切换。</p>
-<h2 id="synchronized">synchronized</h2>
-<h3 id="synchronized的使用">synchronized的使用</h3>
-<p>语法</p>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><h3 id="synchronized的使用"><a href="#synchronized的使用" class="headerlink" title="synchronized的使用"></a>synchronized的使用</h3><p>语法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(对象) &#123;</span><br><span class="line">    <span class="comment">// 临界区</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>用法</p>
 <p>1）加在方法上的作用就是锁住当前对象 this</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>2）加在 static 方法上等同于锁住类对象 xxx.class</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(Test.class) &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="synchronized的原理">synchronized的原理</h3>
-<p>在展开讨论 synchronized 的原理之前，需要先引入<strong>对象头</strong>和<strong>Monitor</strong>两个知识。</p>
+<h3 id="synchronized的原理"><a href="#synchronized的原理" class="headerlink" title="synchronized的原理"></a>synchronized的原理</h3><p>在展开讨论 synchronized 的原理之前，需要先引入<strong>对象头</strong>和<strong>Monitor</strong>两个知识。</p>
 <p><strong>对象头</strong></p>
 <p><img src="https://pic.tyzhang.top/images/2021/02/28/image.png" alt="image.png"></p>
 <p>其中 Mark Word 的结构为</p>
@@ -264,22 +261,17 @@
 <li>不加  synchronized 的对象不会关联监视器，不遵从以上原则</li>
 </ul>
 </blockquote>
-<h2 id="谈谈锁synchronized优化">谈谈锁——synchronized优化</h2>
-<h3 id="流程">流程</h3>
-<p><img src="https://pic.tyzhang.top/images/2021/02/28/imagec95e7ded9525212e.png" alt="imagec95e7ded9525212e.png"></p>
+<h2 id="谈谈锁synchronized优化"><a href="#谈谈锁——synchronized优化" class="headerlink" title="谈谈锁——synchronized优化"></a>谈谈锁——synchronized优化</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="https://pic.tyzhang.top/images/2021/02/28/imagec95e7ded9525212e.png" alt="imagec95e7ded9525212e.png"></p>
 <p>一个对象创建时：</p>
 <ul>
-<li>
-<p>如果开启了偏向锁（默认开启），那么对象创建后，Mark Word 值为 <code>0x05</code> 即最后 3 位为 <code>101</code>，这时它的 thread、epoch、age 都为 0</p>
+<li><p>如果开启了偏向锁（默认开启），那么对象创建后，Mark Word 值为 <code>0x05</code> 即最后 3 位为 <code>101</code>，这时它的 thread、epoch、age 都为 0</p>
 <blockquote>
 <p>偏向锁是默认延迟的，不会在程序启动时立即生效，如果想避免延迟，可以添加 VM 参数来禁用延迟 。</p>
 </blockquote>
 <ul>
-<li>
-<p>偏向锁的工作原理：只有第一次使用 CAS 才将线程 ID 设置到对象的 Mark Word 头，之后发现这个线程 ID 是自己的就表示没有竞争，不用重新 CAS</p>
+<li><p>偏向锁的工作原理：只有第一次使用 CAS 才将线程 ID 设置到对象的 Mark Word 头，之后发现这个线程 ID 是自己的就表示没有竞争，不用重新 CAS</p>
 </li>
-<li>
-<p>偏向锁的失效</p>
+<li><p>偏向锁的失效</p>
 <blockquote>
 <p>失效后的再加锁加的是轻量级锁</p>
 </blockquote>
@@ -289,8 +281,7 @@
 <li>调用 wait/notify</li>
 </ul>
 </li>
-<li>
-<p>没有锁竞争的前提下</p>
+<li><p>没有锁竞争的前提下</p>
 <ul>
 <li>撤销偏向锁阈值超过 20 次：偏向锁批量重偏向</li>
 <li>撤销偏向锁阈值超过 40 次：偏向锁批量撤销</li>
@@ -298,13 +289,11 @@
 </li>
 </ul>
 </li>
-<li>
-<p>如果没有开启偏向锁，那么对象创建后，Mark Word 值为 <code>0x01</code> 即最后 3 位为 <code>001</code>，这时它的 hashcode、age 都为 0，第一次用到 hashcode 时才会赋值</p>
+<li><p>如果没有开启偏向锁，那么对象创建后，Mark Word 值为 <code>0x01</code> 即最后 3 位为 <code>001</code>，这时它的 hashcode、age 都为 0，第一次用到 hashcode 时才会赋值</p>
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">偏向锁  ----失效后再加锁----&gt; 轻量级锁 ----锁膨胀----&gt; 重量级锁</span><br><span class="line">|- 偏向锁的失效			   |- 锁重入				|- 自旋</span><br><span class="line">|- 偏向锁的批量重偏向		 |- 锁膨胀</span><br><span class="line">|- 偏向锁的批量撤销</span><br></pre></td></tr></table></figure>
-<h3 id="轻量级锁">轻量级锁</h3>
-<p>轻量级锁的使用场景：如果一个对象虽然有多线程访问，但多线程访问的时间是错开的（也就是<strong>没有竞争</strong>），那么可以使用轻量级锁来优化</p>
+<h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><p>轻量级锁的使用场景：如果一个对象虽然有多线程访问，但多线程访问的时间是错开的（也就是<strong>没有竞争</strong>），那么可以使用轻量级锁来优化</p>
 <p>轻量级锁对使用者是透明的，即语法仍然是 synchronized</p>
 <p>假设有两个方法同步块，利用同一个对象加锁</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">        <span class="comment">// 同步块 A</span></span><br><span class="line">        method2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">        <span class="comment">// 同步块 B</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -317,13 +306,11 @@
 <li>别的线程来加锁，发现已经存在轻量级锁了，就会转成重量级锁（<strong>锁膨胀</strong>）</li>
 </ol>
 </blockquote>
-<h3 id="锁膨胀">锁膨胀</h3>
-<p>如果在尝试加轻量级锁的过程中，CAS 操作无法成功，这时一种情况就是有其它线程为此对象加上了轻量级锁（有竞争），这时需要进行锁膨胀，将轻量级锁变为重量级锁。</p>
+<h3 id="锁膨胀"><a href="#锁膨胀" class="headerlink" title="锁膨胀"></a>锁膨胀</h3><p>如果在尝试加轻量级锁的过程中，CAS 操作无法成功，这时一种情况就是有其它线程为此对象加上了轻量级锁（有竞争），这时需要进行锁膨胀，将轻量级锁变为重量级锁。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">        <span class="comment">// 同步块</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="https://pic.tyzhang.top/images/2021/02/28/imagea4f250948efe762b.png" alt="imagea4f250948efe762b.png"></p>
 <p><img src="https://pic.tyzhang.top/images/2021/02/28/image7372f553d60664b0.png" alt="image7372f553d60664b0.png"></p>
-<h3 id="自旋">自旋</h3>
-<blockquote>
+<h3 id="自旋"><a href="#自旋" class="headerlink" title="自旋"></a>自旋</h3><blockquote>
 <p>自旋好像是轻量级锁自旋噢，因为 CAS 失败后可以尝试自旋，直到成功，或者有设置某种条件，超过多少次自旋就竞争失败啥的。</p>
 <p>重量级锁失败就阻塞了啊。</p>
 </blockquote>
@@ -335,6 +322,7 @@
 <li>（自旋类似于重复尝试）</li>
 </ul>
 <p>自旋重试成功的情况</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -401,7 +389,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>自旋重试失败的情况</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -468,8 +458,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="偏向锁">偏向锁</h3>
-<p>轻量级锁在没有竞争时（只有自己这个线程），每次重入仍然需要执行 CAS 操作。</p>
+</div>
+<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>轻量级锁在没有竞争时（只有自己这个线程），每次重入仍然需要执行 CAS 操作。</p>
 <p>Java 6 中引入了偏向锁来做进一步优化：只有第一次使用 CAS 才将线程 ID 设置到对象的 Mark Word 头，之后发现这个线程 ID 是自己的就表示没有竞争，不用重新 CAS。以后只要不发生竞争，这个对象就归该线程所有。</p>
 <p>例如</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">        <span class="comment">// 同步块A</span></span><br><span class="line">        method2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">        <span class="comment">// 同步块B</span></span><br><span class="line">        method3();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">        <span class="comment">// 同步块C</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -480,32 +470,22 @@
 <li>偏向锁是默认延迟的，不会在程序启动时立即生效，如果想避免延迟，可以添加 VM 参数来禁用延迟</li>
 <li>如果没有开启偏向锁，那么对象创建后，Mark Word 值为 <code>0x01</code> 即最后 3 位为 <code>001</code>，这时它的 hashcode、age 都为 0，第一次用到 hashcode 时才会赋值</li>
 </ul>
-<h3 id="偏向锁的失效">偏向锁的失效</h3>
-<h4 id="1撤销-调用对象-hashcode">1）撤销-调用对象 hashCode</h4>
-<p>偏向锁对象的 MarkWord 中存储的是线程 ID，如果调用了锁对象的 hashCode 会导致偏向锁撤销</p>
+<h3 id="偏向锁的失效"><a href="#偏向锁的失效" class="headerlink" title="偏向锁的失效"></a>偏向锁的失效</h3><h4 id="1撤销-调用对象-hashcode"><a href="#1）撤销-调用对象-hashCode" class="headerlink" title="1）撤销-调用对象 hashCode"></a>1）撤销-调用对象 hashCode</h4><p>偏向锁对象的 MarkWord 中存储的是线程 ID，如果调用了锁对象的 hashCode 会导致偏向锁撤销</p>
 <ul>
 <li>轻量级锁会在锁记录中记录 hashCode（存放在栈帧的锁记录中）</li>
 <li>重量级锁会在 Monitor 中记录 hashCode</li>
 </ul>
-<h4 id="2撤销-其它线程使用对象">2）撤销-其它线程使用对象</h4>
-<p>当有其它线程使用偏向锁对象时，会将偏向锁升级为轻量级锁</p>
-<h4 id="3撤销-调用-waitnotify">3）撤销-调用 wait/notify</h4>
-<h3 id="偏向锁批量重偏向">偏向锁批量重偏向</h3>
-<p>如果对象虽然被多个线程访问，但<strong>没有竞争</strong>，这时偏向了线程 t1 的对象仍然有机会重新偏向线程 t2，重偏向会重置对象的 Thread ID。</p>
+<h4 id="2撤销-其它线程使用对象"><a href="#2）撤销-其它线程使用对象" class="headerlink" title="2）撤销-其它线程使用对象"></a>2）撤销-其它线程使用对象</h4><p>当有其它线程使用偏向锁对象时，会将偏向锁升级为轻量级锁</p>
+<h4 id="3撤销-调用-waitnotify"><a href="#3）撤销-调用-wait-notify" class="headerlink" title="3）撤销-调用 wait/notify"></a>3）撤销-调用 wait/notify</h4><h3 id="偏向锁批量重偏向"><a href="#偏向锁批量重偏向" class="headerlink" title="偏向锁批量重偏向"></a>偏向锁批量重偏向</h3><p>如果对象虽然被多个线程访问，但<strong>没有竞争</strong>，这时偏向了线程 t1 的对象仍然有机会重新偏向线程 t2，重偏向会重置对象的 Thread ID。</p>
 <p>当撤销偏向锁阈值超过 20 次后，jvm 会在给这些对象加锁时重新偏向至加锁线程。</p>
-<h3 id="偏向锁批量撤销">偏向锁批量撤销</h3>
-<p>当撤销偏向锁阈值超过 40 次后，jvm 会将整个类的所有对象都变为不可偏向的，新建的对象也是不可偏向的。</p>
-<h3 id="锁消除">锁消除</h3>
-<p>如下代码</p>
+<h3 id="偏向锁批量撤销"><a href="#偏向锁批量撤销" class="headerlink" title="偏向锁批量撤销"></a>偏向锁批量撤销</h3><p>当撤销偏向锁阈值超过 40 次后，jvm 会将整个类的所有对象都变为不可偏向的，新建的对象也是不可偏向的。</p>
+<h3 id="锁消除"><a href="#锁消除" class="headerlink" title="锁消除"></a>锁消除</h3><p>如下代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">b</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">    <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">        x++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>JIT 即时编译器会对 Java 字节码进一步的优化，上述代码中，局部变量 obj 不会逃离方法，不可能被共享，所以对加锁没有任何意义。于是 JIT 编译器优化，将锁去掉了。</p>
-<h3 id="其他优化">其他优化</h3>
-<ol>
-<li>
-<p>减少上锁时间，同步代码块尽量短</p>
+<h3 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h3><ol>
+<li><p>减少上锁时间，同步代码块尽量短</p>
 </li>
-<li>
-<p>减少锁的粒度</p>
+<li><p>减少锁的粒度</p>
 <p>将一个锁拆分为多个锁提高并发度，例如</p>
 <ul>
 <li>ConcurrentHashMap</li>
@@ -513,17 +493,14 @@
 <li>LinkedBlockingQueue 入队和出队使用不同的锁，相对于 LinkedBlockingQueueArray 只有一个锁效率要高。</li>
 </ul>
 </li>
-<li>
-<p>锁粗化</p>
+<li><p>锁粗化</p>
 <p>多次循环进入同步块不如同步块内多次循环 另外 JVM 可能会做如下优化，把多次 append 的加锁操作粗化为一次(因为都是对同一个对象加锁，没必要重入多次)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new StringBuffer().append(&quot;a&quot;).append(&quot;b&quot;).append(&quot;c&quot;);</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>锁消除</p>
+<li><p>锁消除</p>
 <p>JVM 会进行代码的逃逸分析，例如某个加锁对象是方法内局部变量，不会被其它线程所访问到，这时候就会被即时编译器忽略掉所有同步操作。</p>
 </li>
-<li>
-<p>读写分离</p>
+<li><p>读写分离</p>
 <ul>
 <li>CopyOnWriteArrayList</li>
 <li>ConyOnWriteSe</li>
@@ -578,7 +555,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#synchronized"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">synchronized</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#synchronized的使用"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">synchronized&#x7684;&#x4F7F;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#synchronized的原理"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">synchronized&#x7684;&#x539F;&#x7406;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#谈谈锁synchronized优化"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x8C08;&#x8C08;&#x9501;&#x2014;&#x2014;synchronized&#x4F18;&#x5316;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#流程"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x6D41;&#x7A0B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#轻量级锁"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x8F7B;&#x91CF;&#x7EA7;&#x9501;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#锁膨胀"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x9501;&#x81A8;&#x80C0;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#自旋"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">&#x81EA;&#x65CB;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#偏向锁"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">&#x504F;&#x5411;&#x9501;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#偏向锁的失效"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">&#x504F;&#x5411;&#x9501;&#x7684;&#x5931;&#x6548;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1撤销-调用对象-hashcode"><span class="toc-nav-number">2.6.1.</span> <span class="toc-nav-text">1&#xFF09;&#x64A4;&#x9500;-&#x8C03;&#x7528;&#x5BF9;&#x8C61; hashCode</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2撤销-其它线程使用对象"><span class="toc-nav-number">2.6.2.</span> <span class="toc-nav-text">2&#xFF09;&#x64A4;&#x9500;-&#x5176;&#x5B83;&#x7EBF;&#x7A0B;&#x4F7F;&#x7528;&#x5BF9;&#x8C61;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3撤销-调用-waitnotify"><span class="toc-nav-number">2.6.3.</span> <span class="toc-nav-text">3&#xFF09;&#x64A4;&#x9500;-&#x8C03;&#x7528; wait/notify</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#偏向锁批量重偏向"><span class="toc-nav-number">2.7.</span> <span class="toc-nav-text">&#x504F;&#x5411;&#x9501;&#x6279;&#x91CF;&#x91CD;&#x504F;&#x5411;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#偏向锁批量撤销"><span class="toc-nav-number">2.8.</span> <span class="toc-nav-text">&#x504F;&#x5411;&#x9501;&#x6279;&#x91CF;&#x64A4;&#x9500;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#锁消除"><span class="toc-nav-number">2.9.</span> <span class="toc-nav-text">&#x9501;&#x6D88;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#其他优化"><span class="toc-nav-number">2.10.</span> <span class="toc-nav-text">&#x5176;&#x4ED6;&#x4F18;&#x5316;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#synchronized"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#synchronized的使用"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#synchronized&#x7684;&#x4F7F;&#x7528;" class="headerlink" title="synchronized&#x7684;&#x4F7F;&#x7528;"></a>synchronized&#x7684;&#x4F7F;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#synchronized的原理"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#synchronized&#x7684;&#x539F;&#x7406;" class="headerlink" title="synchronized&#x7684;&#x539F;&#x7406;"></a>synchronized&#x7684;&#x539F;&#x7406;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#谈谈锁synchronized优化"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x8C08;&#x8C08;&#x9501;&#x2014;&#x2014;synchronized&#x4F18;&#x5316;" class="headerlink" title="&#x8C08;&#x8C08;&#x9501;&#x2014;&#x2014;synchronized&#x4F18;&#x5316;"></a>&#x8C08;&#x8C08;&#x9501;&#x2014;&#x2014;synchronized&#x4F18;&#x5316;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#流程"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#&#x6D41;&#x7A0B;" class="headerlink" title="&#x6D41;&#x7A0B;"></a>&#x6D41;&#x7A0B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#轻量级锁"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#&#x8F7B;&#x91CF;&#x7EA7;&#x9501;" class="headerlink" title="&#x8F7B;&#x91CF;&#x7EA7;&#x9501;"></a>&#x8F7B;&#x91CF;&#x7EA7;&#x9501;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#锁膨胀"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text"><a href="#&#x9501;&#x81A8;&#x80C0;" class="headerlink" title="&#x9501;&#x81A8;&#x80C0;"></a>&#x9501;&#x81A8;&#x80C0;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#自旋"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text"><a href="#&#x81EA;&#x65CB;" class="headerlink" title="&#x81EA;&#x65CB;"></a>&#x81EA;&#x65CB;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#偏向锁"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text"><a href="#&#x504F;&#x5411;&#x9501;" class="headerlink" title="&#x504F;&#x5411;&#x9501;"></a>&#x504F;&#x5411;&#x9501;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#偏向锁的失效"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text"><a href="#&#x504F;&#x5411;&#x9501;&#x7684;&#x5931;&#x6548;" class="headerlink" title="&#x504F;&#x5411;&#x9501;&#x7684;&#x5931;&#x6548;"></a>&#x504F;&#x5411;&#x9501;&#x7684;&#x5931;&#x6548;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1撤销-调用对象-hashcode"><span class="toc-nav-number">2.6.1.</span> <span class="toc-nav-text"><a href="#1&#xFF09;&#x64A4;&#x9500;-&#x8C03;&#x7528;&#x5BF9;&#x8C61;-hashCode" class="headerlink" title="1&#xFF09;&#x64A4;&#x9500;-&#x8C03;&#x7528;&#x5BF9;&#x8C61; hashCode"></a>1&#xFF09;&#x64A4;&#x9500;-&#x8C03;&#x7528;&#x5BF9;&#x8C61; hashCode</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2撤销-其它线程使用对象"><span class="toc-nav-number">2.6.2.</span> <span class="toc-nav-text"><a href="#2&#xFF09;&#x64A4;&#x9500;-&#x5176;&#x5B83;&#x7EBF;&#x7A0B;&#x4F7F;&#x7528;&#x5BF9;&#x8C61;" class="headerlink" title="2&#xFF09;&#x64A4;&#x9500;-&#x5176;&#x5B83;&#x7EBF;&#x7A0B;&#x4F7F;&#x7528;&#x5BF9;&#x8C61;"></a>2&#xFF09;&#x64A4;&#x9500;-&#x5176;&#x5B83;&#x7EBF;&#x7A0B;&#x4F7F;&#x7528;&#x5BF9;&#x8C61;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3撤销-调用-waitnotify"><span class="toc-nav-number">2.6.3.</span> <span class="toc-nav-text"><a href="#3&#xFF09;&#x64A4;&#x9500;-&#x8C03;&#x7528;-wait-notify" class="headerlink" title="3&#xFF09;&#x64A4;&#x9500;-&#x8C03;&#x7528; wait/notify"></a>3&#xFF09;&#x64A4;&#x9500;-&#x8C03;&#x7528; wait/notify</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#偏向锁批量重偏向"><span class="toc-nav-number">2.7.</span> <span class="toc-nav-text"><a href="#&#x504F;&#x5411;&#x9501;&#x6279;&#x91CF;&#x91CD;&#x504F;&#x5411;" class="headerlink" title="&#x504F;&#x5411;&#x9501;&#x6279;&#x91CF;&#x91CD;&#x504F;&#x5411;"></a>&#x504F;&#x5411;&#x9501;&#x6279;&#x91CF;&#x91CD;&#x504F;&#x5411;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#偏向锁批量撤销"><span class="toc-nav-number">2.8.</span> <span class="toc-nav-text"><a href="#&#x504F;&#x5411;&#x9501;&#x6279;&#x91CF;&#x64A4;&#x9500;" class="headerlink" title="&#x504F;&#x5411;&#x9501;&#x6279;&#x91CF;&#x64A4;&#x9500;"></a>&#x504F;&#x5411;&#x9501;&#x6279;&#x91CF;&#x64A4;&#x9500;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#锁消除"><span class="toc-nav-number">2.9.</span> <span class="toc-nav-text"><a href="#&#x9501;&#x6D88;&#x9664;" class="headerlink" title="&#x9501;&#x6D88;&#x9664;"></a>&#x9501;&#x6D88;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#其他优化"><span class="toc-nav-number">2.10.</span> <span class="toc-nav-text"><a href="#&#x5176;&#x4ED6;&#x4F18;&#x5316;" class="headerlink" title="&#x5176;&#x4ED6;&#x4F18;&#x5316;"></a>&#x5176;&#x4ED6;&#x4F18;&#x5316;</span></a></li></ol></li></ol>
         
         </div>
       </aside>

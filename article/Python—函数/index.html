@@ -155,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -219,41 +219,34 @@
                 post-container">
 
 				
-                <h2 id="函数的定义">函数的定义</h2>
-<p>函数将一段实现功能的完整代码，用函数名进行封装，通过函数名对函数进行调用，达到一次编写，多次调用的目的。可以实现代码的重用性。</p>
+                <h2 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h2><p>函数将一段实现功能的完整代码，用函数名进行封装，通过函数名对函数进行调用，达到一次编写，多次调用的目的。可以实现代码的重用性。</p>
 <p>Python中用def关键字定义函数：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> 函数名称<span class="params">(参数列表)</span>:</span></span><br><span class="line">    函数体</span><br><span class="line">    [<span class="keyword">return</span> 返回值列表]</span><br></pre></td></tr></table></figure>
-<h2 id="函数的参数">函数的参数</h2>
-<ul>
+<h2 id="函数的参数"><a href="#函数的参数" class="headerlink" title="函数的参数"></a>函数的参数</h2><ul>
 <li>形式参数：函数定义处的参数</li>
 <li>实际参数：函数调用处的参数</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(num)</span>:</span> <span class="comment">#num是形参</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">number = <span class="number">10</span></span><br><span class="line">func(number) <span class="comment">#number是实参</span></span><br></pre></td></tr></table></figure>
 <p><strong>参数的传递</strong>有三种方式，分别是位置参数、关键字参数和默认值参数</p>
 <ul>
-<li>
-<p>位置参数：调用时，参数的个数和顺序必须与定义的参数个数和顺序相同</p>
+<li><p>位置参数：调用时，参数的个数和顺序必须与定义的参数个数和顺序相同</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(name, age)</span>:</span></span><br><span class="line">    print(<span class="string">'name:&#123;0&#125;, age:&#123;1&#125;'</span>.format(name, age))</span><br><span class="line">    </span><br><span class="line">func(<span class="string">'Tom'</span>, <span class="number">22</span>)</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>关键字参数：调用时，用“形参名称=值”的方式进行传参，传递顺序可以与定义时参数的顺序不同</p>
+<li><p>关键字参数：调用时，用“形参名称=值”的方式进行传参，传递顺序可以与定义时参数的顺序不同</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">func(name=<span class="string">'Tom'</span>, age=<span class="number">22</span>)</span><br><span class="line">func(name=<span class="string">'Tom'</span>, <span class="number">22</span>) <span class="comment">#位置参数在关键字参数之后会报错</span></span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>默认值参数：在函数定义的时候，直接对形参进行赋值，若调用时该参数不传值，将使用默认值</p>
+<li><p>默认值参数：在函数定义的时候，直接对形参进行赋值，若调用时该参数不传值，将使用默认值</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(name=<span class="string">'Tom'</span>, age=<span class="number">22</span>)</span>:</span></span><br><span class="line">    print(<span class="string">'name:&#123;0&#125;, age:&#123;1&#125;'</span>.format(name, age))</span><br><span class="line"></span><br><span class="line">func() <span class="comment">#name、age都使用默认值</span></span><br><span class="line">func(<span class="string">'Daming'</span>) <span class="comment">#age使用默认值</span></span><br><span class="line">func(<span class="string">'Daming'</span>, <span class="number">23</span>) <span class="comment">#使用位置传参</span></span><br><span class="line">func(age=<span class="number">23</span>) <span class="comment">#使用关键字传参</span></span><br></pre></td></tr></table></figure>
 <p>函数定义时，同时存在位置参数和默认值参数时，默认值参数放后</p>
 </li>
 </ul>
 <p>有一类参数是可变参数：</p>
 <ul>
-<li>
-<p>个数可变的位置参数：函数调用时可接受任意个数的实际参数，并放到一个元组中。</p>
+<li><p>个数可变的位置参数：函数调用时可接受任意个数的实际参数，并放到一个元组中。</p>
 <p>如果调用时，实参为列表，在实参前加一个*，会将列表进行解包，如例子3所示。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(*para)</span>:</span></span><br><span class="line">    print(type(para))</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> para:</span><br><span class="line">        print(item)</span><br><span class="line">        </span><br><span class="line">func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">&lt;class 'tuple'&gt;</span></span><br><span class="line"><span class="string">1</span></span><br><span class="line"><span class="string">2</span></span><br><span class="line"><span class="string">3</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">func([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">&lt;class 'tuple'&gt;</span></span><br><span class="line"><span class="string">[1, 2, 3]</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#调用时参数前加一个*，会将列表进行解包</span></span><br><span class="line">func(*[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">&lt;class 'tuple'&gt;</span></span><br><span class="line"><span class="string">1</span></span><br><span class="line"><span class="string">2</span></span><br><span class="line"><span class="string">3</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>个数可变的关键字参数：函数调用时可接受任意个数“参数=值”形式的参数，并放到一个字典中。</p>
+<li><p>个数可变的关键字参数：函数调用时可接受任意个数“参数=值”形式的参数，并放到一个字典中。</p>
 <p>如果想要直接传入一个字典，需要在字典类型的实参前加**，如例子3所示。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(**para)</span>:</span></span><br><span class="line">    print(type(para))</span><br><span class="line">    <span class="keyword">for</span> key, value <span class="keyword">in</span> para.items():</span><br><span class="line">        print(key, <span class="string">'---&gt;'</span>, value)</span><br><span class="line"></span><br><span class="line">func(name=<span class="string">'Tom'</span>, age=<span class="number">22</span>, score=<span class="number">99</span>)</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">&lt;class 'dict'&gt;</span></span><br><span class="line"><span class="string">name ---&gt; Tom</span></span><br><span class="line"><span class="string">age ---&gt; 22</span></span><br><span class="line"><span class="string">score ---&gt; 99</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line">d = &#123;<span class="string">'name'</span>: <span class="string">'Tom'</span>, <span class="string">'age'</span>: <span class="number">22</span>, <span class="string">'score'</span>: <span class="number">99</span>&#125;</span><br><span class="line"><span class="comment"># func(d)  # TypeError: func() takes 0 positional arguments but 1 was given</span></span><br><span class="line">func(**d)</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">&lt;class 'dict'&gt;</span></span><br><span class="line"><span class="string">name ---&gt; Tom</span></span><br><span class="line"><span class="string">age ---&gt; 22</span></span><br><span class="line"><span class="string">score ---&gt; 99</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure></li>
 </ul>
@@ -305,7 +298,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数的定义"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x51FD;&#x6570;&#x7684;&#x5B9A;&#x4E49;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数的参数"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数的定义"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x51FD;&#x6570;&#x7684;&#x5B9A;&#x4E49;" class="headerlink" title="&#x51FD;&#x6570;&#x7684;&#x5B9A;&#x4E49;"></a>&#x51FD;&#x6570;&#x7684;&#x5B9A;&#x4E49;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数的参数"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;" class="headerlink" title="&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;"></a>&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;</span></a></li></ol>
         
         </div>
       </aside>

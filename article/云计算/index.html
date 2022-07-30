@@ -155,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
@@ -219,14 +219,12 @@
                 post-container">
 
 				
-                <h2 id="虚拟化">虚拟化</h2>
-<p>随着计算机硬件技术的发展，物理资源的容量越来越大而价格越来越低，在既有架构的基础下，物理资源会不可避免地产生闲置和浪费。为了充分利用物理资源，提高使用效率，虚拟化技术应运而生。</p>
+                <h2 id="虚拟化"><a href="#虚拟化" class="headerlink" title="虚拟化"></a>虚拟化</h2><p>随着计算机硬件技术的发展，物理资源的容量越来越大而价格越来越低，在既有架构的基础下，物理资源会不可避免地产生闲置和浪费。为了充分利用物理资源，提高使用效率，虚拟化技术应运而生。</p>
 <p>虚拟化技术通过引入虚拟化层，对上提供虚拟的系统资源，对下管理真实的物理资源。</p>
 <p><img src="https://images2017.cnblogs.com/blog/431521/201711/431521-20171118211251093-803195240.png" alt="虚拟化架构示意图"></p>
 <p>VMM（Virtual Machine Monitor），也叫Hypervisor，就是虚拟化层的具体体现。VMM运行的环境是真实的物理平台，称之为Host（宿主机），而模拟出来的平台通常称为Guest（客户机）。</p>
 <p>虚拟化技术有多种实现方式，比如软件虚拟化和硬件虚拟化。</p>
-<h2 id="软件虚拟化和硬件虚拟化">软件虚拟化和硬件虚拟化</h2>
-<p>虚拟化的本质可以归纳为<strong>截获</strong>计算单元对物理资源的直接访问，并将其<strong>重定向</strong>到虚拟资源池中，模拟。根据虚拟化层是通过纯软件的方法，还是利用物理资源提供的机制来实现这种“截获并重定向”，可以把虚拟化分为软件虚拟化和硬件虚拟化。</p>
+<h2 id="软件虚拟化和硬件虚拟化"><a href="#软件虚拟化和硬件虚拟化" class="headerlink" title="软件虚拟化和硬件虚拟化"></a>软件虚拟化和硬件虚拟化</h2><p>虚拟化的本质可以归纳为<strong>截获</strong>计算单元对物理资源的直接访问，并将其<strong>重定向</strong>到虚拟资源池中，模拟。根据虚拟化层是通过纯软件的方法，还是利用物理资源提供的机制来实现这种“截获并重定向”，可以把虚拟化分为软件虚拟化和硬件虚拟化。</p>
 <p><strong>软件虚拟化</strong></p>
 <p>软件虚拟化即用纯软件的方法实现对物理资源访问的<strong>截获</strong>（intercept）和<strong>模拟</strong>（virtualize）。</p>
 <p>Qemu是常见的软件虚拟化模拟器，它可以通过纯软件来模拟任何硬件。Qemu采用二进制指令翻译技术，Guest的指令会经过中间翻译，称为Host指定架构的代码，例如x86体系就翻译为其支持的代码形式。</p>
@@ -287,7 +285,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟化"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x865A;&#x62DF;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#软件虚拟化和硬件虚拟化"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x8F6F;&#x4EF6;&#x865A;&#x62DF;&#x5316;&#x548C;&#x786C;&#x4EF6;&#x865A;&#x62DF;&#x5316;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#虚拟化"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x865A;&#x62DF;&#x5316;" class="headerlink" title="&#x865A;&#x62DF;&#x5316;"></a>&#x865A;&#x62DF;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#软件虚拟化和硬件虚拟化"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x8F6F;&#x4EF6;&#x865A;&#x62DF;&#x5316;&#x548C;&#x786C;&#x4EF6;&#x865A;&#x62DF;&#x5316;" class="headerlink" title="&#x8F6F;&#x4EF6;&#x865A;&#x62DF;&#x5316;&#x548C;&#x786C;&#x4EF6;&#x865A;&#x62DF;&#x5316;"></a>&#x8F6F;&#x4EF6;&#x865A;&#x62DF;&#x5316;&#x548C;&#x786C;&#x4EF6;&#x865A;&#x62DF;&#x5316;</span></a></li></ol>
         
         </div>
       </aside>
