@@ -155,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -219,25 +219,33 @@
                 post-container">
 
 				
-                <h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>列表由一系列按特定顺序排列的元素组成，元素可以是任意的数据类型。使用[]定义列表，元素之间使用逗号分隔。列表是Python中内置的可变序列。</p>
+                <h2 id="列表">列表</h2>
+<p>列表由一系列按特定顺序排列的元素组成，元素可以是任意的数据类型。使用[]定义列表，元素之间使用逗号分隔。列表是Python中内置的可变序列。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  <span class="number">0</span> ,  <span class="number">1</span> ,  <span class="number">2</span>  ,... ,  N<span class="number">-2</span> , N<span class="number">-1</span> <span class="comment">#正向递增</span></span><br><span class="line">元素<span class="number">1</span>,元素<span class="number">2</span>,元素<span class="number">3</span>,... ,元素n<span class="number">-1</span>,元素n</span><br><span class="line"> -N ,-N+<span class="number">1</span>,-N+<span class="number">2</span>, ... ,  <span class="number">-2</span>  , <span class="number">-1</span>  <span class="comment">#反向递减</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建以及删除"><a href="#创建以及删除" class="headerlink" title="创建以及删除"></a>创建以及删除</h3><p>列表的创建可以通过如下方式：</p>
+<h3 id="创建以及删除">创建以及删除</h3>
+<p>列表的创建可以通过如下方式：</p>
 <ul>
-<li><p>直接使用[]创建列表</p>
+<li>
+<p>直接使用[]创建列表</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">列表名 = [element1, element2, ..., elementN]</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>使用内置方法list()创建列表</p>
+<li>
+<p>使用内置方法list()创建列表</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#列表名 = list(序列)</span></span><br><span class="line">lst1 = list(<span class="string">'helloworld'</span>)</span><br><span class="line">lst2 = list(range(<span class="number">1</span>, <span class="number">11</span>)) <span class="comment">#[1, 2, ..., 10]</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>列表的删除可以通过如下方式：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> 列表名</span><br></pre></td></tr></table></figure>
-<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><ul>
-<li><p>使用for遍历循环</p>
+<h3 id="遍历">遍历</h3>
+<ul>
+<li>
+<p>使用for遍历循环</p>
 </li>
-<li><p>遍历循环for与range()函数和len()函数组合遍历</p>
+<li>
+<p>遍历循环for与range()函数和len()函数组合遍历</p>
 </li>
-<li><p>遍历循环for与enumerate()函数组合遍历元素和索引</p>
+<li>
+<p>遍历循环for与enumerate()函数组合遍历元素和索引</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, item <span class="keyword">in</span> enumerate():</span><br><span class="line">    print(index, item)</span><br></pre></td></tr></table></figure>
 <ul>
 <li>index：元素的索引</li>
@@ -245,7 +253,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="相关操作方法"><a href="#相关操作方法" class="headerlink" title="相关操作方法"></a>相关操作方法</h3><div class="table-container">
+<h3 id="相关操作方法">相关操作方法</h3>
 <table>
 <thead>
 <tr>
@@ -284,9 +292,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="列表排序"><a href="#列表排序" class="headerlink" title="列表排序"></a>列表排序</h3><ul>
-<li><p>列表对象的sort()方法</p>
+<h3 id="列表排序">列表排序</h3>
+<ul>
+<li>
+<p>列表对象的sort()方法</p>
 <p>对原列表中的元素进行排序，排序之后原列表中元素的顺序将发生改变</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lst.sort(key=<span class="keyword">None</span>, reverse=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
 <ul>
@@ -295,36 +304,46 @@
 </ul>
 <p>sort()方法是稳定排序。</p>
 </li>
-<li><p>内置的sorted()函数</p>
+<li>
+<p>内置的sorted()函数</p>
 <p>使用sorted()函数排序后，原列表元素顺序不变，排序后产生一个新的列表对象</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sorted(iterable, key=<span class="keyword">None</span>, reverse=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>更多排序相关内容，参考官方给出的文档：<a href="https://docs.python.org/3.10/howto/sorting.html#sortinghowto" target="_blank" rel="noopener">Sorting HOW TO — Python 3.10.5 documentation</a></p>
-<h3 id="列表生成式"><a href="#列表生成式" class="headerlink" title="列表生成式"></a>列表生成式</h3><ul>
-<li><p>生成指定范围的数值列表</p>
+<h3 id="列表生成式">列表生成式</h3>
+<ul>
+<li>
+<p>生成指定范围的数值列表</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lst = [expression <span class="keyword">for</span> item <span class="keyword">in</span> range]</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>从列表中选择符合条件的元素组成新列表</p>
+<li>
+<p>从列表中选择符合条件的元素组成新列表</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lst = [expression <span class="keyword">for</span> item <span class="keyword">in</span> 列表 <span class="keyword">if</span> condition]</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><p>元组由一系列按特定顺序排列的元素组成，元素可以是任意的数据类型。使用()定义元组，元素之间使用逗号分隔。元组是Python中的不可变序列。</p>
-<h3 id="创建以及删除"><a href="#创建以及删除-1" class="headerlink" title="创建以及删除"></a>创建以及删除</h3><p>列表的创建可以通过如下方式：</p>
+<h2 id="元组">元组</h2>
+<p>元组由一系列按特定顺序排列的元素组成，元素可以是任意的数据类型。使用()定义元组，元素之间使用逗号分隔。元组是Python中的不可变序列。</p>
+<h3 id="创建以及删除">创建以及删除</h3>
+<p>列表的创建可以通过如下方式：</p>
 <ul>
-<li><p>直接使用()创建元组</p>
+<li>
+<p>直接使用()创建元组</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t = (元素<span class="number">1</span>, 元素<span class="number">2</span>, ...)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>使用内置函数tuple()创建元组</p>
+<li>
+<p>使用内置函数tuple()创建元组</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t  = tuple(<span class="string">'helloword'</span>)</span><br><span class="line">t2 = tuple([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">t3 = tuple(range(<span class="number">1</span>, <span class="number">11</span>))</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>列表的删除可以通过如下方式：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> 元组名</span><br></pre></td></tr></table></figure>
-<h3 id="遍历"><a href="#遍历-1" class="headerlink" title="遍历"></a>遍历</h3><p>元组的遍历与列表的遍历方式相同。</p>
-<h3 id="元组生成式"><a href="#元组生成式" class="headerlink" title="元组生成式"></a>元组生成式</h3><p>元组生成式与列表生成式语法相同，区别在于，元组生成式的结果是一个生成器对象generator，需要转换成元组或列表才能查看到元素内容。如果使用__next__()函数（该函数每次访问生成器都会从中取出一个元素，并将该元素从生成器中删除）遍历生成器后，再想重新遍历必须重新创建一个生成器对象，因为遍历后原生成器对象已经不存在了。</p>
+<h3 id="遍历">遍历</h3>
+<p>元组的遍历与列表的遍历方式相同。</p>
+<h3 id="元组生成式">元组生成式</h3>
+<p>元组生成式与列表生成式语法相同，区别在于，元组生成式的结果是一个生成器对象generator，需要转换成元组或列表才能查看到元素内容。如果使用__next__()函数（该函数每次访问生成器都会从中取出一个元素，并将该元素从生成器中删除）遍历生成器后，再想重新遍历必须重新创建一个生成器对象，因为遍历后原生成器对象已经不存在了。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t = (i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>)) <span class="comment">#结果是一个生成器对象（generator）</span></span><br><span class="line">print(t, type(t)) <span class="comment"># &lt;generator object &lt;genexpr&gt; at 0x0000029AA2FA2500&gt; &lt;class 'generator'&gt;</span></span><br><span class="line">t = tuple(t)</span><br><span class="line">print(t, type(t)) <span class="comment"># (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) &lt;class 'tuple'&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="元组和列表的区别"><a href="#元组和列表的区别" class="headerlink" title="元组和列表的区别"></a>元组和列表的区别</h3><div class="table-container">
+<h3 id="元组和列表的区别">元组和列表的区别</h3>
 <table>
 <thead>
 <tr>
@@ -355,19 +374,24 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>字典是无序的键值对集合，通过键从字典中获取对应的值，但不能通过索引来获取。使用{}定义字典，键值对之间用逗号分隔，键和值之间用冒号分隔。字典中的键必须是唯一的，如果出现两次，后出现的将覆盖先出现的。并且键要求是不可变序列。字典是Python中的可变序列。</p>
-<h3 id="创建以及删除"><a href="#创建以及删除-2" class="headerlink" title="创建以及删除"></a>创建以及删除</h3><p>字典的创建可以通过如下方式：</p>
+<h2 id="字典">字典</h2>
+<p>字典是无序的键值对集合，通过键从字典中获取对应的值，但不能通过索引来获取。使用{}定义字典，键值对之间用逗号分隔，键和值之间用冒号分隔。字典中的键必须是唯一的，如果出现两次，后出现的将覆盖先出现的。并且键要求是不可变序列。字典是Python中的可变序列。</p>
+<h3 id="创建以及删除">创建以及删除</h3>
+<p>字典的创建可以通过如下方式：</p>
 <ul>
-<li><p>直接使用{}创建字典</p>
+<li>
+<p>直接使用{}创建字典</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;key1: value1, key2: value2...&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>使用内置函数dict()创建字典</p>
+<li>
+<p>使用内置函数dict()创建字典</p>
 <ul>
-<li><p>通过映射函数创建字典</p>
+<li>
+<p>通过映射函数创建字典</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>zip(lst1, lst2)</span><br><span class="line">lst1 = [1, 2, 3]</span><br><span class="line">lst2 = ['a', 'b', 'c']</span><br><span class="line">zip_obj = zip(lst1, lst2)</span><br><span class="line">d = dict(zip_obj)</span><br><span class="line">print(d) #&#123;1: 'a', 2: 'b', 3: 'c'&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>通过给定关键字创建字典</p>
+<li>
+<p>通过给定关键字创建字典</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> dict(key1 = value1, key2 = value2...)</span><br><span class="line">d = dict(a=1, b=2) #但是反过来数字不能在左边，可能是因为key必须是不可变的</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -375,11 +399,12 @@
 </ul>
 <p>字典的删除可以通过如下方式：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> 字典名</span><br></pre></td></tr></table></figure>
-<h3 id="访问和遍历"><a href="#访问和遍历" class="headerlink" title="访问和遍历"></a>访问和遍历</h3><p>字典元素可以通过如下方式进行访问：</p>
+<h3 id="访问和遍历">访问和遍历</h3>
+<p>字典元素可以通过如下方式进行访问：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d[key]或者d.get(key)</span><br><span class="line"><span class="comment">#get(key[, default])，如果key存在于字典中则返回对应的值，反正返回default。default未给出则默认返回None。</span></span><br></pre></td></tr></table></figure>
 <p>字典元素可以通过如下方式进行遍历：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式1</span></span><br><span class="line"><span class="keyword">for</span> element <span class="keyword">in</span> d.items():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#方式2</span></span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> d.items():</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-<h3 id="相关操作方法"><a href="#相关操作方法-1" class="headerlink" title="相关操作方法"></a>相关操作方法</h3><div class="table-container">
+<h3 id="相关操作方法">相关操作方法</h3>
 <table>
 <thead>
 <tr>
@@ -410,37 +435,47 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="字典生成式"><a href="#字典生成式" class="headerlink" title="字典生成式"></a>字典生成式</h3><ul>
-<li><p>使用指定范围的数作为key生成字典</p>
+<h3 id="字典生成式">字典生成式</h3>
+<ul>
+<li>
+<p>使用指定范围的数作为key生成字典</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#d = &#123;key: value for item in range&#125;</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">d = &#123;item: random.randint(<span class="number">1</span>, <span class="number">100</span>) <span class="keyword">for</span> item <span class="keyword">in</span> range(<span class="number">4</span>)&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>使用映射函数生成字典</p>
+<li>
+<p>使用映射函数生成字典</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;key: value <span class="keyword">for</span> key, value <span class="keyword">in</span> zip(lst1, lst2)&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>Python中的集合与数学中集合的概念一致，使用{}定义，元素之间使用逗号分隔。集合只能存储不可变数据类型（字符串、整数、浮点数、元组），集合中的元素要求是唯一的，并且集合中的key是无序的。集合可分为可变集合set与不可变集合frozenset。</p>
-<h3 id="创建以及删除"><a href="#创建以及删除-3" class="headerlink" title="创建以及删除"></a>创建以及删除</h3><p>集合的创建可以通过如下方式：</p>
+<h2 id="集合">集合</h2>
+<p>Python中的集合与数学中集合的概念一致，使用{}定义，元素之间使用逗号分隔。集合只能存储不可变数据类型（字符串、整数、浮点数、元组），集合中的元素要求是唯一的，并且集合中的key是无序的。集合可分为可变集合set与不可变集合frozenset。</p>
+<h3 id="创建以及删除">创建以及删除</h3>
+<p>集合的创建可以通过如下方式：</p>
 <ul>
-<li><p>直接使用{}创建集合</p>
+<li>
+<p>直接使用{}创建集合</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=&#123;元素<span class="number">1</span>, 元素<span class="number">2</span>, ..., 元素N&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>使用内置函数set()创建集合</p>
+<li>
+<p>使用内置函数set()创建集合</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=set(可迭代对象)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>集合的删除可以通过如下方式：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> 集合名</span><br></pre></td></tr></table></figure>
-<h3 id="集合的操作符"><a href="#集合的操作符" class="headerlink" title="集合的操作符"></a>集合的操作符</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">A = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">B = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>&#125;</span><br><span class="line"><span class="comment"># 交集</span></span><br><span class="line">print(A &amp; B) <span class="comment">#&#123;4, 5&#125;</span></span><br><span class="line"><span class="comment"># 并集</span></span><br><span class="line">print(A | B) <span class="comment">#&#123;1, 2, 3, 4, 5, 6, 7, 8&#125;</span></span><br><span class="line"><span class="comment"># 差集</span></span><br><span class="line">print(A - B) <span class="comment">#&#123;1, 2, 3&#125;</span></span><br><span class="line"><span class="comment"># 补集</span></span><br><span class="line">print(A ^ B) <span class="comment">#&#123;1, 2, 3, 6, 7, 8&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="遍历"><a href="#遍历-2" class="headerlink" title="遍历"></a>遍历</h3><ul>
-<li><p>使用遍历循环for</p>
+<h3 id="集合的操作符">集合的操作符</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">A = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">B = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>&#125;</span><br><span class="line"><span class="comment"># 交集</span></span><br><span class="line">print(A &amp; B) <span class="comment">#&#123;4, 5&#125;</span></span><br><span class="line"><span class="comment"># 并集</span></span><br><span class="line">print(A | B) <span class="comment">#&#123;1, 2, 3, 4, 5, 6, 7, 8&#125;</span></span><br><span class="line"><span class="comment"># 差集</span></span><br><span class="line">print(A - B) <span class="comment">#&#123;1, 2, 3&#125;</span></span><br><span class="line"><span class="comment"># 补集</span></span><br><span class="line">print(A ^ B) <span class="comment">#&#123;1, 2, 3, 6, 7, 8&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="遍历">遍历</h3>
+<ul>
+<li>
+<p>使用遍历循环for</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> s:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>使用for循环和enumerate()函数</p>
+<li>
+<p>使用for循环和enumerate()函数</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, item <span class="keyword">in</span> enumerate(s, <span class="number">10</span>): <span class="comment">#10表示元素的序号，不是索引，可以任意指定</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="相关操作方法"><a href="#相关操作方法-2" class="headerlink" title="相关操作方法"></a>相关操作方法</h3><div class="table-container">
+<h3 id="相关操作方法">相关操作方法</h3>
 <table>
 <thead>
 <tr>
@@ -463,9 +498,9 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="集合生成式"><a href="#集合生成式" class="headerlink" title="集合生成式"></a>集合生成式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s=&#123;i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>)&#125;</span><br><span class="line">print(s) <span class="comment">#&#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10&#125;</span></span><br><span class="line"><span class="comment">#选择符合条件的元素组成新集合</span></span><br><span class="line">s=&#123;i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>) <span class="keyword">if</span> i%<span class="number">2</span>==<span class="number">0</span>&#125;</span><br><span class="line">print(s) <span class="comment">#&#123;0, 2, 4, 6, 8, 10&#125;</span></span><br></pre></td></tr></table></figure>
-<h2 id="列表-元组-字典和集合的区别"><a href="#列表、元组、字典和集合的区别" class="headerlink" title="列表、元组、字典和集合的区别"></a>列表、元组、字典和集合的区别</h2><div class="table-container">
+<h3 id="集合生成式">集合生成式</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s=&#123;i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>)&#125;</span><br><span class="line">print(s) <span class="comment">#&#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10&#125;</span></span><br><span class="line"><span class="comment">#选择符合条件的元素组成新集合</span></span><br><span class="line">s=&#123;i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>) <span class="keyword">if</span> i%<span class="number">2</span>==<span class="number">0</span>&#125;</span><br><span class="line">print(s) <span class="comment">#&#123;0, 2, 4, 6, 8, 10&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="列表-元组-字典和集合的区别">列表、元组、字典和集合的区别</h2>
 <table>
 <thead>
 <tr>
@@ -507,7 +542,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 
                 
                 <hr>
@@ -515,7 +549,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Python—字符串处理/" data-toggle="tooltip" data-placement="top" title="Python—字符串处理">&larr; 上一篇</a>
+                            <a href="/article/Python—正则表达式/" data-toggle="tooltip" data-placement="top" title="Python—正则表达式">&larr; 上一篇</a>
                         </li>
                     
                     
@@ -556,7 +590,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#列表"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x5217;&#x8868;" class="headerlink" title="&#x5217;&#x8868;"></a>&#x5217;&#x8868;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><a href="#&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;" class="headerlink" title="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;"></a>&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;" class="headerlink" title="&#x904D;&#x5386;"></a>&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;" class="headerlink" title="&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;"></a>&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#列表排序"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><a href="#&#x5217;&#x8868;&#x6392;&#x5E8F;" class="headerlink" title="&#x5217;&#x8868;&#x6392;&#x5E8F;"></a>&#x5217;&#x8868;&#x6392;&#x5E8F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#列表生成式"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><a href="#&#x5217;&#x8868;&#x751F;&#x6210;&#x5F0F;" class="headerlink" title="&#x5217;&#x8868;&#x751F;&#x6210;&#x5F0F;"></a>&#x5217;&#x8868;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#元组"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x5143;&#x7EC4;" class="headerlink" title="&#x5143;&#x7EC4;"></a>&#x5143;&#x7EC4;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text"><a href="#&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;-1" class="headerlink" title="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;"></a>&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;-1" class="headerlink" title="&#x904D;&#x5386;"></a>&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#元组生成式"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text"><a href="#&#x5143;&#x7EC4;&#x751F;&#x6210;&#x5F0F;" class="headerlink" title="&#x5143;&#x7EC4;&#x751F;&#x6210;&#x5F0F;"></a>&#x5143;&#x7EC4;&#x751F;&#x6210;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#元组和列表的区别"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text"><a href="#&#x5143;&#x7EC4;&#x548C;&#x5217;&#x8868;&#x7684;&#x533A;&#x522B;" class="headerlink" title="&#x5143;&#x7EC4;&#x548C;&#x5217;&#x8868;&#x7684;&#x533A;&#x522B;"></a>&#x5143;&#x7EC4;&#x548C;&#x5217;&#x8868;&#x7684;&#x533A;&#x522B;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字典"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#&#x5B57;&#x5178;" class="headerlink" title="&#x5B57;&#x5178;"></a>&#x5B57;&#x5178;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text"><a href="#&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;-2" class="headerlink" title="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;"></a>&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#访问和遍历"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text"><a href="#&#x8BBF;&#x95EE;&#x548C;&#x904D;&#x5386;" class="headerlink" title="&#x8BBF;&#x95EE;&#x548C;&#x904D;&#x5386;"></a>&#x8BBF;&#x95EE;&#x548C;&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text"><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;-1" class="headerlink" title="&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;"></a>&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#字典生成式"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text"><a href="#&#x5B57;&#x5178;&#x751F;&#x6210;&#x5F0F;" class="headerlink" title="&#x5B57;&#x5178;&#x751F;&#x6210;&#x5F0F;"></a>&#x5B57;&#x5178;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;" class="headerlink" title="&#x96C6;&#x5408;"></a>&#x96C6;&#x5408;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text"><a href="#&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;-3" class="headerlink" title="&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;"></a>&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#集合的操作符"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x7684;&#x64CD;&#x4F5C;&#x7B26;" class="headerlink" title="&#x96C6;&#x5408;&#x7684;&#x64CD;&#x4F5C;&#x7B26;"></a>&#x96C6;&#x5408;&#x7684;&#x64CD;&#x4F5C;&#x7B26;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text"><a href="#&#x904D;&#x5386;-2" class="headerlink" title="&#x904D;&#x5386;"></a>&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text"><a href="#&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;-2" class="headerlink" title="&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;"></a>&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#集合生成式"><span class="toc-nav-number">4.5.</span> <span class="toc-nav-text"><a href="#&#x96C6;&#x5408;&#x751F;&#x6210;&#x5F0F;" class="headerlink" title="&#x96C6;&#x5408;&#x751F;&#x6210;&#x5F0F;"></a>&#x96C6;&#x5408;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#列表-元组-字典和集合的区别"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#&#x5217;&#x8868;&#x3001;&#x5143;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x548C;&#x96C6;&#x5408;&#x7684;&#x533A;&#x522B;" class="headerlink" title="&#x5217;&#x8868;&#x3001;&#x5143;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x548C;&#x96C6;&#x5408;&#x7684;&#x533A;&#x522B;"></a>&#x5217;&#x8868;&#x3001;&#x5143;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x548C;&#x96C6;&#x5408;&#x7684;&#x533A;&#x522B;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#列表"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5217;&#x8868;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#列表排序"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x5217;&#x8868;&#x6392;&#x5E8F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#列表生成式"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x5217;&#x8868;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#元组"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5143;&#x7EC4;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#元组生成式"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x5143;&#x7EC4;&#x751F;&#x6210;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#元组和列表的区别"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">&#x5143;&#x7EC4;&#x548C;&#x5217;&#x8868;&#x7684;&#x533A;&#x522B;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字典"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x5B57;&#x5178;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#访问和遍历"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">&#x8BBF;&#x95EE;&#x548C;&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#字典生成式"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">&#x5B57;&#x5178;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#集合"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x96C6;&#x5408;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建以及删除"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">&#x521B;&#x5EFA;&#x4EE5;&#x53CA;&#x5220;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#集合的操作符"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">&#x96C6;&#x5408;&#x7684;&#x64CD;&#x4F5C;&#x7B26;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">&#x904D;&#x5386;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关操作方法"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text">&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#集合生成式"><span class="toc-nav-number">4.5.</span> <span class="toc-nav-text">&#x96C6;&#x5408;&#x751F;&#x6210;&#x5F0F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#列表-元组-字典和集合的区别"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x5217;&#x8868;&#x3001;&#x5143;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x548C;&#x96C6;&#x5408;&#x7684;&#x533A;&#x522B;</span></a></li></ol>
         
         </div>
       </aside>

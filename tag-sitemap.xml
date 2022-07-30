@@ -38,14 +38,21 @@
 
     <url>
         <loc>zbsong.top/tags/algorithm/</loc>
-        <lastmod>2022-06-27T04:00:52.000Z</lastmod>
+        <lastmod>2022-07-08T05:40:12.111Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>zbsong.top/tags/python/</loc>
-        <lastmod>2022-07-06T12:53:14.118Z</lastmod>
+        <lastmod>2022-07-24T03:08:27.538Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>zbsong.top/tags/cloud/</loc>
+        <lastmod>2022-07-30T03:20:40.317Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

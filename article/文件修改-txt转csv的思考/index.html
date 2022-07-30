@@ -155,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -220,7 +220,8 @@
 
 				
                 <p>原本打算将场景一并写下来，记录思考的过程，想了想查阅的过程中并不会这么有耐心，还是就事论事，用了什么方法解决了什么问题。</p>
-<h2 id="txt转换为csv文件"><a href="#txt转换为csv文件" class="headerlink" title="txt转换为csv文件"></a>txt转换为csv文件</h2><p>直接修改文件名后缀的方式可能会导致数据格式错误问题。</p>
+<h2 id="txt转换为csv文件">txt转换为csv文件</h2>
+<p>直接修改文件名后缀的方式可能会导致数据格式错误问题。</p>
 <p>txt文件转换为csv文件需要确保txt文件中数据格式正确。当前txt文件中数据格式为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A类</span><br><span class="line">1,2,3</span><br><span class="line">1,2,3</span><br><span class="line">B类</span><br><span class="line">4,5,6</span><br><span class="line">4,5,6</span><br></pre></td></tr></table></figure>
 <p>直接使用read_csv，以csv格式、指定分隔符为<code>,</code>、读取txt文件，再用to_csv去以csv格式存储。此时会导致第2、3列的数据丢失。代码如下：</p>
@@ -229,7 +230,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A类,</span><br><span class="line">1,2,3,</span><br><span class="line">1,2,3,</span><br><span class="line">B类,</span><br><span class="line">4,5,6,</span><br><span class="line">4,5,6,</span><br></pre></td></tr></table></figure>
 <p>即行之间通过换行间隔，数据和数据之间用分隔符<code>,</code>间隔，但是末尾的数据和换行符之间也需要一个分隔符<code>,</code>。</p>
 <p>所以我们想用上述方法将txt转换为csv文件之前，需要对txt文件的内容进行修改。</p>
-<h2 id="txt文件内容修改"><a href="#txt文件内容修改" class="headerlink" title="txt文件内容修改"></a>txt文件内容修改</h2><p>python提供了读取和写入两种操作文件的方法，我打算将每一行数据读出后进行修改，存放到一个缓存列表当中，最后将缓存列表写入到一个新文件，这样就修改完成了。思路明白了那么我们直接来写这部分的代码：</p>
+<h2 id="txt文件内容修改">txt文件内容修改</h2>
+<p>python提供了读取和写入两种操作文件的方法，我打算将每一行数据读出后进行修改，存放到一个缓存列表当中，最后将缓存列表写入到一个新文件，这样就修改完成了。思路明白了那么我们直接来写这部分的代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开文件，增加encoding参数是处理乱码问题</span></span><br><span class="line">f = open(<span class="string">'123.txt'</span>, <span class="string">'r+'</span>, encoding=<span class="string">'UTF-8'</span>)</span><br><span class="line"><span class="comment"># 新文件</span></span><br><span class="line">new_f = open(<span class="string">'new_123.txt'</span>, <span class="string">'w+'</span>)</span><br><span class="line"><span class="comment"># 缓存列表</span></span><br><span class="line">buffer_list = []</span><br><span class="line"><span class="comment"># 取每一行，进行修改后添加到缓存列表</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">    line = line.replace(<span class="string">'\n'</span>, <span class="string">',\n'</span>)</span><br><span class="line">    buffer_list.append(line)</span><br><span class="line"><span class="comment"># 将缓存列表写入新文件</span></span><br><span class="line">new_f.writelines(buffer_list)</span><br><span class="line"><span class="comment"># 关闭文件（必须操作</span></span><br><span class="line">f.close()</span><br><span class="line">new_f.close()</span><br></pre></td></tr></table></figure>
 <p>效果如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">==========123.txt============</span><br><span class="line">A类</span><br><span class="line">1,2,3</span><br><span class="line">1,2,3</span><br><span class="line">B类</span><br><span class="line">4,5,6</span><br><span class="line">4,5,6</span><br><span class="line">==========new_123.txt============</span><br><span class="line">A类,</span><br><span class="line">1,2,3,</span><br><span class="line">1,2,3,</span><br><span class="line">B类,</span><br><span class="line">4,5,6,</span><br><span class="line">4,5,6,</span><br></pre></td></tr></table></figure>
@@ -281,7 +283,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#txt转换为csv文件"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#txt&#x8F6C;&#x6362;&#x4E3A;csv&#x6587;&#x4EF6;" class="headerlink" title="txt&#x8F6C;&#x6362;&#x4E3A;csv&#x6587;&#x4EF6;"></a>txt&#x8F6C;&#x6362;&#x4E3A;csv&#x6587;&#x4EF6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#txt文件内容修改"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#txt&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x4FEE;&#x6539;" class="headerlink" title="txt&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x4FEE;&#x6539;"></a>txt&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x4FEE;&#x6539;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#txt转换为csv文件"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">txt&#x8F6C;&#x6362;&#x4E3A;csv&#x6587;&#x4EF6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#txt文件内容修改"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">txt&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x4FEE;&#x6539;</span></a></li></ol>
         
         </div>
       </aside>

@@ -155,13 +155,13 @@
                     
                         
                         <li>
-                            <a href="/archive/">归档</a>
+                            <a href="/tags/">标签</a>
                         </li>
                         
                     
                         
                         <li>
-                            <a href="/tags/">标签</a>
+                            <a href="/archive/">归档</a>
                         </li>
                         
                     
@@ -220,13 +220,15 @@
 
 				
                 <p><img src="https://pic.tyzhang.top/images/2021/04/18/image.png" alt="image.png"></p>
-<h3 id="漏斗算法"><a href="#漏斗算法" class="headerlink" title="漏斗算法"></a>漏斗算法</h3><p>漏斗算法顾名思义，就是请求像水一样的先进到漏斗里，它的规则如下：</p>
+<h3 id="漏斗算法">漏斗算法</h3>
+<p>漏斗算法顾名思义，就是请求像水一样的先进到漏斗里，它的规则如下：</p>
 <ol>
 <li>请求来了放入桶中</li>
 <li>桶内请求满了拒绝请求</li>
 <li>服务定速从桶内拿请求处理</li>
 </ol>
-<h3 id="令牌桶算法"><a href="#令牌桶算法" class="headerlink" title="令牌桶算法"></a>令牌桶算法</h3><p>令牌桶算法是定速地往桶里塞入令牌，然后请求只有拿到了令牌才能通过，之后再被服务器处理。令牌桶算法在应对突发流量的时候有更好的表现，因为它桶内有库存的令牌可以被直接拿走。</p>
+<h3 id="令牌桶算法">令牌桶算法</h3>
+<p>令牌桶算法是定速地往桶里塞入令牌，然后请求只有拿到了令牌才能通过，之后再被服务器处理。令牌桶算法在应对突发流量的时候有更好的表现，因为它桶内有库存的令牌可以被直接拿走。</p>
 <ol>
 <li>初始化固定数量的令牌放入令牌桶中</li>
 <li>初始化和开启一个定时的任务，定时往令牌桶添加令牌</li>
@@ -281,7 +283,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#漏斗算法"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x6F0F;&#x6597;&#x7B97;&#x6CD5;" class="headerlink" title="&#x6F0F;&#x6597;&#x7B97;&#x6CD5;"></a>&#x6F0F;&#x6597;&#x7B97;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#令牌桶算法"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x4EE4;&#x724C;&#x6876;&#x7B97;&#x6CD5;" class="headerlink" title="&#x4EE4;&#x724C;&#x6876;&#x7B97;&#x6CD5;"></a>&#x4EE4;&#x724C;&#x6876;&#x7B97;&#x6CD5;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#漏斗算法"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x6F0F;&#x6597;&#x7B97;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#令牌桶算法"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x4EE4;&#x724C;&#x6876;&#x7B97;&#x6CD5;</span></a></li></ol>
         
         </div>
       </aside>
