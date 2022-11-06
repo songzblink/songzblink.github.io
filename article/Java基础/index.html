@@ -219,24 +219,27 @@
                 post-container">
 
 				
-                <h3 id="1-java语言的特点"><a href="#1-Java语言的特点" class="headerlink" title="1 Java语言的特点"></a>1 Java语言的特点</h3><ol>
+                <h3 id="1-java语言的特点">1 Java语言的特点</h3>
+<ol>
 <li>面向对象（三大特性：封装、继承、多态）</li>
 <li>一次编译，到处运行（JVM 实现平台无关性）</li>
 <li>提供相对安全的内存管理和访问机制，避免绝大部分的内存泄漏和指针越界问题</li>
 <li>热点代码检测和运行时编译及优化，使得 Java 应用能随着运行时间的增加而获得更高的性能</li>
 <li>丰富的应用程序接口和第三方类库来帮助实现各种功能</li>
 </ol>
-<h3 id="2-比较-jvm-和-jdk-以及-jre"><a href="#2-比较-JVM-和-JDK-以及-JRE" class="headerlink" title="2 比较 JVM 和 JDK 以及 JRE"></a>2 比较 JVM 和 JDK 以及 JRE</h3><p>JVM 运行 Java 字节码的虚拟机，有针对不同系统的特定实现，目的是使用相同的字节码得到相同的结果。字节码和不同系统的 JVM 实现是 Java 语言“一次编译，到处运行”的关键所在。</p>
+<h3 id="2-比较-jvm-和-jdk-以及-jre">2 比较 JVM 和 JDK 以及 JRE</h3>
+<p>JVM 运行 Java 字节码的虚拟机，有针对不同系统的特定实现，目的是使用相同的字节码得到相同的结果。字节码和不同系统的 JVM 实现是 Java 语言“一次编译，到处运行”的关键所在。</p>
 <blockquote>
-<p> 字节码（<code>.class</code> 文件）是 JVM 可以理解的代码，只面向虚拟机。Java 程序从源代码到运行会经过：<code>.java</code> 源代码文件被 JDK 中的 javac 编译为 <code>class</code> 文件，然后被虚拟机加载解释为机器可执行的二进制机器码。</p>
+<p>字节码（<code>.class</code> 文件）是 JVM 可以理解的代码，只面向虚拟机。Java 程序从源代码到运行会经过：<code>.java</code> 源代码文件被 JDK 中的 javac 编译为 <code>class</code> 文件，然后被虚拟机加载解释为机器可执行的二进制机器码。</p>
 </blockquote>
 <p>JRE 是 Java 运行时环境，它是运行已编译 Java 程序所需的所有内容的集合，包括 Java 虚拟机（JVM），Java 类库，java 命令和其他一些基础构建，不能用于创建新程序。</p>
 <p>JDK 是 Java Development Kit 的缩写，拥有 JRE 有的一切，还有 javac 编译器和工具（JConsole等），能创建和编译程序。</p>
-<h3 id="3-为什么说-java-语言解释与编译并存"><a href="#3-为什么说-Java-语言“解释与编译并存”" class="headerlink" title="3 为什么说 Java 语言“解释与编译并存”"></a>3 为什么说 Java 语言“解释与编译并存”</h3><p>高级编程语言按照程序的执行方式分为编译型和解释型两种。编译型语言是指编译器针对操作系统将源代码一次性翻译成可被该平台执行的机器码；解释型语言是指解释器对源程序逐行解释成特定平台的机器码并立即执行。</p>
+<h3 id="3-为什么说-java-语言解释与编译并存">3 为什么说 Java 语言“解释与编译并存”</h3>
+<p>高级编程语言按照程序的执行方式分为编译型和解释型两种。编译型语言是指编译器针对操作系统将源代码一次性翻译成可被该平台执行的机器码；解释型语言是指解释器对源程序逐行解释成特定平台的机器码并立即执行。</p>
 <p>Java 语言会经过编译、解释两个步骤。Java 代码会先经过编译，生成字节码（<code>.class</code> 文件），这种字节码必须由 Java 解释器来解释执行。所以解释与编译并存。</p>
 <p>另外一种角度是在 JVM 中运行字节码指令的时候，对于热点代码即时编译器会对其进行编译优化，所以它是解释与编译并存。</p>
-<h3 id="4-java-基本类型有哪几种各占多少位"><a href="#4-Java-基本类型有哪几种，各占多少位？" class="headerlink" title="4 Java 基本类型有哪几种，各占多少位？"></a>4 Java 基本类型有哪几种，各占多少位？</h3><p>8 种，分别是 byte、short、int、long、float、double、char、boolean</p>
-<div class="table-container">
+<h3 id="4-java-基本类型有哪几种各占多少位">4 Java 基本类型有哪几种，各占多少位？</h3>
+<p>8 种，分别是 byte、short、int、long、float、double、char、boolean</p>
 <table>
 <thead>
 <tr>
@@ -279,16 +282,18 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="5-java泛型以及泛型擦除"><a href="#5-Java泛型以及泛型擦除" class="headerlink" title="5 Java泛型以及泛型擦除"></a>5 Java泛型以及泛型擦除</h3><p>泛型提供了编译时的类型安全检测机制，允许在编译时检测到非法的类型。</p>
+<h3 id="5-java泛型以及泛型擦除">5 Java泛型以及泛型擦除</h3>
+<p>泛型提供了编译时的类型安全检测机制，允许在编译时检测到非法的类型。</p>
 <p>泛型的用法一般有泛型类、泛型接口、泛型方法。</p>
 <blockquote>
 <p>extends 用来设定类型通配符的上限，super 用来设定类型通配符的下界。</p>
 </blockquote>
 <p>Java 在编译泛型代码后会执行泛型擦除的动作，即泛型信息在编译为字节码之后就丢失了，实际的类型都当作 Object 类型来处理。</p>
-<h3 id="6-和equals的区别"><a href="#6-和equals的区别" class="headerlink" title="6 ==和equals的区别"></a>6 ==和equals的区别</h3><p>对于基本数据类型，== 比较的是值；对于引用数据类型，== 比较的是对象的内存地址。</p>
+<h3 id="6-和equals的区别">6 ==和equals的区别</h3>
+<p>对于基本数据类型，== 比较的是值；对于引用数据类型，== 比较的是对象的内存地址。</p>
 <p><code>equals()</code> 的作用不能用于判断基本数据类型，只能用来判断两个对象是否相等。<code>equals()</code> 方法存在于 Object 类中，默认情况下比较的是两个对象的内存地址，等价于 ==，类如果重写了 <code>euqals()</code> 方法，一般是会比较两个对象中的属性是否相等。</p>
-<h3 id="7-hashcode和equals"><a href="#7-hashCode-和equals" class="headerlink" title="7 hashCode()和equals()"></a>7 hashCode()和equals()</h3><p>Java 有这样的规定：</p>
+<h3 id="7-hashcode和equals">7 hashCode()和equals()</h3>
+<p>Java 有这样的规定：</p>
 <ul>
 <li>equals 相等的两个对象的 hashcode 一定相等</li>
 <li>hashcode 相等的两个对象 equals 不一定相等</li>
@@ -298,24 +303,30 @@
 <p>假设此时我们维护一个不重复的集合，集合中的元素有多个成员属性，为了实现集合中的元素不重复，可以通过重写 equals 方法，挨个比较两个对象的成员属性。但是它有一个缺陷是如果集合中的元素很多，那么每新插入一个元素都需要和集合中已有的所有元素进行 equals 比较，这无疑会让插入操作的效率变得很低。</p>
 <p>通过重写 hashcode 方法，一般的实现为使得相同的对象具有相同的 hash 值，插入的元素会被保存在该元素 hash 值所对应的位置。于是每次新插入元素的时候，都会通过该元素的 hash 值找到集合中对应的位置，判断该位置是否已经存在有元素，如果没有则表示一定没有重复，如果有则需要 equals 比较，进行进一步的确认。</p>
 <p>这样就减少了 equals 方法的调用次数，大大提高了插入元素的效率。</p>
-<h3 id="8-重载和重写的区别待补充"><a href="#8-重载和重写的区别【待补充】" class="headerlink" title="8 重载和重写的区别【待补充】"></a>8 重载和重写的区别【待补充】</h3><p>重载发生在父类和子类之间，方法名相同，参数类型不同、个数不同、顺序不同，方法返回值和访问修饰符可以不同。</p>
+<h3 id="8-重载和重写的区别待补充">8 重载和重写的区别【待补充】</h3>
+<p>重载发生在父类和子类之间，方法名相同，参数类型不同、个数不同、顺序不同，方法返回值和访问修饰符可以不同。</p>
 <p>JVM 的静态分派</p>
 <p>重写发生在运行期，是子类对父类的允许访问的方法的实现过程进行重新编写，外部样子不能改变，内部逻辑可以改变。</p>
 <p>JVM 的动态分派</p>
-<h3 id="9-深拷贝和浅拷贝"><a href="#9-深拷贝和浅拷贝" class="headerlink" title="9 深拷贝和浅拷贝"></a>9 深拷贝和浅拷贝</h3><p>浅拷贝：对基本数据类型进行值传递，对引用数据类型进行引用传递的拷贝，称为浅拷贝。</p>
+<h3 id="9-深拷贝和浅拷贝">9 深拷贝和浅拷贝</h3>
+<p>浅拷贝：对基本数据类型进行值传递，对引用数据类型进行引用传递的拷贝，称为浅拷贝。</p>
 <p>深拷贝：对基本数据类型进行值传递，对引用数据类型，创建一个新的对象并复制其内容，称为深拷贝。</p>
-<h3 id="10-面向对象和面向过程的区别"><a href="#10-面向对象和面向过程的区别" class="headerlink" title="10 面向对象和面向过程的区别"></a>10 面向对象和面向过程的区别</h3><p>面向对象：对现实世界理解和抽象的方法，有封装、继承、多态的特性，可以设计出低耦合的系统，是系统易维护、易复用、易扩展。</p>
+<h3 id="10-面向对象和面向过程的区别">10 面向对象和面向过程的区别</h3>
+<p>面向对象：对现实世界理解和抽象的方法，有封装、继承、多态的特性，可以设计出低耦合的系统，是系统易维护、易复用、易扩展。</p>
 <p>面向过程：以过程为中心的编程思想，以什么正在发生为主要目标进行编程，不同于面向对象的是谁在受影响。</p>
-<h3 id="11-成员变量与局部变量的区别"><a href="#11-成员变量与局部变量的区别" class="headerlink" title="11 成员变量与局部变量的区别"></a>11 成员变量与局部变量的区别</h3><ol>
+<h3 id="11-成员变量与局部变量的区别">11 成员变量与局部变量的区别</h3>
+<ol>
 <li>从语法形式上看，成员变量属于类，局部变量是在代码块或方法中定义的变量或者方法的参数；所以成员变量可以被访问修饰符和 static 修饰，而局部变量不能被访问修饰符和 static 修饰；但它们都可以被 final 修饰。</li>
 <li>从存储方式看，成员变量被 static 修饰，那么它就属于类的，如果没有 static 修饰，它就属于实例的；对象是存在于堆内存中，局部变量存在于栈内存中。</li>
 <li>从生命周期来看，成员变量是对象的一部分，随着对象的创建而存在，局部变量随着方法的调用而创建。</li>
 <li>从是否有默认值来看，成员变量如果没被赋予初值，则会自动以类型默认值复制（一个例外是 final 修饰的成员变量必须显式地赋值），局部变量不会自动赋值。</li>
 </ol>
-<h3 id="12-面向对象三大特性"><a href="#12-面向对象三大特性" class="headerlink" title="12 面向对象三大特性"></a>12 面向对象三大特性</h3><p>封装：利用抽象数据类型把数据和基于数据的操作封装起来，数据隐藏在抽象数据类型内部，只保留一些接口使其与外界发生联系。</p>
+<h3 id="12-面向对象三大特性">12 面向对象三大特性</h3>
+<p>封装：利用抽象数据类型把数据和基于数据的操作封装起来，数据隐藏在抽象数据类型内部，只保留一些接口使其与外界发生联系。</p>
 <p>继承：把多个类共同的属性和行为抽象到一个公共的类中，其他类与该公共的类之间形成继承关系，从而减少重复定义公共部分。</p>
 <p>多态：一个对象具有多种的状态，具体的表现为父类引用指向子类实例。引用类型变量发出的方法调用到底是哪个类中的方法，必须要在程序运行期才能确定。</p>
-<h3 id="13-string-stringbuffer和stringbuilder的区别"><a href="#13-String、StringBuffer和StringBuilder的区别" class="headerlink" title="13 String、StringBuffer和StringBuilder的区别"></a>13 String、StringBuffer和StringBuilder的区别</h3><p><strong>不可变</strong></p>
+<h3 id="13-string-stringbuffer和stringbuilder的区别">13 String、StringBuffer和StringBuilder的区别</h3>
+<p><strong>不可变</strong></p>
 <p>String 类中使用 final 关键字来修饰字符数组，该字符数组用于保存字符串，所以 <strong>String 对象是不可变的</strong>。不可变的特性给 String 带来了三个好处：</p>
 <ol>
 <li>线程安全的，同一个字符串实例可以被多个线程共享。</li>
@@ -333,7 +344,8 @@
 <li>单线程，操作大量数据：StringBuilder</li>
 <li>多线程，操作大量数据：StringBuffer</li>
 </ol>
-<h3 id="14-异常"><a href="#14-异常" class="headerlink" title="14 异常"></a>14 异常</h3><p>所有的异常都有一个共同的祖先 Throwable 类，它有两个重要的子类 Exception 异常和 Error 错误。</p>
+<h3 id="14-异常">14 异常</h3>
+<p>所有的异常都有一个共同的祖先 Throwable 类，它有两个重要的子类 Exception 异常和 Error 错误。</p>
 <p>Exception：程序本身可以处理的异常，可以通过 catch 来进行捕获。异常又分为受检查异常（必须处理）和不受检查异常（运行时异常）。</p>
 <ul>
 <li>受检查异常如果没有被 catch 或者 throw 处理，没办法通过编译，比如 IO 相关的异常、ClassNotFoundException、SQLException 等。</li>
@@ -343,7 +355,8 @@
 <p>这里可以引到 Spring 处理自定义异常</p>
 </blockquote>
 <p>Error：属于程序无法处理的错误，没办法通过 catch 来进行捕获。比如 NoClassDefFoundError（类定义错误）、OutOfMemoryError（虚拟机内存不够错误）等。发生这类异常时，JVM 一般会选择终止线程。</p>
-<h3 id="15-序列化和反序列化"><a href="#15-序列化和反序列化" class="headerlink" title="15 序列化和反序列化"></a>15 序列化和反序列化</h3><p>当我们需要持久化 Java 对象，比如将 Java 对象保存在文件中，或者在网络中传输 Java 对象时，都需要用到序列化。</p>
+<h3 id="15-序列化和反序列化">15 序列化和反序列化</h3>
+<p>当我们需要持久化 Java 对象，比如将 Java 对象保存在文件中，或者在网络中传输 Java 对象时，都需要用到序列化。</p>
 <p>简单讲，序列化就是将对象转换成二进制字节流的过程；反序列化就是将序列化所生成的二进制字节流转换成对象的过程。</p>
 <p>如果有些字段不想进行序列化，可以用 transient 关键字修饰，它可以阻止实例中被修饰的变量序列化。transient 只能修饰变量，不能修饰类和方法。</p>
 <blockquote>
@@ -353,10 +366,12 @@
 <p>使用 ObjectOutputStream 的 writeObject 方法可以将对象序列化写入字节流（OutputStream）当中，ObjectInputStream 的 readObject 可以将序列化的对象以字节流（InputStream）的形式读取出来。</p>
 <p>字符流和字节流的区别在于，字节流操作时不会用到缓冲区（内存），是对文件本身的直接操作，而字符流在操作时使用了缓冲区，通过缓冲区再操作文件。可以通过写文件操作时，都不关闭输出流来进行比较，字节流因为是直接对文件进行操作，所以不关闭也能够完成内容的输出，但是字符流不行，不关闭输出流的话缓冲区的内容没有办法被输出。</p>
 <p><a href="https://blog.csdn.net/cynhafa/article/details/6882061" target="_blank" rel="noopener">java 字节流与字符流的区别_afa的专栏-CSDN博客</a></p>
-<h3 id="16-list-set-map的区别"><a href="#16-List、Set、Map的区别" class="headerlink" title="16 List、Set、Map的区别"></a>16 List、Set、Map的区别</h3><p>List 存储的元素是有序的（输入顺序）、可重复的集合，底层是数组或者链表实现的，所以可以存 null。</p>
+<h3 id="16-list-set-map的区别">16 List、Set、Map的区别</h3>
+<p>List 存储的元素是有序的（输入顺序）、可重复的集合，底层是数组或者链表实现的，所以可以存 null。</p>
 <p>Set 存储的元素是无序的、不可重复的， Set 底层是 Map，所以 HashSet 可以有 1 个 null 元素，TreeSet 不能有为 null 的元素。</p>
 <p>Map 是键值对的映射集合，key 是无序的、不可重复的，value 是可重复的，HashMap 可以有 1 个 key 为 null 的元素（被放在最前面），TreeMap 不能有 key 为 null 的元素，因为底层是红黑树结构。</p>
-<h3 id="17-arraylist和linkedlist的区别"><a href="#17-ArrayList和LinkedList的区别" class="headerlink" title="17 ArrayList和LinkedList的区别"></a>17 ArrayList和LinkedList的区别</h3><p><strong>底层数据结构</strong> ：ArrayList 底层使用的是数组来存储元素；LinkedList 使用的是双向链表。</p>
+<h3 id="17-arraylist和linkedlist的区别">17 ArrayList和LinkedList的区别</h3>
+<p><strong>底层数据结构</strong> ：ArrayList 底层使用的是数组来存储元素；LinkedList 使用的是双向链表。</p>
 <p><strong>插入和删除操作</strong> ：</p>
 <ul>
 <li>ArrayList 采用数组存储，所以插入和删除元素的时间复杂度受元素位置的影响。插入操作默认在列表的末尾追加，时间复杂度是 $O(1)$，如果在指定位置 i 插入或者删除的话，时间复杂度是 $O(n-i)$，因为此时列表的第 i 和第 i 个元素之后的 n-i 个元素都要需要被移动。</li>
@@ -365,17 +380,20 @@
 <p><strong>随机访问</strong> ：ArrayList 支持随机访问，LinkedList 不支持。</p>
 <p><strong>内存空间占用</strong> ：ArrayList 的空间浪费主要体现在 list 列表的末尾会预留一定的容量空间，而 LinkedList 的每一个元素都需要消耗比 ArrayList 更多的空间，因为需要维护链表数据结构。</p>
 <p><strong>扩容操作</strong> ：ArrayList 的默认初始容量为 10，会在添加元素前进行检查，如果容量不够就进行扩容，每次扩容容量为旧容量的 1.5 倍。</p>
-<h3 id="18-comparable和comparator的区别"><a href="#18-Comparable和Comparator的区别" class="headerlink" title="18 Comparable和Comparator的区别"></a>18 Comparable和Comparator的区别</h3><p>Comparable 接口中有一个方法 <code>compareTo(Object obj)</code> ，Comparator 接口有一个 <code>compare(Object obj1, Object obj2)</code> 方法，两个方法都可以用来排序。</p>
+<h3 id="18-comparable和comparator的区别">18 Comparable和Comparator的区别</h3>
+<p>Comparable 接口中有一个方法 <code>compareTo(Object obj)</code> ，Comparator 接口有一个 <code>compare(Object obj1, Object obj2)</code> 方法，两个方法都可以用来排序。</p>
 <p>Comparator 也被叫做比较器，在使用集合的排序方法比如 <code>Collections.sort()</code> 方法时，可以传递集合以及一个自定义的比较器，用来指定排序的方法。</p>
 <p>而一个类如果实现了 Comparable 接口并重写了 compareTo 方法，那么它在被加入 TreeMap 这类有序的集合时，会按照 compareTo 方法来进行排序。</p>
-<h3 id="19-hashmap以及concurrenthashmap的区别"><a href="#19-HashMap以及ConcurrentHashMap的区别" class="headerlink" title="19 HashMap以及ConcurrentHashMap的区别"></a>19 HashMap以及ConcurrentHashMap的区别</h3><p>HashMap 底层用一个 Node 数组存储对象，用对象的 hashCode 去计算散列地址，用拉链法处理散列冲突，当链表的长度超过 8（树形化阈值） 并且 HashMap 的容量大于 64（最小树形化容量） 时，链表会转换为红黑树。</p>
+<h3 id="19-hashmap以及concurrenthashmap的区别">19 HashMap以及ConcurrentHashMap的区别</h3>
+<p>HashMap 底层用一个 Node 数组存储对象，用对象的 hashCode 去计算散列地址，用拉链法处理散列冲突，当链表的长度超过 8（树形化阈值） 并且 HashMap 的容量大于 64（最小树形化容量） 时，链表会转换为红黑树。</p>
 <p>HashMap 的散列地址计算是把对象的 hashCode 的高 16 位和低 16 位异或，然后和数组的长度取模，这种计算方式保证高低 bit 都参与到 hash 的计算中，同时位运算不会有太大的开销。</p>
 <p>HashMap 的默认大小是 16，每次添加完元素后，会比较当前元素个数和阈值（阈值等于加载因子*容量），如果超过阈值就需要将哈希表扩容为原来的 2 倍。值得注意的点是，哈希表的容量一定是 2 的整数次幂，这样在计算散列地址的时候 <code>(数组长度 - 1) &amp; hash值</code> 就相当于 hash 值对数组长度取模，提升了计算效率，并且如果哈希表的容量不是偶数的话，<code>数组长度 - 1</code> 为偶数，那么做与操作的时候最后一位肯定为 0，会浪费一半的空间。</p>
 <p>HashMap 中有一个关键方法是 put，它会触发 resize、触发链表转红黑树。当放入一个新元素的时候，如果散列位置处的链表长度大于 8 （树形化阈值）且哈希表容量大于 64 （最小树形化容量），会调用 treeifyBin 把链表转为红黑树，新元素插入后，进行 ++size 操作，并且和扩容阈值比较判断是否需要 resize 扩容。</p>
 <blockquote>
 <ul>
 <li>计算散列地址找到哈希表中对应的桶，并放入该元素</li>
-<li>如果放入这个元素后链表长度大于等于 8 （树形化阈值），调用 treeifyBin 把链表转为红黑树<ul>
+<li>如果放入这个元素后链表长度大于等于 8 （树形化阈值），调用 treeifyBin 把链表转为红黑树
+<ul>
 <li>如果哈希表的容量小于 64 （最小树形化容量）则会直接进行扩容 resize</li>
 <li>把所有元素都变为树形节点 TreeNode，让桶的第一个元素指向根节点</li>
 <li>调用 treeify 塑造红黑树</li>
@@ -448,7 +466,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-java语言的特点"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#1-Java&#x8BED;&#x8A00;&#x7684;&#x7279;&#x70B9;" class="headerlink" title="1 Java&#x8BED;&#x8A00;&#x7684;&#x7279;&#x70B9;"></a>1 Java&#x8BED;&#x8A00;&#x7684;&#x7279;&#x70B9;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-比较-jvm-和-jdk-以及-jre"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#2-&#x6BD4;&#x8F83;-JVM-&#x548C;-JDK-&#x4EE5;&#x53CA;-JRE" class="headerlink" title="2 &#x6BD4;&#x8F83; JVM &#x548C; JDK &#x4EE5;&#x53CA; JRE"></a>2 &#x6BD4;&#x8F83; JVM &#x548C; JDK &#x4EE5;&#x53CA; JRE</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-为什么说-java-语言解释与编译并存"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#3-&#x4E3A;&#x4EC0;&#x4E48;&#x8BF4;-Java-&#x8BED;&#x8A00;&#x201C;&#x89E3;&#x91CA;&#x4E0E;&#x7F16;&#x8BD1;&#x5E76;&#x5B58;&#x201D;" class="headerlink" title="3 &#x4E3A;&#x4EC0;&#x4E48;&#x8BF4; Java &#x8BED;&#x8A00;&#x201C;&#x89E3;&#x91CA;&#x4E0E;&#x7F16;&#x8BD1;&#x5E76;&#x5B58;&#x201D;"></a>3 &#x4E3A;&#x4EC0;&#x4E48;&#x8BF4; Java &#x8BED;&#x8A00;&#x201C;&#x89E3;&#x91CA;&#x4E0E;&#x7F16;&#x8BD1;&#x5E76;&#x5B58;&#x201D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-java-基本类型有哪几种各占多少位"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#4-Java-&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x54EA;&#x51E0;&#x79CD;&#xFF0C;&#x5404;&#x5360;&#x591A;&#x5C11;&#x4F4D;&#xFF1F;" class="headerlink" title="4 Java &#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x54EA;&#x51E0;&#x79CD;&#xFF0C;&#x5404;&#x5360;&#x591A;&#x5C11;&#x4F4D;&#xFF1F;"></a>4 Java &#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x54EA;&#x51E0;&#x79CD;&#xFF0C;&#x5404;&#x5360;&#x591A;&#x5C11;&#x4F4D;&#xFF1F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-java泛型以及泛型擦除"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><a href="#5-Java&#x6CDB;&#x578B;&#x4EE5;&#x53CA;&#x6CDB;&#x578B;&#x64E6;&#x9664;" class="headerlink" title="5 Java&#x6CDB;&#x578B;&#x4EE5;&#x53CA;&#x6CDB;&#x578B;&#x64E6;&#x9664;"></a>5 Java&#x6CDB;&#x578B;&#x4EE5;&#x53CA;&#x6CDB;&#x578B;&#x64E6;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-和equals的区别"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><a href="#6-&#x548C;equals&#x7684;&#x533A;&#x522B;" class="headerlink" title="6 ==&#x548C;equals&#x7684;&#x533A;&#x522B;"></a>6 ==&#x548C;equals&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-hashcode和equals"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><a href="#7-hashCode-&#x548C;equals" class="headerlink" title="7 hashCode()&#x548C;equals()"></a>7 hashCode()&#x548C;equals()</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-重载和重写的区别待补充"><span class="toc-nav-number">8.</span> <span class="toc-nav-text"><a href="#8-&#x91CD;&#x8F7D;&#x548C;&#x91CD;&#x5199;&#x7684;&#x533A;&#x522B;&#x3010;&#x5F85;&#x8865;&#x5145;&#x3011;" class="headerlink" title="8 &#x91CD;&#x8F7D;&#x548C;&#x91CD;&#x5199;&#x7684;&#x533A;&#x522B;&#x3010;&#x5F85;&#x8865;&#x5145;&#x3011;"></a>8 &#x91CD;&#x8F7D;&#x548C;&#x91CD;&#x5199;&#x7684;&#x533A;&#x522B;&#x3010;&#x5F85;&#x8865;&#x5145;&#x3011;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#9-深拷贝和浅拷贝"><span class="toc-nav-number">9.</span> <span class="toc-nav-text"><a href="#9-&#x6DF1;&#x62F7;&#x8D1D;&#x548C;&#x6D45;&#x62F7;&#x8D1D;" class="headerlink" title="9 &#x6DF1;&#x62F7;&#x8D1D;&#x548C;&#x6D45;&#x62F7;&#x8D1D;"></a>9 &#x6DF1;&#x62F7;&#x8D1D;&#x548C;&#x6D45;&#x62F7;&#x8D1D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#10-面向对象和面向过程的区别"><span class="toc-nav-number">10.</span> <span class="toc-nav-text"><a href="#10-&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x548C;&#x9762;&#x5411;&#x8FC7;&#x7A0B;&#x7684;&#x533A;&#x522B;" class="headerlink" title="10 &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x548C;&#x9762;&#x5411;&#x8FC7;&#x7A0B;&#x7684;&#x533A;&#x522B;"></a>10 &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x548C;&#x9762;&#x5411;&#x8FC7;&#x7A0B;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#11-成员变量与局部变量的区别"><span class="toc-nav-number">11.</span> <span class="toc-nav-text"><a href="#11-&#x6210;&#x5458;&#x53D8;&#x91CF;&#x4E0E;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x533A;&#x522B;" class="headerlink" title="11 &#x6210;&#x5458;&#x53D8;&#x91CF;&#x4E0E;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x533A;&#x522B;"></a>11 &#x6210;&#x5458;&#x53D8;&#x91CF;&#x4E0E;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#12-面向对象三大特性"><span class="toc-nav-number">12.</span> <span class="toc-nav-text"><a href="#12-&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;" class="headerlink" title="12 &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;"></a>12 &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#13-string-stringbuffer和stringbuilder的区别"><span class="toc-nav-number">13.</span> <span class="toc-nav-text"><a href="#13-String&#x3001;StringBuffer&#x548C;StringBuilder&#x7684;&#x533A;&#x522B;" class="headerlink" title="13 String&#x3001;StringBuffer&#x548C;StringBuilder&#x7684;&#x533A;&#x522B;"></a>13 String&#x3001;StringBuffer&#x548C;StringBuilder&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#14-异常"><span class="toc-nav-number">14.</span> <span class="toc-nav-text"><a href="#14-&#x5F02;&#x5E38;" class="headerlink" title="14 &#x5F02;&#x5E38;"></a>14 &#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#15-序列化和反序列化"><span class="toc-nav-number">15.</span> <span class="toc-nav-text"><a href="#15-&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;" class="headerlink" title="15 &#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;"></a>15 &#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#16-list-set-map的区别"><span class="toc-nav-number">16.</span> <span class="toc-nav-text"><a href="#16-List&#x3001;Set&#x3001;Map&#x7684;&#x533A;&#x522B;" class="headerlink" title="16 List&#x3001;Set&#x3001;Map&#x7684;&#x533A;&#x522B;"></a>16 List&#x3001;Set&#x3001;Map&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#17-arraylist和linkedlist的区别"><span class="toc-nav-number">17.</span> <span class="toc-nav-text"><a href="#17-ArrayList&#x548C;LinkedList&#x7684;&#x533A;&#x522B;" class="headerlink" title="17 ArrayList&#x548C;LinkedList&#x7684;&#x533A;&#x522B;"></a>17 ArrayList&#x548C;LinkedList&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#18-comparable和comparator的区别"><span class="toc-nav-number">18.</span> <span class="toc-nav-text"><a href="#18-Comparable&#x548C;Comparator&#x7684;&#x533A;&#x522B;" class="headerlink" title="18 Comparable&#x548C;Comparator&#x7684;&#x533A;&#x522B;"></a>18 Comparable&#x548C;Comparator&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#19-hashmap以及concurrenthashmap的区别"><span class="toc-nav-number">19.</span> <span class="toc-nav-text"><a href="#19-HashMap&#x4EE5;&#x53CA;ConcurrentHashMap&#x7684;&#x533A;&#x522B;" class="headerlink" title="19 HashMap&#x4EE5;&#x53CA;ConcurrentHashMap&#x7684;&#x533A;&#x522B;"></a>19 HashMap&#x4EE5;&#x53CA;ConcurrentHashMap&#x7684;&#x533A;&#x522B;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-java语言的特点"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1 Java&#x8BED;&#x8A00;&#x7684;&#x7279;&#x70B9;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-比较-jvm-和-jdk-以及-jre"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2 &#x6BD4;&#x8F83; JVM &#x548C; JDK &#x4EE5;&#x53CA; JRE</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-为什么说-java-语言解释与编译并存"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">3 &#x4E3A;&#x4EC0;&#x4E48;&#x8BF4; Java &#x8BED;&#x8A00;&#x201C;&#x89E3;&#x91CA;&#x4E0E;&#x7F16;&#x8BD1;&#x5E76;&#x5B58;&#x201D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-java-基本类型有哪几种各占多少位"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">4 Java &#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6709;&#x54EA;&#x51E0;&#x79CD;&#xFF0C;&#x5404;&#x5360;&#x591A;&#x5C11;&#x4F4D;&#xFF1F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-java泛型以及泛型擦除"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">5 Java&#x6CDB;&#x578B;&#x4EE5;&#x53CA;&#x6CDB;&#x578B;&#x64E6;&#x9664;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-和equals的区别"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">6 ==&#x548C;equals&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-hashcode和equals"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">7 hashCode()&#x548C;equals()</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-重载和重写的区别待补充"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">8 &#x91CD;&#x8F7D;&#x548C;&#x91CD;&#x5199;&#x7684;&#x533A;&#x522B;&#x3010;&#x5F85;&#x8865;&#x5145;&#x3011;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#9-深拷贝和浅拷贝"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">9 &#x6DF1;&#x62F7;&#x8D1D;&#x548C;&#x6D45;&#x62F7;&#x8D1D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#10-面向对象和面向过程的区别"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">10 &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x548C;&#x9762;&#x5411;&#x8FC7;&#x7A0B;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#11-成员变量与局部变量的区别"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">11 &#x6210;&#x5458;&#x53D8;&#x91CF;&#x4E0E;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#12-面向对象三大特性"><span class="toc-nav-number">12.</span> <span class="toc-nav-text">12 &#x9762;&#x5411;&#x5BF9;&#x8C61;&#x4E09;&#x5927;&#x7279;&#x6027;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#13-string-stringbuffer和stringbuilder的区别"><span class="toc-nav-number">13.</span> <span class="toc-nav-text">13 String&#x3001;StringBuffer&#x548C;StringBuilder&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#14-异常"><span class="toc-nav-number">14.</span> <span class="toc-nav-text">14 &#x5F02;&#x5E38;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#15-序列化和反序列化"><span class="toc-nav-number">15.</span> <span class="toc-nav-text">15 &#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#16-list-set-map的区别"><span class="toc-nav-number">16.</span> <span class="toc-nav-text">16 List&#x3001;Set&#x3001;Map&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#17-arraylist和linkedlist的区别"><span class="toc-nav-number">17.</span> <span class="toc-nav-text">17 ArrayList&#x548C;LinkedList&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#18-comparable和comparator的区别"><span class="toc-nav-number">18.</span> <span class="toc-nav-text">18 Comparable&#x548C;Comparator&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#19-hashmap以及concurrenthashmap的区别"><span class="toc-nav-number">19.</span> <span class="toc-nav-text">19 HashMap&#x4EE5;&#x53CA;ConcurrentHashMap&#x7684;&#x533A;&#x522B;</span></a></li></ol>
         
         </div>
       </aside>

@@ -219,7 +219,7 @@
                 post-container">
 
 				
-                <h2 id="字符串的常用操作"><a href="#字符串的常用操作" class="headerlink" title="字符串的常用操作"></a>字符串的常用操作</h2><div class="table-container">
+                <h2 id="字符串的常用操作">字符串的常用操作</h2>
 <table>
 <thead>
 <tr>
@@ -286,8 +286,8 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="格式化字符串的三种方式"><a href="#格式化字符串的三种方式" class="headerlink" title="格式化字符串的三种方式"></a>格式化字符串的三种方式</h2><p><strong>使用占位符进行格式化字符串</strong></p>
+<h2 id="格式化字符串的三种方式">格式化字符串的三种方式</h2>
+<p><strong>使用占位符进行格式化字符串</strong></p>
 <p>%s为字符串格式，%d为十进制整数格式，%f为浮点数格式。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">'Tom'</span></span><br><span class="line">age = <span class="number">18</span></span><br><span class="line">score = <span class="number">98.5</span></span><br><span class="line">print(<span class="string">'name:%s, age:%d, score=%.2f'</span> % (name, age, score))</span><br><span class="line"><span class="comment"># name:Tom, age:18, score=98.50</span></span><br></pre></td></tr></table></figure>
 <p>该内容与c语言printf参数类似。</p>
@@ -297,7 +297,6 @@
 <p><strong>使用字符串的format()方法进行格式化字符串</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#模板字符串.format(逗号分隔的参数)</span></span><br><span class="line">print(<span class="string">'name:&#123;0&#125;, age:&#123;1&#125;, score:&#123;2&#125;'</span>.format(name, age, score))</span><br><span class="line"><span class="comment"># name:Tom, age:18, score:98.5</span></span><br></pre></td></tr></table></figure>
 <p>format()方法支持格式控制</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -318,18 +317,18 @@
 <td>字符串的输出宽度</td>
 <td>数字的千位分隔符</td>
 <td>浮点数小数部分的精度或字符串的最大输出长度</td>
-<td>整数类型：b\c\d\o\x\X<br>浮点数类型：e\E\f\%</td>
+<td>整数类型：b\c\d\o\x\X<br>浮点数类型：e\E\f%</td>
 </tr>
 </tbody>
 </table>
-</div>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'&#123;0:*&lt;20&#125;'</span>.format(name)) <span class="comment">#字符串的显示宽度为20，左对齐，空的部分用*号填充</span></span><br><span class="line"><span class="comment">#Tom*****************</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'&#123;0:,&#125;'</span>.format(<span class="number">12345678.111</span>))</span><br><span class="line"><span class="comment">#12,345,678.111</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'&#123;0:.2f&#125;'</span>.format(<span class="number">12345678.111</span>))</span><br><span class="line"><span class="comment">#12345678.11</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'&#123;0:.3&#125;'</span>.format(<span class="string">'abcdefgh'</span>))</span><br><span class="line"><span class="comment">#abc</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">425</span></span><br><span class="line">print(<span class="string">'&#123;0:b&#125;,&#123;0:c&#125;,&#123;0:d&#125;,&#123;0:o&#125;,&#123;0:x&#125;,&#123;0:X&#125;'</span>.format(a))</span><br><span class="line"><span class="comment">#110101001,Ʃ,425,651,1a9,1A9</span></span><br><span class="line"></span><br><span class="line">b = <span class="number">3.1415926</span></span><br><span class="line">print(<span class="string">'&#123;0:.2f&#125;,&#123;0:.2E&#125;,&#123;0:.2e&#125;,&#123;0:.2%&#125;'</span>.format(b))</span><br><span class="line"><span class="comment">#3.14,3.14E+00,3.14e+00,314.16%</span></span><br></pre></td></tr></table></figure>
-<h2 id="字符串的编码和解码"><a href="#字符串的编码和解码" class="headerlink" title="字符串的编码和解码"></a>字符串的编码和解码</h2><p>字符串的编码通过将str类型转成bytes类型：</p>
+<h2 id="字符串的编码和解码">字符串的编码和解码</h2>
+<p>字符串的编码通过将str类型转成bytes类型：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#str.encode(encoding='utf-8', errors='strict/ignore/replace')</span></span><br><span class="line">s = <span class="string">'我是帅哥'</span></span><br><span class="line">scode_utf8 = s.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">print(scode_utf8)</span><br></pre></td></tr></table></figure>
 <p>字符串的解码通过将bytes类型转成str类型：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#str.decode(encoding='utf-8', errors='strict/ignore/replace')</span></span><br><span class="line">print(scode_utf8.decode(<span class="string">'utf-8'</span>)) <span class="comment">#我是帅哥</span></span><br><span class="line">print(bytes.decode(scode_utf8)) <span class="comment">#我是帅哥</span></span><br></pre></td></tr></table></figure>
-<h2 id="数据的验证和处理"><a href="#数据的验证和处理" class="headerlink" title="数据的验证和处理"></a>数据的验证和处理</h2><p><strong>数据的验证</strong></p>
-<div class="table-container">
+<h2 id="数据的验证和处理">数据的验证和处理</h2>
+<p><strong>数据的验证</strong></p>
 <table>
 <thead>
 <tr>
@@ -372,16 +371,18 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p><strong>数据的处理</strong></p>
 <ul>
-<li><p>字符串拼接</p>
+<li>
+<p>字符串拼接</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line">s2 = <span class="string">'world'</span></span><br><span class="line"><span class="comment">#（1）使用“+”进行拼接字符串</span></span><br><span class="line">print(s1 + s2)</span><br><span class="line"><span class="comment">#（2）使用str.join()方法进行拼接字符串</span></span><br><span class="line">print(<span class="string">''</span>.join([<span class="string">'hello'</span>, <span class="string">'world'</span>]))</span><br><span class="line"><span class="comment">#（3）直接拼接</span></span><br><span class="line">print(<span class="string">'hello'</span><span class="string">'world'</span>)</span><br><span class="line"><span class="comment">#（4）使用格式化字符串进行拼接</span></span><br><span class="line">print(<span class="string">'%s%s'</span> % (s1, s2))</span><br><span class="line">print(<span class="string">f'<span class="subst">&#123;s1&#125;</span><span class="subst">&#123;s2&#125;</span>'</span>)</span><br><span class="line">print(<span class="string">'&#123;0&#125;&#123;1&#125;'</span>.format(s1, s2))</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>字符串去重</p>
+<li>
+<p>字符串去重</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'dcbbaa'</span></span><br><span class="line"><span class="comment"># （1）字符串拼接+not in</span></span><br><span class="line">new_s = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> s:</span><br><span class="line">    <span class="keyword">if</span> item <span class="keyword">not</span> <span class="keyword">in</span> new_s:</span><br><span class="line">        new_s += item</span><br><span class="line">print(new_s)</span><br><span class="line"></span><br><span class="line"><span class="comment"># （2）使用索引+not in</span></span><br><span class="line">new_s2 = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">    <span class="keyword">if</span> s[i] <span class="keyword">not</span> <span class="keyword">in</span> new_s2:</span><br><span class="line">        new_s2 += s[i]</span><br><span class="line">print(new_s2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># （3）使用集合去重+列表排序</span></span><br><span class="line">new_s3 = set(s)</span><br><span class="line">lst = list(new_s3)</span><br><span class="line">lst.sort(key=s.index) <span class="comment">#排序的关键字</span></span><br><span class="line">print(<span class="string">''</span>.join(lst))</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>列表元素去重</p>
+<li>
+<p>列表元素去重</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">lst = [<span class="string">'d'</span>, <span class="string">'c'</span>, <span class="string">'b'</span>, <span class="string">'b'</span>, <span class="string">'a'</span>, <span class="string">'a'</span>, <span class="string">'a'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># （1）遍历+not in</span></span><br><span class="line">new_lst = []</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> lst:</span><br><span class="line">    <span class="keyword">if</span> item <span class="keyword">not</span> <span class="keyword">in</span> new_lst:</span><br><span class="line">        new_lst.append(item)</span><br><span class="line">print(new_lst)</span><br><span class="line"></span><br><span class="line"><span class="comment"># （2)使用索引+not in</span></span><br><span class="line">new_lst2 = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(lst)):</span><br><span class="line">    <span class="keyword">if</span> lst[i] <span class="keyword">not</span> <span class="keyword">in</span> new_lst2:</span><br><span class="line">        new_lst2.append(lst[i])</span><br><span class="line">print(new_lst2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># （3）使用集合去重</span></span><br><span class="line">s_lst = set(lst)</span><br><span class="line">new_lst3 = list(s_lst)</span><br><span class="line">new_lst3.sort(key=lst.index)</span><br><span class="line">print(new_lst3)</span><br></pre></td></tr></table></figure></li>
 </ul>
 
@@ -432,7 +433,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字符串的常用操作"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><a href="#&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5E38;&#x7528;&#x64CD;&#x4F5C;" class="headerlink" title="&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5E38;&#x7528;&#x64CD;&#x4F5C;"></a>&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5E38;&#x7528;&#x64CD;&#x4F5C;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#格式化字符串的三种方式"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><a href="#&#x683C;&#x5F0F;&#x5316;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x4E09;&#x79CD;&#x65B9;&#x5F0F;" class="headerlink" title="&#x683C;&#x5F0F;&#x5316;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x4E09;&#x79CD;&#x65B9;&#x5F0F;"></a>&#x683C;&#x5F0F;&#x5316;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x4E09;&#x79CD;&#x65B9;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字符串的编码和解码"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><a href="#&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x7F16;&#x7801;&#x548C;&#x89E3;&#x7801;" class="headerlink" title="&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x7F16;&#x7801;&#x548C;&#x89E3;&#x7801;"></a>&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x7F16;&#x7801;&#x548C;&#x89E3;&#x7801;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#数据的验证和处理"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><a href="#&#x6570;&#x636E;&#x7684;&#x9A8C;&#x8BC1;&#x548C;&#x5904;&#x7406;" class="headerlink" title="&#x6570;&#x636E;&#x7684;&#x9A8C;&#x8BC1;&#x548C;&#x5904;&#x7406;"></a>&#x6570;&#x636E;&#x7684;&#x9A8C;&#x8BC1;&#x548C;&#x5904;&#x7406;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字符串的常用操作"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x5E38;&#x7528;&#x64CD;&#x4F5C;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#格式化字符串的三种方式"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x683C;&#x5F0F;&#x5316;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x4E09;&#x79CD;&#x65B9;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#字符串的编码和解码"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x7F16;&#x7801;&#x548C;&#x89E3;&#x7801;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#数据的验证和处理"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x6570;&#x636E;&#x7684;&#x9A8C;&#x8BC1;&#x548C;&#x5904;&#x7406;</span></a></li></ol>
         
         </div>
       </aside>

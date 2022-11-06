@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/logo.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Ansible学习记录 - 宋正兵的博客 | zbsong Blog
+        
+    </title>
+
+    <link rel="canonical" href="zbsong.top/article/ansible基础/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('https://api.dujin.org/bing/1920.php')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#运维" title="运维">运维</a>
+                            
+                        </div>
+                        <h1>Ansible学习记录</h1>
+                        <!-- <h2 class="subheading">一份学习笔记</h2> -->
+                        <span class="meta">
+                            宋正兵 on
+                            2022-11-04
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">songzblink</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					<li>
+                        <a href="/archive/">归档</a>
+                    </li>
+					<li>
+                        <a href="/tags/">标签</a>
+                    </li>
+					<li>
+                        <a href="/about/">关于</a>
+                    </li>
+					<!--
+					修改about在前面的问题
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">关于</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">归档</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+	// querySelector 获取文档中 id="demo" 的元素
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				
+                <p><a href="https://www.bilibili.com/video/BV15m4y1c7em?p=5&amp;vd_source=95bdd438c688b240ca9d75c980d33109" target="_blank" rel="noopener">05 Ansible主机认证方式_哔哩哔哩_bilibili</a></p>
+<h2 id="ansible主机登录认证">ansible主机登录认证</h2>
+<p>ansible主机组在/etc/ansible/hosts文件中配置。</p>
+<p>ansible批量管理主机需要登录到目标主机，而登录认证有两种方式：</p>
+<ul>
+<li>传统的密码认证</li>
+<li>公钥认证</li>
+</ul>
+<p><strong>传统的密码认证</strong>即通过密码进行登录，需要配置ansible_host(主机ip地址)、ansible_port(主机ssh端口)、ansible_user(主机用户)、ansible_password(主机用户密码)。</p>
+<p>老版本的ansible中间还会有_ssh字段，即ansible_ssh_host。</p>
+<p>这种方式需要在主机组文件中使用如下写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[my_host]</span><br><span class="line">192.168.1.100 ansible_port=22 ansible_user=root ansible_password=123456</span><br></pre></td></tr></table></figure>
+<p>然后才能使用登录到目标主机进行管理。</p>
+<p>如果一个主机组有多台主机，每台主机都进行一次配置将会很麻烦，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[my_host]</span><br><span class="line">192.168.1.100 ansible_port=22 ansible_user=root ansible_password=123456</span><br><span class="line">192.168.1.101 ansible_port=22 ansible_user=root ansible_password=123456</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<p>ansible提供了一个简便形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[my_host:vars]</span><br><span class="line">ansible_port=22</span><br><span class="line">ansible_user=root</span><br><span class="line">ansible_password=123456</span><br><span class="line">[my_host]</span><br><span class="line">192.168.1.[7-9]</span><br></pre></td></tr></table></figure>
+<p><strong>公钥认证</strong>可以省略每次登录都需要输入密码的问题，其流程为：</p>
+<ol>
+<li>主机A生成公钥后，将公钥发送给其他主机；</li>
+<li>主机A在登录其他主机的过程中，其他主机会返回一个随机字符串，主机A利用私钥对这个随机字符串进行加密再发往想要登录的主机，如果目标主机将加密后的随机字符串用公钥解密正确，就允许主机A登录，否则拒绝。</li>
+</ol>
+<p>也就是说公钥分发后就可以直接利用ansible ad-hoc模式去管理目标主机。</p>
+<p>所以，如果我们想要使用ansible管理其他主机，最方便的方法还是进行公钥认证，即先分发公钥实现免密登录，再用ansible免密远程执行命令。</p>
+<h2 id="ansible模块">ansible模块</h2>
+<p>使用命令<code>ansible-doc -l</code>可以查看它提供了哪些模块，常用的有ping、command、shell、copy、file、script、cron、group、user、service/systemd、mount、archive、unarchive</p>
+<p>模块文档可在这里找到：<a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/index.html#plugins-in-ansible-builtin" target="_blank" rel="noopener">Ansible.Builtin — Ansible Documentation</a></p>
+<h3 id="ansible执行命令结果状态颜色">ansible执行命令结果（状态颜色）</h3>
+<p>ansible执行命令的结果会有不同的颜色，这些颜色有各自的含义。</p>
+<ul>
+<li>绿色：命令以用户期望的形式执行了，但是状态没有发生变化</li>
+<li>黄色：命令以用户期望的形式执行了，并且状态发生了变化</li>
+<li>紫色：警告信息，说明ansible提示你有更合适的用法</li>
+<li>红色：命令错误，执行失败</li>
+<li>蓝色：详细的执行过程</li>
+</ul>
+<h3 id="ping模块">Ping模块</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m ping</span><br></pre></td></tr></table></figure>
+<h3 id="command模块">command模块</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m command -a &quot;hostname&quot;</span><br><span class="line">ansible all -a &quot;hostname&quot;</span><br></pre></td></tr></table></figure>
+<p>command时ansible的基础模块，默认携带<code>-m command</code>。</p>
+<p>，使用command模块执行远程命令时，命令<strong>不能使用变量</strong>（${HOME})，也<strong>不能出现特殊符号</strong>（&lt;，&gt;，|，:，&amp;），否则将无法识别，一定需要使用的话可以用shell模块实现。即command模块不能使用复杂的linux命令。</p>
+<p>可以在-a后的字符串内增加配置选项“warn=false&quot;来关闭告警信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m command -a &quot;hostname warn=false&quot;</span><br></pre></td></tr></table></figure>
+<p>在使用command命令时，还能够使用专有命令，这些命令用于编写ansible-playbook，完成服务器部署的各种复杂条件限定。</p>
+<table>
+<thead>
+<tr>
+<th>选项参数</th>
+<th>选项说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chdir=目录路径</td>
+<td>在执行命令时执行，通过cd命令进入指定目录</td>
+</tr>
+<tr>
+<td>creates</td>
+<td>定义一个文件是否存在，若不存在，则运行相应命令；存在则跳过</td>
+</tr>
+<tr>
+<td>free_form（必须）</td>
+<td>参数信息中可以输入任何系统命令，实现远程管理</td>
+</tr>
+<tr>
+<td>removes=文件路径</td>
+<td>定义一个文件是否存在，如果存在则运行相应命令，如果不存在则跳过</td>
+</tr>
+</tbody>
+</table>
+<p>例如<code>cd / &amp;&amp; tar -zcvf /opt/log.tar /var/log</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m command -a &quot;tar -zcvf /opt/log.tar /var/log chdir=/&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="shell模块">shell模块</h3>
+<p>shell模块相当于万能模块，尽管它可以让你在目标linux机器上运行任何命令，但还是建议使用前先查看是否有专有的模块，这样能够利用ansible能够记录状态的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible -m shell -a &quot;ip a | grep eth1&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="copy模块">copy模块</h3>
+<p>copy模块是远程推送数据模块，只能把数据推送给远程主机节点，无法拉取数据到本地</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>是否必须</th>
+<th>默认值</th>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>src</td>
+<td>no</td>
+<td></td>
+<td></td>
+<td>用于定位ansible执行的机器上的文件，需要绝对路径。如果拷贝的是文件夹，那么整个文件夹会一起拷贝过去，如果结尾是“/”，那么只有文件夹内的东西会被拷过去。</td>
+</tr>
+<tr>
+<td>content</td>
+<td>no</td>
+<td></td>
+<td></td>
+<td>用来替代src，用于指定文件的内容，拷贝到远程文件内</td>
+</tr>
+<tr>
+<td>dest</td>
+<td>yes</td>
+<td></td>
+<td></td>
+<td>用于定位远程节点上的文件，需要绝对路径。如果src指定的是文件夹，这个参数也必须是文件夹</td>
+</tr>
+<tr>
+<td>backup</td>
+<td>no</td>
+<td>no</td>
+<td>yes/no</td>
+<td>备份远程节点上的原始文件</td>
+</tr>
+<tr>
+<td>directory_mode</td>
+<td>no</td>
+<td></td>
+<td></td>
+<td>该参数只能用于拷贝文件夹时，该参数设定后，文件夹内新建的文件会被拷贝，旧的则不会</td>
+</tr>
+<tr>
+<td>follow</td>
+<td>no</td>
+<td>no</td>
+<td>yes/no</td>
+<td>当拷贝的文件夹内有link存在的时候，拷贝过去的也会有link</td>
+</tr>
+<tr>
+<td>force</td>
+<td>no</td>
+<td>yes</td>
+<td>yes/no</td>
+<td>默认为yes，会覆盖远程的内容不一样的文件（即使文件名一样）。如果是no，如果远程有这个文件就不会进行拷贝。</td>
+</tr>
+<tr>
+<td>group</td>
+<td>no</td>
+<td></td>
+<td></td>
+<td>设定一个群组拥有拷贝到远程节点的文件权限</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>no</td>
+<td></td>
+<td></td>
+<td>等同于chmod</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>no</td>
+<td></td>
+<td></td>
+<td>设定一个用户拥有拷贝到远程节点的文件权限</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m copy -a &quot;src=/tmp/test.txt dest=/tmp/test.txt&quot;</span><br></pre></td></tr></table></figure>
+<p>ansible会记录文件属性，得到文件的唯一校验值，判断文件内容是否变化，如果未变化则不做处理，提升批量管理的效率。</p>
+<h3 id="file模块">file模块</h3>
+<p>file模块主要用于创建文件、目录数据，以及对现有的文件、目录权限进行修改。</p>
+<p>与copy模块对比，file模块的src是目标机器上的文件，dest也是目标机器上的文件，专门用于在目标远程机器上，进行关于文件的所有操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m file -a &quot;path=/opt/test.txt state=touch&quot;</span><br></pre></td></tr></table></figure>
+<p>上述ansible命令表示在目标主机创建文件test.txt，同时可以增加参数owner、group、mode来设置属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m file -a &quot;path=/opt/test state=directory&quot;</span><br></pre></td></tr></table></figure>
+<p>上述ansible命令表示在目标主机创建目录test</p>
+<h3 id="script模块">script模块</h3>
+<p>script模块能够把本地脚本传输到远程节点上并运行脚本，只需要管理本机本地的一份脚本就可以在所有机器上运行。</p>
+<table>
+<thead>
+<tr>
+<th>选项参数</th>
+<th>选项说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>creates</td>
+<td>定义一个文件是否存在，若不存在则运行相应命令，存在则跳过</td>
+</tr>
+<tr>
+<td>free_form（必须）</td>
+<td>参数信息中可以输入任何系统命令，实现远程管理</td>
+</tr>
+<tr>
+<td>removes</td>
+<td>定义一个文件是否存在，若存在则运行相应命令，若不存在则跳过</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m script -a &quot;/opt/test.sh&quot;</span><br></pre></td></tr></table></figure>
+<p>上述ansible命令会在目标机器上执行test.sh脚本，且该脚本只会存在于本地主机上。</p>
+<h3 id="cron模块">cron模块</h3>
+<p>cron模块用于管理定时任务的记录，编写任务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m cron -a &quot;name=&apos;ntp sync&apos;minute=*/5 job=&apos;ntpdate -u ntp.aliyun.com&apos;&quot;</span><br></pre></td></tr></table></figure>
+<p>上述ansible命令会添加一个每5分钟执行一次的定时任务</p>
+<p>如果想删除定时任务，可以在指定name后，设置state状态为absent</p>
+<h3 id="group模块">group模块</h3>
+<p>对用户组进行管理</p>
+<table>
+<thead>
+<tr>
+<th>模块参数</th>
+<th>参数描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>指定组名</td>
+</tr>
+<tr>
+<td>gid</td>
+<td>组的GID</td>
+</tr>
+<tr>
+<td>state</td>
+<td>absent，移除；present，创建</td>
+</tr>
+</tbody>
+</table>
+<h3 id="user模块">user模块</h3>
+<p>对用户进行管理</p>
+<table>
+<thead>
+<tr>
+<th>模块参数</th>
+<th>参数描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>create_home</td>
+<td>创建家目录，设置no就不创建</td>
+</tr>
+<tr>
+<td>group</td>
+<td>创建用户组</td>
+</tr>
+<tr>
+<td>name</td>
+<td>创建用户的名字</td>
+</tr>
+<tr>
+<td>password</td>
+<td>创建用户的密码</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>创建用户的UID</td>
+</tr>
+<tr>
+<td>shell</td>
+<td>用户登录解释器</td>
+</tr>
+<tr>
+<td>state</td>
+<td>absent，删除；present，创建（默认）</td>
+</tr>
+<tr>
+<td>expires</td>
+<td>账户过期时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="yum模块">yum模块</h3>
+<p>对软件进行管理</p>
+<p>利用name和state属性对软件进行管理，state=absent是卸载、installed是安装、latest是更新</p>
+<h3 id="servicesystemd模块">service/systemd模块</h3>
+<p>service适用于centos6前的系统，systemd命令适用于centos7系统</p>
+<table>
+<thead>
+<tr>
+<th>模块参数</th>
+<th>参数说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>daemon_reload</td>
+<td>在执行任何其他操作之前运行守护进程重新加载，以确保systemd已经读取其他更改</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>服务是否开机自动启动（yes|no），enabled和state至少需要定义一个</td>
+</tr>
+<tr>
+<td>masked</td>
+<td>是否将服务设置为masked状态，被mask的服务无法启动</td>
+</tr>
+<tr>
+<td>name</td>
+<td>服务名称，必填</td>
+</tr>
+<tr>
+<td>no_block</td>
+<td>不要同步等待操作请求完成</td>
+</tr>
+<tr>
+<td>state</td>
+<td>started，启动；stopped，停止；restarted，重启；reloaded，重新加载</td>
+</tr>
+<tr>
+<td>user</td>
+<td>使用服务的调用者运行systemctl，而不是系统的服务管理者</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mount挂载模块">mount挂载模块</h3>
+<p>挂载</p>
+<h3 id="archive压缩模块">archive压缩模块</h3>
+<p>支持bz2、gz、tar、xz、zip</p>
+<h3 id="unarchive解压缩模块">unarchive解压缩模块</h3>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Python—is和/" data-toggle="tooltip" data-placement="top" title="Python—“is”与“==”">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ansible主机登录认证"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">ansible&#x4E3B;&#x673A;&#x767B;&#x5F55;&#x8BA4;&#x8BC1;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ansible模块"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">ansible&#x6A21;&#x5757;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ansible执行命令结果状态颜色"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">ansible&#x6267;&#x884C;&#x547D;&#x4EE4;&#x7ED3;&#x679C;&#xFF08;&#x72B6;&#x6001;&#x989C;&#x8272;&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ping模块"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Ping&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#command模块"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">command&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#shell模块"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">shell&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#copy模块"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">copy&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#file模块"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">file&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#script模块"><span class="toc-nav-number">2.7.</span> <span class="toc-nav-text">script&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#cron模块"><span class="toc-nav-number">2.8.</span> <span class="toc-nav-text">cron&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#group模块"><span class="toc-nav-number">2.9.</span> <span class="toc-nav-text">group&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#user模块"><span class="toc-nav-number">2.10.</span> <span class="toc-nav-text">user&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#yum模块"><span class="toc-nav-number">2.11.</span> <span class="toc-nav-text">yum&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#servicesystemd模块"><span class="toc-nav-number">2.12.</span> <span class="toc-nav-text">service/systemd&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mount挂载模块"><span class="toc-nav-number">2.13.</span> <span class="toc-nav-text">mount&#x6302;&#x8F7D;&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#archive压缩模块"><span class="toc-nav-number">2.14.</span> <span class="toc-nav-text">archive&#x538B;&#x7F29;&#x6A21;&#x5757;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#unarchive解压缩模块"><span class="toc-nav-number">2.15.</span> <span class="toc-nav-text">unarchive&#x89E3;&#x538B;&#x7F29;&#x6A21;&#x5757;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">标签</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#运维" title="运维">运维</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+				<!--
+                
+                <hr>
+                <h5>朋友们</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tyzhang.top/" target="_blank">ztygalaxy</a></li>
+                    
+                        <li><a href="http://www.tangyincheng.com/" target="_blank">yctang</a></li>
+                    
+                        <li><a href="https://dolnw.github.io" target="_blank">JCWang</a></li>
+                    
+                </ul>
+                
+				-->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+				
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/songzblink">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 宋正兵 2022 
+                    <br>
+                    Theme by <a href="http://www.huweihuang.com">Huwei Huang</a>
+                    re-Ported by <a href="https://github.com/ztygalaxy">ztygalaxy</a>
+					
+					<br>
+                    <a href="http://www.beian.miit.gov.cn/" style="color: gray">浙ICP备2021018896号</a>
+					<br>
+					<!-- <p class="copyright text-muted" style="margin-top: 5px"> -->
+						<img src="../../img/备案图标.png"/>
+						<a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" style="color: gray">null</a>
+					<!-- </p> -->
+					
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("zbsong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="zbsong.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>
